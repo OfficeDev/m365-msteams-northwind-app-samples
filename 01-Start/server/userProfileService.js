@@ -1,21 +1,11 @@
-import fetch from 'node-fetch';
+export async function getUserProfile() {
 
-export async function getUserProfile(accessToken) {
-
-    const graphResponse = await fetch("https://graph.microsoft.com/v1.0/me",
-        {
-            method: 'GET',
-            headers: {
-                "accept": "application/json",
-                "authorization": `bearer ${accessToken}`
-            },
-            mode: 'cors',
-            cache: 'default'
-        });
-    if (!graphResponse.ok) {
-        throw (`Error ${graphResponse.status} calling Microsoft Graph: ${graphResponse.statusText}`);
+    return {
+        displayName: "Angel Brown",
+        mail: "angel@northwind.com",
+        company: process.env.COMPANY_NAME,
+        jobTitle: "Team lead"
     }
-    const profile = await graphResponse.json();
-    return profile;
+
 }
 
