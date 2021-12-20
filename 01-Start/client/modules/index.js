@@ -1,8 +1,8 @@
 // Get the user profile from our web service
 async function getUserProfile(clientSideToken) {
 
-    const response = await fetch ("/userProfile", {
-        "method": "post",
+    const response = await fetch ("/userProfile?userId=2", {
+        "method": "get",
         "headers": {
             "content-type": "application/json"
         },
@@ -18,6 +18,11 @@ async function getUserProfile(clientSideToken) {
     }
 }
 
+async function getOrdersForEmployee(employeeId);
+{
+    
+}
+
 async function displayUI() {
 
     const displayElement = document.getElementById('content');
@@ -29,7 +34,6 @@ async function displayUI() {
             <h1>Hello ${userProfile.displayName}</h1>
             <h3>Profile Information</h3>
             <p>Mail: ${userProfile.mail}<br />
-            <p>Company: ${userProfile.company}<br />
             Job Title: ${userProfile.jobTitle}<br />
         `;
         imageElement.src = `data:image/bmp;base64,${userProfile.photo}`;
