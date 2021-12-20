@@ -1,14 +1,24 @@
-# Project
+# Microsoft Teams App Camp 2022
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Teams app running in the Teams app store. Here are the steps:
 
-As the maintainer of this project, please make a few updates:
+1. Starting app written in ES6 with Express server and simple no-framework web pages using ES6 modules.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+2. Add a Teams app - Teams personal tab
+
+3. Add Teams tab SSO with identity mapping
+
+4. Add a configuration page - Teams channel tab
+
+5. Add a simple messaging extension w/an adaptive card action
+
+6. Add a simple bot
+
+7. Add a Teams store landing page
+
+
+
+
 
 ## Contributing
 
