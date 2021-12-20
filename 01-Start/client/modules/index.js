@@ -21,8 +21,10 @@ async function getUserProfile(clientSideToken) {
 async function displayUI() {
 
     const displayElement = document.getElementById('content');
+    const imageElement = document.getElementById('image');
     try {
         const userProfile = await getUserProfile();
+
         displayElement.innerHTML = `
             <h1>Hello ${userProfile.displayName}</h1>
             <h3>Profile Information</h3>
@@ -30,6 +32,7 @@ async function displayUI() {
             <p>Company: ${userProfile.company}<br />
             Job Title: ${userProfile.jobTitle}<br />
         `;
+        imageElement.src = `data:image/bmp;base64,${userProfile.photo}`;
     }
     catch (error) {            // If here, we had some other error
             displayElement.innerText = `Error: ${JSON.stringify(error)}`;

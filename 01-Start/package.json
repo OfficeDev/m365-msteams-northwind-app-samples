@@ -5,7 +5,8 @@
   "main": "server/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server/server.js"
+    "start": "nodemon server/server.js",
+    "debug": "nodemon --inspect server/server.js"
   },
   "keywords": [],
   "author": "M365 cloud advocates",
