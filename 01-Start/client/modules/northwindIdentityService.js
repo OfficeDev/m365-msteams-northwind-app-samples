@@ -1,5 +1,16 @@
 export async function getLoggedinEmployeeId() {
-    return 2;
+    const cookies = document.cookie.split(';');
+    for (const c of cookies) {
+        const [name, value] = c.split('=');
+        if (name === 'employeeId') {
+            return value;
+        }
+    }
+    return null;
+}
+
+export async function setLoggedinEmployeeId(employeeId) {
+    document.cookie = `employeeId=${employeeId};`
 }
 
 // Get the employee profile from our web service
