@@ -1,5 +1,10 @@
-import { getUserProfile } from './modules/userProfileService.js';
-import { getOrdersForEmployee } from './modules/northwindService.js'; 
+import {
+    getLoggedinEmployeeId,
+    getEmployeeProfile
+ } from './modules/northwindIdentityService.js';
+import {
+    getOrdersForEmployee
+} from './modules/northwindDataService.js'; 
 
 async function displayUI() {
 
@@ -8,16 +13,17 @@ async function displayUI() {
     const ordersElement = document.getElementById('orders');
 
     try {
-        const userProfile = await getUserProfile();
-        const orders = await getOrdersForEmployee(2);
+        const employeeId = await getLoggedinEmployeeId();
+        const employeeProfile = await getEmployeeProfile(employeeId);
+        const orders = await getOrdersForEmployee(employeeId);
 
         displayElement.innerHTML = `
-            <h1>Hello ${userProfile.displayName}</h1>
+            <h1>Hello ${employeeProfile.displayName}</h1>
             <h3>Profile Information</h3>
-            <p>Mail: ${userProfile.mail}<br />
-            Job Title: ${userProfile.jobTitle}<br />
+            <p>Mail: ${employeeProfile.mail}<br />
+            Job Title: ${employeeProfile.jobTitle}<br />
         `;
-        imageElement.src = `data:image/bmp;base64,${userProfile.photo}`;
+        imageElement.src = `data:image/bmp;base64,${employeeProfile.photo}`;
 
         orders.forEach(order => {
             const orderRow = document.createElement('tr');

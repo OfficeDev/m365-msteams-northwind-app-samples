@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from 'dotenv';
 
-import { getUserProfile } from './userProfileService.js';
+import { getEmployeeProfile } from './northwindIdentityService.js';
 import { getOrdersForEmployee } from './northwindDataService.js';
 
 dotenv.config();
@@ -11,12 +11,12 @@ const app = express();
 app.use(express.json());
 
 // Web service returns the current user's profile
-app.get('/userProfile', async (req, res) => {
+app.get('/employeeProfile', async (req, res) => {
 
   try {
-    const userId = req.query.userId;
-    const userProfile = await getUserProfile(userId);
-    res.send(userProfile);
+    const employeeId = req.query.employeeId;
+    const employeeProfile = await getEmployeeProfile(employeeId);
+    res.send(employeeProfile);
   }
   catch (error) {
       console.log(`Error in /userProfile handling: ${error}`);
