@@ -57,9 +57,14 @@ async function displayUI() {
         imageElement.src = `data:image/bmp;base64,${userProfile.photo}`;
 
         orders.forEach(order => {
-            const orderElement = document.createElement('p');
-            orderElement.innerText = order.OrderID;
-            ordersElement.appendChild(orderElement);
+            const orderRow = document.createElement('tr');
+            orderRow.innerHTML = `<tr>
+                <td>${order.OrderID}</td>
+                <td>${order.OrderDate}</td>
+                <td>${order.ShipName}</td>
+                <td>${order.ShipAddress}, ${order.ShipCity} ${order.ShipRegion} ${order.ShipPostalCode} ${order.ShipCountry}</td>
+            </tr>`;
+            ordersElement.append(orderRow);
         });
     }
     catch (error) {            // If here, we had some other error
