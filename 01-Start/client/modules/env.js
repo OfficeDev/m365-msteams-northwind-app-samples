@@ -4,6 +4,4 @@
 // It's here to keep VS Code and other checkers happy and is not
 // needed at runtime. Do not plug in your project values.
 
-export const env = {
-    COMPANY_NAME: "Contoso"
-}
+export const env = { }

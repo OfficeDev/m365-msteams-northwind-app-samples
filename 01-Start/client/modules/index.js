@@ -18,7 +18,7 @@ async function getUserProfile(clientSideToken) {
     }
 }
 
-async function getOrdersForEmployee(employeeId);
+async function getOrdersForEmployee(employeeId)
 {
     
 }

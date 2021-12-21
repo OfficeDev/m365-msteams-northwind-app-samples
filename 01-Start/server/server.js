@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from 'dotenv';
 
 import { getUserProfile } from './userProfileService.js';
+import { getOrdersForEmployee } from './northwindDataService.js';
 
 dotenv.config();
 const app = express();
@@ -10,11 +11,27 @@ const app = express();
 app.use(express.json());
 
 // Web service returns the current user's profile
-app.post('/userProfile', async (req, res) => {
+app.get('/userProfile', async (req, res) => {
 
   try {
-    const userProfile = await getUserProfile();
+    const userId = req.query.userId;
+    const userProfile = await getUserProfile(userId);
     res.send(userProfile);
+  }
+  catch (error) {
+      console.log(`Error in /userProfile handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
+// Web service returns the current user's profile
+app.get('/ordersForEmployee', async (req, res) => {
+
+  try {
+    const employeeId = req.query.employeeId;
+    const orders = await getOrdersForEmployee(employeeId);
+    res.send(orders);
   }
   catch (error) {
       console.log(`Error in /userProfile handling: ${error}`);
@@ -29,7 +46,6 @@ app.get('/modules/env.js', (req, res) => {
   res.contentType("application/javascript");
   res.send(`
     export const env = {
-      COMPANY_NAME: "${process.env.COMPANY_NAME}"
     };
   `);
 });
