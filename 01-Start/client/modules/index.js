@@ -47,7 +47,6 @@ async function displayUI() {
         const userProfile = await getUserProfile();
         const orders = await getOrdersForEmployee(2);
 
-
         displayElement.innerHTML = `
             <h1>Hello ${userProfile.displayName}</h1>
             <h3>Profile Information</h3>
@@ -60,11 +59,12 @@ async function displayUI() {
             const orderRow = document.createElement('tr');
             orderRow.innerHTML = `<tr>
                 <td>${order.OrderID}</td>
-                <td>${order.OrderDate}</td>
+                <td>${(new Date(order.OrderDate)).toDateString()}</td>
                 <td>${order.ShipName}</td>
-                <td>${order.ShipAddress}, ${order.ShipCity} ${order.ShipRegion} ${order.ShipPostalCode} ${order.ShipCountry}</td>
+                <td>${order.ShipAddress}, ${order.ShipCity} ${order.ShipRegion || ''} ${order.ShipPostalCode || ''} ${order.ShipCountry}</td>
             </tr>`;
             ordersElement.append(orderRow);
+
         });
     }
     catch (error) {            // If here, we had some other error
