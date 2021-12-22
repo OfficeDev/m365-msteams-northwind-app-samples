@@ -11,7 +11,11 @@
 <body>
 
     <!-- Show blank image while loading -->
-    <img id="image" alt="Employee image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" />
+    <div class="userPanel">
+        <img id="image" alt="Employee image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" />
+        <br />
+        <button id="logout">Log out</button>
+    </div>
     <div id="content">
         <p>Loading...</p>
     </div>
@@ -23,6 +27,7 @@
             <th>Address</th>
         </tr>
     </table>
+    <div id="message" class="errorMessage"></div>
 
     <script type="module" src="index.js"></script>
 

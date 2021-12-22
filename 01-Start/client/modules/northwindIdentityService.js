@@ -55,3 +55,7 @@ export async function getEmployeeProfile(employeeId) {
         throw (error);
     }
 }
+
+export async function logoff() {
+    setLoggedinEmployeeId(0);
+}

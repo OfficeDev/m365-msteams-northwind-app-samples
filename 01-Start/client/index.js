@@ -1,6 +1,7 @@
 import {
     getLoggedinEmployeeId,
-    getEmployeeProfile
+    getEmployeeProfile,
+    logoff
 } from './modules/northwindIdentityService.js';
 import {
     getOrdersForEmployee
@@ -11,8 +12,14 @@ async function displayUI() {
     const displayElement = document.getElementById('content');
     const imageElement = document.getElementById('image');
     const ordersElement = document.getElementById('orders');
+    const logoutButton = document.getElementById('logout');
+    const messageDiv = document.getElementById('message');
 
     try {
+        logoutButton.addEventListener('click', async ev => {
+            logoff();
+            window.location.href = "/northwindLogin.html";
+        });
         const employeeId = await getLoggedinEmployeeId();
         if (!employeeId) {
             window.location.href = "/northwindLogin.html";
@@ -22,7 +29,6 @@ async function displayUI() {
 
             displayElement.innerHTML = `
             <h1>Hello ${employeeProfile.displayName}</h1>
-            <h3>Profile Information</h3>
             <p>Mail: ${employeeProfile.mail}<br />
             Job Title: ${employeeProfile.jobTitle}<br />
         `;
@@ -42,7 +48,7 @@ async function displayUI() {
         }
     }
     catch (error) {            // If here, we had some other error
-        displayElement.innerText = `Error: ${JSON.stringify(error)}`;
+        message.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
 
