@@ -1,10 +1,10 @@
 import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
-} from './modules/northwindIdentityService.js';
+} from '../modules/northwindIdentityService.js';
 import {
    getAllEmployees
-} from './modules/northwindDataService.js';
+} from '../modules/northwindDataService.js';
 
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');

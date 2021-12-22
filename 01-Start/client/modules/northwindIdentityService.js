@@ -10,7 +10,7 @@ export async function getLoggedinEmployeeId() {
 }
 
 export async function setLoggedinEmployeeId(employeeId) {
-    document.cookie = `employeeId=${employeeId};`
+    document.cookie = `employeeId=${employeeId};path=/`;
 }
 
 export async function validateEmployeeLogin(surname, password) {

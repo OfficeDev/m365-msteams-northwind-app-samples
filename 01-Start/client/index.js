@@ -18,11 +18,11 @@ async function displayUI() {
     try {
         logoutButton.addEventListener('click', async ev => {
             logoff();
-            window.location.href = "/northwindLogin.html";
+            window.location.href = "/pages/northwindLogin.html";
         });
         const employeeId = await getLoggedinEmployeeId();
         if (!employeeId) {
-            window.location.href = "/northwindLogin.html";
+            window.location.href = "/pages/northwindLogin.html";
         } else {
             const employeeProfile = await getEmployeeProfile(employeeId);
             const orders = await getOrdersForEmployee(employeeId);
