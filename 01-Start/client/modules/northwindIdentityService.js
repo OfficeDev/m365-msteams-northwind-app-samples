@@ -15,7 +15,7 @@ export async function setLoggedinEmployeeId(employeeId) {
 
 export async function validateEmployeeLogin(surname, password) {
 
-    const response = await fetch (`/validateEmployeeLogin`, {
+    const response = await fetch (`/api/validateEmployeeLogin`, {
         "method": "post",
         "headers": {
             "content-type": "application/json"
@@ -39,7 +39,7 @@ export async function validateEmployeeLogin(surname, password) {
 // Get the employee profile from our web service
 export async function getEmployeeProfile(employeeId) {
 
-    const response = await fetch (`/employeeProfile?employeeId=${employeeId}`, {
+    const response = await fetch (`/api/employeeProfile?employeeId=${employeeId}`, {
         "method": "get",
         "headers": {
             "content-type": "application/json"

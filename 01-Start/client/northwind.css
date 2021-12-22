@@ -11,6 +11,15 @@ th, td {
     float: right;
 }
 
+.userPanel img {
+    width: 50%;
+    height: 50%;
+}
+
+.hint {
+    color: gray;
+}
+
 .errorMessage {
     color: red;
 }

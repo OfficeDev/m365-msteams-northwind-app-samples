@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 
 import {
   getEmployeeProfile,
-  validateEmployeeLogin
+  validateEmployeeLogin,
+  getAllEmployees
 } from './northwindIdentityService.js';
 import { getOrdersForEmployee } from './northwindDataService.js';
 
@@ -14,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 // Web service returns the selected user's profile
-app.post('/validateEmployeeLogin', async (req, res) => {
+app.post('/api/validateEmployeeLogin', async (req, res) => {
 
   try {
     const username = req.body.username;
@@ -29,9 +30,22 @@ app.post('/validateEmployeeLogin', async (req, res) => {
 
 });
 
+// Web service returns the selected user's profile
+app.get('/api/employees', async (req, res) => {
+
+  try {
+    const employees = await getAllEmployees();
+    res.send(employees);
+  }
+  catch (error) {
+      console.log(`Error in /getEmployeeProfile handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
 
 // Web service returns the selected user's profile
-app.get('/employeeProfile', async (req, res) => {
+app.get('/api/employeeProfile', async (req, res) => {
 
   try {
     const employeeId = req.query.employeeId;
@@ -46,7 +60,7 @@ app.get('/employeeProfile', async (req, res) => {
 });
 
 // Web service returns the selected employee's orders
-app.get('/ordersForEmployee', async (req, res) => {
+app.get('/api/ordersForEmployee', async (req, res) => {
 
   try {
     const employeeId = req.query.employeeId;
