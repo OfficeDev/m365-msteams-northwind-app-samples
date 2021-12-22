@@ -4,10 +4,14 @@ import {
     EMAIL_DOMAIN
 } from './constants.js';
 
-export async function getEmployees() {
+// Mock identity service based on Northwind employees
 
+export async function validateEmployeeLogin(username, password) {
+
+    // For simplicity, the username is the employee's surname,
+    // and the password is ignored
     const response = await fetch (
-        `${NORTHWIND_ODATA_SERVICE}/Employees?$select=FirstName`,
+        `${NORTHWIND_ODATA_SERVICE}/Employees?$filter=LastName eq '${username}'&$select=EmployeeID`,
         {
             "method": "GET",
             "headers": {
@@ -15,9 +19,12 @@ export async function getEmployees() {
                 "Content-Type": "application/json"
             }
         });
-    const data = await response.json();
-    return data;
-
+    const employees = await response.json();
+    if (employees?.value?.length === 1) {
+        return employees.value[0].EmployeeID;
+    } else {
+        return null;
+    }
 }
 
 export async function getEmployeeProfile(employeeId) {

@@ -1,15 +1,24 @@
 import {
-    setLoggedinEmployeeId
- } from './modules/northwindIdentityService.js';
+   validateEmployeeLogin,
+   setLoggedinEmployeeId
+} from './modules/northwindIdentityService.js';
 
- const button1Element = document.getElementById('loginButton1');
- button1Element.addEventListener('click', ev => {
-    setLoggedinEmployeeId(1);
-    window.location.href = "/";
- });
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const loginButton = document.getElementById('loginButton');
+const messageDiv = document.getElementById('message');
 
- const button2Element = document.getElementById('loginButton2');
- button2Element.addEventListener('click', ev => {
-    setLoggedinEmployeeId(2);
-    window.location.href = "/";
- });
+loginButton.addEventListener('click', async ev => {
+   
+   messageDiv.innerText = "";
+   const employeeId = await validateEmployeeLogin(
+      usernameInput.value,
+      passwordInput.value
+   );
+   if (employeeId) {
+      setLoggedinEmployeeId(employeeId);
+      window.location.href = "/";   
+   } else {
+      messageDiv.innerText = "Error: user not found";
+   }
+});

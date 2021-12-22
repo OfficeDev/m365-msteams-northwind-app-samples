@@ -10,3 +10,7 @@ th, td {
 #image {
     float: right;
 }
+
+.errorMessage {
+    color: red;
+}
