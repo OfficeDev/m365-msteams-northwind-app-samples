@@ -16,6 +16,11 @@ th, td {
     height: 50%;
 }
 
+.productImage {
+    width: 20%;
+    height: 20%
+}
+
 .hint {
     color: gray;
 }

@@ -60,7 +60,7 @@ export async function getOrder(orderId) {
     result.details = details.value.map(lineItem => ({
         productName: lineItem.Product.ProductName,
         categoryName: lineItem.Product.Category.CategoryName,
-        categoryPicture: lineItem.Product.Category.Picture,
+        categoryPicture: lineItem.Product.Category.Picture.substring(104), // Remove Northwind-specific junk
         quantity: lineItem.Quantity,
         unitPrice: lineItem.UnitPrice,
         discount: lineItem.Discount,

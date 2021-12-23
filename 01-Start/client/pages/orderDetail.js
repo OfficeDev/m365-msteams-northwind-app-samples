@@ -42,9 +42,11 @@ async function displayUI() {
 
                 order.details.forEach(item => {
                     const orderRow = document.createElement('tr');
+                    const pictureUrl = `data:image/bmp;base64,${item.categoryPicture}`
                     orderRow.innerHTML = `<tr>
                         <td>${item.quantity}</td>
-                        <td>${item.productName}</td>
+                        <td><img src="${pictureUrl}" class="productImage"></image>
+                            ${item.productName}</td>
                         <td>${item.unitPrice}</td>
                         <td>${item.discount}</td>
                     </tr>`;
