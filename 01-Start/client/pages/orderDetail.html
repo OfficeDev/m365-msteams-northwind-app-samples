@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Northwind Orders</title>
+    <link rel="stylesheet" href="/northwind.css" />
+    <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+</head>
+
+<body>
+
+    <!-- Show blank image while loading -->
+    <div class="userPanel">
+        <img id="image" alt="Employee image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" />
+        <br />
+        <button id="logout">Log out</button>
+    </div>
+    <div id="content">
+        <p>Loading...</p>
+    </div>
+    <table id="orderDetails">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit price</th>
+            <th>Discount</th>
+        </tr>
+    </table>
+    <div id="message" class="errorMessage"></div>
+
+    <script type="module" src="orderDetail.js"></script>
+
+</body>
+
+</html>

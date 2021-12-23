@@ -35,3 +35,22 @@ export async function getOrdersForEmployee(employeeId)
         throw (error);
     }    
 }
+
+export async function getOrder(orderId)
+{
+    const response = await fetch (`/api/order?orderId=${orderId}`, {
+        "method": "get",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "cache": "default"
+    });
+    if (response.ok) {
+        const orders = await response.json();
+        return orders;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }    
+}

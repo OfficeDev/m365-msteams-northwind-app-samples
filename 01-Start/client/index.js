@@ -37,7 +37,7 @@ async function displayUI() {
             orders.forEach(order => {
                 const orderRow = document.createElement('tr');
                 orderRow.innerHTML = `<tr>
-                <td><a href="/pages/orderDetail.html?order=${order.OrderID}">${order.OrderID}</a></td>
+                <td><a href="/pages/orderDetail.html?orderId=${order.OrderID}">${order.OrderID}</a></td>
                 <td>${(new Date(order.OrderDate)).toDateString()}</td>
                 <td>${order.ShipName}</td>
                 <td>${order.ShipAddress}, ${order.ShipCity} ${order.ShipRegion || ''} ${order.ShipPostalCode || ''} ${order.ShipCountry}</td>
