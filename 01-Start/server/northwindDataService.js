@@ -18,8 +18,10 @@ export async function getOrdersForEmployee(employeeId) {
 
 export async function getOrder(orderId) {
 
+    const result = {};
+
     const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Orders(${orderId})`,
+        `${NORTHWIND_ODATA_SERVICE}/Orders(${orderId})?$expand=Customer,Employee`,
         {
             "method": "GET",
             "headers": {
@@ -27,17 +29,24 @@ export async function getOrder(orderId) {
                 "Content-Type": "application/json"
             }
         });
-    const data = await response.json();
-    return data;
+    const order = await response.json();
 
-}
+    result.orderId = order.OrderID;
+    result.orderDate = order.OrderDate;
+    result.requiredDate = order.RequiredDate;
+    result.customerName = order.Customer.CompanyName;
+    result.contactName = order.Customer.ContactName;
+    result.contactTitle = order.Customer.ContactTitle;
+    result.customerAddress = order.Customer.Address;
+    result.customerCity = order.Customer.City;
+    result.customerRegion = order.Customer.Region || "";
+    result.customerPostalCode = order.Customer.PostalCode;
+    result.customerPhone = order.Customer.Phone;
+    result.customerCountry = order.Customer.Country;
+    result.employeeName = `${order.Employee.FirstName} ${order.Employee.LastName}`;
+    result.employeeEmail = `${order.Employee.LastName.toLowerCase()}@northwindtraders.com`;
 
-export async function getOrderDetails(orderId) {
-
-    const response = await fetch(
-
-        // To get this with the product and category info:
-        // https://services.odata.org/V3/Northwind/Northwind.svc/Order_Details?$filter=OrderID eq 10265&$expand=Product,Product/Category
+    const response2 = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=OrderID eq ${orderId}&$top=10&$expand=Product,Product/Category,Product/Supplier`,
         {
             "method": "GET",
@@ -46,16 +55,18 @@ export async function getOrderDetails(orderId) {
                 "Content-Type": "application/json"
             }
         });
-    const data = await response.json();
+    const details = await response2.json();
 
-    return {
-        productName: data.value[0].Product.ProductName,
-        categoryName: data.value[0].Product.Category.CategoryName,
-        categoryPicture: data.value[0].Product.Category.Picture,
-        quantity: data.value[0].Quantity,
-        unitPrice: data.value[0].UnitPrice,
-        discount: data.value[0].Discount,
-        supplierName: data.value[0].Product.Supplier.CompanyName,
-        supplierCountry: data.value[0].Product.Supplier.Country
-    }
+    result.details = details.value.map(lineItem => ({
+        productName: lineItem.Product.ProductName,
+        categoryName: lineItem.Product.Category.CategoryName,
+        categoryPicture: lineItem.Product.Category.Picture,
+        quantity: lineItem.Quantity,
+        unitPrice: lineItem.UnitPrice,
+        discount: lineItem.Discount,
+        supplierName: lineItem.Product.Supplier.CompanyName,
+        supplierCountry: lineItem.Product.Supplier.Country
+    }));
+
+    return result;
 }

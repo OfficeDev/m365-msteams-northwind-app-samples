@@ -8,7 +8,7 @@ import {
 } from './northwindIdentityService.js';
 import {
   getOrdersForEmployee,
-  getOrderDetails
+  getOrder
 } from './northwindDataService.js';
 
 dotenv.config();
@@ -78,15 +78,15 @@ app.get('/api/ordersForEmployee', async (req, res) => {
 });
 
 // Web service returns order details
-app.get('/api/orderDetails', async (req, res) => {
+app.get('/api/order', async (req, res) => {
 
   try {
-    const employeeId = req.query.orderId;
-    const orderDetails = await getOrderDetails(employeeId);
-    res.send(orderDetails);
+    const orderId = req.query.orderId;
+    const order = await getOrder(orderId);
+    res.send(order);
   }
   catch (error) {
-      console.log(`Error in /userProfile handling: ${error}`);
+      console.log(`Error in /order handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 
