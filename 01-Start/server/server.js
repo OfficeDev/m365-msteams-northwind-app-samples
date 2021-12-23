@@ -6,7 +6,10 @@ import {
   validateEmployeeLogin,
   getAllEmployees
 } from './northwindIdentityService.js';
-import { getOrdersForEmployee } from './northwindDataService.js';
+import {
+  getOrdersForEmployee,
+  getOrderDetails
+} from './northwindDataService.js';
 
 dotenv.config();
 const app = express();
@@ -14,7 +17,7 @@ const app = express();
 // JSON middleware is needed if you want to parse request bodies
 app.use(express.json());
 
-// Web service returns the selected user's profile
+// Web service validates a user login
 app.post('/api/validateEmployeeLogin', async (req, res) => {
 
   try {
@@ -30,7 +33,7 @@ app.post('/api/validateEmployeeLogin', async (req, res) => {
 
 });
 
-// Web service returns the selected user's profile
+// Web service returns a list of employees
 app.get('/api/employees', async (req, res) => {
 
   try {
@@ -44,7 +47,7 @@ app.get('/api/employees', async (req, res) => {
 
 });
 
-// Web service returns the selected user's profile
+// Web service returns an employee's profile
 app.get('/api/employeeProfile', async (req, res) => {
 
   try {
@@ -59,13 +62,28 @@ app.get('/api/employeeProfile', async (req, res) => {
 
 });
 
-// Web service returns the selected employee's orders
+// Web service returns an employee's orders
 app.get('/api/ordersForEmployee', async (req, res) => {
 
   try {
     const employeeId = req.query.employeeId;
     const orders = await getOrdersForEmployee(employeeId);
     res.send(orders);
+  }
+  catch (error) {
+      console.log(`Error in /userProfile handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
+// Web service returns order details
+app.get('/api/orderDetails', async (req, res) => {
+
+  try {
+    const employeeId = req.query.orderId;
+    const orderDetails = await getOrderDetails(employeeId);
+    res.send(orderDetails);
   }
   catch (error) {
       console.log(`Error in /userProfile handling: ${error}`);
@@ -88,7 +106,7 @@ app.get('/modules/env.js', (req, res) => {
 app.use(express.static('client'));
 
 //start listening to server side calls
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3978;
 app.listen(PORT, () => {
   console.log(`Server is Running on Port ${PORT}`);
 });

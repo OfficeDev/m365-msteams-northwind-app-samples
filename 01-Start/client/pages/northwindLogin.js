@@ -31,6 +31,6 @@ const employees = await getAllEmployees();
 
 employees.forEach(employee => {
    const employeeListItem = document.createElement('li');
-   employeeListItem.innerText = employee.lastName;
+   employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
    hintUL.appendChild(employeeListItem);
 });
