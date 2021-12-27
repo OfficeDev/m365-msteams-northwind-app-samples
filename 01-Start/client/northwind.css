@@ -42,3 +42,31 @@ th, td {
 .errorMessage {
     color: red;
 }
+
+.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: gray;
+  }
+  
+  .topnav li {
+    float: left;
+  }
+  
+  .topnav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 4pt 5pt;
+    text-decoration: none;
+  }
+  
+  .topnav .selected {
+    background-color: green;
+  }
+
+  .topnav li a:hover {
+    background-color: black;
+  }

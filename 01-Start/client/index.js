@@ -12,10 +12,6 @@ async function displayUI() {
         if (employee) {
             displayElement.innerHTML = `
                 <h3>Welcome ${employee.displayName}</h3>
-                <ul>
-                    <li><a href="/pages/myOrders.html">View my orders</a></li>
-                    <li><a href="/pages/categories.html">Browse products</a></li>
-                </ul>
             `;
         }
     }
