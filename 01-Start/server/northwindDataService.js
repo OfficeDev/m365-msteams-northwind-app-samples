@@ -90,3 +90,64 @@ export async function getOrder(orderId) {
 
     return result;
 }
+
+export async function getCategories() {
+
+    const response = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Categories?$select=CategoryID,CategoryName,Description,Picture`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+
+    const categories = await response.json();
+    return categories.value.map(category => ({
+        categoryId: category.CategoryID,
+        displayName: category.CategoryName,
+        description: category.Description,
+        picture: category.Picture.substring(104), // Remove Northwind-specific junk
+    }));
+}
+
+export async function getCategory(categoryId) {
+
+    const result = {};
+
+    const response = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Categories(${categoryId})?$select=CategoryID,CategoryName,Description,Picture`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+    const category = await response.json();
+
+    result.categoryId = category.CategoryID;
+    result.displayName = category.CategoryName;
+    result.description = category.Description;
+    result.picture = category.Picture.substring(104); // Remove Northwind-specific junk
+
+    const response2 = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Products?$filter=CategoryID eq ${categoryId}&$expand=Supplier`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+    const details = await response2.json();
+
+    result.products = details.value.map(product => ({
+        productName: product.ProductName,
+        supplierName: product.Supplier.CompanyName,
+        supplierCountry: product.Supplier.Country
+    }));
+
+    return result;
+}

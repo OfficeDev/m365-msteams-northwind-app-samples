@@ -8,7 +8,9 @@ import {
 import {
   getAllEmployees,
   getOrdersForEmployee,
-  getOrder
+  getOrder,
+  getCategories,
+  getCategory
 } from './northwindDataService.js';
 
 dotenv.config();
@@ -87,6 +89,33 @@ app.get('/api/order', async (req, res) => {
   }
   catch (error) {
       console.log(`Error in /order handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
+app.get('/api/categories', async (req, res) => {
+
+  try {
+    const categories = await getCategories();
+    res.send(categories);
+  }
+  catch (error) {
+      console.log(`Error in /api/categories handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
+app.get('/api/category', async (req, res) => {
+
+  try {
+    const categoryId = req.query.categoryId;
+    const categories = await getCategory(categoryId);
+    res.send(categories);
+  }
+  catch (error) {
+      console.log(`Error in /api/category handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 
