@@ -1,6 +1,5 @@
 import {
-    getLoggedinEmployeeId,
-    getEmployeeProfile,
+    getLoggedInEmployee,
     logoff
 } from './identityService.js';
 
@@ -8,18 +7,15 @@ class northwindUserPanel extends HTMLElement {
 
     async connectedCallback() {
 
-        const employeeId = await getLoggedinEmployeeId();
+        const employee = await getLoggedInEmployee();
 
-        if (!employeeId) {
+        if (!employee) {
 
             // If here, nobody is logged in - redirect to the login page
             window.location.href = "/northwindIdentity/login.html";
 
         } else {
 
-            // If here, get the profile of the logged-in user and display
-            // the user panel
-            const employee = await getEmployeeProfile(employeeId);
             this.innerHTML = `<div class="userPanel">
                 <img src="data:image/bmp;base64,${employee.photo}"></img>
                 <p>${employee.displayName}</p>

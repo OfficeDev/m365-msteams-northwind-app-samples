@@ -37,7 +37,13 @@ export async function validateEmployeeLogin(surname, password) {
 }
 
 // Get the employee profile from our web service
-export async function getEmployeeProfile(employeeId) {
+export async function getLoggedInEmployee() {
+
+    const employeeId = await getLoggedinEmployeeId();
+
+    if (!employeeId) {
+        return null;
+    }
 
     const response = await fetch (`/api/employeeProfile?employeeId=${employeeId}`, {
         "method": "get",
@@ -47,8 +53,9 @@ export async function getEmployeeProfile(employeeId) {
         "cache": "default"
     });
     if (response.ok) {
-        const employeeProfile = await response.json();
-        return employeeProfile;
+        const employee = await response.json();
+        employee.id = employeeId;
+        return employee;
     } else {
         const error = await response.json();
         console.log (`ERROR: ${error}`);

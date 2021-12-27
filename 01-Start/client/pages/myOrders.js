@@ -1,6 +1,5 @@
 import {
-    getLoggedinEmployeeId,
-    getEmployeeProfile
+    getLoggedInEmployee
 } from '../northwindIdentity/identityService.js';
 import {
     getOrdersForEmployee
@@ -9,21 +8,18 @@ import {
 async function displayUI() {
 
     const displayElement = document.getElementById('content');
-    const imageElement = document.getElementById('image');
     const ordersElement = document.getElementById('orders');
     const messageDiv = document.getElementById('message');
 
     try {
-        const employeeId = await getLoggedinEmployeeId();
-        if (!employeeId) {
-            window.location.href = "/pages/northwindLogin.html";
-        } else {
-            const employeeProfile = await getEmployeeProfile(employeeId);
+        const employee = await getLoggedInEmployee();
+        if (employee) {
+            
             displayElement.innerHTML = `
-                <h3>Orders for ${employeeProfile.displayName}<h3>
+                <h3>Orders for ${employee.displayName}<h3>
             `;
 
-            const orders = await getOrdersForEmployee(employeeId);
+            const orders = await getOrdersForEmployee(employee.id);
             orders.forEach(order => {
                 const orderRow = document.createElement('tr');
                 orderRow.innerHTML = `<tr>

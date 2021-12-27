@@ -1,6 +1,5 @@
 import {
-    getLoggedinEmployeeId,
-    getEmployeeProfile
+    getLoggedInEmployee
 } from './northwindIdentity/identityService.js';
 
 async function displayUI() {
@@ -9,13 +8,10 @@ async function displayUI() {
     const messageDiv = document.getElementById('message');
 
     try {
-        const employeeId = await getLoggedinEmployeeId();
-        if (!employeeId) {
-            window.location.href = "/pages/northwindLogin.html";
-        } else {
-            const employeeProfile = await getEmployeeProfile(employeeId);
+        const employee = await getLoggedInEmployee();
+        if (employee) {
             displayElement.innerHTML = `
-                <h3>Welcome ${employeeProfile.displayName}</h3>
+                <h3>Welcome ${employee.displayName}</h3>
                 <ul>
                     <li><a href="/pages/myOrders.html">View my orders</a></li>
                     <li><a href="/pages/categories.html">Browse products</a></li>
