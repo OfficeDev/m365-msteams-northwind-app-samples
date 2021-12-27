@@ -17,15 +17,13 @@ async function displayUI() {
     // const messageDiv = document.getElementById('message');
 
     try {
-        logoutButton.addEventListener('click', async ev => {
-            logoff();
-            window.location.href = "/pages/northwindLogin.html";
-        });
+
         const employeeId = await getLoggedinEmployeeId();
         if (!employeeId) {
+
             window.location.href = "/pages/northwindLogin.html";
+
         } else {
-            // const employeeProfile = await getEmployeeProfile(employeeId);
 
             const searchParams = new URLSearchParams(window.location.search);
             if (searchParams.has('orderId')) {

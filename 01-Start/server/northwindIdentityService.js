@@ -64,7 +64,8 @@ export async function getEmployeeProfile(employeeId) {
         displayName: `${employeeProfile.FirstName} ${employeeProfile.LastName}`,
         mail: `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`,
         photo: employeeProfile.Photo.substring(104), // Trim Northwind-specific junk
-        jobTitle: employeeProfile.Title
+        jobTitle: employeeProfile.Title,
+        city: `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`
     }
 
 }

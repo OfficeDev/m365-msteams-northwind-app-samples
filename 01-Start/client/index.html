@@ -10,12 +10,8 @@
 
 <body>
 
-    <!-- Show blank image while loading -->
-    <northwind-user-panel></northwind-user-panel>
-    <hr />
-    <div class="userPanel">
-        <img id="image" alt="Employee image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" />
-    </div>
+    <script type="module" src="/components/northwindUserPanel.js"></script>
+
     <div id="content">
         <p>Loading...</p>
     </div>
@@ -30,7 +26,6 @@
     <div id="message" class="errorMessage"></div>
 
     <script type="module" src="index.js"></script>
-    <script type="module" src="components/northwindUserPanel.js"></script>
 
 </body>
 

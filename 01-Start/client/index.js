@@ -20,15 +20,11 @@ async function displayUI() {
             window.location.href = "/pages/northwindLogin.html";
         } else {
             const employeeProfile = await getEmployeeProfile(employeeId);
-            const orders = await getOrdersForEmployee(employeeId);
-
             displayElement.innerHTML = `
-            <h1>Hello ${employeeProfile.displayName}</h1>
-            <p>Mail: ${employeeProfile.mail}<br />
-            Job Title: ${employeeProfile.jobTitle}<br />
-        `;
-            imageElement.src = `data:image/bmp;base64,${employeeProfile.photo}`;
+                <h3>Orders for ${employeeProfile.displayName}<h3>
+            `;
 
+            const orders = await getOrdersForEmployee(employeeId);
             orders.forEach(order => {
                 const orderRow = document.createElement('tr');
                 orderRow.innerHTML = `<tr>
