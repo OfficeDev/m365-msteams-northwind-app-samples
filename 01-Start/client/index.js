@@ -12,14 +12,9 @@ async function displayUI() {
     const displayElement = document.getElementById('content');
     const imageElement = document.getElementById('image');
     const ordersElement = document.getElementById('orders');
-    const logoutButton = document.getElementById('logout');
     const messageDiv = document.getElementById('message');
 
     try {
-        logoutButton.addEventListener('click', async ev => {
-            logoff();
-            window.location.href = "/pages/northwindLogin.html";
-        });
         const employeeId = await getLoggedinEmployeeId();
         if (!employeeId) {
             window.location.href = "/pages/northwindLogin.html";
@@ -48,7 +43,7 @@ async function displayUI() {
         }
     }
     catch (error) {            // If here, we had some other error
-        message.innerText = `Error: ${JSON.stringify(error)}`;
+        messageDiv.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
 
