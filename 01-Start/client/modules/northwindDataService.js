@@ -19,7 +19,7 @@ export async function getAllEmployees()
 
 export async function getOrdersForEmployee(employeeId)
 {
-    const response = await fetch ("/api/ordersForEmployee?employeeId=2", {
+    const response = await fetch (`/api/ordersForEmployee?employeeId=${employeeId}`, {
         "method": "get",
         "headers": {
             "content-type": "application/json"
