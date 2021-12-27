@@ -3,7 +3,7 @@ export async function getLoggedinEmployeeId() {
     for (const c of cookies) {
         const [name, value] = c.split('=');
         if (name === 'employeeId') {
-            return value;
+            return Number(value);
         }
     }
     return null;

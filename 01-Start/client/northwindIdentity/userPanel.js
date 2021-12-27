@@ -34,7 +34,7 @@ class northwindUserPanel extends HTMLElement {
         const logoutButton = document.getElementById('logout');
         logoutButton.addEventListener('click', async ev => {
             logoff();
-            window.location.href = "/pages/northwindLogin.html";
+            window.location.href = "/northwindIdentity/login.html";
         });
         
     }
