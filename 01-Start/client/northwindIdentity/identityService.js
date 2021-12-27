@@ -9,7 +9,9 @@ export async function getLoggedinEmployeeId() {
     return null;
 }
 
+let cached_employee = null;
 export async function setLoggedinEmployeeId(employeeId) {
+    cached_employee = null;
     document.cookie = `employeeId=${employeeId};path=/`;
 }
 
@@ -43,6 +45,10 @@ export async function getLoggedInEmployee() {
 
     if (!employeeId) {
         return null;
+    }
+
+    if (cached_employee && cached_employee.id === employeeId) {
+        return cached_employee;
     }
 
     const response = await fetch (`/api/employeeProfile?employeeId=${employeeId}`, {
