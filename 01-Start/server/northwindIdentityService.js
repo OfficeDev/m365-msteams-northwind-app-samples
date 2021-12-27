@@ -27,26 +27,6 @@ export async function validateEmployeeLogin(username, password) {
     }
 }
 
-export async function getAllEmployees() {
-
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Employees/?$select=EmployeeID,FirstName,LastName`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-
-    const employees = await response.json();
-    return employees.value.map(employee => ({
-        employeeId: employee.EmployeeID,
-        firstName: employee.FirstName,
-        lastName: employee.LastName
-    }));
-}
-
 export async function getEmployeeProfile(employeeId) {
 
     const response = await fetch(

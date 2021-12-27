@@ -3,10 +3,10 @@ import dotenv from 'dotenv';
 
 import {
   getEmployeeProfile,
-  validateEmployeeLogin,
-  getAllEmployees
+  validateEmployeeLogin
 } from './northwindIdentityService.js';
 import {
+  getAllEmployees,
   getOrdersForEmployee,
   getOrder
 } from './northwindDataService.js';
