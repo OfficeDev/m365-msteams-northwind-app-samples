@@ -2,8 +2,7 @@ import {
     getLoggedinEmployeeId,
     getEmployeeProfile,
     logoff
-} from '../modules/northwindIdentityService.js';
-
+} from './identityService.js';
 
 class northwindUserPanel extends HTMLElement {
 
@@ -14,7 +13,7 @@ class northwindUserPanel extends HTMLElement {
         if (!employeeId) {
 
             // If here, nobody is logged in - redirect to the login page
-            window.location.href = "/pages/northwindLogin.html";
+            window.location.href = "/northwindIdentity/login.html";
 
         } else {
 

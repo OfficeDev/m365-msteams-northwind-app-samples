@@ -1,7 +1,7 @@
 import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
-} from '../modules/northwindIdentityService.js';
+} from './identityService.js';
 import {
    getAllEmployees
 } from '../modules/northwindDataService.js';

@@ -1,8 +1,7 @@
 import {
     getLoggedinEmployeeId,
-    getEmployeeProfile,
-    logoff
-} from './modules/northwindIdentityService.js';
+    getEmployeeProfile
+} from './northwindIdentity/identityService.js';
 import {
     getOrdersForEmployee
 } from './modules/northwindDataService.js';

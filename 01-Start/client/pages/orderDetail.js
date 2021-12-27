@@ -1,12 +1,9 @@
 import {
-    getLoggedinEmployeeId,
-    getEmployeeProfile,
-    logoff
-} from '../modules/northwindIdentityService.js';
+    getLoggedinEmployeeId
+} from '../northwindIdentity/identityService.js';
 import {
     getOrder
 } from '../modules/northwindDataService.js';
-// import { response } from 'express';
 
 async function displayUI() {
 
