@@ -4,7 +4,7 @@ import {
 } from './identityService.js';
 import {
    getEmployees
-} from '../northwindData/service.js';
+} from '../northwindData/dataService.js';
 
 const loginPanel = document.getElementById('loginPanel');
 const usernameInput = document.getElementById('username');

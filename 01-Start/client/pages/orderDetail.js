@@ -1,6 +1,6 @@
 import {
     getOrder
-} from '../northwindData/service.js';
+} from '../northwindData/dataService.js';
 
 async function displayUI() {
 
@@ -18,7 +18,7 @@ async function displayUI() {
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>
                     <p>Customer: ${order.customerName}<br />
-                    Contact: ${order.contactName}, (${order.contactTitle})<br />
+                    Contact: ${order.contactName}, ${order.contactTitle}<br />
                     Date: ${new Date(order.orderDate).toDateString()}</p>
                 `;
 

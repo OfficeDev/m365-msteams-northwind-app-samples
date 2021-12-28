@@ -1,6 +1,6 @@
 import {
     getCategory
-} from '../northwindData/service.js';
+} from '../northwindData/dataService.js';
 
 async function displayUI() {
 
