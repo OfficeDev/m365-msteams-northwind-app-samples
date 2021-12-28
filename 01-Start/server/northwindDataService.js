@@ -1,7 +1,10 @@
 import fetch from 'node-fetch';
 import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 
+const employeesCache = {};
 export async function getAllEmployees() {
+
+    if (employeesCache.value) return employeeCache.value;
 
     const response = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Employees/?$select=EmployeeID,FirstName,LastName`,
@@ -14,14 +17,19 @@ export async function getAllEmployees() {
         });
 
     const employees = await response.json();
-    return employees.value.map(employee => ({
+    const result = employees.value.map(employee => ({
         employeeId: employee.EmployeeID,
         firstName: employee.FirstName,
         lastName: employee.LastName
     }));
+    employeesCache.value = result;
+    return result;
 }
 
+const employeeCache = {};
 export async function getEmployee(employeeId) {
+
+    if (employeeCache[employeeId]) return employeeCache[employeeId];
 
     const result = {};
     const response = await fetch(
@@ -35,7 +43,7 @@ export async function getEmployee(employeeId) {
         });
     const employeeProfile = await response.json();
 
-    result.id = employeeProfile.id;
+    result.id = employeeProfile.EmployeeID;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
     result.mail = `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`;
     result.photo = employeeProfile.Photo.substring(104); // Trim Northwind-specific junk
@@ -66,10 +74,14 @@ export async function getEmployee(employeeId) {
         shipPostalCode: order.shipPostalCode,
         shipCountry: order.shipCountry
     }));
+    employeeCache[employeeId] = result;
     return result;
 }
 
+const orderCache = {}
 export async function getOrder(orderId) {
+
+    if (orderCache[orderId]) return orderCache[orderId];
 
     const result = {};
 
@@ -121,10 +133,14 @@ export async function getOrder(orderId) {
         supplierCountry: lineItem.Product.Supplier.Country
     }));
 
+    orderCache[orderId] = result;
     return result;
 }
 
+const categoriesCache = {};
 export async function getCategories() {
+
+    if (categoriesCache.value) return categoriesCache.value;
 
     const response = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Categories?$select=CategoryID,CategoryName,Description,Picture`,
@@ -137,15 +153,20 @@ export async function getCategories() {
         });
 
     const categories = await response.json();
-    return categories.value.map(category => ({
+    const result = categories.value.map(category => ({
         categoryId: category.CategoryID,
         displayName: category.CategoryName,
         description: category.Description,
         picture: category.Picture.substring(104), // Remove Northwind-specific junk
     }));
+    categoriesCache.value = result;
+    return result;
 }
 
+const categoryCache = {};
 export async function getCategory(categoryId) {
+
+    if (categoryCache[categoryId]) return categoryCache[categoryId];
 
     const result = {};
 
@@ -189,10 +210,14 @@ export async function getCategory(categoryId) {
         discontinued: product.Discontinued
     }));
 
+    categoryCache[categoryId] = result;
     return result;
 }
 
+const productCache = {};
 export async function getProduct(productId) {
+    
+    if (productCache[productId]) return productCache[productId];
     
     const result = {};
 
@@ -240,5 +265,6 @@ export async function getProduct(productId) {
         discount: orderDetail.Discount,
     }));
 
+    productCache[productId] = result;
     return result;
 }
