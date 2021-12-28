@@ -15,7 +15,7 @@ async function displayUI() {
                 const categoryRow = document.createElement('tr');
                 categoryRow.innerHTML = `<tr>
                 <td><img src="data:image/bmp;base64,${category.picture}" class="categoryImage"></image></td>
-                <td><a href="/pages/catagory.html?categoryId=${category.categoryId}">${category.displayName}</a></td>
+                <td><a href="/pages/category.html?categoryId=${category.categoryId}">${category.displayName}</a></td>
                 <td>${category.description}</td>
             </tr>`;
                 categoriesTable.append(categoryRow);

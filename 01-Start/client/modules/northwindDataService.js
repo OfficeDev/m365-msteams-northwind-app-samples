@@ -78,3 +78,22 @@ export async function getCategories()
         throw (error);
     }    
 }
+
+export async function getCategory(categoryId)
+{
+    const response = await fetch (`/api/category?categoryId=${categoryId}`, {
+        "method": "get",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "cache": "default"
+    });
+    if (response.ok) {
+        const categories = await response.json();
+        return categories;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }    
+}

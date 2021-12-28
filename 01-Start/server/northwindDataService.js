@@ -208,7 +208,7 @@ export async function getCategory(categoryId) {
         supplierName: product.Supplier.CompanyName,
         supplierCountry: product.Supplier.Country,
         discontinued: product.Discontinued
-    }));
+    })).sort((a,b) => a.productName.localeCompare(b.productName));
 
     categoryCache[categoryId] = result;
     return result;

@@ -37,9 +37,18 @@ th, td {
 }
 
 .categoryImage {
+    margin-right: 8pt;
+    width: 60pt;
+    height: auto;
+    float: left;
+    border-radius: 10%;
+}
+
+td .categoryImage {
+    float: none;
+    margin: 0;
     width: 40%;
     height: 40%;
-    border-radius: 10%;
 }
 
 .hint {
