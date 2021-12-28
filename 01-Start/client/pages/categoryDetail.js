@@ -31,6 +31,8 @@ async function displayUI() {
                 <td>${product.quantityPerUnit}</td>
                 <td>${product.unitPrice}</td>
                 <td>${product.unitsInStock}</td>
+                <td>${product.unitsOnOrder}</td>
+                <td>${product.supplierName} (${product.supplierCountry})</td>
             </tr>`;
                     productsElement.append(row);
 

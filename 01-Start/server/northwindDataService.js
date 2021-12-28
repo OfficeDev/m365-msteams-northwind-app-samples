@@ -123,6 +123,7 @@ export async function getOrder(orderId) {
     const details = await response2.json();
 
     result.details = details.value.map(lineItem => ({
+        productId: lineItem.ProductID,
         productName: lineItem.Product.ProductName,
         categoryName: lineItem.Product.Category.CategoryName,
         categoryPicture: lineItem.Product.Category.Picture.substring(104), // Remove Northwind-specific junk
@@ -217,7 +218,7 @@ export async function getCategory(categoryId) {
 const productCache = {};
 export async function getProduct(productId) {
     
-    if (productCache[productId]) return productCache[productId];
+    // if (productCache[productId]) return productCache[productId];
     
     const result = {};
 
@@ -233,6 +234,8 @@ export async function getProduct(productId) {
     const product = await response.json();
     result.productId = product.ProductID;
     result.productName = product.ProductName;
+    result.categoryId = product.CategoryID;
+    result.categoryName = product.Category.CategoryName;
     result.quantityPerUnit = product.QuantityPerUnit;
     result.unitPrice = product.UnitPrice;
     result.unitsInStock = product.UnitsInStock;
@@ -255,8 +258,9 @@ export async function getProduct(productId) {
 
     result.orders = details.value.map(orderDetail => ({
         orderId: orderDetail.OrderID,
+        orderDate: orderDetail.Order.OrderDate,
         customerId: orderDetail.Order.Customer.CustomerID,
-        customerName: orderDetail.Order.Customer.CustomerName,
+        customerName: orderDetail.Order.Customer.CompanyName,
         customerAddress: `${orderDetail.Order.Customer.Address}, ${orderDetail.Order.Customer.City} ${orderDetail.Order.Customer.Region || ""}, ${orderDetail.Order.Customer.Country}`,
         employeeId: orderDetail.Order.EmployeeID,
         employeeName: `${orderDetail.Order.Employee.FirstName} ${orderDetail.Order.Employee.LastName}`,
