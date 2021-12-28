@@ -7,7 +7,7 @@ import {
 } from './northwindIdentityService.js';
 import {
   getAllEmployees,
-  getOrdersForEmployee,
+  getEmployee,
   getOrder,
   getCategories,
   getCategory,
@@ -30,7 +30,7 @@ app.post('/api/validateEmployeeLogin', async (req, res) => {
     res.send(JSON.stringify({ "employeeId" : employeeId }));
   }
   catch (error) {
-      console.log(`Error in /validateEmployeeLogin handling: ${error}`);
+      console.log(`Error in /api/validateEmployeeLogin handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 
@@ -44,37 +44,22 @@ app.get('/api/employees', async (req, res) => {
     res.send(employees);
   }
   catch (error) {
-      console.log(`Error in /getEmployeeProfile handling: ${error}`);
+      console.log(`Error in /api/employees handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 
 });
 
 // Web service returns an employee's profile
-app.get('/api/employeeProfile', async (req, res) => {
+app.get('/api/employee', async (req, res) => {
 
   try {
     const employeeId = req.query.employeeId;
-    const employeeProfile = await getEmployeeProfile(employeeId);
+    const employeeProfile = await getEmployee(employeeId);
     res.send(employeeProfile);
   }
   catch (error) {
-      console.log(`Error in /getEmployeeProfile handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-
-// Web service returns an employee's orders
-app.get('/api/ordersForEmployee', async (req, res) => {
-
-  try {
-    const employeeId = req.query.employeeId;
-    const orders = await getOrdersForEmployee(employeeId);
-    res.send(orders);
-  }
-  catch (error) {
-      console.log(`Error in /userProfile handling: ${error}`);
+      console.log(`Error in /api/employee handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 
@@ -89,7 +74,7 @@ app.get('/api/order', async (req, res) => {
     res.send(order);
   }
   catch (error) {
-      console.log(`Error in /order handling: ${error}`);
+      console.log(`Error in /api/order handling: ${error}`);
       res.status(500).json({ status: 500, statusText: error });
   }
 

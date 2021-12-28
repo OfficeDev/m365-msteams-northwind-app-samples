@@ -19,7 +19,7 @@ export async function getAllEmployees()
 
 export async function getOrdersForEmployee(employeeId)
 {
-    const response = await fetch (`/api/ordersForEmployee?employeeId=${employeeId}`, {
+    const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
         "method": "get",
         "headers": {
             "content-type": "application/json"
@@ -27,8 +27,8 @@ export async function getOrdersForEmployee(employeeId)
         "cache": "default"
     });
     if (response.ok) {
-        const orders = await response.json();
-        return orders.value;
+        const employee = await response.json();
+        return employee.orders;
     } else {
         const error = await response.json();
         console.log (`ERROR: ${error}`);

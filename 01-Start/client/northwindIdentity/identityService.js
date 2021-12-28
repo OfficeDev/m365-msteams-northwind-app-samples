@@ -51,7 +51,7 @@ export async function getLoggedInEmployee() {
         return cached_employee;
     }
 
-    const response = await fetch (`/api/employeeProfile?employeeId=${employeeId}`, {
+    const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
         "method": "get",
         "headers": {
             "content-type": "application/json"

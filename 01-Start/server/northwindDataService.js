@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { NORTHWIND_ODATA_SERVICE } from './constants.js';
+import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 
 export async function getAllEmployees() {
 
@@ -21,10 +21,11 @@ export async function getAllEmployees() {
     }));
 }
 
-export async function getOrdersForEmployee(employeeId) {
+export async function getEmployee(employeeId) {
 
+    const result = {};
     const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Orders?$filter=EmployeeID eq ${employeeId}&$top=10`,
+        `${NORTHWIND_ODATA_SERVICE}/Employees(${employeeId})`,
         {
             "method": "GET",
             "headers": {
@@ -32,8 +33,39 @@ export async function getOrdersForEmployee(employeeId) {
                 "Content-Type": "application/json"
             }
         });
-    const data = await response.json();
-    return data;
+    const employeeProfile = await response.json();
+
+    result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
+    result.mail = `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`;
+    result.photo = employeeProfile.Photo.substring(104); // Trim Northwind-specific junk
+    result.jobTitle = employeeProfile.Title;
+    result.city = `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`;
+
+    const response2 = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Orders?$filter=EmployeeID eq ${employeeId}&$expand=Customer&$top=10`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+    const orders = await response2.json();
+    result.orders = orders.value.map(order => ({
+        orderId: order.OrderID,
+        orderDate: order.OrderDate,
+        customerId: order.Customer.CustomerID,
+        customerName: order.Customer.CompanyName,
+        customerContact: order.Customer.ContactName,
+        customerPhone: order.Customer.Phone,
+        shipName: order.ShipName,
+        shipAddress: order.ShipAddress,
+        shipCity: order.shipCity,
+        shipRegion: order.ShipRegion,
+        shipPostalCode: order.shipPostalCode,
+        shipCountry: order.shipCountry
+    }));
+    return result;
 }
 
 export async function getOrder(orderId) {
