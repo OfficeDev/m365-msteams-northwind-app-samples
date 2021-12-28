@@ -144,9 +144,67 @@ export async function getCategory(categoryId) {
     const details = await response2.json();
 
     result.products = details.value.map(product => ({
+        productId: product.ProductID,
         productName: product.ProductName,
+        quantityPerUnit: product.QuantityPerUnit,
+        unitPrice: product.UnitPrice,
+        unitsInStock: product.UnitsInStock,
+        unitsOnOrder: product.UnitsOnOrder,
+        reorderLevel: product.ReorderLevel,
         supplierName: product.Supplier.CompanyName,
-        supplierCountry: product.Supplier.Country
+        supplierCountry: product.Supplier.Country,
+        discontinued: product.Discontinued
+    }));
+
+    return result;
+}
+
+export async function getProduct(productId) {
+    
+    const result = {};
+
+    const response = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Products(${productId})?$expand=Category,Supplier`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+    const product = await response.json();
+    result.productId = product.ProductID;
+    result.productName = product.ProductName;
+    result.quantityPerUnit = product.QuantityPerUnit;
+    result.unitPrice = product.UnitPrice;
+    result.unitsInStock = product.UnitsInStock;
+    result.unitsOnOrder = product.UnitsOnOrder;
+    result.reorderLevel = product.ReorderLevel;
+    result.supplierName = product.Supplier.CompanyName;
+    result.supplierCountry = product.Supplier.Country;
+    result.discontinued = product.Discontinued;
+
+    const response2 = await fetch(
+        `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=ProductID eq ${productId}&$expand=Order,Order/Customer,Order/Employee`,
+        {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        });
+    const details = await response2.json();
+
+    result.orders = details.value.map(orderDetail => ({
+        orderId: orderDetail.OrderID,
+        customerId: orderDetail.Order.Customer.CustomerID,
+        customerName: orderDetail.Order.Customer.CustomerName,
+        customerAddress: `${orderDetail.Order.Customer.Address}, ${orderDetail.Order.Customer.City} ${orderDetail.Order.Customer.Region || ""}, ${orderDetail.Order.Customer.Country}`,
+        employeeId: orderDetail.Order.EmployeeID,
+        employeeName: `${orderDetail.Order.Employee.FirstName} ${orderDetail.Order.Employee.LastName}`,
+        quantity: orderDetail.Quantity,
+        unitPrice: orderDetail.UnitPrice,
+        discount: orderDetail.Discount,
     }));
 
     return result;

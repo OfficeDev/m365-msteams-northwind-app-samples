@@ -10,7 +10,8 @@ import {
   getOrdersForEmployee,
   getOrder,
   getCategories,
-  getCategory
+  getCategory,
+  getProduct
 } from './northwindDataService.js';
 
 dotenv.config();
@@ -120,6 +121,21 @@ app.get('/api/category', async (req, res) => {
   }
 
 });
+
+app.get('/api/product', async (req, res) => {
+
+  try {
+    const productId = req.query.productId;
+    const product = await getProduct(productId);
+    res.send(product);
+  }
+  catch (error) {
+      console.log(`Error in /api/product handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
 
 // Make environment values available on the client side
 // NOTE: Do not pass any secret or sensitive values to the client!
