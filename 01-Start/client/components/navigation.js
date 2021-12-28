@@ -1,4 +1,5 @@
 const topNavLinks = [
+    { "text": "Home", "url": "/index.html"},
     { "text": "My Orders", "url": "/pages/myOrders.html" },
     { "text": "Products", "url": "/pages/categories.html" },
 ];
