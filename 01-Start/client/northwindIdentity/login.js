@@ -14,10 +14,10 @@ const messageDiv = document.getElementById('message');
 
 if (window.location !== window.parent.location) {
    // The page is in an iframe - refuse service
-   loginPanel.style.display = 'none';
    messageDiv.innerText = "ERROR: You cannot run this app in an IFrame";
 } else {
 
+   loginPanel.style.display = 'inline';
    loginButton.addEventListener('click', async ev => {
 
       messageDiv.innerText = "";
