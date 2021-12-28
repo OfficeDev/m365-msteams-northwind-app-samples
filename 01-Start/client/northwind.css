@@ -33,6 +33,13 @@ th, td {
 .productImage {
     width: 20%;
     height: 20%;
+    border-radius: 10%;
+}
+
+.categoryImage {
+    width: 40%;
+    height: 40%;
+    border-radius: 10%;
 }
 
 .hint {

@@ -59,3 +59,22 @@ export async function getOrder(orderId)
         throw (error);
     }    
 }
+
+export async function getCategories()
+{
+    const response = await fetch (`/api/categories`, {
+        "method": "get",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "cache": "default"
+    });
+    if (response.ok) {
+        const categories = await response.json();
+        return categories;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }    
+}
