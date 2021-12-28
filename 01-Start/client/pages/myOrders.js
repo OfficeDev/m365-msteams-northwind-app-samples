@@ -1,9 +1,6 @@
 import {
     getLoggedInEmployee
 } from '../northwindIdentity/identityService.js';
-import {
-    getOrdersForEmployee
-} from '../modules/northwindDataService.js';
 
 async function displayUI() {
 
@@ -19,8 +16,7 @@ async function displayUI() {
                 <h3>Orders for ${employee.displayName}<h3>
             `;
 
-            const orders = await getOrdersForEmployee(employee.id);
-            orders.forEach(order => {
+            employee.orders.forEach(order => {
                 const orderRow = document.createElement('tr');
                 orderRow.innerHTML = `<tr>
                 <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
@@ -37,6 +33,5 @@ async function displayUI() {
         messageDiv.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
-
 
 displayUI();

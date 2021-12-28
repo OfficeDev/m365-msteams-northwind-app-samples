@@ -35,6 +35,7 @@ export async function getEmployee(employeeId) {
         });
     const employeeProfile = await response.json();
 
+    result.id = employeeProfile.id;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
     result.mail = `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`;
     result.photo = employeeProfile.Photo.substring(104); // Trim Northwind-specific junk

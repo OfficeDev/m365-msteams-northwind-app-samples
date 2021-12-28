@@ -9,9 +9,7 @@ export async function getLoggedinEmployeeId() {
     return null;
 }
 
-let cached_employee = null;
 export async function setLoggedinEmployeeId(employeeId) {
-    cached_employee = null;
     document.cookie = `employeeId=${employeeId};path=/`;
 }
 
@@ -47,10 +45,6 @@ export async function getLoggedInEmployee() {
         return null;
     }
 
-    if (cached_employee && cached_employee.id === employeeId) {
-        return cached_employee;
-    }
-
     const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
         "method": "get",
         "headers": {
@@ -60,7 +54,6 @@ export async function getLoggedInEmployee() {
     });
     if (response.ok) {
         const employee = await response.json();
-        employee.id = employeeId;
         return employee;
     } else {
         const error = await response.json();

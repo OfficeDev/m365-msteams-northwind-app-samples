@@ -27,26 +27,3 @@ export async function validateEmployeeLogin(username, password) {
     }
 }
 
-export async function getEmployeeProfile(employeeId) {
-
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Employees(${employeeId})`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const employeeProfile = await response.json();
-
-    return {
-        displayName: `${employeeProfile.FirstName} ${employeeProfile.LastName}`,
-        mail: `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`,
-        photo: employeeProfile.Photo.substring(104), // Trim Northwind-specific junk
-        jobTitle: employeeProfile.Title,
-        city: `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`
-    }
-
-}
-

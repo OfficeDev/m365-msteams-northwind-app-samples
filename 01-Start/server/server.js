@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from 'dotenv';
 
 import {
-  getEmployeeProfile,
   validateEmployeeLogin
 } from './northwindIdentityService.js';
 import {
