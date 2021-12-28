@@ -12,17 +12,20 @@
 
     <h2>Northwind Login</h2>
     <br />
-    <label>Username: </label>
-    <input type="text" id="username" />
-    <br /><br />
-    <label>Password: </label>
-    <input type="password" id="password" />
-    <br /><br />
-    <button id="loginButton">Log in</button>
-    <br /><br />
-    <div class="hint">
-        <p>Hint: This is just a mock login service. You can log in with any of these usernames. The password is not checked.</p>
-        <ul id="hintList"></ul>
+    <div id="loginPanel">
+        <label>Username: </label>
+        <input type="text" id="username" />
+        <br /><br />
+        <label>Password: </label>
+        <input type="password" id="password" />
+        <br /><br />
+        <button id="loginButton">Log in</button>
+        <br /><br />
+        <div class="hint">
+            <p>Hint: This is just a mock login service. You can log in with any of these usernames. The password is not
+                checked.</p>
+            <ul id="hintList"></ul>
+        </div>
     </div>
     <div id="message" class="errorMessage"></div>
 
