@@ -1,3 +1,5 @@
+import { getEmployee } from '../modules/northwindDataService.js';
+
 export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');
     for (const c of cookies) {
@@ -41,25 +43,8 @@ export async function getLoggedInEmployee() {
 
     const employeeId = await getLoggedinEmployeeId();
 
-    if (!employeeId) {
-        return null;
-    }
+    return await getEmployee(employeeId);
 
-    const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
-        "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "cache": "default"
-    });
-    if (response.ok) {
-        const employee = await response.json();
-        return employee;
-    } else {
-        const error = await response.json();
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
 }
 
 export async function logoff() {

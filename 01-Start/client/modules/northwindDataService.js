@@ -17,6 +17,30 @@ export async function getAllEmployees()
     }
 }
 
+// Get the employee profile from our web service
+export async function getEmployee(employeeId) {
+
+    if (!employeeId) {
+        return null;
+    }
+
+    const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
+        "method": "get",
+        "headers": {
+            "content-type": "application/json"
+        },
+        "cache": "default"
+    });
+    if (response.ok) {
+        const employee = await response.json();
+        return employee;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
+}
+
 export async function getOrder(orderId)
 {
     const response = await fetch (`/api/order?orderId=${orderId}`, {
