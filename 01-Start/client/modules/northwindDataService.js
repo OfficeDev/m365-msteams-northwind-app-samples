@@ -1,4 +1,4 @@
-export async function getAllEmployees()
+export async function getEmployees()
 {
     const response = await fetch ("/api/employees", {
         "method": "get",

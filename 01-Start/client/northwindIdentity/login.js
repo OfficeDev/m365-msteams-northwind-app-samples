@@ -3,7 +3,7 @@ import {
    setLoggedinEmployeeId
 } from './identityService.js';
 import {
-   getAllEmployees
+   getEmployees
 } from '../modules/northwindDataService.js';
 
 const usernameInput = document.getElementById('username');
@@ -27,7 +27,7 @@ loginButton.addEventListener('click', async ev => {
 });
 
 const hintUL = document.getElementById('hintList');
-const employees = await getAllEmployees();
+const employees = await getEmployees();
 
 employees.forEach(employee => {
    const employeeListItem = document.createElement('li');
