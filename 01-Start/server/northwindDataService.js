@@ -218,7 +218,7 @@ export async function getCategory(categoryId) {
 const productCache = {};
 export async function getProduct(productId) {
     
-    // if (productCache[productId]) return productCache[productId];
+    if (productCache[productId]) return productCache[productId];
     
     const result = {};
 
