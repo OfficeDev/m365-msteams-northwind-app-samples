@@ -4,7 +4,7 @@ import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 const employeesCache = {};
 export async function getAllEmployees() {
 
-    if (employeesCache.value) return employeeCache.value;
+    if (employeesCache.value) return employeesCache.value;
 
     const response = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Employees/?$select=EmployeeID,FirstName,LastName`,
