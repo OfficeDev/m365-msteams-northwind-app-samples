@@ -5,6 +5,8 @@ import {
 import {
    getEmployees
 } from '../northwindData/dataService.js';
+import { inTeams } from '../msTeams/teamsHelpers.js';
+import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 
 const loginPanel = document.getElementById('loginPanel');
 const usernameInput = document.getElementById('username');
@@ -28,7 +30,11 @@ if (window.location !== window.parent.location) {
       );
       if (employeeId) {
          setLoggedinEmployeeId(employeeId);
-         window.location.href = document.referrer;
+         if (await inTeams()) {
+            microsoftTeams.authentication.notifySuccess(employeeId);
+         } else {
+            window.location.href = document.referrer;
+         }
       } else {
          messageDiv.innerText = "Error: user not found";
       }

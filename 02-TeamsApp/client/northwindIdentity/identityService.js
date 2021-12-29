@@ -56,7 +56,7 @@ export async function logoff() {
     if (!(await inTeams())) {
         window.location.href = "/northwindIdentity/login.html";
     } else {
-        window.location.href = "/northwindIdentity/teamsLogin.html";
+        window.location.href = "/northwindIdentity/teamsLoginLauncher.html";
     }
 }
 
