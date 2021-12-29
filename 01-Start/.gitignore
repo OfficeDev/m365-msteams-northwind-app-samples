@@ -1,6 +1,6 @@
 node_modules
 package-lock.json
 .env
-mainfest/manifest.json
+*/manifest.json
 manifest/*.zip
 
