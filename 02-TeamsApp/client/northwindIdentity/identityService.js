@@ -1,3 +1,4 @@
+import { inTeams } from '../msTeams/teamsHelpers.js';
 import { getEmployee } from '../northwindData/dataService.js';
 
 export async function getLoggedinEmployeeId() {
@@ -49,10 +50,13 @@ export async function getLoggedInEmployee() {
 
 export async function logoff() {
     setLoggedinEmployeeId(0);
+
     // Redirect to the login page
-    if (window.parent === window.self) {
+    // if (window.parent === window.self) {
+    if (!(await inTeams())) {
         window.location.href = "/northwindIdentity/login.html";
     } else {
         window.location.href = "/northwindIdentity/teamsLogin.html";
     }
 }
+

@@ -1,3 +1,5 @@
+import { inTeams } from '../msTeams/teamsHelpers.js';
+
 const topNavLinks = [
     { "text": "Home", "url": "/index.html" },
     { "text": "My Orders", "url": "/pages/myOrders.html" },
@@ -8,7 +10,7 @@ export class topNavPanel extends HTMLElement {
 
     async connectedCallback() {
 
-        if (window.self === window.parent) {
+        if (!(await inTeams())) {
             let listItemHtml = "";
             topNavLinks.forEach(link => {
                 if (window.location.href.indexOf(link.url) < 0) {
