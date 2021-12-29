@@ -11,8 +11,7 @@ class northwindUserPanel extends HTMLElement {
 
         if (!employee) {
 
-            // If here, nobody is logged in - redirect to the login page
-            window.location.href = "/northwindIdentity/login.html";
+            logoff();
 
         } else {
 
@@ -25,14 +24,11 @@ class northwindUserPanel extends HTMLElement {
             </div>
             `;
 
+            const logoutButton = document.getElementById('logout');
+            logoutButton.addEventListener('click', async ev => {
+                logoff();
+            });
         }
-
-        const logoutButton = document.getElementById('logout');
-        logoutButton.addEventListener('click', async ev => {
-            logoff();
-            window.location.href = "/northwindIdentity/login.html";
-        });
-        
     }
 }
 

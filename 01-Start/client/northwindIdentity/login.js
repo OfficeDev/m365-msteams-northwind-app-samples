@@ -11,6 +11,7 @@ const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const loginButton = document.getElementById('loginButton');
 const messageDiv = document.getElementById('message');
+const hintUL = document.getElementById('hintList');
 
 if (window.location !== window.parent.location) {
    // The page is in an iframe - refuse service
@@ -33,13 +34,14 @@ if (window.location !== window.parent.location) {
       }
    });
 
-   const hintUL = document.getElementById('hintList');
-   const employees = await getEmployees();
+   (async () => {
+      const employees = await getEmployees();
 
-   employees.forEach(employee => {
-      const employeeListItem = document.createElement('li');
-      employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
-      hintUL.appendChild(employeeListItem);
-   });
+      employees.forEach(employee => {
+         const employeeListItem = document.createElement('li');
+         employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
+         hintUL.appendChild(employeeListItem);
+      });
+   })();
 
 }

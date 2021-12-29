@@ -12,7 +12,7 @@ export async function getLoggedinEmployeeId() {
 }
 
 export async function setLoggedinEmployeeId(employeeId) {
-    document.cookie = `employeeId=${employeeId};path=/`;
+    document.cookie = `employeeId=${employeeId};SameSite=None;Secure;path=/`;
 }
 
 export async function validateEmployeeLogin(surname, password) {
@@ -49,4 +49,5 @@ export async function getLoggedInEmployee() {
 
 export async function logoff() {
     setLoggedinEmployeeId(0);
+    window.location.href = "/northwindIdentity/login.html";
 }

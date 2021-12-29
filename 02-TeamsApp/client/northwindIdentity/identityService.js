@@ -12,7 +12,7 @@ export async function getLoggedinEmployeeId() {
 }
 
 export async function setLoggedinEmployeeId(employeeId) {
-    document.cookie = `employeeId=${employeeId};path=/`;
+    document.cookie = `employeeId=${employeeId};SameSite=None;Secure;path=/`;
 }
 
 export async function validateEmployeeLogin(surname, password) {
@@ -49,4 +49,10 @@ export async function getLoggedInEmployee() {
 
 export async function logoff() {
     setLoggedinEmployeeId(0);
+    // Redirect to the login page
+    if (window.parent === window.self) {
+        window.location.href = "/northwindIdentity/login.html";
+    } else {
+        window.location.href = "/northwindIdentity/teamsLogin.html";
+    }
 }
