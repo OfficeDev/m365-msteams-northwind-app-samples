@@ -28,7 +28,7 @@ if (window.location !== window.parent.location) {
       );
       if (employeeId) {
          setLoggedinEmployeeId(employeeId);
-         window.location.href = "/";
+         window.location.href = document.referrer;
       } else {
          messageDiv.innerText = "Error: user not found";
       }

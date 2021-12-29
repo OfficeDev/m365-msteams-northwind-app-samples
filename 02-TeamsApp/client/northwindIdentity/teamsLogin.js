@@ -21,15 +21,14 @@ microsoftTeams.initialize(() => {
    if (window.location !== window.parent.location) {
 
       // The page is in an Iframe - assume we're in a Teams IFrame
-
       teamsLoginLauncher.style.display = 'inline';
       teamsLoginLauncherButton.addEventListener('click', async ev => {
          microsoftTeams.authentication.authenticate({
             url: `${window.location.origin}/northwindIdentity/teamsLogin.html`,
             width: 600,
             height: 535,
-            successCallback: (url) => {
-               window.location.href = url;
+            successCallback: (response) => {
+               window.location.href = document.referrer;
             },
             failureCallback: (reason) => {
                throw `Error in teams.authentication.authenticate: ${reason}`
