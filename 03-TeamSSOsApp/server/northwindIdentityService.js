@@ -1,7 +1,6 @@
 import fetch from 'node-fetch';
 import {
-    NORTHWIND_ODATA_SERVICE,
-    EMAIL_DOMAIN
+    NORTHWIND_ODATA_SERVICE
 } from './constants.js';
 
 // Mock identity service based on Northwind employees
