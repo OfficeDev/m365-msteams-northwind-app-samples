@@ -1,4 +1,4 @@
-import { getEmployee } from '../northwindData/dataService.js';
+import { getEmployee } from '../modules/northwindDataService.js';
 
 export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');

@@ -1,6 +1,6 @@
 import {
     getProduct
-} from '../northwindData/dataService.js';
+} from '../modules/northwindDataService.js';
 
 async function displayUI() {
 

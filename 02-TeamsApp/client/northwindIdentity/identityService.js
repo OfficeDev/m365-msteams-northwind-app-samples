@@ -1,5 +1,5 @@
-import { inTeams } from '../msTeams/teamsHelpers.js';
-import { getEmployee } from '../northwindData/dataService.js';
+import { inTeams } from '../modules/teamsHelpers.js';
+import { getEmployee } from '../modules/northwindDataService.js';
 
 export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');

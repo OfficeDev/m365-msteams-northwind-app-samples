@@ -4,8 +4,8 @@ import {
 } from './identityService.js';
 import {
    getEmployees
-} from '../northwindData/dataService.js';
-import { inTeams } from '../msTeams/teamsHelpers.js';
+} from '../modules/northwindDataService.js';
+import { inTeams } from '../modules/teamsHelpers.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 
 const loginPanel = document.getElementById('loginPanel');
