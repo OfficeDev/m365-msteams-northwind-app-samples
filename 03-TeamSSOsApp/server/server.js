@@ -35,6 +35,21 @@ app.post('/api/validateEmployeeLogin', async (req, res) => {
 
 });
 
+// Web service validates an Azure AD login
+app.post('/api/validateAadLogin', async (req, res) => {
+
+  try {
+    const authToken = req.body.authToken;
+    res.send(JSON.stringify({ "employeeId" : 1 }));
+  }
+  catch (error) {
+      console.log(`Error in /api/validateAadLogin handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
+
 // Web service returns a list of employees
 app.get('/api/employees', async (req, res) => {
 
@@ -127,6 +142,7 @@ app.get('/modules/env.js', (req, res) => {
   res.contentType("application/javascript");
   res.send(`
     export const env = {
+      CLIENT_ID: ${process.env.CLIENT_ID};
     };
   `);
 });
