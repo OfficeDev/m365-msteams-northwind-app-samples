@@ -12,6 +12,7 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
+import aad from 'azure-ad-jwt';
 
 dotenv.config();
 const app = express();
@@ -39,8 +40,16 @@ app.post('/api/validateEmployeeLogin', async (req, res) => {
 app.post('/api/validateAadLogin', async (req, res) => {
 
   try {
-    const authToken = req.body.authToken;
-    res.send(JSON.stringify({ "employeeId" : 1 }));
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    aad.verify(token, { audience: audience }, (err, result) => {
+      if (result) {
+        res.send(JSON.stringify({ "employeeId" : 1 }));
+      } else {
+        res.status(401).send('Invalid token');
+      }
+    });
   }
   catch (error) {
       console.log(`Error in /api/validateAadLogin handling: ${error}`);

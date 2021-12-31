@@ -13,6 +13,7 @@
   "author": "M365 cloud advocates",
   "license": "MIT",
   "dependencies": {
+    "azure-ad-jwt": "^1.1.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "node-fetch": "^3.0.0",
