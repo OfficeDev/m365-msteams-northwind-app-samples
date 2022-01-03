@@ -36,6 +36,10 @@ app.post('/api/validateEmployeeLogin', async (req, res) => {
 
 });
 
+// AAD to Northwind identity mapping is stored here.
+// In a real app, this would be stored in the database
+// or somewhere persistent.
+const idMap = [];
 // Web service validates an Azure AD login
 app.post('/api/validateAadLogin', async (req, res) => {
 
@@ -45,7 +49,17 @@ app.post('/api/validateAadLogin', async (req, res) => {
 
     aad.verify(token, { audience: audience }, (err, result) => {
       if (result) {
-        res.send(JSON.stringify({ "employeeId" : 1 }));
+        const aadUserId = result.oid;
+        let northwindEmployeeId;
+        if (!req.body.employeeId) {
+          // If here, client needs an employee ID, try to map it
+          northwindEmployeeId = idMap[aadUserId];
+        } else {
+          // If here, client is providing an employee ID, add to mapping
+          northwindEmployeeId = req.body.employeeId;
+          idMap[aadUserId] = northwindEmployeeId;
+        }
+        res.send(JSON.stringify({ "employeeId" : northwindEmployeeId }));
       } else {
         res.status(401).send('Invalid token');
       }
