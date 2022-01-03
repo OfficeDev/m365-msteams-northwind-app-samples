@@ -51,7 +51,7 @@ microsoftTeams.initialize(async () => {
                         }),
                         "cache": "no-cache"
                     });
-                    setLoggedinEmployeeId(data.employeeId);
+                    setLoggedinEmployeeId(employeeId);
                     window.location.href = document.referrer;
                    },
                    failureCallback: (reason) => {
