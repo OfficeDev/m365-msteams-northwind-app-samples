@@ -5,8 +5,9 @@ Changes:
 1. Register an app (I used the Teams SSO video app as-is) and add the client ID to .env file
    
 2. Update Teams app packaging
-  - You should be able to just use npm run package. This will add the webApplicationInfo to
-    the manifest and bump the revision number
+  - Add webApplicationInfo in the manifest and bump the revision number
+  - If you grab the new files in the manifest folder, you should be able to just rerun 
+    npm run package. This will add the webApplicationInfo to the manifest and bump the revision number
   - Update the app in Teams
 
 3. Add Azure AD SSO with identity mapping
