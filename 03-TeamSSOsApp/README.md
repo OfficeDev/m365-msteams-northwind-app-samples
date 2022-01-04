@@ -1,21 +1,22 @@
-# 02 - Teams App
+# 03 - Teams SSO
 
 Changes:
 
-1. Add Teams app packaging
-  - add manifest folder and contents
-  - modify package.json
-  - add TEAMS_APP_ID and HOSTNAME to the .env file
+1. Register an app (I used the Teams SSO video app as-is) and add the client ID to .env file
+   
+2. Update Teams app packaging
+  - You should be able to just use npm run package. This will add the webApplicationInfo to
+    the manifest and bump the revision number
+  - Update the app in Teams
 
-Now the app should appear in Teams but you can't log in because you're in an IFrame!
+3. Add Azure AD SSO with identity mapping
+  - Add aadLogin.html and aadLogin.js
+  - Update identityService.js to redirect to aadLogin.html instead of teamsLoginLauncher.html
+  - npm install azure-ad-jwt
+  - Modify server\server.js to add validateAadLogin method
 
-2. Add Teams login page
-  - add teamsHelpers.js
-  - add teamsLoginLauncher.html and teamsLoginLauncher.js
-  - modify the logoff() method in identityService.js to redirect to teamsLoginLauncher when running in an IFrame
-  - modify login.js to call notifySuccess rather than do a redirect if in Teams
+Now it should use AAD login. First time a new user logs in, it will request they log into the
+Northwind service to "link" their account to the AAD account. Since the mapping is stored in
+memory (a simple array) the linkages will be lost whenever the server restarts (good for
+testing!)
 
-Now you can log in! Walk through the differences between login.js and teamsLogin.js.
-However the navigation is duplicated between Teams and the app so,
-
-3. Modify navigation.js to only show when not in an IFrame
