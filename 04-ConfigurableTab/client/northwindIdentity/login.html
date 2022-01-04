@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Northwind Login Page</title>
+    <link rel="stylesheet" href="/northwind.css" />
+    <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+</head>
+
+<body>
+
+    <h2>Northwind Login</h2>
+    <br />
+    <div id="loginPanel" style="display: none;">
+        <label>Username: </label>
+        <input type="text" id="username" />
+        <br /><br />
+        <label>Password: </label>
+        <input type="password" id="password" />
+        <br /><br />
+        <button id="loginButton">Log in</button>
+        <br /><br />
+        <div class="hint">
+            <p>Hint: This is just a mock login service. You can log in with any of these usernames. The password is not
+                checked.</p>
+            <ul id="hintList"></ul>
+        </div>
+    </div>
+    <div id="message" class="errorMessage"></div>
+
+    <script type="module" src="login.js"></script>
+
+</body>
+
+</html>
