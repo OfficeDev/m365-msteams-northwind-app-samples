@@ -16,8 +16,26 @@ async function displayUI() {
         microsoftTeams.initialize(async () => {
 
             const employee = 1; // await getLoggedInEmployee();
+            let selectedCategoryId = 0;
+            let selectedCategoryName = '';
+
             if (employee) {
 
+                // Set up the save handler for when they save the config
+                microsoftTeams.settings.registerOnSaveHandler((saveEvent) => {
+
+                    const url = `${window.location.origin}/pages/categoryDetail.html?categoryId=${selectedCategoryId}`;
+                    const entityId = `ProductCategory ${selectedCategoryId}`;
+                    microsoftTeams.settings.setSettings({
+                      "suggestedDisplayName": selectedCategoryName,
+                      "entityId": entityId,
+                      "contentUrl": url,
+                      "websiteUrl": url
+                    });
+                    saveEvent.notifySuccess();
+                   });
+
+                // Populate the dropdown so they can choose a config
                 const categories = await getCategories();
                 categories.forEach((category) => {
                     const option = document.createElement('option');
@@ -25,7 +43,11 @@ async function displayUI() {
                     option.innerText = category.displayName;
                     categorySelect.appendChild(option);
                 });
-                categorySelect.addEventListener('change', () => {
+
+                // When a category is selected, it's OK to save
+                categorySelect.addEventListener('change', (ev) => {
+                    selectedCategoryName = ev.target.options[ev.target.selectedIndex].innerText;
+                    selectedCategoryId = ev.target.value;
                     microsoftTeams.settings.setValidityState(true);
                 });
             }
