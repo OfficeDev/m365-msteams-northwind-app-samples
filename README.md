@@ -16,6 +16,13 @@ This hands-on experience will lead developers through the steps needed to take a
 
 7. Add a Teams store landing page
 
+MORE STUFF TO PUT IN THERE SOMEWHERE
+
+ - Debugging your Teams app
+ - Caching and optimization
+ - Call the Graph - to initiate a chat??
+ - Task Module
+ 
 
 
 
