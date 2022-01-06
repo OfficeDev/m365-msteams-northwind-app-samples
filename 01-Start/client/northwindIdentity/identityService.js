@@ -4,7 +4,7 @@ export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');
     for (const c of cookies) {
         const [name, value] = c.split('=');
-        if (name === 'employeeId') {
+        if (name.trim() === 'employeeId') {
             return Number(value);
         }
     }
@@ -49,5 +49,6 @@ export async function getLoggedInEmployee() {
 
 export async function logoff() {
     setLoggedinEmployeeId(0);
+    // Redirect to the login page
     window.location.href = "/northwindIdentity/login.html";
 }

@@ -36,7 +36,7 @@ microsoftTeams.initialize(async () => {
             // If here, AAD user logged in but there was no mapping. Get one now.
             teamsLoginLauncherButton.addEventListener('click', async ev => {
                 microsoftTeams.authentication.authenticate({
-                   url: `${window.location.origin}/northwindIdentity/login.html`,
+                   url: `${window.location.origin}/northwindIdentity/login.html?teams=true`,
                    width: 600,
                    height: 535,
                    successCallback: async (employeeId) => {

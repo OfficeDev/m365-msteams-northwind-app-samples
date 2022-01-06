@@ -21,7 +21,14 @@ if (window.location !== window.parent.location) {
 } else {
 
    loginPanel.style.display = 'inline';
-   loginButton.addEventListener('click', async ev => {
+   loginButton.addEventListener('click', logInUser);
+   loginPanel.addEventListener('keypress', async function (e) {
+      if (e.key === 'Enter') {
+        await logInUser();
+      }
+   });
+   
+   async function logInUser (ev) {
 
       messageDiv.innerText = "";
       const employeeId = await validateEmployeeLogin(
@@ -31,14 +38,16 @@ if (window.location !== window.parent.location) {
       if (employeeId) {
          setLoggedinEmployeeId(employeeId);
          if (await inTeams()) {
-            microsoftTeams.authentication.notifySuccess(employeeId);
+            microsoftTeams.initialize(() => {
+               microsoftTeams.authentication.notifySuccess(employeeId);
+            });
          } else {
             window.location.href = document.referrer;
          }
       } else {
          messageDiv.innerText = "Error: user not found";
       }
-   });
+   }
 
    (async () => {
       const employees = await getEmployees();
