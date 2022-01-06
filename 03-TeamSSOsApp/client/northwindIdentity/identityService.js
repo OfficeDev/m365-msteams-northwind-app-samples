@@ -5,7 +5,7 @@ export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');
     for (const c of cookies) {
         const [name, value] = c.split('=');
-        if (name === 'employeeId') {
+        if (name.trim() === 'employeeId') {
             return Number(value);
         }
     }
@@ -54,9 +54,9 @@ export async function logoff() {
     // Redirect to the login page
     // if (window.parent === window.self) {
     if (!(await inTeams())) {
-        window.location.href = "/northwindIdentity/login.html";
+        window.location.href = "/northwindIdentity/login.html?teams=true";
     } else {
-        window.location.href = "/northwindIdentity/aadLogin.html";
+        window.location.href = "/northwindIdentity/aadLogin.html?teams=true";
         // window.location.href = "/northwindIdentity/teamsLoginLauncher.html";
     }
 }
