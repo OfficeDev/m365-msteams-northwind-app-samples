@@ -21,7 +21,14 @@ if (window.location !== window.parent.location) {
 } else {
 
    loginPanel.style.display = 'inline';
-   loginButton.addEventListener('click', async ev => {
+   loginButton.addEventListener('click', logInUser);
+   loginPanel.addEventListener('keypress', async function (e) {
+      if (e.key === 'Enter') {
+        await logInUser();
+      }
+   });
+   
+   async function logInUser (ev) {
 
       messageDiv.innerText = "";
       const employeeId = await validateEmployeeLogin(
@@ -40,7 +47,7 @@ if (window.location !== window.parent.location) {
       } else {
          messageDiv.innerText = "Error: user not found";
       }
-   });
+   }
 
    (async () => {
       const employees = await getEmployees();
