@@ -10,6 +10,8 @@ This hands-on experience will lead developers through the steps needed to take a
 
 4. Add a configuration page - Teams channel tab
 
+?. Add Teams look and feel (??) - and maybe reflect Light/Dark theme from Teams?
+
 5. Add a simple messaging extension w/an adaptive card action
 
 6. Add a simple bot
