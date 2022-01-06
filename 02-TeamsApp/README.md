@@ -20,4 +20,4 @@ Now the app should appear in Teams but you can't log in because you're in an IFr
 Now you can log in! Walk through the differences between login.js and teamsLogin.js.
 However the navigation is duplicated between Teams and the app so,
 
-3. Modify navigation.js to only show when not in an IFrame
+3. Modify navigation.js to only show when not in Teams
