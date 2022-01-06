@@ -57,7 +57,6 @@ export async function logoff() {
         window.location.href = "/northwindIdentity/login.html?teams=true";
     } else {
         window.location.href = "/northwindIdentity/aadLogin.html?teams=true";
-        // window.location.href = "/northwindIdentity/teamsLoginLauncher.html";
     }
 }
 

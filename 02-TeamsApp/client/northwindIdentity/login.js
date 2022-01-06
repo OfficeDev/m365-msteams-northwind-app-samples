@@ -31,7 +31,9 @@ if (window.location !== window.parent.location) {
       if (employeeId) {
          setLoggedinEmployeeId(employeeId);
          if (await inTeams()) {
-            microsoftTeams.authentication.notifySuccess(employeeId);
+            microsoftTeams.initialize(() => {
+               microsoftTeams.authentication.notifySuccess(employeeId);
+            });
          } else {
             window.location.href = document.referrer;
          }
