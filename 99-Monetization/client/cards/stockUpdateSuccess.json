@@ -1,0 +1,59 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.4",
+    "refresh": {
+      "userIds": [],
+      "action": {
+        "type": "Action.Execute",
+        "verb": "refresh",
+        "title": "Refresh",
+        "data": {
+          "pdtId": "${productId}",
+          "pdtName":"${productName}"
+        }
+      }
+    },
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 2,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${productName}",
+                            "weight": "Bolder",
+                            "size": "ExtraLarge",
+                            "spacing": "None"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "Existing stock",
+                          "wrap": true
+                      },
+                        {
+                            "type": "TextBlock",
+                            "text": "${unitsInStock}",
+                            "isSubtle": true,
+                            "spacing": "None"
+                        }
+
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 1,
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "https://i.picsum.photos/id/966/536/354.jpg?hmac=8CPbrft0MblwgX2pVYzXml6oxK7BsBTBbAFil0_VLHQ"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+  } 
