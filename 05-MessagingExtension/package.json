@@ -13,14 +13,15 @@
   "author": "M365 cloud advocates",
   "license": "MIT",
   "dependencies": {
+    "adaptive-expressions": "^4.15.0",
+    "adaptivecards": "^2.10.0",
+    "adaptivecards-templating": "^2.2.0",
     "azure-ad-jwt": "^1.1.0",
+    "botbuilder": "^4.15.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "node-fetch": "^3.0.0",
-    "request": "^2.88.0", 
-    "adaptivecards": "^2.10.0",
-    "adaptivecards-templating": "^2.2.0",
-    "botbuilder": "^4.15.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
