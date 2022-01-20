@@ -2,6 +2,7 @@ import {
     getLoggedInEmployee,
     logoff
 } from './identityService.js';
+import { hasValidLicense } from '../modules/northwindLicensing.js';
 
 class northwindUserPanel extends HTMLElement {
 
@@ -14,6 +15,10 @@ class northwindUserPanel extends HTMLElement {
             logoff();
 
         } else {
+
+            if (!await hasValidLicense()) {
+                window.location.href = '/pages/needLicense.html';
+            }
 
             this.innerHTML = `<div class="userPanel">
                 <img src="data:image/bmp;base64,${employee.photo}"></img>

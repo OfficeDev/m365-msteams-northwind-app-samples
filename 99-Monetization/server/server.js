@@ -74,6 +74,30 @@ app.post('/api/validateAadLogin', async (req, res) => {
 });
 
 
+// Web service validates a user's license
+app.post('/api/validateLicense', async (req, res) => {
+
+  try {
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    aad.verify(token, { audience: audience }, (err, result) => {
+      if (result) {
+        const aadUserId = result.oid;
+        let hasLicense = false;  // <-- Call the real licensing service here
+        res.send(JSON.stringify({ "validLicense" : hasLicense }));
+      } else {
+        res.status(401).send('Invalid token');
+      }
+    });
+  }
+  catch (error) {
+      console.log(`Error in /api/validateAadLogin handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
 // Web service returns a list of employees
 app.get('/api/employees', async (req, res) => {
 
