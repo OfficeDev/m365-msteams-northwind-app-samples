@@ -15,6 +15,8 @@ import {
 import aad from 'azure-ad-jwt';
 import {StockManagerBot} from '../client/bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
+import { validateLicense } from './northwindLicenseService.js';
+
 dotenv.config();
 const app = express();
 
@@ -78,18 +80,15 @@ app.post('/api/validateAadLogin', async (req, res) => {
 app.post('/api/validateLicense', async (req, res) => {
 
   try {
-    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     const token = req.headers['authorization'].split(' ')[1];
 
-    aad.verify(token, { audience: audience }, (err, result) => {
-      if (result) {
-        const aadUserId = result.oid;
-        let hasLicense = false;  // <-- Call the real licensing service here
-        res.send(JSON.stringify({ "validLicense" : hasLicense }));
-      } else {
-        res.status(401).send('Invalid token');
-      }
-    });
+    try {
+      let hasLicense = await validateLicense(token);
+      res.send(JSON.stringify({ "validLicense" : hasLicense }));
+    }
+    catch (error) {
+      res.status(error.status).send(error.message);
+    }
   }
   catch (error) {
       console.log(`Error in /api/validateAadLogin handling: ${error}`);

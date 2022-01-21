@@ -1,11 +1,15 @@
-# 04 - Configurable Tabs
+# 99 - Monetization
 
 Changes:
 
-1. Add Tab configuration page tabConfig.html, tabConfig.js
+1. Install projects from MonetizationCodeSample into Azure and register in AAD:
+   - AppSourceMockWebApp
+   - SaaSOfferMockData
+   - SaaSSampleWebApi
+   - SaaSSampleWebApp
 
-2. Update manifest
-  - Update manifest.template.json to include configurable tab and bump version #
-  - Rebuild the app package (npm run package)
+2. Add GUID and scope (api://) pf tje SaaSSampleWebApi to .env file
 
-3. Upload to a Team or Group Conversation, choose a category
+3. Expose the Teams app ID (from step 03-TeamSSOsApp) to the Web SaaSSampleWebApi app registration and authorize the scope
+
+4. 
