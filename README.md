@@ -20,10 +20,14 @@ This hands-on experience will lead developers through the steps needed to take a
 
 MORE STUFF TO PUT IN THERE SOMEWHERE
 
+ - Meetings - Rob sez people are asking for this
  - Debugging your Teams app
  - Caching and optimization
- - Call the Graph - to initiate a chat??
+ - Call the Graph - to initiate a chat?? - Barnam's idea to click an order and it opens a chat speaking w/the employee who took it, with the order in context (doable?)
  - Task Module
+ - Take an order - then send an approval to someone via a proactive message
+ (How to store and retrieve the conversation ID ??)
+ - Deep Linking!! (Jack Lewis)
  
 
 
