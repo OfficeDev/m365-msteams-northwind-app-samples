@@ -28,7 +28,7 @@ export async function validateLicense(thisAppAccessToken) {
                 if (licensingResponse.ok) {
                     const licensingData = await licensingResponse.json();
                     console.log(licensingData.reason);
-                    resolve(licensingData.status === 'Success');
+                    resolve(licensingData);
                 } else {
                     reject(`Error ${licensingData.status} from licensing service: ${licensingData.statusText}`);
                 }

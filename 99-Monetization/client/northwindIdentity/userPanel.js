@@ -15,9 +15,11 @@ class northwindUserPanel extends HTMLElement {
             logoff();
 
         } else {
-
-            if (!await hasValidLicense()) {
-                window.location.href = '/pages/needLicense.html';
+            const validLicense=await hasValidLicense();  
+            if(!validLicense)   
+            window.location.href =`/pages/needLicense.html`;
+            if (validLicense.status && validLicense.status.toString().toLowerCase()==="failure") {
+                 window.location.href =`/pages/needLicense.html?error=${validLicense.reason}`;
             }
 
             this.innerHTML = `<div class="userPanel">

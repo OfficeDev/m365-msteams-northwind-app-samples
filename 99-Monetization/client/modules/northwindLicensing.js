@@ -21,10 +21,11 @@ export async function hasValidLicense() {
         },
         "cache": "no-cache"
     });
+   
     if (response.ok) {
 
         const data = await response.json();
-        return data?.validLicense;
+        return data.validLicense;
 
     } else {
 
