@@ -94,9 +94,11 @@ export class StockManagerBot extends TeamsActivityHandler {
                                     const data=request.action.data;
                                     updateProductUnitStock(data.categoryId,data.pdtId,data.txtStock);
                                     var template = new ACData.Template(successCard);
-      
+                                    const imageGenerator = Math.floor((data.pdtId / 1) % 10);           
+                                    const imgUrl=`https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
                                     var card = template.expand({
                                         $root: { productName:data.pdtName, unitsInStock: data.txtStock ,
+                                            imageUrl:imgUrl
                                             }
                                     });
                                     var responseBody= { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: card }
