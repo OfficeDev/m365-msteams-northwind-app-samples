@@ -56,7 +56,7 @@
   "showLoadingIndicator": false,
   "composeExtensions": [
     {
-      "botId": "<MicrosoftAppId>",
+      "botId": "<BOT_REG_AAD_APP_ID>",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -84,7 +84,7 @@
   ],
   "bots": [
     {
-      "botId": "<MicrosoftAppId>",
+      "botId": "<BOT_REG_AAD_APP_ID>",
       "scopes": [ "personal", "team", "groupchat" ],
       "isNotificationOnly": false,
       "supportsFiles": false

@@ -76,7 +76,7 @@
                     "items": [
                         {
                             "type": "Image",
-                            "url": "https://i.picsum.photos/id/966/536/354.jpg?hmac=8CPbrft0MblwgX2pVYzXml6oxK7BsBTBbAFil0_VLHQ"
+                            "url": "${imageUrl}"
                         }
                     ]
                 }

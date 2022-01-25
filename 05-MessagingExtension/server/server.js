@@ -167,6 +167,7 @@ app.get('/modules/env.js', (req, res) => {
   res.send(`
     export const env = {
       CLIENT_ID: ${process.env.CLIENT_ID};
+      HOSTNAME : ${process.env.HOSTNAME}
     };
   `);
 });
@@ -179,8 +180,8 @@ app.use(express.static('client'));
 // Main dialog.
 const stockManagerBot = new StockManagerBot();
 const adapter = new BotFrameworkAdapter({
-  appId: process.env.MicrosoftAppId,
-  appPassword:process.env.MicrosoftAppPassword
+  appId: process.env.BOT_REG_AAD_APP_ID,
+  appPassword:process.env.BOT_REG_AAD_APP_PASSWORD
 });
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
