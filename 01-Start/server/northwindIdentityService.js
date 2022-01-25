@@ -7,7 +7,6 @@ import {
 
 const anonPaths = ['/employees', '/validateEmployeeLogin']
 export async function validateApiRequest(req, res, next) {
-    console.log('Here');
     try {
         if (anonPaths.includes(req.path)) {
             console.log(`Skipped authentication on /api${req.path}`);
