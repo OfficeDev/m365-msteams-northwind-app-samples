@@ -2,11 +2,13 @@ import { TeamsActivityHandler, CardFactory } from 'botbuilder';
 import { getProductByName,updateProductUnitStock} from '../server/northwindDataService.js';
 import * as ACData from "adaptivecards-templating";
 import * as AdaptiveCards from "adaptivecards";
+
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdtCardPayload =require('../client/cards/productCard.json');
 const successCard=require('../client/cards/stockUpdateSuccess.json');
 const errorCard=require('../client/cards/errorCard.json')
+
 export class StockManagerBot extends TeamsActivityHandler {
     constructor() {
         super();
@@ -16,7 +18,7 @@ export class StockManagerBot extends TeamsActivityHandler {
             await next();
         });
     }
-    //on search on ME
+        //on search on ME
     async handleTeamsMessagingExtensionQuery(context, query){
         const { name, value } = query.parameters[0];
         if (name !== 'productName') {
@@ -29,6 +31,7 @@ export class StockManagerBot extends TeamsActivityHandler {
         for (const pdt of products) {
             const heroCard = CardFactory.heroCard(pdt.productName);
             const preview = CardFactory.heroCard(pdt.productName);
+            
             preview.content.tap = { type: 'invoke', value: { productName: pdt.productName,
                 productId:pdt.productId, unitsInStock:pdt.unitsInStock ,categoryId:pdt.categoryId} };
             const attachment = { ...heroCard, preview };
@@ -46,14 +49,18 @@ export class StockManagerBot extends TeamsActivityHandler {
         return result;
 
     }
+
+
     //on preview tap of search items list
     async handleTeamsMessagingExtensionSelectItem(context, pdt) {        
        const preview = CardFactory.thumbnailCard(pdt.productName); 
         var template = new ACData.Template(pdtCardPayload);
-      
+        const imageGenerator = Math.floor((pdt.productId / 1) % 10);           
+        const imgUrl=`https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
+        
         var card = template.expand({
             $root: { productName:pdt.productName, unitsInStock: pdt.unitsInStock ,
-                productId:pdt.productId,categoryId:pdt.categoryId}
+                productId:pdt.productId,categoryId:pdt.categoryId,imageUrl:imgUrl}
         });
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
         adaptiveCard.parse(card);
@@ -142,7 +149,7 @@ export class StockManagerBot extends TeamsActivityHandler {
     createInvokeResponse(body) {
         return { status: 200, body };
     }
-   
+  
 }
     
     

@@ -50,10 +50,11 @@ export class StockManagerBot extends TeamsActivityHandler {
     async handleTeamsMessagingExtensionSelectItem(context, pdt) {        
        const preview = CardFactory.thumbnailCard(pdt.productName); 
         var template = new ACData.Template(pdtCardPayload);
-      
+        const imageGenerator = Math.floor((pdt.productId / 1) % 10);           
+        const imgUrl=`https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
         var card = template.expand({
             $root: { productName:pdt.productName, unitsInStock: pdt.unitsInStock ,
-                productId:pdt.productId,categoryId:pdt.categoryId}
+                productId:pdt.productId,categoryId:pdt.categoryId,imageUrl:imgUrl}
         });
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
         adaptiveCard.parse(card);
