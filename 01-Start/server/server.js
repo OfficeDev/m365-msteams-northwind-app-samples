@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 import {
+  validateApiRequest,
   validateEmployeeLogin
 } from './northwindIdentityService.js';
 import {
@@ -18,6 +20,9 @@ const app = express();
 
 // JSON middleware is needed if you want to parse request bodies
 app.use(express.json());
+app.use(cookieParser());
+
+app.use('/api/', validateApiRequest);
 
 // Web service validates a user login
 app.post('/api/validateEmployeeLogin', async (req, res) => {
