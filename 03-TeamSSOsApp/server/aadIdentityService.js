@@ -1,5 +1,12 @@
 import aad from 'azure-ad-jwt';
+import * as msal from '@azure/msal-node';
+import dotenv from 'dotenv';
+import fetch from 'node-fetch';
+
 import { validateEmployeeLogin } from './northwindIdentityService.js';
+import e from 'express';
+
+dotenv.config();
 
 // validateAndMapAadLogin() - Returns an employee ID of the logged in user based
 // on an existing mapping OR the username/password passed from a client login.
@@ -52,14 +59,50 @@ export async function validateAndMapAadLogin(req, res) {
     }
 }
 
+const config = {
+    auth: {
+        authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET
+    }
+};
+const msalClientApp = new msal.ConfidentialClientApplication(config);
+const msalRequest = {
+    scopes: ["https://graph.microsoft.com/.default"]
+}
 
-
-// AAD to Northwind identity mapping is stored here.
-// TODO: Store this in the AAD user profile
-const idMap = [];
-
+const idMap = [];   // TODO: Make this go away
 async function getEmployeeIdForUser(aadUserId, aadToken) {
-    return idMap[aadUserId];
+
+    let employeeId;
+    try {
+        console.log(aadUserId);
+        const msalResponse =
+            await msalClientApp.acquireTokenByClientCredential(msalRequest);
+        console.log(msalResponse.accessToken);
+
+        const graphResponse = await fetch(
+            `https://graph.microsoft.com/v1.0/users/${aadUserId}?$select=employeeId`,
+            {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${msalResponse.accessToken}`
+                }
+            });
+        if (graphResponse.ok) {
+            const employeeProfile = await graphResponse.json();
+            employeeId = employeeProfile.employeeId;
+        } else {
+            console.log(`Error ${graphResponse.status} calling Graph in getEmployeeIdForUser: ${graphResponse.statusText}`);
+        }
+
+    }
+    catch (error) {
+        console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
+    }
+    return employeeId; // idMap[aadUserId];
 }
 
 async function setEmployeeIdForUser(aadUserId, employeeId) {
