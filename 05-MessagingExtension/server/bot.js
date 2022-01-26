@@ -5,8 +5,8 @@ import * as AdaptiveCards from "adaptivecards";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const pdtCardPayload =require('./cards/productCard.json');
-const successCard=require('./cards/client/cards/stockUpdateSuccess.json');
-const errorCard=require('./cards/client/cards/errorCard.json')
+const successCard=require('./cards/stockUpdateSuccess.json');
+const errorCard=require('./cards/errorCard.json')
 export class StockManagerBot extends TeamsActivityHandler {
     constructor() {
         super();
