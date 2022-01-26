@@ -5,7 +5,7 @@ import {
 
 // Mock identity service based on Northwind employees
 
-const anonPaths = ['/employees', '/validateEmployeeLogin']
+const anonPaths = ['/employees', '/validateEmployeeLogin', '/validateAadLogin']
 export async function validateApiRequest(req, res, next) {
     try {
         if (anonPaths.includes(req.path)) {

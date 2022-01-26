@@ -39,7 +39,11 @@ if (window.location !== window.parent.location) {
          setLoggedinEmployeeId(employeeId);
          if (await inTeams()) {
             microsoftTeams.initialize(() => {
-               microsoftTeams.authentication.notifySuccess(employeeId);
+               microsoftTeams.authentication.notifySuccess({
+                  username: usernameInput.value,
+                  password: passwordInput.value,
+                  employeeId: employeeId
+               });
             });
          } else {
             window.location.href = document.referrer;

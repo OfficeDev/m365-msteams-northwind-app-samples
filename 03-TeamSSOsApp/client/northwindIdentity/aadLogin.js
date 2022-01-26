@@ -9,13 +9,13 @@ const teamsLoginLauncherButton = document.getElementById('teamsLoginLauncherButt
 microsoftTeams.initialize(async () => {
 
     const authToken = await new Promise((resolve, reject) => {
-            microsoftTeams.authentication.getAuthToken({
-                successCallback: (result) => { resolve (result); },
-                failureCallback: (error) => { reject (error); }
-            });
+        microsoftTeams.authentication.getAuthToken({
+            successCallback: (result) => { resolve(result); },
+            failureCallback: (error) => { reject(error); }
+        });
     });
 
-    const response = await fetch (`/api/validateAadLogin`, {
+    const response = await fetch(`/api/validateAadLogin`, {
         "method": "post",
         "headers": {
             "content-type": "application/json",
@@ -32,37 +32,39 @@ microsoftTeams.initialize(async () => {
             // If here, AAD user was mapped to a Northwind employee ID
             setLoggedinEmployeeId(data.employeeId);
             window.location.href = document.referrer;
-        } else {
-            // If here, AAD user logged in but there was no mapping. Get one now.
-            teamsLoginLauncherButton.addEventListener('click', async ev => {
-                microsoftTeams.authentication.authenticate({
-                   url: `${window.location.origin}/northwindIdentity/login.html?teams=true`,
-                   width: 600,
-                   height: 535,
-                   successCallback: async (employeeId) => {
-                    const response = await fetch (`/api/validateAadLogin`, {
+        }
+    } else if (response.status === 404) {
+
+        // If here, AAD user logged in but there was no mapping to an employee ID. Get one now.
+        teamsLoginLauncherButton.addEventListener('click', async ev => {
+            microsoftTeams.authentication.authenticate({
+                url: `${window.location.origin}/northwindIdentity/login.html?teams=true`,
+                width: 600,
+                height: 535,
+                successCallback: async (northwindCredentials) => {
+                    const response = await fetch(`/api/validateAadLogin`, {
                         "method": "post",
                         "headers": {
                             "content-type": "application/json",
                             "authorization": `Bearer ${authToken}`
                         },
                         "body": JSON.stringify({
-                            "employeeId": employeeId
+                            "username": northwindCredentials.username,
+                            "password": northwindCredentials.password
                         }),
                         "cache": "no-cache"
                     });
-                    setLoggedinEmployeeId(employeeId);
+                    setLoggedinEmployeeId(northwindCredentials.employeeId);
                     window.location.href = document.referrer;
-                   },
-                   failureCallback: (reason) => {
-                      throw `Error in teams.authentication.authenticate: ${reason}`
-                   }
-                });
-             }); 
-            teamsLoginLauncher.style.display = "inline";
-        }
+                },
+                failureCallback: (reason) => {
+                    throw `Error in teams.authentication.authenticate: ${reason}`
+                }
+            });
+        });
+        teamsLoginLauncher.style.display = "inline";
+
     } else {
-        const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`Error ${response.status} on /api/validateAadLogin: ${response.statusText}`);
     }
 });
