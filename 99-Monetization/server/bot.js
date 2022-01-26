@@ -1,12 +1,12 @@
 import { TeamsActivityHandler, CardFactory } from 'botbuilder';
-import { getProductByName,updateProductUnitStock} from '../server/northwindDataService.js';
+import { getProductByName,updateProductUnitStock} from './northwindDataService.js';
 import * as ACData from "adaptivecards-templating";
 import * as AdaptiveCards from "adaptivecards";
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-const pdtCardPayload =require('../client/cards/productCard.json');
-const successCard=require('../client/cards/stockUpdateSuccess.json');
-const errorCard=require('../client/cards/errorCard.json')
+const pdtCardPayload =require('./cards/productCard.json');
+const successCard=require('./cards/stockUpdateSuccess.json');
+const errorCard=require('./cards/errorCard.json')
 export class StockManagerBot extends TeamsActivityHandler {
     constructor() {
         super();
