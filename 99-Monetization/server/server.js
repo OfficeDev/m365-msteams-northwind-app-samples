@@ -13,7 +13,7 @@ import {
   getProduct
 } from './northwindDataService.js';
 import aad from 'azure-ad-jwt';
-import {StockManagerBot} from '../client/bot.js';
+import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
 import { validateLicense } from './northwindLicenseService.js';
 
