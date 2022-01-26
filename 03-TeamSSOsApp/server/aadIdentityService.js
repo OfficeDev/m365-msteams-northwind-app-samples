@@ -22,7 +22,7 @@ export async function validateAndMapAadLogin(req, res) {
 
     if (aadUserId) {
         // If here, user is logged into Azure AD
-        let employeeId = getEmployeeIdForUser(aadUserId);
+        let employeeId = await getEmployeeIdForUser(aadUserId);
         if (employeeId) {
             // We found the employee ID for the AAD user
             return employeeId;
@@ -36,7 +36,7 @@ export async function validateAndMapAadLogin(req, res) {
                 // If here, user is logged into both Azure AD and the legacy
                 // authentication. Save the employee ID in the user's AAD
                 // profile for future use.
-                setEmployeeIdForUser(aadUserId, employeeId);
+                await setEmployeeIdForUser(aadUserId, employeeId);
                 return employeeId;
             } else {
                 // If here, the employee login failed; throw an exception
@@ -58,10 +58,10 @@ export async function validateAndMapAadLogin(req, res) {
 // TODO: Store this in the AAD user profile
 const idMap = [];
 
-function getEmployeeIdForUser(aadUserId, aadToken) {
+async function getEmployeeIdForUser(aadUserId, aadToken) {
     return idMap[aadUserId];
 }
 
-function setEmployeeIdForUser(aadUserId, employeeId) {
+async function setEmployeeIdForUser(aadUserId, employeeId) {
     idMap[aadUserId] = employeeId;
 }
