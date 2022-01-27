@@ -2,6 +2,7 @@ import {
     getLoggedInEmployee,
     logoff
 } from './identityClient.js';
+import { inTeams } from '../modules/teamsHelpers.js';
 import { hasValidLicense } from '../modules/northwindLicensing.js';
 
 class northwindUserPanel extends HTMLElement {
@@ -16,7 +17,7 @@ class northwindUserPanel extends HTMLElement {
 
         } else {
 
-            if (!await hasValidLicense()) {
+            if (await inTeams() && !await hasValidLicense()) {
                 window.location.href = '/pages/needLicense.html';
             }
 
