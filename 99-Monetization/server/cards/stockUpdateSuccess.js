@@ -1,3 +1,4 @@
+export default
 {
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "type": "AdaptiveCard",
@@ -69,15 +70,8 @@
                             "text": "${unitsInStock}",
                             "isSubtle": true,
                             "spacing": "None"
-                        },
-                        {
-                            "type": "Input.Text",
-                            "id": "txtStock",
-                            "label": "New stock count",
-                            "regex": "^(0|[1-9]\\d*)$",
-                            "errorMessage": "Invalid input, use whole positive number",
-                            "style": "tel"
                         }
+                       
                     ]
                 },
                 {
@@ -95,18 +89,7 @@
             ]
         }
     ],
-    "actions": [
-        {
-            "type": "Action.Execute",
-            "title": "Update stock",
-            "verb": "ok",
-            "data": {
-                "pdtId": "${productId}",
-                "pdtName": "${productName}",
-                "categoryId": "${categoryId}"
-            },
-            "style": "positive"
-        },
+    "actions": [       
         {
             "type": "Action.OpenUrl",
             "title": "Chat with dealers",
