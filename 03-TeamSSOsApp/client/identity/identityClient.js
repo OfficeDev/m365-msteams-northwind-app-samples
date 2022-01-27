@@ -1,5 +1,5 @@
-import { inTeams } from '../modules/teamsHelpers.js';
 import { getEmployee } from '../modules/northwindDataService.js';
+import { inTeams } from '../modules/teamsHelpers.js';
 
 export async function getLoggedinEmployeeId() {
     const cookies = document.cookie.split(';');
@@ -20,9 +20,7 @@ export async function validateEmployeeLogin(surname, password) {
 
     const response = await fetch (`/api/validateEmployeeLogin`, {
         "method": "post",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAnon(),
         "body": JSON.stringify({
             "username": surname,
             "password": password
@@ -60,3 +58,16 @@ export async function logoff() {
     }
 }
 
+// Headers for use in Fetch (HTTP) requests when calling anonymous web services
+// in the server side of this app.
+export async function getFetchHeadersAnon() {
+    return ({ "content-type": "application/json" });
+}
+
+// Headers for use in Fetch (HTTP) requests when calling authenticated web services
+// in the server side of this app. Authentication is sent in a cookie, so no
+// additional headers are required.
+// Other implementations of this module may insert an Authorization header here
+export async function getFetchHeadersAuth() {
+    return ({ "content-type": "application/json" });
+}
