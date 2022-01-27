@@ -1,9 +1,10 @@
 import aad from 'azure-ad-jwt';
 import fetch from 'node-fetch';
 
-
-export async function getGraphUserDetails(teamsAccessToken) {
-
+const userCache = {}
+export async function getGraphUserDetails(teamsAccessToken,userId) {
+    if (userCache[userId]) return userCache[userId];
+    const graphResult = {};
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     return new Promise((resolve, reject) => {
 
@@ -11,7 +12,7 @@ export async function getGraphUserDetails(teamsAccessToken) {
             if (result) {
                 const graphAppAccessToken = await getGraphOboAccessToken(teamsAccessToken);
                
-                const graphAppUrl = `https://graph.microsoft.com/beta/users/?$filter=employeeId eq '1'`
+                const graphAppUrl = `https://graph.microsoft.com/beta/users/?$filter=employeeId eq '${userId}'`
 
                 const graphResponse = await fetch(graphAppUrl, {
                     method: "GET",
@@ -22,11 +23,34 @@ export async function getGraphUserDetails(teamsAccessToken) {
                     }
                 });
                 if (graphResponse.ok) {
-                    const graphData = await graphResponse.json();                    
-                    resolve(graphData.value[0]);
+                    const graphData = await graphResponse.json();  
+                    graphResult.mail=graphData.value[0].mail;
+                    graphResult.displayName=graphData.value[0].displayName; 
+                    const graphAppUrl2 = `https://graph.microsoft.com/beta/users/${graphData.value[0].mail}/manager`
+
+                    const graphResponse2 = await fetch(graphAppUrl2, {
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "Authorization" :`Bearer ${graphAppAccessToken}`
+                        }
+                    });
+                    if (graphResponse.ok) {
+                    const managerInfo = await graphResponse2.json(); 
+                    graphResult.managerMail=managerInfo.mail;
+                    graphResult.managerDisplayName=managerInfo.displayName;   
+                    }else {
+                        reject(`Error in graph manager of user obo`);
+                    }
+                    userCache[userId] = graphResult;              
+                    resolve(graphResult);
                 } else {
                     reject(`Error in graph obo`);
                 }
+
+
+
             } else {
                 reject("Error in getGraphUserDetails(): Invalid client access token");
             }
@@ -34,6 +58,7 @@ export async function getGraphUserDetails(teamsAccessToken) {
     });
 
 }
+
 
 // TODO: Combine with Graph exercise which will need OBO flow
 // TODO: Add caching?

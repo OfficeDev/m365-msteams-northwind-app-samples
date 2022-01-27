@@ -5,11 +5,12 @@ import {
     getGraphUserDetails
 } from '../modules/msgraphService.js'
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-import templatePayload from '../modules/card.js'
+import templatePayload from '../modules/orderChatCard.js'
 let orderId="0";
 let card="";
 let customerContact="";
-let mail="";
+let salesRepdetails={};
+
 async function displayUI() {
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
@@ -20,9 +21,10 @@ async function displayUI() {
         if (searchParams.has('orderId')) {
               orderId = searchParams.get('orderId');
 
-            const order = await getOrder(orderId);            
-            const userData=await getGraphUserDetails();
-            mail=userData.mail;
+            const order = await getOrder(orderId);    
+            //graph call to get AAD mapped employee details        
+            salesRepdetails=await getGraphUserDetails(order.employeeId);            
+            
             customerContact=`${order.contactName}(${order.contactTitle})`;
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>
@@ -55,15 +57,17 @@ async function displayUI() {
                 fallbackUrl: null,
                 completionBotId: null,
             };
-            console.log(mail)
+            console.log(salesRepdetails)
             //todo: not using AC templating due to an issue : Error Cannot read properties of undefined (reading 'AEL')
             card=JSON.stringify(templatePayload).replaceAll('${orderId}',orderId)
-            .replaceAll("${contact}",customerContact).replaceAll("${user}",mail);          
+            .replaceAll("${contact}",customerContact).replaceAll("${salesRepEmail}",salesRepdetails.mail)
+            .replaceAll("${salesRepManagerEmail}",salesRepdetails.managerMail)
+            .replaceAll("${salesRepName}",salesRepdetails.displayName)   
+            .replaceAll("${salesRepManagerName}",salesRepdetails.managerDisplayName);   
             taskInfo.card = JSON.parse(card);
             taskInfo.title = "chat";
             taskInfo.height = 310;
-            taskInfo.width = 430;
-         
+            taskInfo.width = 430;         
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
     });

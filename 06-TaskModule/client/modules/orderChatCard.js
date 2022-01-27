@@ -27,10 +27,21 @@ export default
                             "horizontalAlignment": "left",
                             "isSubtle": true,
                             "wrap": true
-                        }                
-                        
-                       
-                    ]
+                        },
+                        {
+                            "type": "FactSet",
+                            "facts": [
+                              {
+                                "title": "Sales rep:",
+                                "value": "${salesRepName}"
+                              },
+                              {
+                                "title": "Sales rep manager:",
+                                "value": "${salesRepManagerName}"
+                              } 
+                                     ]
+                            }
+                        ]
                 }
             ]
         }
@@ -40,9 +51,9 @@ export default
        
         {
             "type": "Action.OpenUrl",
-            "title": "Chat with dealers",
+            "title": "Chat with sales rep team",
             "id": "chatWithUser",
-            "url": "https://teams.microsoft.com/l/chat/0/0?users=${user}&message=Enquiry%20initiated&topicName=Enquire%20about%20Order%20${orderId}%20stock"
+            "url": "https://teams.microsoft.com/l/chat/0/0?users=${salesRepEmail},${salesRepManagerEmail}&message=Enquiry%20initiated&topicName=Enquire%20about%20Order%20${orderId}%20"
         }
     ]
 }
