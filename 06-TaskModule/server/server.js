@@ -220,7 +220,8 @@ app.get('/api/getGraphUserDetails', async (req, res) => {
     const token = req.headers['authorization'].split(' ')[1];
 
     try {
-      let data = await getGraphUserDetails(token);
+      const userId = req.query.userId;
+      let data = await getGraphUserDetails(token,userId);
       res.send(data);
     }
     catch (error) {

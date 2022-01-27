@@ -1,5 +1,5 @@
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-export async function getGraphUserDetails() {
+export async function getGraphUserDetails(userId) {
 
     await new Promise((resolve, reject) => {
         microsoftTeams.initialize(() => { resolve(); });
@@ -12,7 +12,7 @@ export async function getGraphUserDetails() {
         });
     });
 
-    const response = await fetch(`/api/getGraphUserDetails`, {
+    const response = await fetch(`/api/getGraphUserDetails?userId=${userId}`, {
         "method": "get",
         "headers": {
             "content-type": "application/json",
