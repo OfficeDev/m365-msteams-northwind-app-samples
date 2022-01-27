@@ -7,7 +7,6 @@ import {
   validateEmployeeLogin
 } from './northwindIdentityService.js';
 import {
-  getAllEmployees,
   getEmployee,
   getOrder,
   getCategories,
@@ -87,19 +86,6 @@ app.post('/api/validateLicense', async (req, res) => {
 
 });
 
-// Web service returns a list of employees
-app.get('/api/employees', async (req, res) => {
-
-  try {
-    const employees = await getAllEmployees();
-    res.send(employees);
-  }
-  catch (error) {
-      console.log(`Error in /api/employees handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
 
 // Web service returns an employee's profile
 app.get('/api/employee', async (req, res) => {

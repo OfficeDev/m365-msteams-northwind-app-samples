@@ -2,9 +2,6 @@ import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
 } from './identityClient.js';
-import {
-   getEmployees
-} from '../modules/northwindDataService.js';
 import { inTeams } from '../modules/teamsHelpers.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 
@@ -52,15 +49,4 @@ if (window.location !== window.parent.location) {
          messageDiv.innerText = "Error: user not found";
       }
    }
-
-   (async () => {
-      const employees = await getEmployees();
-
-      employees.forEach(employee => {
-         const employeeListItem = document.createElement('li');
-         employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
-         hintUL.appendChild(employeeListItem);
-      });
-   })();
-
 }

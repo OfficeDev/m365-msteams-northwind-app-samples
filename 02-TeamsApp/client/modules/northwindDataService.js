@@ -1,22 +1,3 @@
-export async function getEmployees()
-{
-    const response = await fetch ("/api/employees", {
-        "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "cache": "default"
-    });
-    if (response.ok) {
-        const employees = await response.json();
-        return employees;
-    } else {
-        const error = await response.json();
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
-}
-
 // Get the employee profile from our web service
 export async function getEmployee(employeeId) {
 

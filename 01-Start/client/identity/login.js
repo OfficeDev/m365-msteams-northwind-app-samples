@@ -2,9 +2,6 @@ import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
 } from './identityClient.js';
-import {
-   getEmployees
-} from '../modules/northwindDataService.js';
 
 const loginPanel = document.getElementById('loginPanel');
 const usernameInput = document.getElementById('username');
@@ -40,15 +37,4 @@ if (window.location !== window.parent.location) {
          messageDiv.innerText = "Error: user not found";
       }
    }
-
-   (async () => {
-      const employees = await getEmployees();
-
-      employees.forEach(employee => {
-         const employeeListItem = document.createElement('li');
-         employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
-         hintUL.appendChild(employeeListItem);
-      });
-   })();
-
 }
