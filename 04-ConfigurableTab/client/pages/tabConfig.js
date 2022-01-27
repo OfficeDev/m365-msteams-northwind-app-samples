@@ -1,7 +1,7 @@
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 import {
     getLoggedInEmployee
-} from '../northwindIdentity/identityService.js';
+} from '../identity/identityClient.js';
 
 import {
     getCategories
@@ -18,7 +18,7 @@ async function displayUI() {
             const employee = await getLoggedInEmployee();
             if (!employee) {
                 // Nobody was logged in, redirect to login page
-                window.location.href = "/northwindIdentity/aadLogin.html";
+                window.location.href = "/identity/aadLogin.html";
             }
             let selectedCategoryId = 0;
             let selectedCategoryName = '';
