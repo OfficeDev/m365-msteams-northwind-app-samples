@@ -3,9 +3,8 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import {
-  validateApiRequest,
-  validateEmployeeLogin
-} from './northwindIdentityService.js';
+  initializeIdentityService
+} from './identityService.js';
 import {
   getEmployee,
   getOrder,
@@ -21,23 +20,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/', validateApiRequest);
-
-// Web service validates a user login
-app.post('/api/validateEmployeeLogin', async (req, res) => {
-
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const employeeId = await validateEmployeeLogin(username, password);
-    res.send(JSON.stringify({ "employeeId" : employeeId }));
-  }
-  catch (error) {
-      console.log(`Error in /api/validateEmployeeLogin handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
+// Allow the identity service to set up its middleware
+await initializeIdentityService(app);
 
 // Web service returns an employee's profile
 app.get('/api/employee', async (req, res) => {

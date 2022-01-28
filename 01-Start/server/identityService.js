@@ -1,17 +1,37 @@
 import fetch from 'node-fetch';
-import {
-    NORTHWIND_ODATA_SERVICE
-} from './constants.js';
+import { NORTHWIND_ODATA_SERVICE } from './constants.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Mock identity service based on Northwind employees
 
-const anonPaths = ['/employees', '/validateEmployeeLogin', '/validateAadLogin']
-export async function validateApiRequest(req, res, next) {
+// Wire up middleware
+export async function initializeIdentityService(app) {
+
+    // Web service validates a user login
+    app.post('/api/validateEmployeeLogin', async (req, res) => {
+
+        try {
+            const username = req.body.username;
+            const password = req.body.password;
+            const employeeId = await validateEmployeeLogin(username, password);
+            res.send(JSON.stringify({ "employeeId": employeeId }));
+        }
+        catch (error) {
+            console.log(`Error in /api/validateEmployeeLogin handling: ${error}`);
+            res.status(500).json({ status: 500, statusText: error });
+        }
+
+    });
+
+    // Middleware to validate all other API requests
+    app.use('/api/', validateApiRequest);
+
+}
+
+async function validateApiRequest(req, res, next) {
     try {
-        if (anonPaths.includes(req.path)) {
-            console.log(`Skipped authentication on /api${req.path}`);
-            next();
-        } else if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+        if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
             console.log(`Validated authentication on /api${req.path}`);
             next();
         } else {
@@ -24,7 +44,7 @@ export async function validateApiRequest(req, res, next) {
     }
 }
 
-export async function validateEmployeeLogin(username, password) {
+async function validateEmployeeLogin(username, password) {
 
     // For simplicity, the username is the employee's surname,
     // and the password is ignored
