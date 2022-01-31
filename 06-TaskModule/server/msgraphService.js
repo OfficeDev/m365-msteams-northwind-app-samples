@@ -12,7 +12,7 @@ export async function getGraphUserDetails(teamsAccessToken,userId) {
             if (result) {
                 const graphAppAccessToken = await getGraphOboAccessToken(teamsAccessToken);
                
-                const graphAppUrl = `https://graph.microsoft.com/beta/users/?$filter=employeeId eq '${userId}'`
+                const graphAppUrl = `https://graph.microsoft.com/v1.0/users/?$filter=employeeId eq '${userId}'`
 
                 const graphResponse = await fetch(graphAppUrl, {
                     method: "GET",
@@ -26,7 +26,7 @@ export async function getGraphUserDetails(teamsAccessToken,userId) {
                     const graphData = await graphResponse.json();  
                     graphResult.mail=graphData.value[0].mail;
                     graphResult.displayName=graphData.value[0].displayName; 
-                    const graphAppUrl2 = `https://graph.microsoft.com/beta/users/${graphData.value[0].mail}/manager`
+                    const graphAppUrl2 = `https://graph.microsoft.com/v1.0/users/${graphData.value[0].mail}/manager`
 
                     const graphResponse2 = await fetch(graphAppUrl2, {
                         method: "GET",
