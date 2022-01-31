@@ -1,14 +1,70 @@
+// User profiles are stored in the Northwind database
 import { getEmployee } from '../modules/northwindDataService.js';
+import * as msal from 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
+import { env } from '/modules/env.js';
+
+// interface IIdentityClient {
+//     async getLoggedinEmployeeId(): number;
+//     async setLoggedinEmployeeId(employeeId: number): void;
+//     async validateEmployeeLogin(surname: string, password: string): Number;
+//     async getLoggedInEmployee(): IEmployee;
+//     async Logoff(): void                    // Redirects and does not return
+//     async getFetchHeadersAnon(): string;    // headers for calling Fetch anonymously
+//     async getFetchHeadersAuth(): string;    // headers for calling Fetch with authentication
+// }
+
+const msalConfig = {
+    auth: {
+        clientId: env.CLIENT_ID,
+        authority: `https://login.microsoftonline.com/${env.TENANT_ID}`,
+        redirectUri: `https://${env.HOSTNAME}`
+    },
+    cache: {
+        cacheLocation: "sessionStorage", // This configures where your cache will be stored
+        storeAuthStateInCookie: false    // Set this to "true" if you are having issues on IE11 or Edge
+    }
+};
+
+// MSAL request object to use over and over
+const msalRequest = {
+    scopes: ["user.read"]
+}
+
+const msalClient = new msal.PublicClientApplication(msalConfig);
 
 export async function getLoggedinEmployeeId() {
-    const cookies = document.cookie.split(';');
-    for (const c of cookies) {
-        const [name, value] = c.split('=');
-        if (name.trim() === 'employeeId') {
-            return Number(value);
+
+    // If we were waiting for a redirect with an auth code, handle it here
+    await msalClient.handleRedirectPromise();
+
+    // try {
+    //     await msalClient.ssoSilent(msalRequest);
+    // } catch (error) {
+    //     await msalClient.loginRedirect(msalRequest);
+    // }
+
+    let accessToken;
+    try {
+        tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
+        accessToken = tokenResponse.accessToken;
+        console.log (accessToken);
+    } catch (error) {
+        if (error instanceof msal.InteractionRequiredAuthError) {
+            console.warn("Silent token acquisition failed; acquiring token using redirect");
+            this.msalClient.acquireTokenRedirect(this.request);
+        } else {
+            throw (error);
         }
     }
-    return null;
+
+    // const cookies = document.cookie.split(';');
+    // for (const c of cookies) {
+    //     const [name, value] = c.split('=');
+    //     if (name.trim() === 'employeeId') {
+    //         return Number(value);
+    //     }
+    // }
+    // return null;
 }
 
 export async function setLoggedinEmployeeId(employeeId) {
@@ -17,7 +73,7 @@ export async function setLoggedinEmployeeId(employeeId) {
 
 export async function validateEmployeeLogin(surname, password) {
 
-    const response = await fetch (`/api/validateEmployeeLogin`, {
+    const response = await fetch(`/api/validateEmployeeLogin`, {
         "method": "post",
         "headers": await getFetchHeadersAnon(),
         "body": JSON.stringify({
@@ -31,7 +87,7 @@ export async function validateEmployeeLogin(surname, password) {
         return data.employeeId;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
     }
 }
