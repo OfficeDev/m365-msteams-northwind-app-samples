@@ -1,6 +1,6 @@
 // User profiles are stored in the Northwind database
 import { getEmployee } from '../modules/northwindDataService.js';
-import * as msal from 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
+import 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
 import { env } from '/modules/env.js';
 
 // interface IIdentityClient {
@@ -37,15 +37,22 @@ export async function getLoggedinEmployeeId() {
     // If we were waiting for a redirect with an auth code, handle it here
     await msalClient.handleRedirectPromise();
 
-    // try {
-    //     await msalClient.ssoSilent(msalRequest);
-    // } catch (error) {
-    //     await msalClient.loginRedirect(msalRequest);
-    // }
+    try {
+        await msalClient.ssoSilent(msalRequest);
+    } catch (error) {
+        await msalClient.loginRedirect(msalRequest);
+    }
+
+    const accounts = msalClient.getAllAccounts();
+    if (accounts.length === 1) {
+        msalRequest.account = accounts[0];
+    } else {
+        throw ("Error: Too many or no accounts logged in");
+    }
 
     let accessToken;
     try {
-        tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
+        const tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
         accessToken = tokenResponse.accessToken;
         console.log (accessToken);
     } catch (error) {
@@ -57,6 +64,7 @@ export async function getLoggedinEmployeeId() {
         }
     }
 
+    console.log(accessToken);
     // const cookies = document.cookie.split(';');
     // for (const c of cookies) {
     //     const [name, value] = c.split('=');
