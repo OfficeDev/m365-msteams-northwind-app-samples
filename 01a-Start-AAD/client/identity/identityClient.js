@@ -27,7 +27,7 @@ const msalConfig = {
 
 // MSAL request object to use over and over
 const msalRequest = {
-    scopes: ["user.read"]
+    scopes: [`api://${env.HOSTNAME}/${env.CLIENT_ID}/access_as_user`]
 }
 
 const msalClient = new msal.PublicClientApplication(msalConfig);
@@ -64,7 +64,27 @@ export async function getLoggedinEmployeeId() {
         }
     }
 
-    console.log(accessToken);
+    const response = await fetch(`/api/validateAadLogin`, {
+        "method": "post",
+        "headers": {
+            "content-type": "application/json",
+            "authorization": `Bearer ${accessToken}`
+        },
+        "body": JSON.stringify({
+            "employeeId": 0
+        }),
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const data = await response.json();
+        if (data.employeeId) {
+            console.log(`Employee ID ${data.employeeId}`);
+            // If here, AAD user was mapped to a Northwind employee ID
+            // setLoggedinEmployeeId(data.employeeId);
+            // window.location.href = document.referrer;
+        }
+    }
+
     // const cookies = document.cookie.split(';');
     // for (const c of cookies) {
     //     const [name, value] = c.split('=');
