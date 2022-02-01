@@ -32,7 +32,16 @@ const msalRequest = {
 
 const msalClient = new msal.PublicClientApplication(msalConfig);
 
-export async function getLoggedinEmployeeId() {
+let getLoggedInEmployeeIdPromise;        // Cache the promise so we only do the work once on this page
+export function getLoggedinEmployeeId() {
+    if (!getLoggedInEmployeeIdPromise) {
+        getLoggedInEmployeeIdPromise = getLoggedinEmployeeId2();
+    }
+    return getLoggedInEmployeeIdPromise;
+}
+
+// Here we do the work to log the user in and get the employee ID
+async function getLoggedinEmployeeId2() {
 
     // If we were waiting for a redirect with an auth code, handle it here
     await msalClient.handleRedirectPromise();
@@ -54,7 +63,7 @@ export async function getLoggedinEmployeeId() {
     try {
         const tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
         accessToken = tokenResponse.accessToken;
-        console.log (accessToken);
+        console.log(accessToken);
     } catch (error) {
         if (error instanceof msal.InteractionRequiredAuthError) {
             console.warn("Silent token acquisition failed; acquiring token using redirect");
@@ -79,20 +88,9 @@ export async function getLoggedinEmployeeId() {
         const data = await response.json();
         if (data.employeeId) {
             console.log(`Employee ID ${data.employeeId}`);
-            // If here, AAD user was mapped to a Northwind employee ID
-            // setLoggedinEmployeeId(data.employeeId);
-            // window.location.href = document.referrer;
+            return data.employeeId;
         }
     }
-
-    // const cookies = document.cookie.split(';');
-    // for (const c of cookies) {
-    //     const [name, value] = c.split('=');
-    //     if (name.trim() === 'employeeId') {
-    //         return Number(value);
-    //     }
-    // }
-    // return null;
 }
 
 export async function setLoggedinEmployeeId(employeeId) {
