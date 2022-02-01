@@ -1,17 +1,18 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 import {
-  validateEmployeeLogin
-} from './northwindIdentityService.js';
+  initializeIdentityService
+} from './identityService.js';
 import {
-  getAllEmployees,
   getEmployee,
   getOrder,
   getCategories,
   getCategory,
   getProduct
 } from './northwindDataService.js';
+
 import aad from 'azure-ad-jwt';
 import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
@@ -20,73 +21,10 @@ const app = express();
 
 // JSON middleware is needed if you want to parse request bodies
 app.use(express.json());
+app.use(cookieParser());
 
-// Web service validates a user login
-app.post('/api/validateEmployeeLogin', async (req, res) => {
-
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const employeeId = await validateEmployeeLogin(username, password);
-    res.send(JSON.stringify({ "employeeId" : employeeId }));
-  }
-  catch (error) {
-      console.log(`Error in /api/validateEmployeeLogin handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-
-// AAD to Northwind identity mapping is stored here.
-// In a real app, this would be stored in the database
-// or somewhere persistent.
-const idMap = [];
-// Web service validates an Azure AD login
-app.post('/api/validateAadLogin', async (req, res) => {
-
-  try {
-    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
-    const token = req.headers['authorization'].split(' ')[1];
-
-    aad.verify(token, { audience: audience }, (err, result) => {
-      if (result) {
-        const aadUserId = result.oid;
-        let northwindEmployeeId;
-        if (!req.body.employeeId) {
-          // If here, client needs an employee ID, try to map it
-          northwindEmployeeId = idMap[aadUserId];
-        } else {
-          // If here, client is providing an employee ID, add to mapping
-          northwindEmployeeId = req.body.employeeId;
-          idMap[aadUserId] = northwindEmployeeId;
-        }
-        res.send(JSON.stringify({ "employeeId" : northwindEmployeeId }));
-      } else {
-        res.status(401).send('Invalid token');
-      }
-    });
-  }
-  catch (error) {
-      console.log(`Error in /api/validateAadLogin handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-
-
-// Web service returns a list of employees
-app.get('/api/employees', async (req, res) => {
-
-  try {
-    const employees = await getAllEmployees();
-    res.send(employees);
-  }
-  catch (error) {
-      console.log(`Error in /api/employees handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
+// Allow the identity service to set up its middleware
+await initializeIdentityService(app);
 
 // Web service returns an employee's profile
 app.get('/api/employee', async (req, res) => {

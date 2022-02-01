@@ -1,31 +1,6 @@
 import fetch from 'node-fetch';
 import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 
-const employeesCache = {};
-export async function getAllEmployees() {
-
-    if (employeesCache.value) return employeesCache.value;
-
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Employees/?$select=EmployeeID,FirstName,LastName`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-
-    const employees = await response.json();
-    const result = employees.value.map(employee => ({
-        employeeId: employee.EmployeeID,
-        firstName: employee.FirstName,
-        lastName: employee.LastName
-    }));
-    employeesCache.value = result;
-    return result;
-}
-
 const employeeCache = {};
 export async function getEmployee(employeeId) {
 
