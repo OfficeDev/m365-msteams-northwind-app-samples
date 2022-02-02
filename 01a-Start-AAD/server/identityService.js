@@ -32,18 +32,31 @@ export async function initializeIdentityService(app) {
 }
 
 async function validateApiRequest(req, res, next) {
-    try {
-        if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
-            console.log(`Validated authentication on /api${req.path}`);
-            next();
-        } else {
-            console.log(`Invalid authentication on /api${req.path}`);
-            res.status(401).json({ status: 401, statusText: "Access denied" });
-        }
-    }
-    catch (error) {
-        res.status(401).json({ status: 401, statusText: error });
-    }
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    const aadUserId = await new Promise((resolve, reject) => {
+        aad.verify(token, { audience: audience }, async (err, result) => {
+            if (result) {
+                console.log(`Validated authentication on /api${req.path}`);
+                next();
+            } else {
+                console.log(`Invalid authentication on /api${req.path}`);
+                res.status(401).json({ status: 401, statusText: "Access denied" });
+            }
+        });
+    });
+
+    // try {
+    //     if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+    //         console.log(`Validated authentication on /api${req.path}`);
+    //         next();
+    //     } else {
+    //     }
+    // }
+    // catch (error) {
+    //     res.status(401).json({ status: 401, statusText: error });
+    // }
 }
 
 // validateAndMapAadLogin() - Returns an employee ID of the logged in user based
