@@ -6,11 +6,9 @@ import {
 } from '../identity/identityClient.js'
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 import templatePayload from '../modules/orderChatCard.js'
-let orderId="0";
-let card="";
-let customerContact="";
-let salesRepdetails={};
 
+let orderId="0";
+let orderDetails={};
 async function displayUI() {
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
@@ -24,8 +22,15 @@ async function displayUI() {
             const order = await getOrder(orderId);    
             //graph call to get AAD mapped employee details        
             const user=await getAADUserFromEmployeeId(order.employeeId);            
-            salesRepdetails=await getUserDetailsFromAAD(user);
-            customerContact=`${order.contactName}(${order.contactTitle})`;
+            const salesRepdetails=await getUserDetailsFromAAD(user);          
+
+            orderDetails.orderId=orderId?orderId:"";
+            orderDetails.contact=order.contactName&&order.contactTitle?`${order.contactName}(${order.contactTitle})`:"";
+            orderDetails.salesRepEmail=salesRepdetails.mail?salesRepdetails.mail:"";
+            orderDetails.salesRepManagerEmail=salesRepdetails.managerMail?salesRepdetails.managerMail:"";
+            orderDetails.salesRepName=salesRepdetails.displayName?salesRepdetails.displayName:"";
+            orderDetails.salesRepManagerName=salesRepdetails.managerDisplayName?salesRepdetails.managerDisplayName:"";
+
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>
                     <p>Customer: ${order.customerName} <br />
@@ -56,15 +61,13 @@ async function displayUI() {
                 card: null,
                 fallbackUrl: null,
                 completionBotId: null,
-            };
-            console.log(salesRepdetails)
-            //todo: not using AC templating due to an issue : Error Cannot read properties of undefined (reading 'AEL')
-            card=JSON.stringify(templatePayload).replaceAll('${orderId}',orderId)
-            .replaceAll("${contact}",customerContact).replaceAll("${salesRepEmail}",salesRepdetails.mail)
-            .replaceAll("${salesRepManagerEmail}",salesRepdetails.managerMail)
-            .replaceAll("${salesRepName}",salesRepdetails.displayName)   
-            .replaceAll("${salesRepManagerName}",salesRepdetails.managerDisplayName);   
-            taskInfo.card = JSON.parse(card);
+            };         
+
+            var template = new ACData.Template(templatePayload); 
+            // Expand the template with your `$root` data object.
+            // This binds it to the data and produces the final Adaptive Card payload
+            var cardPayload = template.expand({$root: orderDetails});             
+            taskInfo.card = cardPayload;
             taskInfo.title = "chat";
             taskInfo.height = 310;
             taskInfo.width = 430;         
