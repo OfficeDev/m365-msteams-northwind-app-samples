@@ -19,7 +19,9 @@ async function displayUI() {
                     <h1>Order ${order.orderId}</h1>
                     <p>Customer: ${order.customerName}<br />
                     Contact: ${order.contactName}, ${order.contactTitle}<br />
-                    Date: ${new Date(order.orderDate).toDateString()}</p>
+                    Date: ${new Date(order.orderDate).toDateString()}<br />
+                    ${order.employeeTitle}: ${order.employeeName} (${order.employeeId})
+                    </p>
                 `;
 
             order.details.forEach(item => {
