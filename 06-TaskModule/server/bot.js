@@ -103,6 +103,8 @@ export class StockManagerBot extends TeamsActivityHandler {
                                     return this.createInvokeResponse(responseBody);                                 
                                                                       
                                
+                        }else if(request.action.verb==='refresh'){
+                            //refresh card
                         }else{
                             var responseBody= { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: errorCard }
                             return this.createInvokeResponse(responseBody); 

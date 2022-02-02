@@ -53,7 +53,7 @@ export default
             "type": "Action.OpenUrl",
             "title": "Chat with sales rep team",
             "id": "chatWithUser",
-            "url": "https://teams.microsoft.com/l/chat/0/0?users=${salesRepEmail},${salesRepManagerEmail}&message=Enquiry%20initiated&topicName=Enquire%20about%20Order%20${orderId}%20"
+            "url": "https://teams.microsoft.com/l/chat/0/0?users=${salesRepEmail},${salesRepManagerEmail}&message=Questions%20on%20Order%20${orderId}%20&topicName=Enquire%20about%20Order%20${orderId}%20"
         }
     ]
 }

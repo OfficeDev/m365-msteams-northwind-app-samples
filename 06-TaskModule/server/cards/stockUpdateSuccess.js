@@ -88,13 +88,5 @@ export default
                 }
             ]
         }
-    ],
-    "actions": [       
-        {
-            "type": "Action.OpenUrl",
-            "title": "Chat with dealers",
-            "id": "chatWithUser",
-            "url": "https://teams.microsoft.com/l/chat/0/0?users=AdeleV@m365404404.onmicrosoft.com,AlexW@m365404404.onmicrosoft.com&topicName=Enquire%20about%20${productName}%20stock"
-        }
     ]
 }

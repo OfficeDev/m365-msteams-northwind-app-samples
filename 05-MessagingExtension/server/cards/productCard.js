@@ -75,7 +75,8 @@ export default
                             "type": "Input.Text",
                             "id": "txtStock",
                             "label": "New stock count",
-                            "regex": "^(0|[1-9]\\d*)$",
+                            "min": 0,
+                            "max": 9999,
                             "errorMessage": "Invalid input, use whole positive number",
                             "style": "tel"
                         }
@@ -107,12 +108,6 @@ export default
                 "categoryId": "${categoryId}"
             },
             "style": "positive"
-        },
-        {
-            "type": "Action.OpenUrl",
-            "title": "Chat with dealers",
-            "id": "chatWithUser",
-            "url": "https://teams.microsoft.com/l/chat/0/0?users=AdeleV@m365404404.onmicrosoft.com,AlexW@m365404404.onmicrosoft.com&topicName=Enquire%20about%20${productName}%20stock"
         }
     ]
 }
