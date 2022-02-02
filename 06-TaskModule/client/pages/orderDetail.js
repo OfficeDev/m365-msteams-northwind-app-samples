@@ -2,8 +2,8 @@ import {
     getOrder
 } from '../modules/northwindDataService.js';
 import {
-    getGraphUserDetails
-} from '../modules/msgraphService.js'
+    getAADUserFromEmployeeId,getUserDetailsFromAAD
+} from '../identity/identityClient.js'
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 import templatePayload from '../modules/orderChatCard.js'
 let orderId="0";
@@ -23,8 +23,8 @@ async function displayUI() {
 
             const order = await getOrder(orderId);    
             //graph call to get AAD mapped employee details        
-            salesRepdetails=await getGraphUserDetails(order.employeeId);            
-            
+            const user=await getAADUserFromEmployeeId(order.employeeId);            
+            salesRepdetails=await getUserDetailsFromAAD(user);
             customerContact=`${order.contactName}(${order.contactTitle})`;
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>

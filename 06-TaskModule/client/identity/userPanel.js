@@ -1,7 +1,7 @@
 import {
     getLoggedInEmployee,
     logoff
-} from './identityService.js';
+} from './identityClient.js';
 
 class northwindUserPanel extends HTMLElement {
 

@@ -1,10 +1,7 @@
 import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
-} from './identityService.js';
-import {
-   getEmployees
-} from '../modules/northwindDataService.js';
+} from './identityClient.js';
 import { inTeams } from '../modules/teamsHelpers.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 
@@ -15,10 +12,10 @@ const loginButton = document.getElementById('loginButton');
 const messageDiv = document.getElementById('message');
 const hintUL = document.getElementById('hintList');
 
-// if (window.location !== window.parent.location) {
-//    // The page is in an iframe - refuse service
-//    messageDiv.innerText = "ERROR: You cannot run this app in an IFrame";
-// } else {
+if (window.location !== window.parent.location) {
+   // The page is in an iframe - refuse service
+   messageDiv.innerText = "ERROR: You cannot run this app in an IFrame";
+} else {
 
    loginPanel.style.display = 'inline';
    loginButton.addEventListener('click', logInUser);
@@ -39,7 +36,11 @@ const hintUL = document.getElementById('hintList');
          setLoggedinEmployeeId(employeeId);
          if (await inTeams()) {
             microsoftTeams.initialize(() => {
-               microsoftTeams.authentication.notifySuccess(employeeId);
+               microsoftTeams.authentication.notifySuccess({
+                  username: usernameInput.value,
+                  password: passwordInput.value,
+                  employeeId: employeeId
+               });
             });
          } else {
             window.location.href = document.referrer;
@@ -48,15 +49,4 @@ const hintUL = document.getElementById('hintList');
          messageDiv.innerText = "Error: user not found";
       }
    }
-
-   (async () => {
-      const employees = await getEmployees();
-
-      employees.forEach(employee => {
-         const employeeListItem = document.createElement('li');
-         employeeListItem.innerHTML = `<b>${employee.lastName.toLowerCase()}</b> (${employee.firstName} ${employee.lastName})`;
-         hintUL.appendChild(employeeListItem);
-      });
-   })();
-
-//}
+}
