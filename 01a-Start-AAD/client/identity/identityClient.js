@@ -59,7 +59,7 @@ async function getLoggedinEmployeeId2() {
     if (response.ok) {
         const data = await response.json();
         if (data.employeeId) {
-            console.log(`Employee ID ${data.employeeId}`);
+            console.log(`Signed into account with employee ID ${data.employeeId}`);
             return data.employeeId;
         }
     }
@@ -94,7 +94,6 @@ async function getAccessToken2() {
     try {
         const tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
         accessToken = tokenResponse.accessToken;
-        console.log(accessToken);
         return accessToken;
     } catch (error) {
         if (error instanceof msal.InteractionRequiredAuthError) {
