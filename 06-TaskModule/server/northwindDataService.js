@@ -108,9 +108,10 @@ export async function getOrder(orderId) {
     result.customerPostalCode = order.Customer.PostalCode;
     result.customerPhone = order.Customer.Phone;
     result.customerCountry = order.Customer.Country;
+    result.employeeId = order.Employee.EmployeeID;
     result.employeeName = `${order.Employee.FirstName} ${order.Employee.LastName}`;
-    result.employeeId=order.Employee.EmployeeID;
     result.employeeEmail = `${order.Employee.LastName.toLowerCase()}@northwindtraders.com`;
+    result.employeeTitle = `${order.Employee.Title}`;
 
     const response2 = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=OrderID eq ${orderId}&$top=10&$expand=Product,Product/Category,Product/Supplier`,
