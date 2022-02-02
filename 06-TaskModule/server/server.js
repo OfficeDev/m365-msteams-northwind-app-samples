@@ -106,7 +106,7 @@ app.get('/modules/env.js', (req, res) => {
   res.send(`
     export const env = {
       CLIENT_ID: ${process.env.CLIENT_ID};
-      HOSTNAME : ${process.env.HOSTNAME}
+      HOSTNAME: ${process.env.HOSTNAME};
     };
   `);
 });

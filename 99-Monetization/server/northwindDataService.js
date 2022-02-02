@@ -272,20 +272,20 @@ export async function getProductByName(productName) {
     }
     return result;
 }
-export function updateProductUnitStock(categoryId, productId, unitsInStock) {
-    //product cache
-    if (productCache[productId]) {
-        productCache[productId].unitsInStock = unitsInStock;
-    }
-    //category cache
-    if (categoryCache[categoryId]) {
+export async function updateProductUnitStock(categoryId, productId, unitsInStock) {
+    //get cache
+    if (!productCache[productId])  await getProduct(productId);
+    if (!categoryCache[categoryId])  await getCategory(categoryId);
+
+    // update stock in product cache    
+        productCache[productId].unitsInStock = unitsInStock;   
+    //update stock in  category cache   
         let pdts = categoryCache[categoryId].products;
         for (var i = 0; i < pdts.length; ++i) {
             if (pdts[i]['productId'] === productId) {
                 pdts[i]['unitsInStock'] = unitsInStock;
             }
-        }
-    }
-
+        }  
 }
+
 

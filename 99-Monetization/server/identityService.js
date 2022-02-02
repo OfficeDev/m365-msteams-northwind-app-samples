@@ -52,7 +52,8 @@ export async function initializeIdentityService(app) {
 
 async function validateApiRequest(req, res, next) {
     try {
-        if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+        if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
+              || req.path==="/messages") { // todo: added temporarily to avoid SSO in ME/Bot
             console.log(`Validated authentication on /api${req.path}`);
             next();
         } else {
@@ -215,4 +216,79 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
         console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
     }
     return employeeId;
+}
+
+export async function getAADUserFromEmployeeId(employeeId) {
+    let aadUserdata;
+
+    try {
+        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
+        const graphResponse = await fetch(
+            `https://graph.microsoft.com/v1.0/users/?$filter=employeeId eq '${employeeId}'`,
+            {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${msalResponse.accessToken}`
+                }
+            });
+        if (graphResponse.ok) {
+            const userProfile = await graphResponse.json();
+            aadUserdata = userProfile.value[0];
+
+        } else {
+            console.log(`Error ${graphResponse.status} calling Graph in getAADUserFromEmployeeId: ${graphResponse.statusText}`);
+        }
+    }
+    catch (error) {
+        console.log(`Error calling MSAL in getAADUserFromEmployeeId: ${error}`);
+    }
+    return aadUserdata;
+
+}
+const userCache = {}
+export async function getUserDetailsFromAAD(aadUserId) {
+    let graphResult = {};
+    try {
+        if (userCache[aadUserId]) return userCache[aadUserId];
+        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
+        const graphAppUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}`
+        const graphResponse = await fetch(graphAppUrl, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${msalResponse.accessToken}`
+            }
+        });
+        if (graphResponse.ok) {
+            const graphData = await graphResponse.json();
+            graphResult.mail = graphData.mail;
+            graphResult.displayName = graphData.displayName;
+            const graphAppUrl2 = `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
+            const graphResponse2 = await fetch(graphAppUrl2, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${msalResponse.accessToken}`
+                }
+            });
+            if (graphResponse2.ok) {
+                const managerInfo = await graphResponse2.json();
+                graphResult.managerMail = managerInfo.mail;
+                graphResult.managerDisplayName = managerInfo.displayName;
+            } else {
+                console.log(`Error ${graphResponse2.status} calling Graph in getUserDetailsFromAAD: ${graphResponse2.statusText}`);
+            }
+            userCache[aadUserId] = graphResult;
+        } else {
+            console.log(`Error ${graphResponse.status} calling Graph in getUserDetailsFromAAD: ${graphResponse.statusText}`);
+        }
+    }
+    catch (error) {
+        console.log(`Error calling MSAL in getUserDetailsFromAAD: ${error}`);
+    }
+    return graphResult;
 }

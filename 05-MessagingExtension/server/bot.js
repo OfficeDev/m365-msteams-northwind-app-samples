@@ -2,7 +2,6 @@ import { TeamsActivityHandler, CardFactory } from 'botbuilder';
 import { getProductByName,updateProductUnitStock} from './northwindDataService.js';
 import * as ACData from "adaptivecards-templating";
 import * as AdaptiveCards from "adaptivecards";
-
 import pdtCardPayload from './cards/productCard.js'
 import successCard from './cards/stockUpdateSuccess.js';
 import errorCard from './cards/errorCard.js'
@@ -88,7 +87,8 @@ export class StockManagerBot extends TeamsActivityHandler {
                         const request = context.activity.value;   
                          
                         if (request) {
-                            if(request.action.verb==='ok') {                              
+                            if(request.action.verb==='ok') {
+                              
                                     const data=request.action.data;
                                     updateProductUnitStock(data.categoryId,data.pdtId,data.txtStock);
                                     var template = new ACData.Template(successCard);
@@ -103,8 +103,8 @@ export class StockManagerBot extends TeamsActivityHandler {
                                     return this.createInvokeResponse(responseBody);                                 
                                                                       
                                
-                        }else if(request.action.verb==='refresh'){                           
-                            //refresh card to send
+                        }else if(request.action.verb==='refresh'){
+                            //refresh card
                         }else{
                             var responseBody= { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: errorCard }
                             return this.createInvokeResponse(responseBody); 
