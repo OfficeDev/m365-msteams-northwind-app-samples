@@ -52,7 +52,8 @@ export async function initializeIdentityService(app) {
 
 async function validateApiRequest(req, res, next) {
     try {
-        if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+        if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
+              || req.path==="/messages") { // todo: added temporarily to avoid SSO in ME/Bot
             console.log(`Validated authentication on /api${req.path}`);
             next();
         } else {
