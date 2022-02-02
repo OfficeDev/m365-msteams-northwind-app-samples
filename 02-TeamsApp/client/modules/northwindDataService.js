@@ -1,23 +1,5 @@
-export async function getEmployees()
-{
-    const response = await fetch ("/api/employees", {
-        "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
-        "cache": "default"
-    });
-    if (response.ok) {
-        const employees = await response.json();
-        return employees;
-    } else {
-        const error = await response.json();
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
-}
+import { getFetchHeadersAuth } from "../identity/identityClient.js";
 
-// Get the employee profile from our web service
 export async function getEmployee(employeeId) {
 
     if (!employeeId) {
@@ -26,9 +8,7 @@ export async function getEmployee(employeeId) {
 
     const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
         "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAuth(),
         "cache": "default"
     });
     if (response.ok) {
@@ -45,9 +25,7 @@ export async function getOrder(orderId)
 {
     const response = await fetch (`/api/order?orderId=${orderId}`, {
         "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAuth(),
         "cache": "default"
     });
     if (response.ok) {
@@ -64,9 +42,7 @@ export async function getCategories()
 {
     const response = await fetch (`/api/categories`, {
         "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAuth(),
         "cache": "default"
     });
     if (response.ok) {
@@ -83,9 +59,7 @@ export async function getCategory(categoryId)
 {
     const response = await fetch (`/api/category?categoryId=${categoryId}`, {
         "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAuth(),
         "cache": "default"
     });
     if (response.ok) {
@@ -102,9 +76,7 @@ export async function getProduct(productId)
 {
     const response = await fetch (`/api/product?productId=${productId}`, {
         "method": "get",
-        "headers": {
-            "content-type": "application/json"
-        },
+        "headers": await getFetchHeadersAuth(),
         "cache": "default"
     });
     if (response.ok) {

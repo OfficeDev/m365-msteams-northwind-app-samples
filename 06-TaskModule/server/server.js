@@ -1,93 +1,31 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import {
+  initializeIdentityService,
+  getAADUserFromEmployeeId,getUserDetailsFromAAD
+} from './identityService.js';
 
 import {
-  validateEmployeeLogin
-} from './northwindIdentityService.js';
-import {
-  getAllEmployees,
   getEmployee,
   getOrder,
   getCategories,
   getCategory,
   getProduct
 } from './northwindDataService.js';
+
 import aad from 'azure-ad-jwt';
 import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
-import {getGraphUserDetails} from './msgraphService.js'
 dotenv.config();
 const app = express();
 
 // JSON middleware is needed if you want to parse request bodies
 app.use(express.json());
+app.use(cookieParser());
 
-// Web service validates a user login
-app.post('/api/validateEmployeeLogin', async (req, res) => {
-
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const employeeId = await validateEmployeeLogin(username, password);
-    res.send(JSON.stringify({ "employeeId" : employeeId }));
-  }
-  catch (error) {
-      console.log(`Error in /api/validateEmployeeLogin handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-
-// AAD to Northwind identity mapping is stored here.
-// In a real app, this would be stored in the database
-// or somewhere persistent.
-const idMap = [];
-// Web service validates an Azure AD login
-app.post('/api/validateAadLogin', async (req, res) => {
-
-  try {
-    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
-    const token = req.headers['authorization'].split(' ')[1];
-
-    aad.verify(token, { audience: audience }, (err, result) => {
-      if (result) {
-        const aadUserId = result.oid;
-        let northwindEmployeeId;
-        if (!req.body.employeeId) {
-          // If here, client needs an employee ID, try to map it
-          northwindEmployeeId = idMap[aadUserId];
-        } else {
-          // If here, client is providing an employee ID, add to mapping
-          northwindEmployeeId = req.body.employeeId;
-          idMap[aadUserId] = northwindEmployeeId;
-        }
-        res.send(JSON.stringify({ "employeeId" : northwindEmployeeId }));
-      } else {
-        res.status(401).send('Invalid token');
-      }
-    });
-  }
-  catch (error) {
-      console.log(`Error in /api/validateAadLogin handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-
-
-// Web service returns a list of employees
-app.get('/api/employees', async (req, res) => {
-
-  try {
-    const employees = await getAllEmployees();
-    res.send(employees);
-  }
-  catch (error) {
-      console.log(`Error in /api/employees handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
+// Allow the identity service to set up its middleware
+await initializeIdentityService(app);
 
 // Web service returns an employee's profile
 app.get('/api/employee', async (req, res) => {
@@ -173,6 +111,33 @@ app.get('/modules/env.js', (req, res) => {
   `);
 });
 
+app.get('/api/getAADUserFromEmployeeId', async (req, res) => {
+
+  try {
+    const employeeId = req.query.employeeId;
+    const employeeData = await getAADUserFromEmployeeId(employeeId);
+    res.send(employeeData);
+  }
+  catch (error) {
+      console.log(`Error in /api/getAADUserFromEmployeeId handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+app.get('/api/getUserDetailsFromAAD', async (req, res) => {
+
+  try {
+    const aadUserId = req.query.aadUserId;
+    const userData = await getUserDetailsFromAAD(aadUserId);
+    res.send(userData);
+  }
+  catch (error) {
+      console.log(`Error in /api/getUserDetailsFromAAD handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
 // Serve static pages from /client
 app.use(express.static('client'));
 
@@ -213,27 +178,7 @@ app.post('/api/messages', (req, res) => {
     console.log(error)
   });
 });
-// Web service getGraphUserDetails
-app.get('/api/getGraphUserDetails', async (req, res) => {
 
-  try {
-    const token = req.headers['authorization'].split(' ')[1];
-
-    try {
-      const userId = req.query.userId;
-      let data = await getGraphUserDetails(token,userId);
-      res.send(data);
-    }
-    catch (error) {
-      res.status(error.status).send(error.message);
-    }
-  }
-  catch (error) {
-      console.log(`Error in getGraphUserDetails handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;
 app.listen(PORT, () => {

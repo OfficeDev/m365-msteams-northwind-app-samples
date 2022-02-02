@@ -1,6 +1,6 @@
 import {
     getLoggedInEmployee
-} from '../northwindIdentity/identityService.js';
+} from '../identity/identityClient.js';
 
 async function displayUI() {
 
