@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-
 import {
-  initializeIdentityService
+  initializeIdentityService,
+  getAADUserFromEmployeeId,getUserDetailsFromAAD
 } from './identityService.js';
+
 import {
   getEmployee,
   getOrder,
@@ -12,6 +13,7 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
+
 import aad from 'azure-ad-jwt';
 import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
@@ -132,6 +134,33 @@ app.get('/modules/env.js', (req, res) => {
   `);
 });
 
+app.get('/api/getAADUserFromEmployeeId', async (req, res) => {
+
+  try {
+    const employeeId = req.query.employeeId;
+    const employeeData = await getAADUserFromEmployeeId(employeeId);
+    res.send(employeeData);
+  }
+  catch (error) {
+      console.log(`Error in /api/getAADUserFromEmployeeId handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+app.get('/api/getUserDetailsFromAAD', async (req, res) => {
+
+  try {
+    const aadUserId = req.query.aadUserId;
+    const userData = await getUserDetailsFromAAD(aadUserId);
+    res.send(userData);
+  }
+  catch (error) {
+      console.log(`Error in /api/getUserDetailsFromAAD handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
+
 // Serve static pages from /client
 app.use(express.static('client'));
 
@@ -172,6 +201,7 @@ app.post('/api/messages', (req, res) => {
     console.log(error)
   });
 });
+
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;
 app.listen(PORT, () => {
