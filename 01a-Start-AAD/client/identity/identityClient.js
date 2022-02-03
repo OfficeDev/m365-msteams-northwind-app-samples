@@ -119,6 +119,9 @@ export async function getLoggedInEmployee() {
 }
 
 export async function logoff() {
+    getLoggedInEmployeeIdPromise = null;
+    getAccessTokenPromise = null;
+    
     msalClient.logoutRedirect(msalRequest);
 }
 
