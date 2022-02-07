@@ -76,7 +76,7 @@ export async function getAADUserFromEmployeeId(employeeId) {
 
     const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {
         "method": "get",
-        "headers": await getFetchHeadersAnon(),       
+        "headers": await getFetchHeadersAuth(),       
         "cache": "no-cache"
     });
     if (response.ok) {
@@ -92,7 +92,7 @@ export async function getUserDetailsFromAAD(aadUserId) {
 
     const response = await fetch (`/api/getUserDetailsFromAAD?aadUserId=${aadUserId}`, {
         "method": "get",
-        "headers": await getFetchHeadersAnon(),       
+        "headers": await getFetchHeadersAuth(),       
         "cache": "no-cache"
     });
     if (response.ok) {

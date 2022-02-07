@@ -79,6 +79,7 @@ async function getAccessToken2() {
 
     if (await inTeams()) {
 
+        microsoftTeams.initialize();
         const accessToken = await new Promise((resolve, reject) => {
             microsoftTeams.authentication.getAuthToken({
                 successCallback: (result) => { resolve(result); },
@@ -161,4 +162,38 @@ export async function getFetchHeadersAuth() {
         "content-type": "application/json",
         "authorization": `Bearer ${accessToken}`
     });
+}
+
+
+export async function getAADUserFromEmployeeId(employeeId) {
+
+    const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {
+        "method": "get",
+        "headers": await getFetchHeadersAuth(),       
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const data = await response.json();
+        return data.id;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
+}
+export async function getUserDetailsFromAAD(aadUserId) {
+
+    const response = await fetch (`/api/getUserDetailsFromAAD?aadUserId=${aadUserId}`, {
+        "method": "get",
+        "headers": await getFetchHeadersAuth(),       
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
 }

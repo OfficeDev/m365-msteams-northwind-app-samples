@@ -79,6 +79,7 @@ async function getAccessToken2() {
 
     if (await inTeams()) {
 
+        microsoftTeams.initialize();
         const accessToken = await new Promise((resolve, reject) => {
             microsoftTeams.authentication.getAuthToken({
                 successCallback: (result) => { resolve(result); },
