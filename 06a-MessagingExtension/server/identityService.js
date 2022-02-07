@@ -35,7 +35,10 @@ async function validateApiRequest(req, res, next) {
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     const token = req.headers['authorization'].split(' ')[1];
 
-    const aadUserId = await new Promise((resolve, reject) => {
+    if (req.path==="/messages") {
+        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
+        next();
+    } else {
         aad.verify(token, { audience: audience }, async (err, result) => {
             if (result) {
                 console.log(`Validated authentication on /api${req.path}`);
@@ -45,7 +48,7 @@ async function validateApiRequest(req, res, next) {
                 res.status(401).json({ status: 401, statusText: "Access denied" });
             }
         });
-    });
+    }
 }
 
 // validateAndMapAadLogin() - Returns an employee ID of the logged in user based
