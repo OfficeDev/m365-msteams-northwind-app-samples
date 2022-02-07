@@ -163,3 +163,37 @@ export async function getFetchHeadersAuth() {
         "authorization": `Bearer ${accessToken}`
     });
 }
+
+
+export async function getAADUserFromEmployeeId(employeeId) {
+
+    const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {
+        "method": "get",
+        "headers": await getFetchHeadersAuth(),       
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const data = await response.json();
+        return data.id;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
+}
+export async function getUserDetailsFromAAD(aadUserId) {
+
+    const response = await fetch (`/api/getUserDetailsFromAAD?aadUserId=${aadUserId}`, {
+        "method": "get",
+        "headers": await getFetchHeadersAuth(),       
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    } else {
+        const error = await response.json();
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
+}
