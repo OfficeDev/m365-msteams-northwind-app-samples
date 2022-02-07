@@ -40,6 +40,7 @@ app.post('/api/validateLicense', async (req, res) => {
       res.send(JSON.stringify({ "validLicense" : hasLicense }));
     }
     catch (error) {
+      console.log (`Error ${error.status} in validateLicense(): ${error.message}`);
       res.status(error.status).send(error.message);
     }
   }
