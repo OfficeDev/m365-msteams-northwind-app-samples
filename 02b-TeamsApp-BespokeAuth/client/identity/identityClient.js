@@ -51,9 +51,9 @@ export async function logoff() {
 
     // Redirect to the login page
     if (!(await inTeams())) {
-        window.location.href = "/identity/login.html?teams=true";
+        window.location.href = "/identity/login.html";
     } else {
-        window.location.href = "/identity/teamsLoginLauncher.html?teams=true";
+        window.location.href = "/identity/teamsLoginLauncher.html";
     }
 }
 

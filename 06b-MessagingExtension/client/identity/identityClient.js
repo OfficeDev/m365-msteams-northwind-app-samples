@@ -52,9 +52,9 @@ export async function logoff() {
     // Redirect to the login page
     // if (window.parent === window.self) {
     if (!(await inTeams())) {
-        window.location.href = "/identity/login.html?teams=true";
+        window.location.href = "/identity/login.html";
     } else {
-        window.location.href = "/identity/aadLogin.html?teams=true";
+        window.location.href = "/identity/aadLogin.html";
     }
 }
 

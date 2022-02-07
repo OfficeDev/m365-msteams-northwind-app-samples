@@ -27,7 +27,7 @@
     {
       "entityId": "Orders",
       "name": "My Orders",
-      "contentUrl": "https://<HOSTNAME>/pages/myOrders.html?teams=true",
+      "contentUrl": "https://<HOSTNAME>/pages/myOrders.html",
       "websiteUrl": "https://<HOSTNAME>/pages/myOrders.html",
       "scopes": [
         "personal"
@@ -36,7 +36,7 @@
     {
       "entityId": "Products",
       "name": "Products",
-      "contentUrl": "https://<HOSTNAME>/pages/categories.html?teams=true",
+      "contentUrl": "https://<HOSTNAME>/pages/categories.html",
       "websiteUrl": "https://<HOSTNAME>/pages/categories.html",
       "scopes": [
         "personal"
