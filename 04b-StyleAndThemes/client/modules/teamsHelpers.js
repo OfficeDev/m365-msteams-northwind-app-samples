@@ -39,6 +39,23 @@ export async function inTeams() {
     return teamsContext !== null;
 }
 
+function setTheme (theme) {
+    const el = document.documentElement;
+    el.setAttribute('data-theme', theme); // switching CSS
+};
+  
+microsoftTeams.initialize(() => {
+    // Set the CSS to reflect the current Teams theme
+    microsoftTeams.getContext((context) => {
+        setTheme(context.theme);
+    });
+    // When the theme changes, update the CSS again
+    microsoftTeams.registerOnThemeChangeHandler((theme) => {
+        setTheme(theme);
+    });
+});
+  
+  
 
 // *** OPTION 2 ***
 // The recommended practice is to indicate if the app is running in Teams by passing
