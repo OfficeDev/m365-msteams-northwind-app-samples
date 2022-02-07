@@ -54,42 +54,6 @@
     }
   ],
   "showLoadingIndicator": false,
-  "composeExtensions": [
-    {
-      "botId": "<BOT_REG_AAD_APP_ID>",
-      "canUpdateConfiguration": true,
-      "commands": [
-        {
-          "id": "productSearch",
-          "type": "query",
-          "title": "Find product",
-          "description": "",
-          "initialRun": false,
-          "fetchTask": false,
-          "context": [
-            "commandBox",
-            "compose"
-          ],
-          "parameters": [
-            {
-              "name": "productName",
-              "title": "product name",
-              "description": "Enter the product name",
-              "inputType": "text"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "bots": [
-    {
-      "botId": "<BOT_REG_AAD_APP_ID>",
-      "scopes": [ "personal", "team", "groupchat" ],
-      "isNotificationOnly": false,
-      "supportsFiles": false
-    }
-  ],
   "permissions": [
       "identity",
       "messageTeamMembers"

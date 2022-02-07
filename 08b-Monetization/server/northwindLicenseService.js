@@ -13,10 +13,12 @@ export async function validateLicense(thisAppAccessToken) {
 
         aad.verify(thisAppAccessToken, { audience: audience }, async (err, result) => {
             if (result) {
-                const licensingAppAccessToken = await getOboAccessToken(thisAppAccessToken);
-                // console.log(`Got access token for licensing service ${licensingAppAccessToken}`);
                 const licensingAppUrl = `${process.env.SAAS_API}/${process.env.OFFER_ID}`
-
+                const licensingAppAccessToken = await getOboAccessToken(thisAppAccessToken);
+                if (licensingAppAccessToken === "interaction_required") {
+                    reject({ "status":401, "message": "Interaction required"});
+                }
+                
                 const licensingResponse = await fetch(licensingAppUrl, {
                     method: "POST",
                     headers: {
@@ -30,10 +32,10 @@ export async function validateLicense(thisAppAccessToken) {
                     console.log(licensingData.reason);
                     resolve(licensingData);
                 } else {
-                    reject(`Error ${licensingData.status} from licensing service: ${licensingData.statusText}`);
+                    reject({ "status": licensingResponse.status, "message": licensingResponse.statusText });
                 }
             } else {
-                reject("Error in validateLicense(): Invalid client access token");
+                reject({ "status": 401, "message": "Invalid client access token in northwindLicenseService.js"});
             }
         });
     });
