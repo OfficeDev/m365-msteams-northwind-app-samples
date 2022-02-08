@@ -103,6 +103,10 @@ th, td {
   padding: 0 0.5714rem;
 }
 
+th{
+  font-weight: 600;
+}
+
 li {
   
 }
