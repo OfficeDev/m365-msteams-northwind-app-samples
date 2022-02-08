@@ -6,7 +6,7 @@ microsoftTeams.initialize(() => {
 
    teamsLoginLauncherButton.addEventListener('click', async ev => {
       microsoftTeams.authentication.authenticate({
-         url: `${window.location.origin}/identity/login.html`,
+         url: `${window.location.origin}/identity/login.html?teams=true`,
          width: 600,
          height: 535,
          successCallback: (response) => {

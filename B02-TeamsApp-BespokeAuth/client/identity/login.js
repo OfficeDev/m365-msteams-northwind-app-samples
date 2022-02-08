@@ -34,7 +34,7 @@ if (window.location !== window.parent.location) {
       );
       if (employeeId) {
          setLoggedinEmployeeId(employeeId);
-         if (await inTeams()) {
+         if (window.location.search.indexOf('teams=true') >= 0) {
             microsoftTeams.initialize(() => {
                microsoftTeams.authentication.notifySuccess(employeeId);
             });
