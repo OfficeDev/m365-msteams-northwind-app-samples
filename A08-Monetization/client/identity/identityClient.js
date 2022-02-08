@@ -172,10 +172,9 @@ export async function getAADUserFromEmployeeId(employeeId) {
         "cache": "no-cache"
     });
     if (response.ok) {
-        const data = await response.json();
-        return data.id;
+        return response.text().then((data) => data ? JSON.parse(data).id : null);      
     } else {
-        const error = await response.json();
+        const error = "getAADUserFromEmployeeId failed"
         console.log (`ERROR: ${error}`);
         throw (error);
     }
@@ -188,10 +187,9 @@ export async function getUserDetailsFromAAD(aadUserId) {
         "cache": "no-cache"
     });
     if (response.ok) {
-        const data = await response.json();
-        return data;
+        return response.text().then((data) => data ? JSON.parse(data) : null);          
     } else {
-        const error = await response.json();
+        const error = "getUserDetailsFromAAD failed"
         console.log (`ERROR: ${error}`);
         throw (error);
     }
