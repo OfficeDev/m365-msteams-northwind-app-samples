@@ -21,7 +21,9 @@ async function displayUI() {
 
             const order = await getOrder(orderId);    
             //graph call to get AAD mapped employee details        
-            const user=await getAADUserFromEmployeeId(order.employeeId);            
+            let user=await getAADUserFromEmployeeId(order.employeeId);  
+            if(!user)   
+               user= await getAADUserFromEmployeeId("1");     //fall back to employee 1            
             const salesRepdetails=await getUserDetailsFromAAD(user);          
 
             orderDetails.orderId=orderId?orderId:"";
