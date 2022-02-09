@@ -193,8 +193,25 @@ For e.g. if it's a product card, the bot will use `productCard.js`, if the form 
 #### Step 2: Update existing files
 In the project structure, on the right under `A06-MessagingExtension`, you will see <span style="color:red">red</span> colored files.
 They are the files that were updated to add the new features.
-Let's take files one by one to understand what changes you need to make for this exercise.
-##### 
+Let's take files one by one to understand what changes you need to make for this exercise. 
+
+**1. manifest\makePackage.js**
+    When you run script `npm run package` find and replace the key  `BOT_REG_AAD_APP_ID` in the `manifest.template.json` with the value from the `.env` file while generating the new app package for this exercise.
+
+<pre>
+if (key.indexOf('TEAMS_APP_ID') === 0 ||
+            key.indexOf('HOSTNAME') === 0 ||
+            key.indexOf('CLIENT_ID') === 0) {
+</pre>
+becomes 
+<pre>
+ if (key.indexOf('TEAMS_APP_ID') === 0 ||
+            key.indexOf('HOSTNAME') === 0 ||
+            key.indexOf('CLIENT_ID') === 0||
+           <b> key.indexOf('BOT_REG_AAD_APP_ID') === 0) {</b>
+</pre>
+
+
 
 ### Exercise 3: Test the changes
 
