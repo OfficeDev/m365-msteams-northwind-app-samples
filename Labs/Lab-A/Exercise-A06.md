@@ -69,7 +69,7 @@ Use this depiction for comparison.
 <th>A06-MessagingExtension - After</th>
 </tr>
 <tr>
-<td class="projecttd">
+<td style="vertical-align: top !important">
 <pre>
 A05-ConfigurableTab
     ├── client
@@ -116,7 +116,7 @@ A05-ConfigurableTab
     ├── README.md
 </pre>
 </td>
-<td class="projecttd">
+<td>
 <pre>
 A06-MessagingExtension
     ├── client
@@ -347,10 +347,6 @@ The rich adaptive card does not preview in compose area in a Microsoft Teams tea
 
 ### References
 
-<style>
-.projecttd{
-  vertical-align: top;
-}
-</style>
+
 
 
