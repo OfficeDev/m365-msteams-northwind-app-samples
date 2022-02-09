@@ -65,8 +65,8 @@ Use this depiction for comparison.
 
 <table>
 <tr>
-<th>A05-ConfigurableTab - Before </th>
-<th>A06-MessagingExtension - After</th>
+<th>Project Structure Before </th>
+<th>Project Structure After</th>
 </tr>
 <tr>
 <td valign="top" >
