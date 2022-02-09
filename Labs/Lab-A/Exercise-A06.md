@@ -69,7 +69,7 @@ Use this depiction for comparison.
 <th>A06-MessagingExtension - After</th>
 </tr>
 <tr>
-<td style="vertical-align: top !important">
+<td>
 <pre>
 A05-ConfigurableTab
     ├── client
@@ -101,7 +101,7 @@ A05-ConfigurableTab
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <span style="color:red">makePackage.js</span>
+    │   └── <b>makePackage.js</b>
     │   └── <span style="color:red">manifest.template.json</span>
     │   └── northwind32.png
     │   └── northwind192.png
