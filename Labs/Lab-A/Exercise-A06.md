@@ -37,9 +37,9 @@ You'll need to register your web service as a bot in the Bot Framework and updat
 - Once validation is passed, select **Create** to create the resources.
 - Once deployment is complete, select **Go to resource**, this will take you to the bot resource.
 - Once your are in the bot, on the left navigation , select **Configuration**.
-- You will see the **Microsoft App ID**, copy the ID (we will need it later)
+- You will see the **Microsoft App ID**, copy the ID (we will need it later as BOT_REG_AAD_APP_ID in .env file)
 - Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
-- Create a new **Client secret** and copy the `Value` immediately (we will need this later)
+- Create a new **Client secret** and copy the `Value` immediately (we will need this later as BOT_REG_AAD_APP_PASSWORD in .env file )
 - Go to the registered bot, and on the left navigation select **Channels**
 - In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
 
@@ -211,12 +211,139 @@ becomes
            <b> key.indexOf('BOT_REG_AAD_APP_ID') === 0) {</b>
 </pre>
 
+**2.manifest\manifest.template.json**
+Update the version number in the `manifest.template.json`.
+<pre>
+ "version": "1.5.0",
+</pre>
+becomes
+<pre>
+ "version": "1.<b>6</b>.0",
+</pre>
 
+**3.server\identityService.js**
 
+Add a condition to let validation will be performed by Bot Framework Adapter.
+In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
+
+<pre>
+  if (req.path==="/messages") {
+        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
+        next();
+    } else {
+       //do the rest
+    }
+</pre>
+**4.server\northwindDataService.js**
+
+Add two new functions as below
+- <b>getProductByName()</b> - This will search products by name and bring the top 5 results back to the messaging extension's search results.
+- <b>updateProductUnitStock()</b> - This will update the value of unit stock based on the input action of a user on the product result card.
+
+**5.server\server.js**
+
+Import the needed modules for bot related code.
+Import required bot service from botbuilder package and the bot `StockManagerBot` from newly added file `bot.js`
+
+```javascript
+import {StockManagerBot} from './bot.js';
+import { BotFrameworkAdapter } from 'botbuilder';
+```
+
+A bot adapter authenticates and connects a bot to a service endpoint to send and receive message.
+So to authenticate, we'll need to pass the bot registration's AAD app id and app secret.
+Add below code to initialize the bot adapter.
+```javascript
+const adapter = new BotFrameworkAdapter({
+  appId: process.env.BOT_REG_AAD_APP_ID,
+  appPassword:process.env.BOT_REG_AAD_APP_PASSWORD
+});
+```
+Create the bot that will handle incoming messages.
+```javascript
+const stockManagerBot = new StockManagerBot();
+```
+For the main dialog add error handling.
+```javascript
+// Catch-all for errors.
+const onTurnErrorHandler = async (context, error) => {
+  // This check writes out errors to console log .vs. app insights.
+  // NOTE: In production environment, you should consider logging this to Azure
+  //       application insights.
+  console.error(`\n [onTurnError] unhandled error: ${ error }`);
+
+  // Send a trace activity, which will be displayed in Bot Framework Emulator
+  await context.sendTraceActivity(
+      'OnTurnError Trace',
+      `${ error }`,
+      'https://www.botframework.com/schemas/error',
+      'TurnError'
+  );
+
+  // Send a message to the user
+  await context.sendActivity('The bot encountered an error or bug.');
+  await context.sendActivity('To continue to run this bot, please fix the bot source code.');
+};
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
+```
+Listen for incoming requests.
+```javascript
+
+const PORT = process.env.PORT || 3978;
+app.listen(PORT, () => {
+  console.log(`Server is Running on Port ${PORT}`);
+});
+
+```
+
+**6.env_Sample**
+
+The .env file you will be creating for your development will have two additional key-value pair for bot registration's Azure AD application credentials as below
+
+```json
+BOT_REG_AAD_APP_ID=00000000-0000-0000-0000-000000000000
+BOT_REG_AAD_APP_PASSWORD=00000000-0000-0000-0000-000000000000
+```
+
+**package.json**
+
+You'll need to install additional packages for adaptive cards and botbuilder.
+Add below packages into the `package.json` file.
+
+```json
+  "adaptive-expressions": "^4.15.0",
+    "adaptivecards": "^2.10.0",
+    "adaptivecards-templating": "^2.2.0",   
+    "botbuilder": "^4.15.0"
+```
 ### Exercise 3: Test the changes
 
+- Install new packages by running 
+
+```nodejs
+npm i
+```
+- Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in Step 1.
+- Create updated teams app package by running
+```nodejs
+npm run package
+```
+- Upload the zipped app package in `manifest` folder in team's app catalog.
+- Start server by running
+```nodejs
+npm start
+```
+- Go to the app in the app catalog, and add it into a Microsoft Teams team or group chat.
+- From the compose area, select the app icon to invoke the messaging extension to search a product.
+- Once search results are displayed, select a product and hit send to send the rich card in the conversation.
+- Notice the product information, with the form to update the unit stock of the product.
+- Update the stock value and select **Update stock** button
+- Notice the card being refreshed with new stock value.
 
 ### Known issues
+
+The rich adaptive card does not preview in compose area in a Microsoft Teams team's context. This is a bug which is currently with the product team. Fixes will be applied in March '22
 
 ### References
 
