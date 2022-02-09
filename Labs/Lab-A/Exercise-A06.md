@@ -69,7 +69,7 @@ Use this depiction for comparison.
 <th>A06-MessagingExtension - After</th>
 </tr>
 <tr>
-<td style=" vertical-align: top;">
+<td style="vertical-align: top;">
 <pre>
 A05-ConfigurableTab
     ├── client
