@@ -69,7 +69,7 @@ Use this depiction for comparison.
 <th>A06-MessagingExtension - After</th>
 </tr>
 <tr>
-<td>
+<td valign="top" >
 <pre>
 A05-ConfigurableTab
     ├── client
@@ -102,17 +102,17 @@ A05-ConfigurableTab
     ├── teamstyle.css
     ├── manifest
     │   └── <b>makePackage.js</b>
-    │   └── <span style="color:red">manifest.template.json</span>
+    │   └── <b>manifest.template.json</b>
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
     │   └── constants.js
-    │   └── <span style="color:red">identityService.js</span>
-    │   └── <span style="color:red">northwindDataService.js</span>
-    │   └── <span style="color:red">server.js</span>
-    ├── <span style="color:red">.env_Sample</span>
+    │   └── <b>identityService.js</b>
+    │   └── <b>northwindDataService.js</<b>
+    │   └── <b>server.js</b>
+    ├── <b>.env_Sample</b>
     ├── .gitignore
-    ├── <span style="color:red">package.json</span>
+    ├── <b>package.json</b>
     ├── README.md
 </pre>
 </td>
@@ -125,16 +125,16 @@ A06-MessagingExtension
     │   └── identity
     │       ├── identityClient.js
     │       └── userPanel.js
-    ├── <span style="color:purple">images</span>
-    │   └── <span style="color:purple">1.PNG</span>
-    │   └── <span style="color:purple">2.PNG</span>
-    │   └── <span style="color:purple">3.PNG</span>
-    │   └── <span style="color:purple">4.PNG</span>
-    │   └── <span style="color:purple">5.PNG</span>
-    │   └── <span style="color:purple">6.PNG</span>
-    │   └── <span style="color:purple">7.PNG</span>
-    │   └── <span style="color:purple">8.PNG</span>
-    │   └── <span style="color:purple">9.PNG</span>
+    ├── <i>images</i>
+    │   └── <i>1.PNG</i>
+    │   └── <i>2.PNG</i>
+    │   └── <i>3.PNG</i>
+    │   └── <i>4.PNG</i>
+    │   └── <i>5.PNG</i>
+    │   └── <i>6.PNG</i>
+    │   └── <i>7.PNG</i>
+    │   └── <i>8.PNG</i>
+    │   └── <i>9.PNG</i>
     ├── modules
     │   └── env.js
     │   └── northwindDataService.js
@@ -158,23 +158,23 @@ A06-MessagingExtension
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <span style="color:red">makePackage.js</span>
-    │   └── <span style="color:red">manifest.template.json</span>
+    │   └── <b>makePackage.js</b>
+    │   └── <b>manifest.template.json</b>
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
-    │   └── <span style="color:purple">cards</span>
-    │       └── <span style="color:purple">errorCard.js</span>
-    │       └── <span style="color:purple">productCard.js</span>
-    │       └── <span style="color:purple">stockUpdateSuccess.js</span>
-    │   └── <span style="color:purple">bot.js</span>
+    │   └── <i>cards</i>
+    │       └── <i>errorCard.js</i>
+    │       └── <i>productCard.js</i>
+    │       └── <i>stockUpdateSuccess.js</i>
+    │   └── <i>bot.js</i>
     │   └── constants.js
-    │   └── <span style="color:red">identityService.js</span>
-    │   └── <span style="color:red">northwindDataService.js</span>
-    │   └── <span style="color:red">server.js</span>
-    ├── <span style="color:red">.env_Sample</span>
+    │   └── <b>identityService.js</b>
+    │   └── <b>northwindDataService.js</b>
+    │   └── <b>server.js</b>
+    ├── <b>.env_Sample</b>
     ├── .gitignore
-    ├── <span style="color:red">package.json</span>
+    ├── <b>package.json</b>
     ├── README.md
 </pre>
 </td>
@@ -184,14 +184,14 @@ A06-MessagingExtension
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `A06-MessagingExtension`, you will see <span style="color:purple"> purple </span> colored files.
+In the project structure, on the right under `A06-MessagingExtension`, you will see **bold** files.
 They are the new files and folders that you need to add into the project structure.
 - `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
 - `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
 For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A06-MessagingExtension`, you will see <span style="color:red">red</span> colored files.
+In the project structure, on the right under `A06-MessagingExtension`, you will see *italics* files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
