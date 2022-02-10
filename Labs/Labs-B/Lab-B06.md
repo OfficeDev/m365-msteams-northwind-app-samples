@@ -233,7 +233,7 @@ Add the messaging extension command information
 <pre>
 "composeExtensions": [
     {
-      "botId": "<BOT_REG_AAD_APP_ID>",
+      "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
       "canUpdateConfiguration": true,
       "commands": [
         {
