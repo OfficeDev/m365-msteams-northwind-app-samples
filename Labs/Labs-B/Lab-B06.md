@@ -1,16 +1,16 @@
-## Lab A06: Extend teams application with Messaging Extension
+## Lab B06: Extend teams application with Messaging Extension
 
-In this lab you will begin with the application in folder `A05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `A06-MessagingExtension`.
+In this lab you will begin with the application in folder `B05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `B06-MessagingExtension`.
 See project structures comparison in Exercise 2.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)**(You are here)**
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
+* [Lab B02: Create a teams app](./Lab-B02.md)
+* [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)**(You are here)**
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
 In this exercise you will learn new concepts as below:
 
@@ -21,7 +21,7 @@ In this exercise you will learn new concepts as below:
 ### Features
 
 - A search based messaging extension to search for products and share result in the form of a rich form card in a conversation
-- In the rich form card, provide an input field and a submit button for users to take action to update stock value in the Northwind Database, all happening in the same conversation
+- In the card, provide a button for users to take action to update stock value in the same conversation
 
 ### Exercise 1: Bot registration
 
@@ -79,7 +79,7 @@ Use this depiction for comparison.
 <tr>
 <td valign="top" >
 <pre>
-A05-ConfigurableTab
+B05-ConfigurableTab
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -110,13 +110,13 @@ A05-ConfigurableTab
     ├── teamstyle.css
     ├── manifest
     │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
+    │   └── 🔺manifest.template.jso
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
     │   └── constants.js
     │   └── 🔺identityService.js
-    │   └── 🔺northwindDataService.js
+    │   └── 🔺northwindDataService.js</
     │   └── 🔺server.js
     ├── 🔺.env_Sample
     ├── .gitignore
@@ -126,7 +126,7 @@ A05-ConfigurableTab
 </td>
 <td>
 <pre>
-A06-MessagingExtension
+B06-MessagingExtension
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -192,15 +192,14 @@ A06-MessagingExtension
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🆕 near the files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🆕 near the files.
 They are the new files and folders that you need to add into the project structure.
 - `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
 - `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
 For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
-- `bot.js` - The bot for the messaging extension.
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🔺 near the files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🔺 near the files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
@@ -234,7 +233,7 @@ Add the messaging extension command information
 <pre>
 "composeExtensions": [
     {
-    "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
+      "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -269,19 +268,18 @@ Add the messaging extension command information
     }
   ],
 </pre>
-
 **3.server\identityService.js**
 
-Add a condition to let validation will be performed by Bot Framework Adapter.
-In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
+Add an extra condition to let validation  be performed by Bot Framework Adapter if the bot is requested.
+In the function `validateApiRequest()`, add another condition in the `if` statement and check if request is for `bot` then move to next step.
 
 <pre>
-  if (req.path==="/messages") {
-        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
-        next();
-    } else {
-       //do the rest
-    }
+ if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+</pre>
+becomes
+<pre>
+if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
+              <b>|| req.path==="/messages")</b> {
 </pre>
 **4.server\northwindDataService.js**
 
