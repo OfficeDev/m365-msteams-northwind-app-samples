@@ -3,8 +3,16 @@
 In this lab you will begin with the application in folder `B05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `B06-MessagingExtension`.
 See project structures comparison in Exercise 2.
 
+* [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
+* [Lab B02: Create a teams app](./Lab-B02.md)
+* [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)**(You are here)**
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
-You will learn new concepts:
+In this exercise you will learn new concepts as below:
 
 - [Messaging extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/what-are-messaging-extensions?tabs=nodejs)
 - [Bot Framework](https://github.com/microsoft/botframework-sdk)

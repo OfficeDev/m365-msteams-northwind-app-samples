@@ -3,8 +3,16 @@
 In this lab you will begin with the application in folder `A05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `A06-MessagingExtension`.
 See project structures comparison in Exercise 2.
 
+* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
+* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
+* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
+* [Lab A04: Teams styling and themes](./Lab-A04.md)
+* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
+* [Lab A06: Add a Messaging Extension](./Lab-A06.md)**(You are here)**
+* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
+* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-You will learn new concepts:
+In this exercise you will learn new concepts as below:
 
 - [Messaging extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/what-are-messaging-extensions?tabs=nodejs)
 - [Bot Framework](https://github.com/microsoft/botframework-sdk)
@@ -13,7 +21,7 @@ You will learn new concepts:
 ### Features
 
 - A search based messaging extension to search for products and share result in the form of a rich form card in a conversation
-- In the card, provide a button for users to take action to update stock value in the same conversation
+- In the rich form card, provide an input field and a submit button for users to take action to update stock value in the Northwind Database, all happening in the same conversation
 
 ### Exercise 1: Bot registration
 
