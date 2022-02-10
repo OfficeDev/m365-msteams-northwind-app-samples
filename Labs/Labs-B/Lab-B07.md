@@ -1,16 +1,16 @@
 ## Lab A07: Add a Task Module and Deep Link
 
-In this lab you will begin with the application in folder `A06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `A07-TaskModule`.
+In this lab you will begin with the application in folder `B06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `B07-TaskModule`.
 See project structures comparison in Exercise 2.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)**(You are here)**
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
+* [Lab B02: Create a teams app](./Lab-B02.md)
+* [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)**(You are here)**
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
 In this exercise you will learn new concepts as below:
 
@@ -37,7 +37,7 @@ Use this depiction for comparison.
 <tr>
 <td valign="top" >
 <pre>
-A06-MessagingExtension
+B06-MessagingExtension
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -99,7 +99,7 @@ A06-MessagingExtension
 </td>
 <td>
 <pre>
-A07-TaskModule
+B07-TaskModule
     ├── client
     │   ├── components
     │       ├── navigation.js

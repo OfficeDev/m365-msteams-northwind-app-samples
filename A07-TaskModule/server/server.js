@@ -14,7 +14,6 @@ import {
   getProduct
 } from './northwindDataService.js';
 
-import aad from 'azure-ad-jwt';
 import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
 dotenv.config();
