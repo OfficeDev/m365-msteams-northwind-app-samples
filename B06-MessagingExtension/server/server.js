@@ -12,7 +12,6 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
-
 import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
 dotenv.config();
