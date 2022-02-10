@@ -197,6 +197,7 @@ They are the new files and folders that you need to add into the project structu
 - `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
 - `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
 For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
+- `bot.js` - The bot for the messaging extension.
 
 #### Step 2: Update existing files
 In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🔺 near the files.

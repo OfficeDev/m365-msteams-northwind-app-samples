@@ -287,4 +287,3 @@ export async function updateProductUnitStock(categoryId, productId, unitsInStock
             }
         }  
 }
-
