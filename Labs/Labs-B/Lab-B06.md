@@ -109,18 +109,18 @@ B05-ConfigurableTab
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.jso
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
     │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</<b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js</
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
     ├── .gitignore
-    ├── <b>package.json</b>
+    ├── 🔺package.json
     ├── README.md
 </pre>
 </td>
@@ -133,16 +133,16 @@ B06-MessagingExtension
     │   └── identity
     │       ├── identityClient.js
     │       └── userPanel.js
-    ├── <i>images</i>
-    │   └── <i>1.PNG</i>
-    │   └── <i>2.PNG</i>
-    │   └── <i>3.PNG</i>
-    │   └── <i>4.PNG</i>
-    │   └── <i>5.PNG</i>
-    │   └── <i>6.PNG</i>
-    │   └── <i>7.PNG</i>
-    │   └── <i>8.PNG</i>
-    │   └── <i>9.PNG</i>
+    ├── 🆕images
+    │   └── 🆕1.PNG
+    │   └── 🆕2.PNG
+    │   └── 🆕3.PNG
+    │   └── 🆕4.PNG
+    │   └── 🆕5.PNG
+    │   └── 🆕6.PNG
+    │   └── 🆕7.PNG
+    │   └── 🆕8.PNG
+    │   └── 🆕9.PNG
     ├── modules
     │   └── env.js
     │   └── northwindDataService.js
@@ -166,23 +166,23 @@ B06-MessagingExtension
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
-    │   └── <i>cards</i>
-    │       └── <i>errorCard.js</i>
-    │       └── <i>productCard.js</i>
-    │       └── <i>stockUpdateSuccess.js</i>
-    │   └── <i>bot.js</i>
+    │   └── 🆕cards
+    │       └── 🆕errorCard.js
+    │       └── 🆕productCard.js
+    │       └── 🆕stockUpdateSuccess.js
+    │   └── 🆕bot.js
     │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
     ├── .gitignore
-    ├── <b>package.json</b>
+    ├── 🔺package.json
     ├── README.md
 </pre>
 </td>
@@ -192,14 +192,14 @@ B06-MessagingExtension
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `B06-MessagingExtension`, you will see **bold** files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🆕 near the files.
 They are the new files and folders that you need to add into the project structure.
 - `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
 - `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
 For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
 
 #### Step 2: Update existing files
-In the project structure, on the right under `B06-MessagingExtension`, you will see *italics* files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🔺 near the files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 

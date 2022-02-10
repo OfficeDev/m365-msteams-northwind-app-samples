@@ -40,8 +40,18 @@ A06-MessagingExtension
     │   ├── components
     │       ├── navigation.js
     │   └── identity
-    │       ├── identityClient.js
+    │       ├── 🔺identityClient.js
     │       └── userPanel.js
+    ├── images
+    │   └── 1.PNG
+    │   └── 2.PNG
+    │   └── 3.PNG
+    │   └── 4.PNG
+    │   └── 5.PNG
+    │   └── 6.PNG
+    │   └── 7.PNG
+    │   └── 8.PNG
+    │   └── 9.PNG
     ├── modules
     │   └── env.js
     │   └── northwindDataService.js
@@ -65,18 +75,23 @@ A06-MessagingExtension
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
+    │   └── makePackage.js
+    │   └── manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
+    │   └── cards
+    │       └── errorCard.js
+    │       └── productCard.js
+    │       └── stockUpdateSuccess.js
+    │   └── bot.js
     │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</<b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
+    │   └── identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── .env_Sample
     ├── .gitignore
-    ├── <b>package.json</b>
+    ├── package.json
     ├── README.md
 </pre>
 </td>
@@ -89,16 +104,16 @@ A07-TaskModule
     │   └── identity
     │       ├── identityClient.js
     │       └── userPanel.js
-    ├── <i>images</i>
-    │   └── <i>1.PNG</i>
-    │   └── <i>2.PNG</i>
-    │   └── <i>3.PNG</i>
-    │   └── <i>4.PNG</i>
-    │   └── <i>5.PNG</i>
-    │   └── <i>6.PNG</i>
-    │   └── <i>7.PNG</i>
-    │   └── <i>8.PNG</i>
-    │   └── <i>9.PNG</i>
+    ├── images
+    │   └── 1.PNG
+    │   └── 2.PNG
+    │   └── 3.PNG
+    │   └── 4.PNG
+    │   └── 5.PNG
+    │   └── 6.PNG
+    │   └── 7.PNG
+    │   └── 8.PNG
+    │   └── 9.PNG
     ├── modules
     │   └── env.js
     │   └── northwindDataService.js
@@ -122,23 +137,23 @@ A07-TaskModule
     ├── northwind.css
     ├── teamstyle.css
     ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
+    │   └── makePackage.js
+    │   └── manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
-    │   └── <i>cards</i>
-    │       └── <i>errorCard.js</i>
-    │       └── <i>productCard.js</i>
-    │       └── <i>stockUpdateSuccess.js</i>
-    │   └── <i>bot.js</i>
+    │   └── cards
+    │       └── errorCard.js
+    │       └── productCard.js
+    │       └── stockUpdateSuccess.js
+    │   └── bot.js
     │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
+    │   └── identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── .env_Sample
     ├── .gitignore
-    ├── <b>package.json</b>
+    ├── package.json
     ├── README.md
 </pre>
 </td>
