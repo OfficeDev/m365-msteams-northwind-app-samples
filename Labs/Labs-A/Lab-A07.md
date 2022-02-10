@@ -54,7 +54,7 @@ A06-MessagingExtension
     │   └── 9.PNG
     ├── modules
     │   └── env.js
-    │   └── northwindDataService.js
+    │   └── 🔺northwindDataService.js
     │   └── teamsHelpers.js
     ├── pages
     │   └── categories.html
@@ -62,8 +62,8 @@ A06-MessagingExtension
     │   └── categoryDetails.html
     │   └── categoryDetails.js
     │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
+    │   └── 🔺orderDetail.html
+    │   └── 🔺orderDetail.js
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
@@ -86,12 +86,12 @@ A06-MessagingExtension
     │       └── stockUpdateSuccess.js
     │   └── bot.js
     │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js
     │   └── server.js
     ├── .env_Sample
     ├── .gitignore
-    ├── package.json
+    ├── 🔺package.json
     ├── README.md
 </pre>
 </td>
@@ -102,7 +102,7 @@ A07-TaskModule
     │   ├── components
     │       ├── navigation.js
     │   └── identity
-    │       ├── identityClient.js
+    │       ├── 🔺identityClient.js
     │       └── userPanel.js
     ├── images
     │   └── 1.PNG
@@ -116,7 +116,8 @@ A07-TaskModule
     │   └── 9.PNG
     ├── modules
     │   └── env.js
-    │   └── northwindDataService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🆕orderChatCard.js
     │   └── teamsHelpers.js
     ├── pages
     │   └── categories.html
@@ -124,8 +125,8 @@ A07-TaskModule
     │   └── categoryDetails.html
     │   └── categoryDetails.js
     │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
+    │   └── 🔺orderDetail.html
+    │   └── 🔺orderDetail.js
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
@@ -148,12 +149,12 @@ A07-TaskModule
     │       └── stockUpdateSuccess.js
     │   └── bot.js
     │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js
     │   └── server.js
     ├── .env_Sample
     ├── .gitignore
-    ├── package.json
+    ├── 🔺package.json
     ├── README.md
 </pre>
 </td>
@@ -163,16 +164,19 @@ A07-TaskModule
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `A07-TaskModule`, you will see **bold** files.
+In the project structure, on the right under `A07-TaskModule`, you will see emoji 🆕 near the files.
 They are the new files and folders that you need to add into the project structure.
 
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A07-TaskModule`, you will see *italics* files.
+In the project structure, on the right under `A07-TaskModule`, you will see emoji 🔺 near the files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
-**1.**
+**1.\client\identity\identityClient.js**
+
+Add two new functions 
+-  **getAADUserFromEmployeeId()** - Get's the AAD user details mapped to the employeeId 
  
 ### Exercise 2: Test the changes
 
