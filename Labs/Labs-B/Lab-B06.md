@@ -1,6 +1,6 @@
-## Lab A06: Extend teams application with Messaging Extension
+## Lab B06: Extend teams application with Messaging Extension
 
-In this lab you will begin with the application in folder `A05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `A06-MessagingExtension`.
+In this lab you will begin with the application in folder `B05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `B06-MessagingExtension`.
 See project structures comparison in Exercise 2.
 
 
@@ -71,7 +71,7 @@ Use this depiction for comparison.
 <tr>
 <td valign="top" >
 <pre>
-A05-ConfigurableTab
+B05-ConfigurableTab
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -118,7 +118,7 @@ A05-ConfigurableTab
 </td>
 <td>
 <pre>
-A06-MessagingExtension
+B06-MessagingExtension
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -184,14 +184,14 @@ A06-MessagingExtension
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `A06-MessagingExtension`, you will see **bold** files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see **bold** files.
 They are the new files and folders that you need to add into the project structure.
 - `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
 - `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
 For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A06-MessagingExtension`, you will see *italics* files.
+In the project structure, on the right under `B06-MessagingExtension`, you will see *italics* files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
@@ -260,19 +260,18 @@ Add the messaging extension command information
     }
   ],
 </pre>
-
 **3.server\identityService.js**
 
-Add a condition to let validation will be performed by Bot Framework Adapter.
-In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
+Add an extra condition to let validation  be performed by Bot Framework Adapter if the bot is requested.
+In the function `validateApiRequest()`, add another condition in the `if` statement and check if request is for `bot` then move to next step.
 
 <pre>
-  if (req.path==="/messages") {
-        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
-        next();
-    } else {
-       //do the rest
-    }
+ if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+</pre>
+becomes
+<pre>
+if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
+              <b>|| req.path==="/messages")</b> {
 </pre>
 **4.server\northwindDataService.js**
 
