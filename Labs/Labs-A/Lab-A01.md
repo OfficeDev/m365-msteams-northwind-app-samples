@@ -356,6 +356,11 @@ From there you can click into a product category to view a list of products, and
 
 Try logging out and logging in; you should be able to view the orders for another user in your developer tenant who has an employee ID set to a Northwind employee ID.
 
+### Exercise 7: Examine the Application Code
+
+TO BE PROVIDED
+
+This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 ### Known issues
 
 The application does not implement paging for large data sets, so lists of orders etc. are limited to the first 10 results.
