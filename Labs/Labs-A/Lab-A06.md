@@ -31,6 +31,7 @@ Since it is a conversation between your application's web service and teams, you
 
 You'll need to register your web service as a bot in the Bot Framework and update the app manifest to define your web service so Teams knows about it.
 
+<div id="step1"></div>
 
 #### Step 1: Register your web service as a bot in the Bot Framework in Azure portal
 
@@ -51,17 +52,22 @@ You'll need to register your web service as a bot in the Bot Framework and updat
 - Go to the registered bot, and on the left navigation select **Channels**
 - In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
 
+<div id="step3"></div>
+
 #### Step 2: Run ngrok 
 
-Run below script and copy the tunneled url.
+Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
 
 ```nodejs
-ngrok http 3978 
+ngrok http 3978 -host-header=localhost
 ```
+The terminal will display a screen like below; Save the URL for [Step 3](#step3).
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/01-002-ngrok.png?raw=true" alt="ngrok output"/>
 
 #### Step 3: Update the bot registration configuration
 
-- Copy the url from the above step and go to the bot registered in the Azure portal in Step 1.
+- Copy the url from the above step and go to the bot registered in the Azure portal in [Step 1](#step1).
 - Go to the **Configuration** page from the left navigation
 - Immediately on the top of the page you will find a field **Messaging endpoint**
 - Paste the url from Step 2 and append `/api/messages` to the url and select **Apply**
@@ -373,7 +379,7 @@ Add below packages into the `package.json` file.
 ```nodejs
 npm i
 ```
-- Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in Step 1.
+- Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in [Step 1](#step1).
 - Create updated teams app package by running
 ```nodejs
 npm run package
