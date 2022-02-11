@@ -388,7 +388,7 @@ npm i
 ```
 #### Step 2: .env file changes
 
-Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in [Step 1](#step1).
+Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in [Step 1](#ex1-step1).
 
 #### Step 3: Create new teams app package
 
