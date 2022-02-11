@@ -34,7 +34,7 @@ In this exercise you will learn to:
 - View product details and orders for a product
 - View order details
 
-The application is based on the Northwind Traders Database, which is a sample relational database that originally shipped with Microsoft Access. The Northwind Traders Database is now available as a [demonstration OData service](https://services.odata.org/), which is queried in this lab. This is a read-only data source; but some of the later exercises appear to update the data but the changes are only stored in the server memory and will only persist until the server is restarted.
+The application is based on the Northwind Traders Database, which is a sample relational database that originally shipped with Microsoft Access. The Northwind Traders Database is now available as a [demonstration OData service](https://services.odata.org/), which is queried in this lab. This is a read-only data source; some of the later exercises appear to update the data but the changes are only stored in the server memory and will only persist until the server is restarted.
 
 ### Exercise 1: Install prerequisites
 
@@ -90,7 +90,7 @@ Eventually you'll be prompted to log into your new tenant. Be sure to use the ne
 
 ---
 
-## Step 2: Enable Teams application uploads
+#### Step 2: Enable Teams application uploads
 
 By default, end users can't upload Teams applications directly; instead an administrator needs to upload them into the enterprise app catalog. In this step you will enable direct uploads to make developement easier and allow installation directly from the Teams user interface.
 
@@ -112,7 +112,7 @@ By default, end users can't upload Teams applications directly; instead an admin
 
  We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
 
- ### Exercise 2: Assign users as Northwind "Employees"
+### Exercise 3: Assign users as Northwind "Employees"
 
  The Northwind database contains 9 employees, so up to 9 users in your tenant will be able to use the application. (You'll only need two to complete the labs.)
 
@@ -162,7 +162,7 @@ From the same user profile screen, click "Licenses" and ensure the user has an O
 
 > NOTE: When you publish your application in the Microsoft Teams store, its licenses will not appear here along with the licenses for Microsoft products. Instead, your application will implement its own licensing, which allows ISV's to integrate with their existing license management sytem.
 
-### Exercise 3: Register your application
+### Exercise 4: Register your application with Azure AD
 
 In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Exercise 2, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).
 #### Step 1: Start ngrok
@@ -287,7 +287,8 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
 
 
-#### Step 5: Download the starting application
+### Exercise 6: Configure and run the application
+#### Step 1: Download the starting application
 
 The starting application is in github at [https://github.com/OfficeDev/TeamsAppCamp1](https://github.com/OfficeDev/TeamsAppCamp1). Click the "Code" button and clone or download the content to your computer.
 
@@ -295,7 +296,7 @@ The starting application is in github at [https://github.com/OfficeDev/TeamsAppC
 
 The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
-#### Step 6: Install the app's dependencies
+#### Step 2: Install the app's dependencies
 
 Using a command line tool of your choice, navigate to your working directory and type the command:
 
@@ -305,7 +306,7 @@ npm install
 
 This will install the libraries required to run the server side of your solution.
 
-#### Step 7: Configure the app settings
+#### Step 3: Configure the app settings
 
 In a code editor, open the working folder you created in Step 2. Copy the *.env_sample* file to a new file called *.env* and open the new file. It will look like this:
 
@@ -329,17 +330,37 @@ To run the application, open a command line in your working folder and type:
 npm start
 ~~~
 
+At this point you should be able to browse to your ngrok URL and use the application. Note that due to the ngrok tunnel, you can try your app from anywhere on the Internet.
 
+You will quickly be directed to the Microsoft login page. 
 
+Log in using one of the accounts you set up with an employee ID in Exercise 3, and you should be presented with the app's home page. The home page shows the employee name and picture from the Northwind database.
 
+![Home page](../Assets/01-040-Run-1.png)
 
+Click "My Orders" in the top navigation bar to view the employee's orders.
 
+![My Orders page](../Assets/01-041-Run-2.png)
 
+You can click on any order to view the details.
+
+![Viewing an order](../Assets/01-042-Run-3.png)
+
+From here you can click on any product to view its details. Much of the data is hyperlinked in this fashion.
+
+You can also click on "Products" in the top navigation to view a list of product categories.
+
+![View product categories](../Assets/01-043-Run-4.png)
+
+From there you can click into a product category to view a list of products, and then you can click into a product to see its details. The product detail page shows all the orders for the product, which leads to a list of orders, and so you can click your way around the sample data.
+
+Try logging out and logging in; you should be able to view the orders for another user in your developer tenant who has an employee ID set to a Northwind employee ID.
 
 ### Known issues
 
-The rich adaptive card does not preview in compose area in a Microsoft Teams team's context. This is a bug which is currently with the product team. Fixes will be applied in March '22
+The application does not implement paging for large data sets, so lists of orders etc. are limited to the first 10 results.
 
+While it will work on mobile devices, the application is not responsive and will not look good on these devices. This will be addressed in a future version of the lab.
 ### References
 
 

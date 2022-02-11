@@ -4,4 +4,12 @@ The free version of ngrok generates a new URL every time you run it, so if you p
 
 | Lab | Exercise | Step(s) | Use |
 |---|---|---|--|
-| A01 | 3 | 2 | Redirect URL in the app registration (under "Authentication") |
+| A01 | 4 | 2 | Redirect URL in the app registration (under "Authentication") |
+| A01 | 4 | 4 | Application URI contains the ngrok URL |
+| A01 | 6 | 3 | The .env file contains the hostname portion of the ngrok URL |
+| A01 | 6 | 8 | Browse to the ngrok URL |
+
+
+
+
+
