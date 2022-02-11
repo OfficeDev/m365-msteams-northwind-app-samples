@@ -1,8 +1,14 @@
 ## Lab A01: Start with Azure Active Directory
 
-This is the very first lab in the Azure Active Directory lab, in which you will learn how to port an existing Azure AD web application to a fully functional Microsoft Teams application. Azure Active Directory is part of the [Microsoft Identity Platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-overview) that's used by Microsoft Teams. 
+In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
 
-**THIS LAB IS PART OF LEARNING PATH A** for Azure AD. If you have a web application that uses Azure AD for user authentication and wish to extend it as a Microsoft Teams application, these are the labs for you. If you have a web application that uses some other authentication scheme or identity service such as Auth0, Identity Server, Okta, Ping Federate, or something else, you'll be better served by Learning Path B and [Lab B1, which shows how to extend a non-Azure AD web app to Teams](../Lab-B/Exercise-B01.md) and to integrate with Azure AD using  an identity mapping pattern. Labs A and B are the same except for the first 3 steps, which involve user identity and authentication.
+There are two options for doing the labs:
+
+* The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
+
+* the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
+
+This is the very first lab in Path A, which begins with an application that already uses Azure AD.
 
 In this lab you will set up the Northwind Orders application, which can be found in the [A01-Start-AAD](../../A01-Start-AAD/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
 
@@ -46,336 +52,289 @@ You can really use any code editor you wish, but we recommend [Visual Studio Cod
 
 #### Step 3: Install ngrok
 
-ngrok is a tunneling program that allows you to access your local web server (running in NodeJS in this case) from the Internet. You can download it [here](https://ngrok.com/download).
+ngrok is a tunneling program that allows you to access your local web server (running in NodeJS in this case) from the Internet. To complete this exercise, download and install ngrok from [here](https://ngrok.com/download).
+
+The free version of ngrok will assign a URL similar to https://something.ngrok.io, where "something" is a random identifier. As long as ngrok is running (leave it going in a command or terminal window), you can browse your web site at that URL. If you start and stop ngrok, or try to keep it running for more than 8 hours, you'll get a new identifier and you'll need to update your app registration, environment variables, etc. The paid version of ngrok allows you to reserve the same URL for use over time, removing the need to update it when you return to the lab.
 
 While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved (Lab 6 has a bot inside to support Messaging Extensions). If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
 
+### Exercise 2: Set up your Microsoft 365 Subscription
+
+The initial Northwind Orders application does not require Microsoft 365, but it does use Azure AD. In order to ensure the users are in the same directory as Microsoft Teams, we'll set up the Microsoft 365 tenant now and set up the application in the same Azure AD directory that we'll use throughout the workshop.
+
+#### Step 1: Get a tenant
+
+If you don't yet have a tenant, please join the [Microsoft 365 Developer Program](https://developer.microsoft.com/microsoft-365/dev-program) to get a free one. Your tenant includes 25 [E5 user licenses](https://www.microsoft.com/microsoft-365/enterprise/compare-office-365-plans) and can be renewed as long as you keep developing!
+
+Click "Join now" to begin.
+![Signup](../Assets/01-003-JoinM365DevProgram1.png)
+
+Log in with any Microsoft personal or work and school account, enter your information, and click "Next". You will have an opportunity to choose what kind of "sandbox" you want; the "Instant sandbox" is recommended.
+
+![Signup](../Assets/01-004-JoinM365DevProgram2.png)
+
+Follow the wizard and select your administrator username and password, tenant domain name, etc. The domain name you choose is just the left-most portion - for example if you enter "Contoso" your domain will be "Contoso.onmicrosoft.com".
+
+Remember this information as you'll need it throughout the labs! You will log in as <username>@<domain>.onmicrosoft.com with the password your chose. You'll be prompted for your phone number and then the system will set up your subscription.
+
+Eventually you'll be prompted to log into your new tenant. Be sure to use the new administrator credentials you just created, not the ones you used when you signed up for the developer program.
+
+---
+😎 DON'T DEVELOP IN PRODUCTION: It may be tempting to build solutions right where you work every day, but there are good reasons to have a dedicated dev tenant - and probably additional staging/test tenants. They're free, and you can safely experiment as a tenant admin without risking your production work. 
+
+---
+😎 NAVIGATING MANY TENANTS: Consider creating a browser profile for each tenant that will have its own favorites, stored credentials, and cookies so you can easily swtch between tenants as you work.
+
+---
+😎 CHANGES ROLL OUT FIRST TO "TARGETED RELEASE" TENANTS. You may want to [enable Targeted Release](https://docs.microsoft.com/microsoft-365/admin/manage/release-options-in-office-365) in your developer tenant and keep production on Standard Release so you have a head start to test out new features.
+
+---
+
+## Step 2: Enable Teams application uploads
+
+By default, end users can't upload Teams applications directly; instead an administrator needs to upload them into the enterprise app catalog. In this step you will enable direct uploads to make developement easier and allow installation directly from the Teams user interface.
+
+  a. In the left panel of the admin center, click "Show all" to open up the entire navigation
+
+  ![M365 Admin](../Assets/01-005-M365Admin.png)
+
+  When the panel opens, click Teams to open the Microsoft Teams admin center.
+
+  ![M365 Admin](../Assets/01-006-M365Admin2.png)
+
+  b. In the left of the Microsoft Teams admin center, open the Teams apps accordion 1️⃣ and select Setup Policies 2️⃣. You will see a list of App setup policies. Click the Global (Org-wide default) policy 3️⃣.
+
+  ![Teams admin](../Assets/01-007-TeamsAdmin1.png)
+
+ c. Ensure the first switch, "Upload custom apps" is turned On.
+
+ ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
+
+ We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
+
+ ### Exercise 2: Assign users as Northwind "Employees"
+
+ The Northwind database contains 9 employees, so up to 9 users in your tenant will be able to use the application. (You'll only need two to complete the labs.)
+
+The Northwind Orders application expects each user's employee ID in Azure Active Directory to match their employee ID in the Northwind database. In this exercise you'll set up some test users accordingly.
+
+#### Step 1: Edit Azure AD users
+
+ - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
+
+ - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+
+![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
+
+- Click "Azure Active Directory" again in the left navigation bar.
+
+![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
+
+- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "Users" in the navigation bar.
+
+![Edit users](../Assets/01-030-EditUsers-1.png)
+
+You can use existing users to run the Northwind Orders application (the names may not match the Northwind database unless you change them, but you'll know what's going on), or create new ones. It's easiest if one of the users is the administrator account you're logged into right now, so you can test the application without logging on and off, but that's up to you. Click on the user to view their user profile, and then click the "Edit" button.
+
+![Edit user's employee ID](../Assets/01-031-EditUser-2.png)
+
+Change the Employee ID to the ID of one of the users in the Northwind datbase, which are:
+
+| Employee ID | Name |
+|---|---|
+| 1 | Nancy Davolio |
+| 2 | Andrew Fuller |
+| 3 | Janet Leverling |
+| 4 | Margaret Peacock |
+| 5 | Steven Buchanan |
+| 6 | Michael Suyama |
+| 7 | Robert King |
+| 8 | Laura Callahan |
+| 9 | Anne Dodsworth |
+
+You may also choose to rename the users to match the database.
+
+#### Step 2: Ensure the users are licensed for Microsoft 365
+
+From the same user profile screen, click "Licenses" and ensure the user has an Office 365 license so they can run Microsoft Teams.
+
+![Check license](../Assets/01-032-CheckLicense.png)
+
+> NOTE: When you publish your application in the Microsoft Teams store, its licenses will not appear here along with the licenses for Microsoft products. Instead, your application will implement its own licensing, which allows ISV's to integrate with their existing license management sytem.
+
+### Exercise 3: Register your application
+
+In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Exercise 2, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).
+#### Step 1: Start ngrok
+
+Before you can register your application, you will need to start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
+
+~~~shell
+ngrok http 3978 -host-header=localhost
+~~~
+
+The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+
+![ngrok output](../Assets/01-002-ngrok.png)
+
+---
+> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercies which involve the ngrok URL so you can easily update it if it changes.
+---
+
+#### Step 2: Register your application in Azure Active Directory
+
+ - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
+
+ - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+
+![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
+
+- Click "Azure Active Directory" again in the left navigation bar.
+
+![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
+
+- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "App Registrations" in the navigation bar.
+
+![Opening App Registrations](../Assets/01-011-RegisterAADApp-3.png)
+
+- You will be shown a list of applications (if any) registered in the tenant. Click "+ New Registration" at the top to register a new application.
+
+![Adding a registration](../Assets/01-012-RegisterAADApp-4.png)
+
+You will be presented with the "Register an application" form.
+
+![Register an application form](../Assets/01-013-RegisterAADApp-5.png)
+
+- Enter a name for your application 1️⃣.
+- Under "Supported account types" select "Accounts in any organizational directory" 2️⃣. This will allow your application to be used in your customer's tenants.
+- Under "Redirect URI", select "Single-page application (SPA)" 3️⃣ and enter the ngrok URL you saved earlier 4️⃣.
+- Click the "Register" button 5️⃣
+
+You will be presented with the application overview. There are two values on this screen you need to copy for use later on; those are the Application (client) ID 1️⃣ and the Directory (tenant) ID 2️⃣.
+
+![Application overview screen](../Assets/01-014-RegisterAADApp-6.png)
+
+When you've recorded these values, navigate to "Certificates & secrets" 3️⃣.
+
+![Adding a secret](../Assets//01-015-RegisterAADApp-7.png)
+
+Now you will create a client secret, which is like a password for your application to use when it needs to authenticate with Azure AD.
+
+- Click "+ New client secret" 1️⃣
+- Enter a description 2️⃣ and select an expiration date 3️⃣ for your secret 
+- Click "Add" to add your secret. 4️⃣
+
+The secret will be displayed just this once on the "Certificates and secrets" screen. Copy it now and store it in a safe place.
+
+![Copy the app secret](../Assets/01-016-RegisterAADApp-8.png)
 
 
+---
+😎 MANAGING APP SECRETS IS AN ONGOING RESPONSIBILITY. App secrets have a limited lifetime, and if they expire your application may stop working. You can have multiple secrets, so plan to roll them over as you would with a digital certificate.
 
-Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
+---
+😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references) for more information.
 
-Since it is a conversation between your application's web service and teams, you'll need a secure communication protocol to send and receive messages like the Bot Framework's messaging schema.
+---
 
-You'll need to register your web service as a bot in the Bot Framework and update the app manifest to define your web service so Teams knows about it.
+#### Step 3: Grant permissions to your application
 
+The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is the main API for Microsoft 365 and Microsoft Teams.
 
-#### Step 1: Register your web service as a bot in the Bot Framework in Azure portal
+- While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
 
-- Go to [https://portal.azure.com/](https://portal.azure.com/)
-- In the right pane, select **Create a resource**.
-- In the search box enter *bot*, then press Enter.
-- Select the **Azure Bot** card.
-- Select *Create*.
-- Fill the form with all the required fields like *Bot handle*, *Subscription* etc.
-- Choose **Multi Tenant** for the **Type of App** field.
-- Leave everything else as is and select **Review + create**
-- Once validation is passed, select **Create** to create the resources.
-- Once deployment is complete, select **Go to resource**, this will take you to the bot resource.
-- Once your are in the bot, on the left navigation , select **Configuration**.
-- You will see the **Microsoft App ID**, copy the ID (we will need it later as BOT_REG_AAD_APP_ID in .env file)
-- Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
-- Create a new **Client secret** and copy the `Value` immediately (we will need this later as BOT_REG_AAD_APP_PASSWORD in .env file )
-- Go to the registered bot, and on the left navigation select **Channels**
-- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
+![Adding a permission](../Assets/01-017-RegisterAADApp-9.png)
 
-#### Step 2: Run ngrok 
+On the "Request API permissions" flyout, click "Microsoft Graph". It's hard to miss!
 
-Run below script and copy the tunneled url.
+![Adding a permission](../Assets/01-018-RegisterAADApp-10.png)
 
-```nodejs
-ngrok http 3978 
-```
+Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
 
-#### Step 3: Update the bot registration configuration
+The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
 
-- Copy the url from the above step and go to the bot registered in the Azure portal in Step 1.
-- Go to the **Configuration** page from the left navigation
-- Immediately on the top of the page you will find a field **Messaging endpoint**
-- Paste the url from Step 2 and append `/api/messages` to the url and select **Apply**
+So the application needs to read the user's employee ID from Azure AD. It could use the delegated User.Read permission that's already there, but to allow elevation of privileges for other calls it will use application permission to read the user's employee ID. For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
 
-### Exercise 2: Code changes
+Click "Application permissions" to add the required permission.
 
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
+![Adding an app permission](../Assets/01-019-RegisterAADApp-10.png)
 
-<table>
-<tr>
-<th>Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-A05-ConfigurableTab
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</<b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
-    ├── .gitignore
-    ├── <b>package.json</b>
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-A06-MessagingExtension
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── <i>images</i>
-    │   └── <i>1.PNG</i>
-    │   └── <i>2.PNG</i>
-    │   └── <i>3.PNG</i>
-    │   └── <i>4.PNG</i>
-    │   └── <i>5.PNG</i>
-    │   └── <i>6.PNG</i>
-    │   └── <i>7.PNG</i>
-    │   └── <i>8.PNG</i>
-    │   └── <i>9.PNG</i>
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── <b>makePackage.js</b>
-    │   └── <b>manifest.template.json</b>
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── <i>cards</i>
-    │       └── <i>errorCard.js</i>
-    │       └── <i>productCard.js</i>
-    │       └── <i>stockUpdateSuccess.js</i>
-    │   └── <i>bot.js</i>
-    │   └── constants.js
-    │   └── <b>identityService.js</b>
-    │   └── <b>northwindDataService.js</b>
-    │   └── <b>server.js</b>
-    ├── <b>.env_Sample</b>
-    ├── .gitignore
-    ├── <b>package.json</b>
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
+You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Click the "Add Permission" button 3️⃣.
+
+![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
+
+#### Step 4: Expose an API
+
+The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
+
+Click "Expose an API" 1️⃣ and then "Add a scope"2️⃣. Scopes expose an application's permissions; what you're doing here is adding a permission that your application's browser code can use it when calling the server. 
+
+![Expose an API](../Assets/01-021-RegisterAADApp-12.png)
+
+On the "Add a scope" flyout, edit the Application ID URI to include your ngrok URL between the "api://" and the client ID. Click the "Save and continue" button to proceed.
+
+![Set the App URI](../Assets/01-022-RegisterAADApp-13.png)
+
+Now that you've defined the application URI, the "Add a scope" flyout will allow you to set up the new permission scope. Fill in the form as follows:
+- Scope name: access_as_user
+- Who can consent: Admins only
+- Admin consent display name: Access as the logged in user
+- Admin consent description: Access Northwind services as the logged in user
+- (skip User consent fields)
+- Ensure the State is set to "Enabled"
+- Click "Add scope"
+
+![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
 
 
-#### Step 1: Add new files
+#### Step 5: Download the starting application
 
-In the project structure, on the right under `A06-MessagingExtension`, you will see **bold** files.
-They are the new files and folders that you need to add into the project structure.
-- `images` folder and it's contents of 9 image files are needed for the rich adaptive cards to display products.
-- `cards` folder and the three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js` are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
-For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
+The starting application is in github at [https://github.com/OfficeDev/TeamsAppCamp1](https://github.com/OfficeDev/TeamsAppCamp1). Click the "Code" button and clone or download the content to your computer.
 
-#### Step 2: Update existing files
-In the project structure, on the right under `A06-MessagingExtension`, you will see *italics* files.
-They are the files that were updated to add the new features.
-Let's take files one by one to understand what changes you need to make for this exercise. 
+![Download the lab source code](../Assets/01-001-CloneRepo.png)
 
-**1. manifest\makePackage.js**
-    When you run script `npm run package` find and replace the key  `BOT_REG_AAD_APP_ID` in the `manifest.template.json` with the value from the `.env` file while generating the new app package for this exercise.
+The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
-<pre>
-if (key.indexOf('TEAMS_APP_ID') === 0 ||
-            key.indexOf('HOSTNAME') === 0 ||
-            key.indexOf('CLIENT_ID') === 0) {
-</pre>
-becomes 
-<pre>
- if (key.indexOf('TEAMS_APP_ID') === 0 ||
-            key.indexOf('HOSTNAME') === 0 ||
-            key.indexOf('CLIENT_ID') === 0||
-           <b> key.indexOf('BOT_REG_AAD_APP_ID') === 0) {</b>
-</pre>
+#### Step 6: Install the app's dependencies
 
-**2.manifest\manifest.template.json**
-Update the version number in the `manifest.template.json`.
-<pre>
- "version": "1.5.0",
-</pre>
-becomes
-<pre>
- "version": "1.<b>6</b>.0",
-</pre>
+Using a command line tool of your choice, navigate to your working directory and type the command:
 
-**3.server\identityService.js**
+~~~shell
+npm install
+~~~
 
-Add a condition to let validation will be performed by Bot Framework Adapter.
-In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
+This will install the libraries required to run the server side of your solution.
 
-<pre>
-  if (req.path==="/messages") {
-        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
-        next();
-    } else {
-       //do the rest
-    }
-</pre>
-**4.server\northwindDataService.js**
+#### Step 7: Configure the app settings
 
-Add two new functions as below
-- <b>getProductByName()</b> - This will search products by name and bring the top 5 results back to the messaging extension's search results.
-- <b>updateProductUnitStock()</b> - This will update the value of unit stock based on the input action of a user on the product result card.
+In a code editor, open the working folder you created in Step 2. Copy the *.env_sample* file to a new file called *.env* and open the new file. It will look like this:
 
-**5.server\server.js**
+~~~text
+COMPANY_NAME=Northwind Traders
+PORT=3978
 
-Import the needed modules for bot related code.
-Import required bot service from botbuilder package and the bot `StockManagerBot` from newly added file `bot.js`
+HOSTNAME=something.ngrok.io
+TENANT_ID=00000000-0000-0000-0000-000000000000
+CLIENT_ID=00000000-0000-0000-0000-000000000000
+CLIENT_SECRET=xxxxx
+~~~
 
-```javascript
-import {StockManagerBot} from './bot.js';
-import { BotFrameworkAdapter } from 'botbuilder';
-```
+Fill in the information you've gathered so far, including your ngrok hostname and the information from the app registration.
 
-A bot adapter authenticates and connects a bot to a service endpoint to send and receive message.
-So to authenticate, we'll need to pass the bot registration's AAD app id and app secret.
-Add below code to initialize the bot adapter.
-```javascript
-const adapter = new BotFrameworkAdapter({
-  appId: process.env.BOT_REG_AAD_APP_ID,
-  appPassword:process.env.BOT_REG_AAD_APP_PASSWORD
-});
-```
-Create the bot that will handle incoming messages.
-```javascript
-const stockManagerBot = new StockManagerBot();
-```
-For the main dialog add error handling.
-```javascript
-// Catch-all for errors.
-const onTurnErrorHandler = async (context, error) => {
-  // This check writes out errors to console log .vs. app insights.
-  // NOTE: In production environment, you should consider logging this to Azure
-  //       application insights.
-  console.error(`\n [onTurnError] unhandled error: ${ error }`);
+#### Step 8: Run the application
 
-  // Send a trace activity, which will be displayed in Bot Framework Emulator
-  await context.sendTraceActivity(
-      'OnTurnError Trace',
-      `${ error }`,
-      'https://www.botframework.com/schemas/error',
-      'TurnError'
-  );
+To run the application, open a command line in your working folder and type:
 
-  // Send a message to the user
-  await context.sendActivity('The bot encountered an error or bug.');
-  await context.sendActivity('To continue to run this bot, please fix the bot source code.');
-};
-// Set the onTurnError for the singleton BotFrameworkAdapter.
-adapter.onTurnError = onTurnErrorHandler;
-```
-Listen for incoming requests.
-```javascript
-
-const PORT = process.env.PORT || 3978;
-app.listen(PORT, () => {
-  console.log(`Server is Running on Port ${PORT}`);
-});
-
-```
-
-**6.env_Sample**
-
-The .env file you will be creating for your development will have two additional key-value pair for bot registration's Azure AD application credentials as below
-
-```json
-BOT_REG_AAD_APP_ID=00000000-0000-0000-0000-000000000000
-BOT_REG_AAD_APP_PASSWORD=00000000-0000-0000-0000-000000000000
-```
-
-**package.json**
-
-You'll need to install additional packages for adaptive cards and botbuilder.
-Add below packages into the `package.json` file.
-
-```json
-  "adaptive-expressions": "^4.15.0",
-    "adaptivecards": "^2.10.0",
-    "adaptivecards-templating": "^2.2.0",   
-    "botbuilder": "^4.15.0"
-```
-### Exercise 3: Test the changes
-
-- Install new packages by running 
-
-```nodejs
-npm i
-```
-- Update .env file with `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` which were copied in Step 1.
-- Create updated teams app package by running
-```nodejs
-npm run package
-```
-- Upload the zipped app package in `manifest` folder in team's app catalog.
-- Start server by running
-```nodejs
+~~~shell
 npm start
-```
-- Go to the app in the app catalog, and add it into a Microsoft Teams team or group chat.
-- From the compose area, select the app icon to invoke the messaging extension to search a product.
-- Once search results are displayed, select a product and hit send to send the rich card in the conversation.
-- Notice the product information, with the form to update the unit stock of the product.
-- Update the stock value and select **Update stock** button
-- Notice the card being refreshed with new stock value.
+~~~
+
+
+
+
+
+
+
 
 ### Known issues
 
