@@ -13,7 +13,7 @@ This is the very first lab in Path A, which begins with an application that alre
 In this lab you will set up the Northwind Orders application, which can be found in the [A01-Start-AAD](../../A01-Start-AAD/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
 
 * [Lab A01: Setting up the application with Azure AD](./Lab-A01.md) **(You are here)**
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
+* Lab A02: (there is no lab A02; please skip to A03)
 * [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
 * [Lab A04: Teams styling and themes](./Lab-A04.md)
 * [Lab A05: Add a Configurable Tab](./Lab-A05.md)
