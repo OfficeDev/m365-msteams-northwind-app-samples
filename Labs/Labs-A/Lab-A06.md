@@ -8,7 +8,7 @@ See project structures comparison in Exercise 2.
 * [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
 * [Lab A04: Teams styling and themes](./Lab-A04.md)
 * [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md) 📍**(You are here)**
+* [Lab A06: Add a Messaging Extension](./Lab-A06.md) (📍You are here)
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
@@ -608,6 +608,7 @@ export class StockManagerBot extends TeamsActivityHandler {
 }
     
 ```
+- Add a local `.env` file based on the sample file `.env_Sample`. Update all values for the keys, based on how far you have reached in this lab.
 
 #### Step 2: Update existing files
 In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🔺 near the files.
@@ -701,6 +702,48 @@ Add two new functions as below
 - <b>getProductByName()</b> - This will search products by name and bring the top 5 results back to the messaging extension's search results.
 - <b>updateProductUnitStock()</b> - This will update the value of unit stock based on the input action of a user on the product result card.
 
+Add the two new function definitions by appending below code block into the file:
+```javascript
+export async function getProductByName(productName) {
+    let result = {};
+    let url = productName === "" ? `${NORTHWIND_ODATA_SERVICE}/Products?$top=5`
+        : `${NORTHWIND_ODATA_SERVICE}/Products?$top=5&$filter=startswith(ProductName, '${productName}')`;
+    const response = await fetch(url, {
+        "method": "GET",
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    });
+    if (response.ok) {
+        const product = await response.json();
+        result = product.value.map(pdt => ({
+            productId: pdt.ProductID,
+            productName: pdt.ProductName,
+            unitsInStock: pdt.UnitsInStock,
+            categoryId: pdt.CategoryID
+            //todo: add more             
+        }));
+    }
+    return result;
+}
+export async function updateProductUnitStock(categoryId, productId, unitsInStock) {
+    //get cache
+    if (!productCache[productId])  await getProduct(productId);
+    if (!categoryCache[categoryId])  await getCategory(categoryId);
+
+    // update stock in product cache    
+        productCache[productId].unitsInStock = unitsInStock;   
+    //update stock in  category cache   
+        let pdts = categoryCache[categoryId].products;
+        for (var i = 0; i < pdts.length; ++i) {
+            if (pdts[i]['productId'] === productId) {
+                pdts[i]['unitsInStock'] = unitsInStock;
+            }
+        }  
+}
+```
+
 **5.server\server.js**
 
 Import the needed modules for bot related code.
@@ -760,7 +803,7 @@ app.listen(PORT, () => {
 
 **6.env_Sample**
 
-The .env file you will be creating for your development will have two additional key-value pair for bot registration's Azure AD application credentials as below. This is what is used in **server.js** file.
+The `.env` file needed for your local development based on `.env_Sample`, will have two additional key-value pair for bot registration's Azure AD application credentials as below. This is what is used in **server.js**  to initialize the bot adapter.
 
 ```json
 BOT_REG_AAD_APP_ID=00000000-0000-0000-0000-000000000000
@@ -784,14 +827,14 @@ Now that you have applied all code changes, let's test the features.
 
 #### Step 1: Install npm packages
 
-Then, from a command line in your working directory, install the new packages by running below script:
+From the command line in your working directory, install the new packages by running below script:
 
 ```nodejs
 npm i
 ```
 #### Step 2: .env file changes
 
-Open the .env file in your working directory and add  `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
+Open the `.env` file in your working directory and add  `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
 
 The .env file contents will now look like below:
 ```
@@ -814,19 +857,8 @@ Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
-#### Step 4: Upload teams app package
 
-Upload the zipped app package in `manifest` folder in team's app catalog.
-    > Have doubts on this step? Follow the documentation [here]
-
-#### Step 5: Start your local project
-
-Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
-
-```nodejs
-npm start
-```
-#### Step 6: Upload the app package
+#### Step 4: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -835,14 +867,22 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.pngg?raw=true" alt="Upload the app"/>
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. Teams will display the application information; click the "Add" button to install it for your personal use.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-006-InstallApp-2.pngg?raw=true" alt="Upload the app"/>
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-006-InstallApp-2.png?raw=true" alt="Upload the app"/>
 
-#### Step 7 : Run the application in Teams client.
+#### Step 5: Start your local project
+
+Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
+
+```nodejs
+npm start
+```
+
+#### Step 6 : Run the application in Teams client
 
 ### Known issues
 ---
