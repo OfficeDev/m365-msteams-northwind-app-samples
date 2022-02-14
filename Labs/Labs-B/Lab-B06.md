@@ -1,4 +1,4 @@
-## Lab A06: Extend teams application with Messaging Extension
+## Lab B06: Extend teams application with Messaging Extension
 
 In this lab you will begin with the application in folder `B05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `B06-MessagingExtension`.
 See project structures comparison in Exercise 2.
