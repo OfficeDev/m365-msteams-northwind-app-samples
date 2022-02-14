@@ -869,10 +869,10 @@ In this case, choose the first option 3️⃣.
 
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
+Navigate to the Northwind.zip file in your manifest directory and upload it. 
+The Teams client will display the application information, add the application to a team or a group chat.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
-Navigate to the Northwind.zip file in your manifest directory and upload it. Teams will display the application information; click the "Add" button to install it for your personal use.
-
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-006-InstallApp-2.png?raw=true" alt="Upload the app"/>
 
 #### Step 5: Start your local project
 
@@ -883,6 +883,29 @@ npm start
 ```
 
 #### Step 6 : Run the application in Teams client
+
+We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
+
+Open the messaging extension app from the compose area.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-003-openme.png?raw=true" alt="Open the app"/>
+
+Search for the product from the messaging extension (This should be easy if you have used [GIPHY](https://giphy.com/) before 😉)
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
+
+Select the product you want to add in the conversation.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
+
+    > A little preview will be shown in the message compose area. Note at the time this lab was created, there is an outstanding platform issue related to the preview. If you are in a Teams team, this will be blank. Hence showing this capability in a group chat.
+
+This is the product card, with a form to fill in and submit, incase the unit stock value has to be changed.
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-006-productcard.png?raw=true" alt="Product card"/>
+
+Fill in a new value in the form, and select **Update stock**.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
+
+Once it's success fully updated, the card refreshes to show the new stock value.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-008-updated.png?raw=true" alt="Product updated"/>
 
 ### Known issues
 ---
