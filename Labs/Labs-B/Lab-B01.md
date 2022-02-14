@@ -1,4 +1,4 @@
-## Lab A01: Start with Azure Active Directory
+## Lab B01: Start with a non-Azure Active Directory Identity System
 
 In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
 
@@ -8,24 +8,23 @@ There are two options for doing the labs:
 
 * the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
 
-This is the very first lab in Path A, which begins with an application that already uses Azure AD.
+**This is the very first lab in Path B**, which begins with an application that has its own, bespoke identity system. You will learn a pattern for adding Azure AD authentication for users while maintaining the bespoke identity system's user profiles and authorization. This won't work everywhere but a number of partners have been successful with this kind of approach.
 
-In this lab you will set up the Northwind Orders application, which can be found in the [A01-Start-AAD](../../A01-Start-AAD/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
+In this lab you will set up the Northwind Orders application, which can be found in the [B01-Start-BespokeAuth](../../B01-Start-BespokeAuth/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application with Azure AD Single Sign-On. 
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md) **(You are here)**
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md) **(You are here)**
+* [Lab B02: Creating a Teams application](./Lab-B02.md)
+* [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md)
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
 In this exercise you will learn to:
 
-- [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
-- How to use the [Microsoft Authentication Library (MSAL)](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview)
-- How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens) in a NodeJS application
+- Run a web application using NodeJS
+- Expose a local web application using ngrok
 
 ### Features
 
@@ -58,243 +57,14 @@ The free version of ngrok will assign a URL similar to https://something.ngrok.i
 
 While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved (Lab 6 has a bot inside to support Messaging Extensions). If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
 
-### Exercise 2: Set up your Microsoft 365 Subscription
-
-The initial Northwind Orders application does not require Microsoft 365, but it does use Azure AD. In order to ensure the users are in the same directory as Microsoft Teams, we'll set up the Microsoft 365 tenant now and set up the application in the same Azure AD directory that we'll use throughout the workshop.
-
-#### Step 1: Get a tenant
-
-If you don't yet have a tenant, please join the [Microsoft 365 Developer Program](https://developer.microsoft.com/microsoft-365/dev-program) to get a free one. Your tenant includes 25 [E5 user licenses](https://www.microsoft.com/microsoft-365/enterprise/compare-office-365-plans) and can be renewed as long as you keep developing!
-
-Click "Join now" to begin.
-![Signup](../Assets/01-003-JoinM365DevProgram1.png)
-
-Log in with any Microsoft personal or work and school account, enter your information, and click "Next". You will have an opportunity to choose what kind of "sandbox" you want; the "Instant sandbox" is recommended.
-
-![Signup](../Assets/01-004-JoinM365DevProgram2.png)
-
-Follow the wizard and select your administrator username and password, tenant domain name, etc. The domain name you choose is just the left-most portion - for example if you enter "Contoso" your domain will be "Contoso.onmicrosoft.com".
-
-Remember this information as you'll need it throughout the labs! You will log in as <username>@<domain>.onmicrosoft.com with the password your chose. You'll be prompted for your phone number and then the system will set up your subscription.
-
-Eventually you'll be prompted to log into your new tenant. Be sure to use the new administrator credentials you just created, not the ones you used when you signed up for the developer program.
-
----
-😎 DON'T DEVELOP IN PRODUCTION: It may be tempting to build solutions right where you work every day, but there are good reasons to have a dedicated dev tenant - and probably additional staging/test tenants. They're free, and you can safely experiment as a tenant admin without risking your production work. 
-
----
-😎 NAVIGATING MANY TENANTS: Consider creating a browser profile for each tenant that will have its own favorites, stored credentials, and cookies so you can easily swtch between tenants as you work.
-
----
-😎 CHANGES ROLL OUT FIRST TO "TARGETED RELEASE" TENANTS. You may want to [enable Targeted Release](https://docs.microsoft.com/microsoft-365/admin/manage/release-options-in-office-365) in your developer tenant and keep production on Standard Release so you have a head start to test out new features.
-
----
-
-#### Step 2: Enable Teams application uploads
-
-By default, end users can't upload Teams applications directly; instead an administrator needs to upload them into the enterprise app catalog. In this step you will enable direct uploads to make developement easier and allow installation directly from the Teams user interface.
-
-  a. In the left panel of the admin center, click "Show all" to open up the entire navigation
-
-  ![M365 Admin](../Assets/01-005-M365Admin.png)
-
-  When the panel opens, click Teams to open the Microsoft Teams admin center.
-
-  ![M365 Admin](../Assets/01-006-M365Admin2.png)
-
-  b. In the left of the Microsoft Teams admin center, open the Teams apps accordion 1️⃣ and select Setup Policies 2️⃣. You will see a list of App setup policies. Click the Global (Org-wide default) policy 3️⃣.
-
-  ![Teams admin](../Assets/01-007-TeamsAdmin1.png)
-
- c. Ensure the first switch, "Upload custom apps" is turned On.
-
- ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
-
- We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
-
-### Exercise 3: Assign users as Northwind "Employees"
-
- The Northwind database contains 9 employees, so up to 9 users in your tenant will be able to use the application. (You'll only need two to complete the labs.)
-
-The Northwind Orders application expects each user's employee ID in Azure Active Directory to match their employee ID in the Northwind database. In this exercise you'll set up some test users accordingly.
-
-#### Step 1: Edit Azure AD users
-
- - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
-
- - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
-
-![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
-
-- Click "Azure Active Directory" again in the left navigation bar.
-
-![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
-
-- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "Users" in the navigation bar.
-
-![Edit users](../Assets/01-030-EditUsers-1.png)
-
-You can use existing users to run the Northwind Orders application (the names may not match the Northwind database unless you change them, but you'll know what's going on), or create new ones. It's easiest if one of the users is the administrator account you're logged into right now, so you can test the application without logging on and off, but that's up to you. Click on the user to view their user profile, and then click the "Edit" button.
-
-![Edit user's employee ID](../Assets/01-031-EditUser-2.png)
-
-Change the Employee ID to the ID of one of the users in the Northwind datbase, which are:
-
-| Employee ID | Name |
-|---|---|
-| 1 | Nancy Davolio |
-| 2 | Andrew Fuller |
-| 3 | Janet Leverling |
-| 4 | Margaret Peacock |
-| 5 | Steven Buchanan |
-| 6 | Michael Suyama |
-| 7 | Robert King |
-| 8 | Laura Callahan |
-| 9 | Anne Dodsworth |
-
-You may also choose to rename the users to match the database.
-
-#### Step 2: Ensure the users are licensed for Microsoft 365
-
-From the same user profile screen, click "Licenses" and ensure the user has an Office 365 license so they can run Microsoft Teams.
-
-![Check license](../Assets/01-032-CheckLicense.png)
-
-> NOTE: When you publish your application in the Microsoft Teams store, its licenses will not appear here along with the licenses for Microsoft products. Instead, your application will implement its own licensing, which allows ISV's to integrate with their existing license management sytem.
-
-### Exercise 4: Register your application with Azure AD
-
-In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Exercise 2, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).
-#### Step 1: Start ngrok
-
-Before you can register your application, you will need to start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
-
-~~~shell
-ngrok http 3978 -host-header=localhost
-~~~
-
-The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
-
-![ngrok output](../Assets/01-002-ngrok.png)
-
----
-> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercies which involve the ngrok URL so you can easily update it if it changes.
----
-
-#### Step 2: Register your application in Azure Active Directory
-
- - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
-
- - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
-
-![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
-
-- Click "Azure Active Directory" again in the left navigation bar.
-
-![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
-
-- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "App Registrations" in the navigation bar.
-
-![Opening App Registrations](../Assets/01-011-RegisterAADApp-3.png)
-
-- You will be shown a list of applications (if any) registered in the tenant. Click "+ New Registration" at the top to register a new application.
-
-![Adding a registration](../Assets/01-012-RegisterAADApp-4.png)
-
-You will be presented with the "Register an application" form.
-
-![Register an application form](../Assets/01-013-RegisterAADApp-5.png)
-
-- Enter a name for your application 1️⃣.
-- Under "Supported account types" select "Accounts in any organizational directory" 2️⃣. This will allow your application to be used in your customer's tenants.
-- Under "Redirect URI", select "Single-page application (SPA)" 3️⃣ and enter the ngrok URL you saved earlier 4️⃣.
-- Click the "Register" button 5️⃣
-
-You will be presented with the application overview. There are two values on this screen you need to copy for use later on; those are the Application (client) ID 1️⃣ and the Directory (tenant) ID 2️⃣.
-
-![Application overview screen](../Assets/01-014-RegisterAADApp-6.png)
-
-When you've recorded these values, navigate to "Certificates & secrets" 3️⃣.
-
-![Adding a secret](../Assets//01-015-RegisterAADApp-7.png)
-
-Now you will create a client secret, which is like a password for your application to use when it needs to authenticate with Azure AD.
-
-- Click "+ New client secret" 1️⃣
-- Enter a description 2️⃣ and select an expiration date 3️⃣ for your secret 
-- Click "Add" to add your secret. 4️⃣
-
-The secret will be displayed just this once on the "Certificates and secrets" screen. Copy it now and store it in a safe place.
-
-![Copy the app secret](../Assets/01-016-RegisterAADApp-8.png)
-
-
----
-😎 MANAGING APP SECRETS IS AN ONGOING RESPONSIBILITY. App secrets have a limited lifetime, and if they expire your application may stop working. You can have multiple secrets, so plan to roll them over as you would with a digital certificate.
-
----
-😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references) for more information.
-
----
-
-#### Step 3: Grant permissions to your application
-
-The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is the main API for Microsoft 365 and Microsoft Teams.
-
-- While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
-
-![Adding a permission](../Assets/01-017-RegisterAADApp-9.png)
-
-On the "Request API permissions" flyout, click "Microsoft Graph". It's hard to miss!
-
-![Adding a permission](../Assets/01-018-RegisterAADApp-10.png)
-
-Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
-
-The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
-
-So the application needs to read the user's employee ID from Azure AD. It could use the delegated User.Read permission that's already there, but to allow elevation of privileges for other calls it will use application permission to read the user's employee ID. For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
-
-Click "Application permissions" to add the required permission.
-
-![Adding an app permission](../Assets/01-019-RegisterAADApp-10.png)
-
-You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Click the "Add Permission" button 3️⃣.
-
-![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
-
-#### Step 4: Expose an API
-
-The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
-
-Click "Expose an API" 1️⃣ and then "Add a scope"2️⃣. Scopes expose an application's permissions; what you're doing here is adding a permission that your application's browser code can use it when calling the server. 
-
-![Expose an API](../Assets/01-021-RegisterAADApp-12.png)
-
-On the "Add a scope" flyout, edit the Application ID URI to include your ngrok URL between the "api://" and the client ID. Click the "Save and continue" button to proceed.
-
-![Set the App URI](../Assets/01-022-RegisterAADApp-13.png)
-
-Now that you've defined the application URI, the "Add a scope" flyout will allow you to set up the new permission scope. Fill in the form as follows:
-- Scope name: access_as_user
-- Who can consent: Admins only
-- Admin consent display name: Access as the logged in user
-- Admin consent description: Access Northwind services as the logged in user
-- (skip User consent fields)
-- Ensure the State is set to "Enabled"
-- Click "Add scope"
-
-![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
-
-
-### Exercise 6: Configure and run the application
+### Exercise 2: Configure and run the application
 #### Step 1: Download the starting application
 
 The starting application is in github at [https://github.com/OfficeDev/TeamsAppCamp1](https://github.com/OfficeDev/TeamsAppCamp1). Click the "Code" button and clone or download the content to your computer.
 
 ![Download the lab source code](../Assets/01-001-CloneRepo.png)
 
-The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
+The starting code for the "B" path is in the B01-Start-BespokeAuth folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
 #### Step 2: Install the app's dependencies
 
@@ -313,16 +83,11 @@ In a code editor, open the working folder you created in Step 2. Copy the *.env_
 ~~~text
 COMPANY_NAME=Northwind Traders
 PORT=3978
-
-HOSTNAME=something.ngrok.io
-TENANT_ID=00000000-0000-0000-0000-000000000000
-CLIENT_ID=00000000-0000-0000-0000-000000000000
-CLIENT_SECRET=xxxxx
 ~~~
 
-Fill in the information you've gathered so far, including your ngrok hostname and the information from the app registration.
+No changes are required to this file until future labs in the series, but you do need to create the *.env* file for the app to run.
 
-#### Step 8: Run the application
+#### Step 4: Run the application
 
 To run the application, open a command line in your working folder and type:
 
@@ -332,9 +97,15 @@ npm start
 
 At this point you should be able to browse to your ngrok URL and use the application. Note that due to the ngrok tunnel, you can try your app from anywhere on the Internet.
 
-You will quickly be directed to the Microsoft login page. 
+At first you will be directed to the Northwind login page.
 
-Log in using one of the accounts you set up with an employee ID in Exercise 3, and you should be presented with the app's home page. The home page shows the employee name and picture from the Northwind database.
+![Login page](../Assets/01b-001-Run-1.png)
+
+The login system is ridiculously simple; usernames just the last names of each employee, which are stored in the Northwind employee database. Any employee last name with any password will work! As if that wasn't insecure enough, the employees are listed right on the page! (This is intended for instructional purposes, not to be secure. Do not use this code in a real application!)
+
+Log in using one of the last names shown with a blank password; the system will ensure the employee exists and place the employee ID in a browser session cookie. Each web service request is validated by checking that the cookie contains a number. Of course a real authentication scheme would require a password or other proof of identity, and would issue a secure token in the cookie or elsewhere.
+
+When you've logged in, you will see the Northwind Orders application. The home page contains two pieces of information from the user profile, the user's full name and a small profile card showing the user's name, job title, and a logoff button.
 
 ![Home page](../Assets/01-040-Run-1.png)
 
@@ -354,7 +125,7 @@ You can also click on "Products" in the top navigation to view a list of product
 
 From there you can click into a product category to view a list of products, and then you can click into a product to see its details. The product detail page shows all the orders for the product, which leads to a list of orders, and so you can click your way around the sample data.
 
-Try logging out and logging in; you should be able to view the orders for another user in your developer tenant who has an employee ID set to a Northwind employee ID.
+Try logging out and logging in; you should be able to view the orders for another user based on the employee ID field in the Orders table.
 
 ### Exercise 7: Examine the Application Code
 

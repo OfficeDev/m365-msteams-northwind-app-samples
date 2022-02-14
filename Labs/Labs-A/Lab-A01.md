@@ -294,7 +294,7 @@ The starting application is in github at [https://github.com/OfficeDev/TeamsAppC
 
 ![Download the lab source code](../Assets/01-001-CloneRepo.png)
 
-The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
+The starting code for the "A" path is in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
 #### Step 2: Install the app's dependencies
 
