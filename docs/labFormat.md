@@ -32,5 +32,7 @@ Symbols in code: Please use `monospaced` text for variable names, function names
 
 File names: Please [hyperlink](#) to files for easy navigation
 
+Images : Save your images in a folder in the repo. Please use the image tag and refer the github url of the image asset as shown below. This is to make the images available in Dan's training tool. Relative image URLs do not work there.
 
+`<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-006-productcard.png?raw=true" alt="Product card"/>`
 
