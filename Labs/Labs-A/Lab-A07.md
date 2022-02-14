@@ -9,7 +9,7 @@ See project structures comparison in Exercise 2.
 * [Lab A04: Teams styling and themes](./Lab-A04.md)
 * [Lab A05: Add a Configurable Tab](./Lab-A05.md)
 * [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)**(You are here)**
+* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)(📍You are here)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
 In this exercise you will learn new concepts as below:
@@ -21,8 +21,8 @@ In this exercise you will learn new concepts as below:
 
 ### Features
 
-- In the order details page, add a button to open a dialog with order details.
-- In the dialog add a button to initiate a group chat with it's sales representative and their manager using deep linking.
+- In the application's order details page, add a button to open a dialog with order details.
+- In the dialog add a button to initiate a group chat with the order's sales representative and their manager using deep linking.
 
 ### Exercise 1: Code changes
 
@@ -169,11 +169,72 @@ A07-TaskModule
 In the project structure, on the right under `A07-TaskModule`, you will see emoji 🆕 near the files.
 They are the new files and folders that you need to add into the project structure.
 
-
 **1.\client\modules\orderChatCard.js**
 
-The adaptive card template used by the task module (dialog).
-
+Create a new file `orderChatCard.js` in the path `\client\modules`, which is the adaptive card template used by the task module (dialog).
+     > Adaptive cards are json files but in our project since we own these JSON files and do not use any modern bundlers, we have created JS files out of them for the ease of importing content.
+Copy below content into the new file created.
+```javascript
+export default
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.4",
+    "refresh": {
+        "userIds": [],
+        "action": {
+            "type": "Action.Execute",
+            "verb": "refresh",
+            "title": "Refresh",
+            "data": {              
+            }
+        }
+    },
+    "body": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Chat with ${contact}: Order #${orderId}",
+                            "horizontalAlignment": "left",
+                            "isSubtle": true,
+                            "wrap": true
+                        },
+                        {
+                            "type": "FactSet",
+                            "facts": [
+                              {
+                                "title": "Sales rep:",
+                                "value": "${salesRepName}"
+                              },
+                              {
+                                "title": "Sales rep manager:",
+                                "value": "${salesRepManagerName}"
+                              } 
+                                     ]
+                            }
+                        ]
+                }
+            ]
+        }
+      
+    ],
+    "actions": [
+       
+        {
+            "type": "Action.OpenUrl",
+            "title": "Chat with sales rep team",
+            "id": "chatWithUser",
+            "url": "https://teams.microsoft.com/l/chat/0/0?users=${salesRepEmail},${salesRepManagerEmail}&message=Questions%20on%20Order%20${orderId}%20&topicName=Enquire%20about%20Order%20${orderId}%20"
+        }
+    ]
+}
+```
 
 #### Step 2: Update existing files
 In the project structure, on the right under `A07-TaskModule`, you will see emoji 🔺 near the files.
@@ -424,13 +485,14 @@ export async function getUserDetailsFromAAD(aadUserId) {
 **5.\server\server.js**
 
 - Import the two functions `getAADUserFromEmployeeId()` and `getUserDetailsFromAAD()` from the module `identityService.js`.
+Replace below code block"
 Import statement
 ```javascript
 import {
   initializeIdentityService
 } from './identityService.js';
 ```
-becomes
+With:
 ```javascript
 import {
   initializeIdentityService,
@@ -467,31 +529,76 @@ app.get('/api/getUserDetailsFromAAD', async (req, res) => {
 
 });
 ```
-### Exercise 2: Test the changes
+### Exercise 3: Test the changes
+---
+Now that you have applied all code changes, let's test the features.
 
-- Install new packages by running.
+#### Step 1: Install npm packages
+
+From the command line in your working directory, install the new packages by running below script:
 
 ```nodejs
 npm i
 ```
 
-- Create updated teams app package by running
+
+#### Step 2: Create new teams app package
+
+Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
-- Upload the zipped app package in `manifest` folder in team's app catalog.
-- Start server by running
+
+#### Step 3: Upload the app package
+In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
+
+* Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
+* Upload an app to your org's app catalog (upload the app for use within your organization) - this only appears if you are a tenant administrator
+* Submit an app to your org (initiate a workflow asking a tenant administrator to install your app) - this appears for everyone
+
+In this case, choose the first option 3️⃣.
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+
+Navigate to the Northwind.zip file in your manifest directory and upload it. 
+The Teams client will display the application information, add the application to a team or a group chat.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-001-addapp.png?raw=true" alt="Add the app"/>
+
+
+#### Step 5: Start your local project
+
+Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
+
 ```nodejs
 npm start
 ```
-- Go to the app in the app catalog, and add it into a Microsoft Teams team or group chat.
-- Configure the teams tab, select a category for e.g. "Beverages".
-- Select a product for e.g. "Chai"
-- Go to one of it's orders, this will take you to the order details page.
-- In the order details page, select the button `Chat here`. This will open up the task module (dialog)
-- You can now view the name of the sales representative for this particular order and their manager's info along with a button `Chat with sales rep team`.
-- Select the button `Chat with sales rep team` to start a group chat with this team about the order.
 
+#### Step 6 : Run the application in Teams client
+
+We will add the application to a Team's team.
+Configure the tab, select a **Category** as shown below and select **Save**:
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-002-configuretab.png?raw=true" alt="Configure the app"/>
+
+Once you are in the tab, select the product to navigate to the `Product details` page.
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-003-selectproduct.png?raw=true" alt="Product details page"/>
+
+From the `Product details page`, select any order as shown below:
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
+This will take you to the `Order details page`.
+
+Notice the button `Chat here`1️⃣. This button opens a dialogue 2️⃣ to show the Sales representative and their team.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-005-chat.png?raw=true" alt="chat"/>
+
+Select `Chat with the sales rep team` button, this will initiate a group chat with the user, and the sales rep team.
+    > Manually close the dialog once you are in the group chat.
+
+1. You'll see that the chat is initiated to a group (Sales rep and the sales rep's manager)
+    > Sales rep's manager information is taken from Microsoft365 data using Microsoft Graph's [Get manager](https://docs.microsoft.com/en-us/graph/api/orgcontact-get-manager?view=graph-rest-1.0&tabs=http) api.
+1. The chat's topic has the order number from where the chat is initiated.
+1. The chat's initial message is already typed and ready with the order number.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
 
 ### Known issues
 
