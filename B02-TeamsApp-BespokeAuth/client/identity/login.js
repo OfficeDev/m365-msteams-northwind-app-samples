@@ -2,7 +2,6 @@ import {
    validateEmployeeLogin,
    setLoggedinEmployeeId
 } from './identityClient.js';
-import { inTeams } from '../modules/teamsHelpers.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 
 const loginPanel = document.getElementById('loginPanel');

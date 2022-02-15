@@ -1,4 +1,4 @@
-## Lab A03: Create a Teams app with Azure AD Single Sign-On
+## Lab B03: Create a Teams app with Azure AD Single Sign-On
 
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
@@ -10,27 +10,30 @@ The completed solution can be found in the [A03-TeamsSSO](../../A03-TeamsSSO/) f
 
 Note that as you complete the labs, the original app should still work outside of Teams! This is often a requirement of ISV's who have an app in market and need to serve an existing customer base outside of Teams.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md) **(You are here)**
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
+* [Lab B02: Creating a Teams application](./Lab-B02.md)
+* [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md) **(You are here)**
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
 In this exercise you will learn to:
 
-- Create a Microsoft Teams app manifest and package that can be installed into Teams
+- [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
+- How to use the [Microsoft Authentication Library (MSAL)](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview)
+- How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens) in a NodeJS application
+
 - Update your Azure AD app registration to allow Teams to issue tokens on behalf of your application
 - Use the Microsoft Teams JavaScript SDK to request an Azure AD access token
-- Install and test your application in Microsoft Teams
 
 ### Features
 
-- Microsoft Teams personal tab application displays the Northwind Orders web application
-- Users sign into the Teams application transparently using Azure AD SSO
-- Application alters its appearance (hides the top navigation) when running in Teams, allowing Teams tab navigation instead
+- Microsoft Teams personal tab application transparently logs the user in
+- The first time a user access the application, it prompts them for their Northwind credentials and writes their Northwind employee ID into the user's profile in Azure AD
+- After that, the application reads the employee ID from Azure AD to decide which orders to show
+
 
 ### Exercise 1: Authorize Microsoft Teams to log users into your application
 
@@ -56,7 +59,7 @@ Repeat the process for the Teams web application, `5e3ce6c0-2b1f-4285-8d4b-75ee7
 
 ![Add a client application](../Assets/03-003-AppRegistrationUpdate-3.png)
 
-### Exercise 2: Create the Teams application package
+### Exercise 2: Update the Teams application package
 
 Microsoft Teams applications don't run "inside" of Microsoft Teams, they just appear in the Teams user interface. A tab in Teams is just a web page, which could be hosted anywhere as long as the Teams client can reach it. 
 
@@ -158,7 +161,7 @@ npm run package
 
 Go ahead and run it, and two new files, manifest.json and northwind.zip (the app package) should appear in your manifest folder.
 
-### Exercise 3: Modify the application source code
+### Exercise 3: Update the application source code
 
 #### Step 1: Add a module with Teams helper functions
 

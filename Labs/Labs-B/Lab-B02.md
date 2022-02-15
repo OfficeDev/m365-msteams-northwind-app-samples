@@ -1,66 +1,31 @@
-## Lab A01: Start with Azure Active Directory
+## Lab B02: Teams App with Bespoke Authentication
 
-In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
+In this lab you will build the application you created in Lab B01 into a Microsoft Teams application. This application will still use the Northwind authentication, but since the Northwind login page won't work in the Teams tab IFrame, we'll use the Teams JavaScript SDK to show it in a pop-up.
 
-There are two options for doing the labs:
-
-* The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
-
-* the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
-
-This is the very first lab in Path A, which begins with an application that already uses Azure AD.
-
-In this lab you will set up the Northwind Orders application, which can be found in the [A01-Start-AAD](../../A01-Start-AAD/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
-
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md) **(You are here)**
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
+* [Lab B02: Creating a Teams application](./Lab-B02.md) **(You are here)**
+* [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md)
+* [Lab B04: Teams styling and themes](./Lab-B04.md)
+* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
+* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
+* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
 In this exercise you will learn to:
 
-- [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
-- How to use the [Microsoft Authentication Library (MSAL)](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview)
-- How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens) in a NodeJS application
+- Create a Microsoft Teams app manifest and package that can be installed into Teams
+- Use the Teams JavaScript SDK to display a login page in a pop-up window
+- Install and test your application in Microsoft Teams
 
 ### Features
 
-- View orders associated with the logged-in user (sales representative)
-- View products by category
-- View product details and orders for a product
-- View order details
+- Microsoft Teams personal tab application displays the Northwind Orders web application
+- Users sign into the Teams application using the existing Northwind login page
+- Application alters its appearance (hides the top navigation) when running in Teams, allowing Teams tab navigation instead
 
-The application is based on the Northwind Traders Database, which is a sample relational database that originally shipped with Microsoft Access. The Northwind Traders Database is now available as a [demonstration OData service](https://services.odata.org/), which is queried in this lab. This is a read-only data source; some of the later exercises appear to update the data but the changes are only stored in the server memory and will only persist until the server is restarted.
+### Exercise 1 Set up your Microsoft 365 Subscription
 
-### Exercise 1: Install prerequisites
-
-You can complete these labs on a Windows, Mac, or Linux machine, but you do need the ability to install the prerequisites. If you are not permitted to install applications on your computer, you'll need to find another machine (or virtual machine) to use throughout the workshop.
-
-#### Step 1: Install NodeJS
-
-NodeJS is a program that allows you to run JavaScript on your computer; it uses the open source "V8" engine, which is used in popular web browsers such as Microsoft Edge and Google Chrome. You will need NodeJS to run the web server code used throughout this workshop.
-
-Browse to [https://nodejs.org/en/download/](https://nodejs.org/en/download/) and install the "LTS" (Long Term Support) version for your operating system. This lab has been ested using NodeJS version 14.17.4 and 16.14.0. If you already have another version of NodeJS installed, you may want to set up the [Node Version Manager](https://github.com/nvm-sh/nvm) (or [this variation](https://github.com/coreybutler/nvm-windows) for Microsoft Windows), which allows you to easily switch Node versions on the same computer.
-
-#### Step 2: Install a Code Editor
-
-You can really use any code editor you wish, but we recommend [Visual Studio Code](https://code.visualstudio.com/download).
-
-#### Step 3: Install ngrok
-
-ngrok is a tunneling program that allows you to access your local web server (running in NodeJS in this case) from the Internet. To complete this exercise, download and install ngrok from [here](https://ngrok.com/download).
-
-The free version of ngrok will assign a URL similar to https://something.ngrok.io, where "something" is a random identifier. As long as ngrok is running (leave it going in a command or terminal window), you can browse your web site at that URL. If you start and stop ngrok, or try to keep it running for more than 8 hours, you'll get a new identifier and you'll need to update your app registration, environment variables, etc. The paid version of ngrok allows you to reserve the same URL for use over time, removing the need to update it when you return to the lab.
-
-While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved (Lab 6 has a bot inside to support Messaging Extensions). If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
-
-### Exercise 2: Set up your Microsoft 365 Subscription
-
-The initial Northwind Orders application does not require Microsoft 365, but it does use Azure AD. In order to ensure the users are in the same directory as Microsoft Teams, we'll set up the Microsoft 365 tenant now and set up the application in the same Azure AD directory that we'll use throughout the workshop.
+To run your application in Microsoft Teams, you'll need a Microsoft 365 subscription. In this exercise you'll acquire a free developer subscription and configure it so you can easily upload Teams applications.
 
 #### Step 1: Get a tenant
 
@@ -111,252 +76,367 @@ By default, end users can't upload Teams applications directly; instead an admin
  ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
 
  We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
+### Exercise 2: Create the Teams application package
 
-### Exercise 3: Assign users as Northwind "Employees"
+Microsoft Teams applications don't run "inside" of Microsoft Teams, they just appear in the Teams user interface. A tab in Teams is just a web page which could be hosted anywhere as long as the Teams client can reach it. 
 
- The Northwind database contains 9 employees, so up to 9 users in your tenant will be able to use the application. (You'll only need two to complete the labs.)
+To create a Teams application, you need to create a file called *manifest.json* which contains the information Teams needs to display the app, such as the URL of the Northwind Orders application. This file is placed in a .zip file along with the application icons, and the resulting application package is uploaded into Teams or distributed through the Teams app store.
 
-The Northwind Orders application expects each user's employee ID in Azure Active Directory to match their employee ID in the Northwind database. In this exercise you'll set up some test users accordingly.
+In this exercise you'll create a manifest.json file and application package for the Northwind Orders app and upload it into Microsoft Teams.
 
-#### Step 1: Edit Azure AD users
+#### Step 1: Copy the *manifest* folder to your working directory
 
- - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
+Many developers use the [Teams Developer Portal](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/teams-developer-portal) to create an app package; this is preferred by many enterprise developer and systems integrators. However ISV's may want to keep the app package settings in their source control system, and that's the approach used in the lab. It's just a zip file; you can create it any way you want!
 
- - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+Go to your local copy of the `B02-TeamsApp-BespokeAuth` folder on your computer and copy the *manifest* folder into the working folder you used in the previous lab. This folder contains a template for building the manifest.json file.
 
-![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
+#### Step 2: Examine the manifest template
 
-- Click "Azure Active Directory" again in the left navigation bar.
+In the manifest folder you just copied, open [manifest.template.json](../../A03-TeamsSSO/manifest/manifest.template.json) in your code editor. This is the JSON that Teams needs to display your application.
 
-![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
+Notice that the template contains tokens such as`<HOSTNAME>` and `<TEAMS_APPI_D>`. A small build script will take these values from your .env file and plug them into the manifest. However the token `<TEAMS_APP_ID>` is not yet in the .env file; we'll add that in the next step.
 
-- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "Users" in the navigation bar.
+Examine the `staticTabs` property in the manifest. It defines two tabs, one for the "My Orders" page and one for the "Products" page. The `contentUrl` is used within the Teams application, and `websiteUrl` is used if Teams can't render the tab and needs to launch it in a regular web browser. The Northwind Orders app will use the same code URL's for both.
 
-![Edit users](../Assets/01-030-EditUsers-1.png)
+~~~json
+"staticTabs": [
+  {
+    "entityId": "Orders",
+    "name": "My Orders",
+    "contentUrl": "https://<HOSTNAME>/pages/myOrders.html",
+    "websiteUrl": "https://<HOSTNAME>/pages/myOrders.html",
+    "scopes": [
+      "personal"
+    ]
+  },
+  {
+    "entityId": "Products",
+    "name": "Products",
+    "contentUrl": "https://<HOSTNAME>/pages/categories.html",
+    "websiteUrl": "https://<HOSTNAME>/pages/categories.html",
+    "scopes": [
+      "personal"
+    ]
 
-You can use existing users to run the Northwind Orders application (the names may not match the Northwind database unless you change them, but you'll know what's going on), or create new ones. It's easiest if one of the users is the administrator account you're logged into right now, so you can test the application without logging on and off, but that's up to you. Click on the user to view their user profile, and then click the "Edit" button.
-
-![Edit user's employee ID](../Assets/01-031-EditUser-2.png)
-
-Change the Employee ID to the ID of one of the users in the Northwind datbase, which are:
-
-| Employee ID | Name |
-|---|---|
-| 1 | Nancy Davolio |
-| 2 | Andrew Fuller |
-| 3 | Janet Leverling |
-| 4 | Margaret Peacock |
-| 5 | Steven Buchanan |
-| 6 | Michael Suyama |
-| 7 | Robert King |
-| 8 | Laura Callahan |
-| 9 | Anne Dodsworth |
-
-You may also choose to rename the users to match the database.
-
-#### Step 2: Ensure the users are licensed for Microsoft 365
-
-From the same user profile screen, click "Licenses" and ensure the user has an Office 365 license so they can run Microsoft Teams.
-
-![Check license](../Assets/01-032-CheckLicense.png)
-
-> NOTE: When you publish your application in the Microsoft Teams store, its licenses will not appear here along with the licenses for Microsoft products. Instead, your application will implement its own licensing, which allows ISV's to integrate with their existing license management sytem.
-
-### Exercise 4: Register your application with Azure AD
-
-In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Exercise 2, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).
-#### Step 1: Start ngrok
-
-Before you can register your application, you will need to start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
-
-~~~shell
-ngrok http 3978 -host-header=localhost
 ~~~
 
-The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+#### Step 3: Add the Teams App ID to the .env file
 
-![ngrok output](../Assets/01-002-ngrok.png)
+Open the .env file in your working directory and add this line:
 
----
-> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercies which involve the ngrok URL so you can easily update it if it changes.
----
+~~~text
+TEAMS_APP_ID=1331dbd6-08eb-4123-9713-017d9e0fc04a
+~~~
 
-#### Step 2: Register your application in Azure Active Directory
+You should generate a different GUID for each application you register; this one is just here for your convenience. We could have hard-coded the app ID in the manifest.json template, but there are times when you need it in your code, so this will make that possible in the future.
 
- - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
+#### Step 4: Update your package.json file
 
- - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+Open the package.json file in your working directory and add a script that will generate the app package. The [script code](../../B02-TeamsApp-BespokeAuth/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
-![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
+~~~json
+"scripts": {
+  "start": "nodemon server/server.js",
+  "debug": "nodemon --inspect server/server.js",
+  "package": "node manifest/makePackage.js"
+},
+~~~
 
-- Click "Azure Active Directory" again in the left navigation bar.
+The script uses an npm package called "adm-zip" to create the .zip file, so you need to add that as a development dependency. Update the `devDependencies` property to include it like this:
 
-![Navigating to the M365 Admin site](../Assets/01-010-RegisterAADApp-2.png)
+~~~json
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/request": "^2.48.3",
+    "nodemon": "^2.0.13",
+    "adm-zip": "^0.4.16"
+  }
+~~~
 
-- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and click "App Registrations" in the navigation bar.
-
-![Opening App Registrations](../Assets/01-011-RegisterAADApp-3.png)
-
-- You will be shown a list of applications (if any) registered in the tenant. Click "+ New Registration" at the top to register a new application.
-
-![Adding a registration](../Assets/01-012-RegisterAADApp-4.png)
-
-You will be presented with the "Register an application" form.
-
-![Register an application form](../Assets/01-013-RegisterAADApp-5.png)
-
-- Enter a name for your application 1️⃣.
-- Under "Supported account types" select "Accounts in any organizational directory" 2️⃣. This will allow your application to be used in your customer's tenants.
-- Under "Redirect URI", select "Single-page application (SPA)" 3️⃣ and enter the ngrok URL you saved earlier 4️⃣.
-- Click the "Register" button 5️⃣
-
-You will be presented with the application overview. There are two values on this screen you need to copy for use later on; those are the Application (client) ID 1️⃣ and the Directory (tenant) ID 2️⃣.
-
-![Application overview screen](../Assets/01-014-RegisterAADApp-6.png)
-
-When you've recorded these values, navigate to "Certificates & secrets" 3️⃣.
-
-![Adding a secret](../Assets//01-015-RegisterAADApp-7.png)
-
-Now you will create a client secret, which is like a password for your application to use when it needs to authenticate with Azure AD.
-
-- Click "+ New client secret" 1️⃣
-- Enter a description 2️⃣ and select an expiration date 3️⃣ for your secret 
-- Click "Add" to add your secret. 4️⃣
-
-The secret will be displayed just this once on the "Certificates and secrets" screen. Copy it now and store it in a safe place.
-
-![Copy the app secret](../Assets/01-016-RegisterAADApp-8.png)
-
-
----
-😎 MANAGING APP SECRETS IS AN ONGOING RESPONSIBILITY. App secrets have a limited lifetime, and if they expire your application may stop working. You can have multiple secrets, so plan to roll them over as you would with a digital certificate.
-
----
-😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references) for more information.
-
----
-
-#### Step 3: Grant permissions to your application
-
-The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is the main API for Microsoft 365 and Microsoft Teams.
-
-- While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
-
-![Adding a permission](../Assets/01-017-RegisterAADApp-9.png)
-
-On the "Request API permissions" flyout, click "Microsoft Graph". It's hard to miss!
-
-![Adding a permission](../Assets/01-018-RegisterAADApp-10.png)
-
-Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
-
-The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
-
-So the application needs to read the user's employee ID from Azure AD. It could use the delegated User.Read permission that's already there, but to allow elevation of privileges for other calls it will use application permission to read the user's employee ID. For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
-
-Click "Application permissions" to add the required permission.
-
-![Adding an app permission](../Assets/01-019-RegisterAADApp-10.png)
-
-You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Click the "Add Permission" button 3️⃣.
-
-![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
-
-#### Step 4: Expose an API
-
-The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
-
-Click "Expose an API" 1️⃣ and then "Add a scope"2️⃣. Scopes expose an application's permissions; what you're doing here is adding a permission that your application's browser code can use it when calling the server. 
-
-![Expose an API](../Assets/01-021-RegisterAADApp-12.png)
-
-On the "Add a scope" flyout, edit the Application ID URI to include your ngrok URL between the "api://" and the client ID. Click the "Save and continue" button to proceed.
-
-![Set the App URI](../Assets/01-022-RegisterAADApp-13.png)
-
-Now that you've defined the application URI, the "Add a scope" flyout will allow you to set up the new permission scope. Fill in the form as follows:
-- Scope name: access_as_user
-- Who can consent: Admins only
-- Admin consent display name: Access as the logged in user
-- Admin consent description: Access Northwind services as the logged in user
-- (skip User consent fields)
-- Ensure the State is set to "Enabled"
-- Click "Add scope"
-
-![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
-
-
-### Exercise 6: Configure and run the application
-#### Step 1: Download the starting application
-
-The starting application is in github at [https://github.com/OfficeDev/TeamsAppCamp1](https://github.com/OfficeDev/TeamsAppCamp1). Click the "Code" button and clone or download the content to your computer.
-
-![Download the lab source code](../Assets/01-001-CloneRepo.png)
-
-The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
-
-#### Step 2: Install the app's dependencies
-
-Using a command line tool of your choice, navigate to your working directory and type the command:
+Then, from a command line in your working directory, install the package by typing
 
 ~~~shell
 npm install
 ~~~
 
-This will install the libraries required to run the server side of your solution.
+#### Step 5: Build the package
 
-#### Step 3: Configure the app settings
+Now you can build a new package at any time with this command:
 
-In a code editor, open the working folder you created in Step 2. Copy the *.env_sample* file to a new file called *.env* and open the new file. It will look like this:
-
-~~~text
-COMPANY_NAME=Northwind Traders
-PORT=3978
-
-HOSTNAME=something.ngrok.io
-TENANT_ID=00000000-0000-0000-0000-000000000000
-CLIENT_ID=00000000-0000-0000-0000-000000000000
-CLIENT_SECRET=xxxxx
+~~~shell
+npm run package
 ~~~
 
-Fill in the information you've gathered so far, including your ngrok hostname and the information from the app registration.
+Go ahead and run it, and two new files, manifest.json and northwind.zip (the app package) should appear in your manifest folder.
 
-#### Step 8: Run the application
+### Exercise 3: Modify the application source code
 
-To run the application, open a command line in your working folder and type:
+If you were to run the application as-is in Microsoft Teams, you'd see this error message:
+
+![Error: you cannot run this app in an IFrame](../Assets/02-001-IFrame-error.png)
+
+The reason for this is that most login pages, including this one, contain code to detect if they're running in an IFrame and refuse to work. This is due to security concerns; for example a parent page could overlay content on top of the IFrame to capture the user's password. While the Northwind authentication scheme is for demonstration only and isn't really secure, it does (realistically) refuse to run in IFrame that hosts your Teams tab.
+
+In this exercise you'll add code to move the login page into a separate popup window.
+#### Step 1: Add a module with Teams helper functions
+
+Create a file called teamsHelpers.js in the client/modules folder, and paste in this code:
+
+~~~javascript
+// async function returns true if we're running in Teams
+export async function inTeams() {
+    return (window.parent === window.self && window.nativeInterface) ||
+        window.navigator.userAgent.includes("Teams/") ||
+        window.name === "embedded-page-container" ||
+        window.name === "extension-tab-frame";
+}
+~~~
+
+Alternately you can copy the file from the B02-TeamsApp-BespokeAuth/client/modules folder into your working folder. 
+
+The `inTeams()` function will allow your code to determine if it's running in Microsoft Teams, and is used in this and future labs.
+
+---
+> NOTE: There is no official way to do this with the Teams JavaScript SDK v1. The official guidance is to pass some indication that the app is running in Teams via the app's URL path or query string. This is not a single-page app, however, so we're using a workaround to avoid updating every page to generate hyperlinks that support Teams-specific URLs. This workaround is used by the [yo teams generator](https://github.com/wictorwilen/msteams-react-base-component/blob/master/src/useTeams.ts#L10), so it's well tested and in wide use, though not officially supported.
+---
+
+#### Step 2: Add a Teams launcher page
+
+When running in Microsoft Teams, we want the login page to run in a popup instead of in the main application window (which is an IFrame). In most web browsers, launching a popup requires the user to take some kind of action such as pushing a button; this rule was introduced after some web sites launched dozens of popups as soon as they opened. The Teams launcher page contains a button the user can push to open the popup.
+
+In your working folder, create a new file /client/identity/teamsLoginLauncher.html and paste this markup inside. (Alternately, you can copy the file from the B02-TeamsApp-BespokeAuth/client/identity folder).
+
+~~~html
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Northwind Login Page</title>
+    <link rel="stylesheet" href="/northwind.css" />
+    <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+</head>
+
+<body>
+
+    <h2>Northwind Login (Teams)</h2>
+    <br />
+    <div id="teamsLoginLauncher">
+        <button id="teamsLoginLauncherButton">Log in</button>
+    </div>
+    <div id="message" class="errorMessage"></div>
+
+    <script type="module" src="/identity/teamsLoginLauncher.js"></script>
+
+</body>
+
+</html>
+~~~
+
+Now create a corresponding JavaScript file, /client/identity/teamsLoginLauncher.js, or copy it from the B02-TeamsApp-BespokeAuth/client/identity folder:
+
+~~~javascript
+import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+
+const teamsLoginLauncherButton = document.getElementById('teamsLoginLauncherButton');
+
+microsoftTeams.initialize(() => {
+
+   teamsLoginLauncherButton.addEventListener('click', async ev => {
+      microsoftTeams.authentication.authenticate({
+         url: `${window.location.origin}/identity/login.html?teams=true`,
+         width: 600,
+         height: 535,
+         successCallback: (response) => {
+            window.location.href = document.referrer;
+         },
+         failureCallback: (reason) => {
+            throw `Error in teams.authentication.authenticate: ${reason}`
+         }
+      });
+   });
+   
+});
+~~~
+
+The import statement loads the Teams JavaScript SDK, which is available for bundled apps as an npm package. In this case we're loading the CDN link (we could have used a `<script>` tag but we'd have to modify every page in the application). Since the Teams JavaScript SDK is packaged as a script and not a module (it has no `export`s), we will access the SDK using a global object `microsoftTeams`.
+
+The `microsoftTeams.initialize()` call must be called at least once before any other SDK call. Although you'll often see people calling this synchronously, it's safer to allow the function to call back in case it needs to run a long-running operation.
+
+The call to `microsoftTeams.authenticatation.authenticate()` is what launches the popup winodow.The popup will contain the same login page with minor modifications; these are applied in the next step. If the login is successful, the page will call an SDK function `notifySuccess()`, which will cause the `successCallback` to run and send the user to their originally requested page.
+
+#### Step 3: Modify the login page
+
+The only change needed in the login page is to return the logged in user credentials (the employee ID) to the teamsLoginLauncher page you added in the previous step. To do this, add these import statements at the top of /client/identity/login.js:
+
+~~~javascript
+import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+~~~
+
+Now in the `logInUser()` function replace the line of code
+
+~~~javascript
+window.location.href = document.referrer;
+~~~
+
+with this:
+
+~~~javascript
+if (window.location.search.indexOf('teams=true') >= 0) {
+    microsoftTeams.initialize(() => {
+        microsoftTeams.authentication.notifySuccess(employeeId);
+    });
+} else {
+    window.location.href = document.referrer;
+}
+~~~
+
+This will check if it's running in Teams (using a query string this time, since the `inTeams()` function doesn't work in a Teams popup) and if so, it calls the Teams JavaScript SDK function `notifySuccess()` to return the employee ID to the launcher page. The finished login.js should look like this:
+
+~~~javascript
+import {
+   validateEmployeeLogin,
+   setLoggedinEmployeeId
+} from './identityClient.js';
+import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+
+const loginPanel = document.getElementById('loginPanel');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const loginButton = document.getElementById('loginButton');
+const messageDiv = document.getElementById('message');
+const hintUL = document.getElementById('hintList');
+
+if (window.location !== window.parent.location) {
+   // The page is in an iframe - refuse service
+   messageDiv.innerText = "ERROR: You cannot run this app in an IFrame";
+} else {
+
+   loginPanel.style.display = 'inline';
+   loginButton.addEventListener('click', logInUser);
+   loginPanel.addEventListener('keypress', async function (e) {
+      if (e.key === 'Enter') {
+        await logInUser();
+      }
+   });
+   
+   async function logInUser (ev) {
+
+      messageDiv.innerText = "";
+      const employeeId = await validateEmployeeLogin(
+         usernameInput.value,
+         passwordInput.value
+      );
+      if (employeeId) {
+         setLoggedinEmployeeId(employeeId);
+         if (window.location.search.indexOf('teams=true') >= 0) {
+            microsoftTeams.initialize(() => {
+               microsoftTeams.authentication.notifySuccess(employeeId);
+            });
+         } else {
+            window.location.href = document.referrer;
+         }
+      } else {
+         messageDiv.innerText = "Error: user not found";
+      }
+   }
+}
+~~~
+
+#### Step 4: Modify the logoff code
+
+The logoff code simply sets the login cookie to 0 and directs the user back to the login page. To accomodate the application running in Microsoft teams, this function needs to check if it's running in Teams and send the user to the teamsLauncher.html page we created in Step 2.
+
+Open the /client/identity/identityClient.js file in your code editor and add this line at the top.
+
+~~~javascript
+import { inTeams } from '../modules/teamsHelpers.js';
+~~~
+
+Replace the `logoff()` function with this code to redirect to the launcher when the app is running in Teams.
+
+~~~javascript
+export async function logoff() {
+    setLoggedinEmployeeId(0);
+
+    // Redirect to the login page
+    if (!(await inTeams())) {
+        window.location.href = "/identity/login.html";
+    } else {
+        window.location.href = "/identity/teamsLoginLauncher.html";
+    }
+}
+~~~
+
+#### Step 5: Hide the navigation within Teams
+
+Microsoft Teams already has multiple levels of navigation, including multiple tabs as configured in the previous exercise. So the applications' built-in navigation is redundant in Teams.
+
+To hide the built-in navigation in Teams, open the client/components/navigation.js file and add this import statement at the top.
+
+~~~javascript
+import { inTeams } from '../modules/teamsHelpers.js';
+~~~
+
+Now modify the `connectedCallback()` function, which displays the navigation web component, to skip rendering if it's running in Teams. The resulting function should look like this:
+
+~~~javascript
+async connectedCallback() {
+
+    if (!(await inTeams())) {
+        let listItemHtml = "";
+        topNavLinks.forEach(link => {
+            if (window.location.href.indexOf(link.url) < 0) {
+                listItemHtml += '<li><a href="' + link.url + '">' + link.text + '</a></li>';
+            } else {
+                return listItemHtml += '<li><a href="' + link.url + '" class="selected">' + link.text + '</a></li>';
+            }
+        });
+        this.innerHTML = `
+            <ul class="topnav">${listItemHtml}</ul>
+        `;
+    }
+
+}
+~~~
+
+---
+> NOTE: Web components are encapsulated custom HTML elements. They're not a Teams thing, nor do they use React or another UI library; they're built right into modern web browsers. You can learn more [in this article](https://developer.mozilla.org/en-US/docs/Web/Web_Components.)
+---
+
+### Exercise 4: Test your application in Microsoft Teams
+
+#### Step 1: Start the application
+
+Now it's time to run your updated application and run it in Microsoft Teams. Start the application with this command:
 
 ~~~shell
 npm start
 ~~~
 
-At this point you should be able to browse to your ngrok URL and use the application. Note that due to the ngrok tunnel, you can try your app from anywhere on the Internet.
+#### Step 2: Upload the app package
 
-You will quickly be directed to the Microsoft login page. 
+In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
-Log in using one of the accounts you set up with an employee ID in Exercise 3, and you should be presented with the app's home page. The home page shows the employee name and picture from the Northwind database.
+* Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
+* Upload an app to your org's app catalog (upload the app for use within your organization) - this only appears if you are a tenant administrator
+* Submit an app to your org (initiate a workflow asking a tenant administrator to install your app) - this appears for everyone
 
-![Home page](../Assets/01-040-Run-1.png)
+In this case, choose the first option 3️⃣.
 
-Click "My Orders" in the top navigation bar to view the employee's orders.
+![Upload the app](../Assets/03-005-InstallApp-1.png)
 
-![My Orders page](../Assets/01-041-Run-2.png)
+Navigate to the Northwind.zip file in your manifest directory and upload it. Teams will display the application information; click the "Add" button to install it for your personal use.
 
-You can click on any order to view the details.
+![Upload the app](../Assets/03-006-InstallApp-2.png)
 
-![Viewing an order](../Assets/01-042-Run-3.png)
+#### Step 3: Run the application
 
-From here you can click on any product to view its details. Much of the data is hyperlinked in this fashion.
+The application should appear without any login prompt. The app's navigation should not be displayed; instead users can navigate to "My Orders" or "Products" using the tabs in the Teams app.
 
-You can also click on "Products" in the top navigation to view a list of product categories.
+![Run the app](../Assets/03-007-RunApp-1.png)
 
-![View product categories](../Assets/01-043-Run-4.png)
-
-From there you can click into a product category to view a list of products, and then you can click into a product to see its details. The product detail page shows all the orders for the product, which leads to a list of orders, and so you can click your way around the sample data.
-
-Try logging out and logging in; you should be able to view the orders for another user in your developer tenant who has an employee ID set to a Northwind employee ID.
-
-### Exercise 7: Examine the Application Code
+### Exercise 5: Examine the Application Code
 
 TO BE PROVIDED
 
