@@ -1,6 +1,7 @@
+import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 import { NORTHWIND_ODATA_SERVICE } from './constants.js';
-import dotenv from 'dotenv';
+
 dotenv.config();
 
 // Mock identity service based on Northwind employees

@@ -21,7 +21,7 @@ In this lab you will set up the Northwind Orders application, which can be found
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-In this exercise you will learn to:
+In this lab you will learn to:
 
 - [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
 - How to use the [Microsoft Authentication Library (MSAL)](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview)
@@ -294,7 +294,7 @@ The starting application is in github at [https://github.com/OfficeDev/TeamsAppC
 
 ![Download the lab source code](../Assets/01-001-CloneRepo.png)
 
-The starting code for the "A" path are in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
+The starting code for the "A" path is in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
 #### Step 2: Install the app's dependencies
 
