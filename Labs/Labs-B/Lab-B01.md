@@ -21,7 +21,7 @@ In this lab you will set up the Northwind Orders application, which can be found
 * [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
 * [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
-In this exercise you will learn to:
+In this lab you will learn to:
 
 - Run a web application using NodeJS
 - Expose a local web application using ngrok

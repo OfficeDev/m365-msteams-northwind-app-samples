@@ -129,8 +129,6 @@ app.get('/modules/env.js', (req, res) => {
   res.contentType("application/javascript");
   res.send(`
     export const env = {
-      CLIENT_ID: ${process.env.CLIENT_ID};
-      HOSTNAME: ${process.env.HOSTNAME};
     };
   `);
 });

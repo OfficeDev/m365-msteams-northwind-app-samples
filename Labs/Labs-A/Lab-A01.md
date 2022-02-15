@@ -21,7 +21,7 @@ In this lab you will set up the Northwind Orders application, which can be found
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-In this exercise you will learn to:
+In this lab you will learn to:
 
 - [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
 - How to use the [Microsoft Authentication Library (MSAL)](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview)

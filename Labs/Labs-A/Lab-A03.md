@@ -19,7 +19,7 @@ Note that as you complete the labs, the original app should still work outside o
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-In this exercise you will learn to:
+In this lab you will learn to:
 
 - Create a Microsoft Teams app manifest and package that can be installed into Teams
 - Update your Azure AD app registration to allow Teams to issue tokens on behalf of your application

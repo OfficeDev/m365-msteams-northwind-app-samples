@@ -11,7 +11,7 @@ In this lab you will build the application you created in Lab B01 into a Microso
 * [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
 * [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 
-In this exercise you will learn to:
+In this lab you will learn to:
 
 - Create a Microsoft Teams app manifest and package that can be installed into Teams
 - Use the Teams JavaScript SDK to display a login page in a pop-up window
@@ -24,6 +24,7 @@ In this exercise you will learn to:
 - Application alters its appearance (hides the top navigation) when running in Teams, allowing Teams tab navigation instead
 
 ### Exercise 1 Set up your Microsoft 365 Subscription
+
 
 To run your application in Microsoft Teams, you'll need a Microsoft 365 subscription. In this exercise you'll acquire a free developer subscription and configure it so you can easily upload Teams applications.
 
@@ -76,7 +77,26 @@ By default, end users can't upload Teams applications directly; instead an admin
  ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
 
  We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
-### Exercise 2: Create the Teams application package
+
+ ### Exercise 2: Start ngrok and obtain the ngrok URL
+
+#### Step 1: Start ngrok
+
+Before you can register your application, you will need to start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
+
+~~~shell
+ngrok http 3978 -host-header=localhost
+~~~
+
+The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+
+![ngrok output](../Assets/01-002-ngrok.png)
+
+---
+> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercies which involve the ngrok URL so you can easily update it if it changes.
+---
+
+### Exercise 3: Create the Teams application package
 
 Microsoft Teams applications don't run "inside" of Microsoft Teams, they just appear in the Teams user interface. A tab in Teams is just a web page which could be hosted anywhere as long as the Teams client can reach it. 
 
@@ -122,10 +142,11 @@ Examine the `staticTabs` property in the manifest. It defines two tabs, one for 
 
 #### Step 3: Add the Teams App ID to the .env file
 
-Open the .env file in your working directory and add this line:
+Open the .env file in your working directory and add these lines, using the ngrok URL:
 
 ~~~text
 TEAMS_APP_ID=1331dbd6-08eb-4123-9713-017d9e0fc04a
+HOSTNAME=<something>.ngrok.io
 ~~~
 
 You should generate a different GUID for each application you register; this one is just here for your convenience. We could have hard-coded the app ID in the manifest.json template, but there are times when you need it in your code, so this will make that possible in the future.
