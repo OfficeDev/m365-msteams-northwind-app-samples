@@ -9,7 +9,7 @@ See project structures comparison in Exercise 2.
 * [Lab A04: Teams styling and themes](./Lab-A04.md)
 * [Lab A05: Add a Configurable Tab](./Lab-A05.md)
 * [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)(📍You are here)
+* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md) (📍You are here)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
 In this exercise you will learn new concepts as below:

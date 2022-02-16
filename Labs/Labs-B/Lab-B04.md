@@ -6,7 +6,7 @@ See project structures comparison in Exercise 1.
 * [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
 * [Lab B02: Create a teams app](./Lab-B02.md)
 * [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
-* [Lab B04: Teams styling and themes](./Lab-B04.md)(📍You are here)
+* [Lab B04: Teams styling and themes](./Lab-B04.md) (📍You are here)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
 * [Lab B06: Add a Messaging Extension](./Lab-B06.md)
 * [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md) 

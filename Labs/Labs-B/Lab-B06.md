@@ -8,7 +8,7 @@ See project structures comparison in Exercise 2.
 * [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
 * [Lab B04: Teams styling and themes](./Lab-B04.md)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
-* [Lab B06: Add a Messaging Extension](./Lab-B06.md)(📍You are here)
+* [Lab B06: Add a Messaging Extension](./Lab-B06.md) (📍You are here)
 * [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
 * [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
 

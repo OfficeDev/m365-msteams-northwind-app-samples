@@ -12,7 +12,7 @@ There are two options for doing the labs:
 
 In this lab you will set up the Northwind Orders application, which can be found in the [B01-Start-BespokeAuth](../../B01-Start-BespokeAuth/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application with Azure AD Single Sign-On. 
 
-* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md) **(You are here)**
+* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md) (📍You are here)
 * [Lab B02: Creating a Teams application](./Lab-B02.md)
 * [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md)
 * [Lab B04: Teams styling and themes](./Lab-B04.md)
