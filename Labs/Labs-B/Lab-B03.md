@@ -140,7 +140,7 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
 
 
-### Step 4: Authorize Microsoft Teams to log users into your application
+#### Step 4: Authorize Microsoft Teams to log users into your application
 
 Microsoft Teams provides a Single Sign-On (SSO) capability so users are silently logged into your application using the same credentials they used to log into Microsoft Teams. This requires giving Microsoft Teams permission to issue Azure AD tokens on behalf of your application. In this step, you'll provide that permission.
 
