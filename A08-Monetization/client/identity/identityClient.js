@@ -164,6 +164,7 @@ export async function getFetchHeadersAuth() {
     });
 }
 
+
 export async function getAADUserFromEmployeeId(employeeId) {
 
     const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {
