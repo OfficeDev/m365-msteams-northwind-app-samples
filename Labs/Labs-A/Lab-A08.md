@@ -76,21 +76,22 @@ Clone or download the project into your local machine.
 #### Step 3:  Get everything ready to run ARM template
 
 - In the project you just downloaded in Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/`.
-- Open the `ARMParameters.json` file and update the following parameters with values you choose.
-
+- Open the `ARMParameters.json` file and update the following parameters with values you choose:
+    - webAppSiteName
+    - webApiSiteName
+    - resourceMockWebSiteName
+    - domainName
+    - directoryId (Directory (tenant) ID)
+    - sqlAdministratorLogin
+    - sqlAdministratorLoginPassword
+    - sqlMockDatabaseName
+    - sqlSampleDatabaseName
+    
+    > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources
      1. You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
 
      2. For domainName and directoryId, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
-        - webAppSiteName
-        - webApiSiteName
-        - resourceMockWebSiteName
-        - domainName
-        - directoryId (Directory (tenant) ID)
-        - sqlAdministratorLogin
-        - sqlAdministratorLoginPassword
-        - sqlMockDatabaseName
-        - sqlSampleDatabaseName
     
 1. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
 
@@ -98,15 +99,36 @@ Clone or download the project into your local machine.
 
 1. Click **Accept**.
 
- ![Graph consent](/Assets/08-001.png)
+ ![Graph consent](../Assets/08-001.png)
+
+Once accepted, the browser will redirect and show below message. You can now close the browser and continue with the PowerShell command line.
+
+ ![Graph consent redirect](../Assets/08-001-1.png)
+
+> What this step does is add `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
 
 1. In the same window run `.\InstallApps.ps1`
 
+> You might get a warning as shown below. And it depends on the execution policy settings in the machine. 
+
+ ![execution policy](../Assets/08-001-2.png)
+
+Let's set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2).
+
+Run below script:
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+Now re-run `.\InstallApps.ps1`
+
+The script should now run to create all four applications in Azure AD. At the end of the script, your command line should display below information. Copy them some where. We'll need it later.
+
 1. Create and configure Azure AD apps successfully.
 
- ![app id secret](/Assets/08-002.png)
+ ![app id secret](../Assets/08-002.png)
 
-1. Copy the values from the output and later you will need  these values to update the code and config file for deploying Add-ins.
+1. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins.
+1. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
 
 #### Step 4:  Deploy the ARM template with PowerShell
 
