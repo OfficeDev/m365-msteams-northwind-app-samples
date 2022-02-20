@@ -185,11 +185,11 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your lab exercise project folder `A08-Monetization` and replace the values:
-
-
-> SAAS_API=https://&lt;webApiSiteName&gt;.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
-> SAAS_SCOPES=api://&lt;webApiClientId&gt;/user_impersonation
+Add below entries into .env files in your lab exercise project folder `A08-Monetization` and add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt;:
+```
+ SAAS_API=https://&lt;webApiSiteName&gt;.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
+ SAAS_SCOPES=api://&lt;webApiClientId&gt;/user_impersonation
+```
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
 
