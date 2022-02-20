@@ -187,8 +187,8 @@ The final messages may look like this:
 
 Add below entries into .env files in your lab exercise project folder `B08-Monetization` and add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt;:
 ```
- SAAS_API=https://&lt;webApiSiteName&gt;.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
- SAAS_SCOPES=api://&lt;webApiClientId&gt;/user_impersonation
+ SAAS_API=https://<webApiSiteName>.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
+ SAAS_SCOPES=api://<webApiClientId>/user_impersonation
 ```
 
 
