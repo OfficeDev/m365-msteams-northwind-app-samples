@@ -121,35 +121,48 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 Now re-run `.\InstallApps.ps1`
 
-The script should now run to create all four applications in Azure AD. At the end of the script, your command line should display below information. Copy them some where. We'll need it later.
+The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
-1. Create and configure Azure AD apps successfully.
 
  ![app id secret](../Assets/08-002.png)
 
-1. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins.
+1. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
 1. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
 
 #### Step 4:  Deploy the ARM template with PowerShell
 
-1. Open PowerShell 7 and run the Powershell command `Connect-AzAccount`.
+Open PowerShell 7 and run the Powershell command `Connect-AzAccount`.
 
-   ![AZ CLI](/Assets/08-003.png)
+This will redirect you to login page. Once you confirm with the Global admin credentials you have been using all along in this exercise, you will be redirected to a page displaying below:
 
-1. Run the script `.\DeployTemplate.ps1`. When prompted, enter the name of the resource group to create.
+![Azure CLI consent redirect](../Assets/08-001-1.png)
 
-    ![AZ CLI](/Assets/08-004.png)
+You can now close the browser and continue with the PowerShell command line. You will see similar output in your command line, if everything is okay:
 
-1. Deploy ARM Template successfully.
+![AZ CLI](../Assets/08-003.png)
 
-   ![AZ CLI](/Assets/08-005.png)
+Run the script `.\DeployTemplate.ps1`. When prompted, enter the name of the resource group to create. 
+
+![AZ CLI](../Assets/08-004-1.png)
+
+Your resourses will start to get deployed one after the other and you'll see the output as shown below if everything is okay:
+
+![AZ CLI](../Assets/08-004.png)
+
+You'll get a message on the command line, that the ARM Template deployment was successfully as shown below:
+
+![AZ CLI](../Assets/08-005.png)
+
+To confirm the creation of all three azure ad apps, go to the `App registrations` in Azure AD in Azure portal. Use this [link](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps) to navigate to it.
+
+Under **All applications**,  filter with Display name `Contoso Monetization`.
+You should see three apps as shown in the screen below:
+
+![AZ AD Apps](../Assets/08-006.png)
 
 #### Step 5: Deploy server side code
-## Compile and deploy the server code
 
-  >**Note:** Please make sure that the default NuGet package source **https://api.nuget.org/v3/index.json** is correctly added in Visual Studio 2019.
-
-  ![Code Path](../Deployment/Images/23.png)
+Now let's deploy the server side code for these three applications.
 
 1. In the command line, change to the **.\MonetizationCodeSample** directory.
 
@@ -157,11 +170,17 @@ The script should now run to create all four applications in Azure AD. At the en
 
 1. When prompted, enter the same resource group name.
 
-1. Deploy code successfully.
+You will see the source code in your local machine getting built and packaged.
 
-    >**Note:** You may see some warnings about file expiration, please ignore.
+  ![Build Apps](../Assets/08-007.png)
 
-   ![Code Path](../Deployment/Images/10.png)
+
+
+> **Note:** You may see some warnings about file expiration, please ignore.
+
+The final messages may look like this:
+
+ ![publish Apps](../Assets/08-008.png)
 
 
 #### Step 6: Update .env file with deployed resources.
@@ -169,7 +188,10 @@ The script should now run to create all four applications in Azure AD. At the en
 Add below entries into .env files and replace the values:
 
 > SAAS_API=https://&lt;webApiSiteName&gt;.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
-> SAAS_SCOPES=api://&lt;t&gt;/user_impersonation
+> SAAS_SCOPES=api://&lt;webApiClientId&gt;/user_impersonation
+
+Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
+
 
 ### Exercise n: Grant the Northwind Orders app permission to call the licensing service in Azure
 
