@@ -144,7 +144,7 @@ B03-TeamSSO-IdMapping
 </td>
 </tr>
 </table>
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+
 
 ### Exercise 1: Register your application with Azure AD
 

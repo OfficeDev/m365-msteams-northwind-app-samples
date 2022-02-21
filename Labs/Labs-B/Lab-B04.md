@@ -130,7 +130,7 @@ B04-StyleAndThemes
 </td>
 </tr>
 </table>
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+
 
 ### Exercise 1: Code changes
 ---
@@ -827,6 +827,14 @@ Copy below import statement to the top of the file:
 ```javascript
 @import "teamstyle.css";
 ```
+**3. manifest\manifest.template.json**
+
+Update version number from `1.3.0` to `1.4.0`.
+~~~json
+"version": "1.4.0"
+~~~
+> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+
 #### Step 3: Create new teams app package
 
 Create updated teams app package by running below script:

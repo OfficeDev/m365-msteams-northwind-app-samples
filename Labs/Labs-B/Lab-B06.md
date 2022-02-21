@@ -160,7 +160,6 @@ B06-MessagingExtension
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 ### Exercise 1: Bot registration
 ---
 Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
@@ -625,7 +624,6 @@ export class StockManagerBot extends TeamsActivityHandler {
 }
     
 ```
-- Add a local `.env` file based on the sample file `.env_Sample`. Update all values for the keys, based on how far you have reached in this lab.
 
 #### Step 2: Update existing files
 In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🔺 near the files.
@@ -650,15 +648,13 @@ With:
 </pre>
 
 **2.manifest\manifest.template.json**
-Update the version number in the `manifest.template.json`.
-Replace code block:
-<pre>
- "version": "1.5.0",
-</pre>
-With:
-<pre>
- "version": "1.<b>6</b>.0",
-</pre>
+
+Update version number from `1.5.0` to `1.6.0`.
+~~~json
+"version": "1.6.0"
+~~~
+
+> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
 
 Add the messaging extension command information in the manifest:
 <pre>

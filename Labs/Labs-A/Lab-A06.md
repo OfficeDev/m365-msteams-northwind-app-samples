@@ -149,7 +149,6 @@ A06-MessagingExtension
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Bot registration
 ---
@@ -614,7 +613,6 @@ export class StockManagerBot extends TeamsActivityHandler {
 }
     
 ```
-- Add a local `.env` file based on the sample file `.env_Sample`. Update all values for the keys, based on how far you have reached in this lab.
 
 #### Step 2: Update existing files
 In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🔺 near the files.
@@ -689,6 +687,11 @@ Add the messaging extension command information in the manifest:
   ],
 </pre>
 
+Update version number from `1.5.0` to `1.6.0`.
+~~~json
+"version": "1.6.0"
+~~~
+> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
 **3.server\identityService.js**
 
 Add a condition to let validation will be performed by Bot Framework Adapter.

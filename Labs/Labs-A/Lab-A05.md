@@ -140,7 +140,6 @@ A05-ConfigurableTab
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Create a configuration page
 
