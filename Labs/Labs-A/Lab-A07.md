@@ -1,4 +1,8 @@
 ## Lab A07: Add a Task Module and Deep Link
+This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
+Let's look at `Task modules` which are dialogues and `Deep links` which is a smart navigation mechanism within Teams.
+**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. Using **Deep links** your application can help users navigate easily and intelligently within your application.
 
 In this lab you will begin with the application in folder `A06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `A07-TaskModule`.
 See project structures comparison in Exercise 2.
@@ -175,8 +179,10 @@ They are the new files and folders that you need to add into the project structu
 
 **1.\client\modules\orderChatCard.js**
 
-Create a new file `orderChatCard.js` in the path `\client\modules`, which is the adaptive card template used by the task module (dialog).
-     > Adaptive cards are json files but in our project since we own these JSON files and do not use any modern bundlers, we have created JS files out of them for the ease of importing content.
+Create a new file `orderChatCard.js` in the path `\client\modules`, which is the adaptive card template used by the task module (dialog). You can also use any HTML or JavsScript file for creating task modules. Here we will use adaptive cards.
+
+> Adaptive cards are json files but in our project since we own these JSON files and do not use any modern bundlers, we have created JS files out of them for the ease of importing content.
+
 Copy below content into the new file created.
 ```javascript
 export default

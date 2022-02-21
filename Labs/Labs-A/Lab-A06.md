@@ -190,7 +190,7 @@ You'll need to register your web service as a bot in the Bot Framework and updat
 
 #### Step 2: Run ngrok 
 
-<mark>Ignore this step if you have ngrok already running</mark>
+> Ignore this step if you have ngrok already running
 
 Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
 
@@ -225,7 +225,7 @@ They are the new files and folders that you need to add into the project structu
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
     As long as you got the names of the images right, we don't have to worry what images your want to add in the folder 😉. You can get creative here!
 
-- Create a new `cards` folder under the existing `server` folder and add three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js`.   
+- Create a new `cards` folder under the  `server` folder and add three files `errorCard.js`,`productCard.js` and `stockUpdateSuccess.js`.   
   They are adaptive cards needed for the messaging extension to display in a conversation based on what state the cards are in.
   For e.g. if it's a product card, the bot will use `productCard.js`, if the form is submitted by a user to update the stock value, the bot will use the `stockUpdateSuccess.js` card to let users know the action is completed and incase of any error `errorCard.js` will be displayed.
     
