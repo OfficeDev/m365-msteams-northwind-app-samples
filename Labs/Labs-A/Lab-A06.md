@@ -1,4 +1,9 @@
 ## Lab A06: Extend teams application with Messaging Extension
+This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+
+So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
+
+Suppose you want to search some data in an external system (in our case the Northwind database) and share the result in a conversation. Or you want to do an action like create, add or update data into this external system and still share all this in a conversation in Teams. All this is possible using **Messaging extensions** capability in Teams. 
 
 In this lab you will begin with the application in folder `A05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `A06-MessagingExtension`.
 See project structures comparison in Exercise 2.
@@ -177,13 +182,15 @@ You'll need to register your web service as a bot in the Bot Framework and updat
 - Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
 - Create a new **Client secret** and copy the `Value` immediately (we will need this later as *BOT_REG_AAD_APP_PASSWORD* in .env file)
 - Go to the registered bot, and on the left navigation select **Channels**.
-- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
+- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot. Select **Save**.
 
 > A channel is a connection between a communication application (like teams client here) and a bot. A bot, registered with Azure, uses channels to help the bot communicate with users. You can configure a bot to connect to any of the other standard channels such as Alexa, Facebook Messenger, and Slack.
 
 <div id="ex1-step2"></div>
 
 #### Step 2: Run ngrok 
+
+<mark>Ignore this step if you have ngrok already running</mark>
 
 Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
 
@@ -198,7 +205,7 @@ The terminal will display a screen like below; Save the URL for [Step 3](#ex1-st
 
 #### Step 3: Update the bot registration configuration
 
-- Copy the url from the above step and go to the bot registered in the Azure portal in [Step 1](#ex1-step1).
+- Copy the ngrok url from the above step and go to the bot registered in the Azure portal in [Step 1](#ex1-step1).
 - Go to the **Configuration** page from the left navigation.
 - Immediately on the top of the page you will find a field called **Messaging endpoint**.
 - Paste the ngrok url from [Step 2](#ex1-step2) and append `/api/messages` to the url and select **Apply**.
@@ -214,7 +221,7 @@ After Step 3, the configuration page of your Azure Bot would look like below.
 In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🆕 near the files & folders.
 They are the new files and folders that you need to add into the project structure.
 
-- Create a new `images` folder and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/A06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
+- Create a new `images` folder under `client` folder and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/A06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
     As long as you got the names of the images right, we don't have to worry what images your want to add in the folder 😉. You can get creative here!
 
@@ -637,21 +644,12 @@ With:
 </pre>
 
 **2.manifest\manifest.template.json**
-Update the version number in the `manifest.template.json`.
-Replace code block:
-<pre>
- "version": "1.5.0",
-</pre>
-With:
-<pre>
- "version": "1.<b>6</b>.0",
-</pre>
 
-Add the messaging extension command information in the manifest:
-<pre>
+Add the messaging extension command information in the manifest after `showLoadingIndicator` property:
+~~~
 "composeExtensions": [
     {
-    "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
+    "botId": "<BOT_REG_AAD_APP_ID>",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -685,7 +683,7 @@ Add the messaging extension command information in the manifest:
       "supportsFiles": false
     }
   ],
-</pre>
+~~~
 
 Update version number from `1.5.0` to `1.6.0`.
 ~~~json
