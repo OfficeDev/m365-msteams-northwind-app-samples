@@ -12,17 +12,21 @@ See project structures comparison in Exercise 1.
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-We will cover the following concepts in this exercise:
-
 
 ### Features
 
+- Apply teams styling and themes to your existing application.
 
 ### Exercise 1: Code changes
 ---
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
 On your left is the contents of folder  `A03-TeamsSSO` and on your right is the contents of folder `A04-StyleAndThemes`.
+
+- 🆕 New files/folders
+
+- 🔺Files changed
+
 
 <table>
 <tr>
@@ -54,15 +58,13 @@ A03-TeamsSSO
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js
     ├── 🔺northwind.css
     ├── manifest
     │   └── makePackage.js
-    │   └── manifest.template.json
+    │   └── 🔺manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     │   └── constants.js
@@ -99,8 +101,6 @@ A04-StyleAndThemes
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js
@@ -108,7 +108,7 @@ A04-StyleAndThemes
     ├── 🆕teamstyle.css
     ├── manifest
     │   └── makePackage.js
-    │   └── manifest.template.json
+    │   └── 🔺manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     │   └── constants.js
@@ -124,6 +124,7 @@ A04-StyleAndThemes
 </tr>
 </table>
 
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 #### Step 1: Add new files & folders
 

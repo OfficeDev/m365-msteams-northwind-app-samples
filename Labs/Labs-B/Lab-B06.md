@@ -23,6 +23,144 @@ We will cover the following concepts in this exercise:
 - A search based messaging extension to search for products and share result in the form of a rich  card in a conversation.
 - In the rich  card, provide an input field and a submit button for users to take action to update stock value of a product in the Northwind Database, all happening in the same conversation
 
+### Project structure
+The project structure when you start of this lab and end of this lab is as follows.
+Use this depiction for comparison.
+On your left is the contents of folder  `B05-ConfigurableTab` and on your right is the contents of folder `B06-MessagingExtension`.
+- 🆕 New files/folders
+
+- 🔺Files changed
+<table>
+<tr>
+<th >Project Structure Before </th>
+<th>Project Structure After</th>
+</tr>
+<tr>
+<td valign="top" >
+<pre>
+B05-ConfigurableTab
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
+    │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── tabConfig.html
+    │   └── tabConfig.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── teamstyle.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+<td>
+<pre>
+B06-MessagingExtension
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
+    │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
+    │       └── userPanel.js
+    ├── 🆕images
+    │   └── 🆕1.PNG
+    │   └── 🆕2.PNG
+    │   └── 🆕3.PNG
+    │   └── 🆕4.PNG
+    │   └── 🆕5.PNG
+    │   └── 🆕6.PNG
+    │   └── 🆕7.PNG
+    │   └── 🆕8.PNG
+    │   └── 🆕9.PNG
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── tabConfig.html
+    │   └── tabConfig.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── teamstyle.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── 🆕cards
+    │       └── 🆕errorCard.js
+    │       └── 🆕productCard.js
+    │       └── 🆕stockUpdateSuccess.js
+    │   └── 🆕bot.js
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+</tr>
+</table>
+
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 ### Exercise 1: Bot registration
 ---
 Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
@@ -81,127 +219,6 @@ After Step 3, the configuration page of your Azure Bot would look like below.
 
 ### Exercise 2: Code changes
 ---
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
-On your left is the contents of folder  `B05-ConfigurableTab` and on your right is the contents of folder `B06-MessagingExtension`.
-
-<table>
-<tr>
-<th >Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-B05-ConfigurableTab
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── 🔺northwindDataService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-B06-MessagingExtension
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── 🆕images
-    │   └── 🆕1.PNG
-    │   └── 🆕2.PNG
-    │   └── 🆕3.PNG
-    │   └── 🆕4.PNG
-    │   └── 🆕5.PNG
-    │   └── 🆕6.PNG
-    │   └── 🆕7.PNG
-    │   └── 🆕8.PNG
-    │   └── 🆕9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── 🆕cards
-    │       └── 🆕errorCard.js
-    │       └── 🆕productCard.js
-    │       └── 🆕stockUpdateSuccess.js
-    │   └── 🆕bot.js
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── 🔺northwindDataService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
 
 
 #### Step 1: Add new files & folders

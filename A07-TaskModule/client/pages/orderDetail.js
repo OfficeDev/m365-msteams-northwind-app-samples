@@ -23,7 +23,7 @@ async function displayUI() {
             //graph call to get AAD mapped employee details        
             let user=await getAADUserFromEmployeeId(order.employeeId);  
              if(!user)   
-                user= await getAADUserFromEmployeeId("1");     //fall back to employee 1 
+               user= await getAADUserFromEmployeeId("1");     //fall back to employee 1            
             const salesRepdetails=await getUserDetailsFromAAD(user);          
 
             orderDetails.orderId=orderId?orderId:"";

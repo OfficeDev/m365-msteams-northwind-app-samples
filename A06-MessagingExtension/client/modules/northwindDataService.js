@@ -1,4 +1,3 @@
-// Get the employee profile from our web service
 import { getFetchHeadersAuth } from "../identity/identityClient.js";
 
 export async function getEmployee(employeeId) {
