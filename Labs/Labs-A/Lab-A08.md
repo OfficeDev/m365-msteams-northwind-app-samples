@@ -43,7 +43,7 @@ A06-MessagingExtension
     │   ├── components
     │       ├── navigation.js
     │   └── identity
-    │       ├── 🔺identityClient.js
+    │       ├── identityClient.js
     │       └── 🔺userPanel.js
     ├── images
     │   └── 1.PNG
@@ -57,7 +57,7 @@ A06-MessagingExtension
     │   └── 9.PNG
     ├── modules
     │   └── env.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── orderChatCard.js
     │   └── teamsHelpers.js
     ├── pages
@@ -91,7 +91,7 @@ A06-MessagingExtension
     │   └── bot.js
     │   └── constants.js
     │   └── identityService.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── 🔺server.js
     ├── 🔺.env_Sample
     ├── .gitignore
@@ -106,7 +106,7 @@ A07-TaskModule
     │   ├── components
     │       ├── navigation.js
     │   └── identity
-    │       ├── 🔺identityClient.js
+    │       ├── identityClient.js
     │       └── 🔺userPanel.js
     ├── images
     │   └── 1.PNG
@@ -120,7 +120,7 @@ A07-TaskModule
     │   └── 9.PNG
     ├── modules
     │   └── env.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── 🆕northwindLicensing.js
     │   └── orderChatCard.js
     │   └── teamsHelpers.js
@@ -157,7 +157,7 @@ A07-TaskModule
     │   └── bot.js
     │   └── constants.js
     │   └── identityService.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── 🆕northwindLicenseService.js
     │   └── 🔺server.js
     ├── 🔺.env_Sample

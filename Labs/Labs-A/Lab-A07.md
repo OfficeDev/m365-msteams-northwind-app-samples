@@ -79,7 +79,7 @@ A06-MessagingExtension
     ├── teamstyle.css
     ├── manifest
     │   └── makePackage.js
-    │   └── manifest.template.json
+    │   └── 🔺manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server
@@ -142,7 +142,7 @@ A07-TaskModule
     ├── teamstyle.css
     ├── manifest
     │   └── makePackage.js
-    │   └── manifest.template.json
+    │   └── 🔺manifest.template.json
     │   └── northwind32.png
     │   └── northwind192.png
     ├── server

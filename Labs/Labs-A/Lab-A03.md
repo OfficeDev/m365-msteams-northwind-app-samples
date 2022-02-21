@@ -78,7 +78,7 @@ A01-Start-AAD
     ├── northwind.css
     ├── server
     │   └── constants.js
-    │   └── 🔺identityService.js
+    │   └── identityService.js
     │   └── northwindDataService.js
     │   └── server.js
     ├── 🔺.env_Sample
@@ -122,7 +122,7 @@ A03-TeamsSSO
     │   └── 🆕northwind192.png
     ├── server
     │   └── constants.js
-    │   └── 🔺identityService.js
+    │   └── identityService.js
     │   └── northwindDataService.js
     │   └── server.js
     ├── 🔺.env_Sample
