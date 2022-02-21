@@ -1,4 +1,5 @@
 ## Lab A04: Teams styling and themes
+This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
 In this lab you will begin with the application in folder `A03-TeamsSSO`, make changes as per the steps below to achieve what is in the folder `A04-StyleAndThemes`.
 See project structures comparison in Exercise 1.
@@ -123,8 +124,6 @@ A04-StyleAndThemes
 </td>
 </tr>
 </table>
-
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 #### Step 1: Add new files & folders
 
@@ -769,7 +768,6 @@ body {
   font-family: 'Selawik Web', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
 }
 ```
-- Add a local `.env` file based on the sample file `.env_Sample`. Update all values for the keys, based on how far you have reached in this lab.
 
 #### Step 2: Update existing files
 In the project structure, on the right under `A04-StyleAndThemes`, you will see emoji 🔺 near the files.
@@ -785,7 +783,7 @@ Copy below import statement to the top of the file:
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 ```
 - The Teams client supports three themes, light mode, dark mode and high contrast mode (which is very helpful for users with poor eyesight). As the users switch the themes, your application should also switch it's theme so as to blend in. To detect theme switching in Teams client we'll have to use the global onject `microsoftTeams`'s context.
-- We 'll add a function `setTheme() to switch the css between the application's native style and the team's themes.
+- We 'll add a function `setTheme()` to switch the css between the application's native style and the team's themes.
 
 Copy and paste below code block:
 ```javascript
@@ -813,11 +811,17 @@ microsoftTeams.initialize(() => {
 });
 ```
 **2. client\northwind.css**
+
 - Import the `teamstyle.css` so it is loaded in all pages.
 Copy below import statement to the top of the file:
 ```javascript
 @import "teamstyle.css";
 ```
+**3. manifest\manifest.template.json**
+
+Update version number from `1.3.0` to `1.4.0`.
+This will help you recognize where you are with the lab exercises while testing.
+ 
 #### Step 3: Create new teams app package
 
 Create updated teams app package by running below script:
