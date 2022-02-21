@@ -12,11 +12,10 @@ See project structures comparison in Exercise 1.
 * [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
 * [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
-We will cover the following concepts in this exercise:
-
 
 ### Features
 
+- Apply teams styling and themes to your existing application.
 
 ### Exercise 1: Code changes
 ---
@@ -54,8 +53,6 @@ A03-TeamsSSO
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js
@@ -99,8 +96,6 @@ A04-StyleAndThemes
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js

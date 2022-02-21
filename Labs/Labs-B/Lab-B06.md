@@ -98,7 +98,13 @@ B05-ConfigurableTab
     │   ├── components
     │       ├── navigation.js
     │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
     │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
     │       └── userPanel.js
     ├── modules
     │   └── env.js
@@ -145,7 +151,13 @@ B06-MessagingExtension
     │   ├── components
     │       ├── navigation.js
     │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
     │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
     │       └── userPanel.js
     ├── 🆕images
     │   └── 🆕1.PNG

@@ -36,7 +36,13 @@ B03-TeamsSSO
     │   ├── components
     │       ├── navigation.js
     │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
     │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
     │       └── userPanel.js
     ├── modules
     │   └── env.js
@@ -53,8 +59,6 @@ B03-TeamsSSO
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js
@@ -81,7 +85,13 @@ B04-StyleAndThemes
     │   ├── components
     │       ├── navigation.js
     │   └── identity
+    │       ├── aadLogin.html
+    │       └── aadLogin.js
     │       ├── identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
     │       └── userPanel.js
     ├── modules
     │   └── env.js
@@ -98,8 +108,6 @@ B04-StyleAndThemes
     │   └── privacy.html
     │   └── productDetail.html
     │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
     │   └── termsofuse.html
     ├── index.html
     ├── index.js

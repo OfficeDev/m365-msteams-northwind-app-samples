@@ -30,6 +30,119 @@ In this lab you will learn to:
 - The first time a user accesses the application, it prompts them for their Northwind credentials and writes their Northwind employee ID into the user's profile in Azure AD
 - After that, the application reads the employee ID from Azure AD to decide which orders to show
 
+### Project structure
+
+The project structure when you start of this lab and end of this lab is as follows.
+Use this depiction for comparison.
+On your left is the contents of folder  `B02-TeamsApp-BespokeAuth` and on your right is the contents of folder `B03-TeamSSO-IdMapping`.
+
+<table>
+<tr>
+<th >Project Structure Before </th>
+<th>Project Structure After</th>
+</tr>
+<tr>
+<td valign="top" >
+<pre>
+B02-TeamsApp-BespokeAuth
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── 🔺identityClient.js
+    │       └── login.html
+    │       └── login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+<td>
+<pre>
+B03-TeamSSO-IdMapping
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── 🆕aadLogin.html
+    │       └── 🆕aadLogin.js
+    │       ├── 🔺identityClient.js
+    │       └── login.html
+    │       └── 🔺login.js
+    │       └── teamsLoginLauncher.html
+    │       └── teamsLoginLauncher.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+</tr>
+</table>
+
 ### Exercise 1: Register your application with Azure AD
 
 In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Lab B02, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).

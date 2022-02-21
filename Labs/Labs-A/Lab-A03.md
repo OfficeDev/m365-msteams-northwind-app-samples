@@ -32,6 +32,104 @@ In this lab you will learn to:
 - Users sign into the Teams application transparently using Azure AD SSO
 - Application alters its appearance (hides the top navigation) when running in Teams, allowing Teams tab navigation instead
 
+### Project structure
+
+The project structure when you start of this lab and end of this lab is as follows.
+Use this depiction for comparison.
+On your left is the contents of folder  `A01-Start-AAD` and on your right is the contents of folder `A03-TeamsSSO`.
+
+<table>
+<tr>
+<th >Project Structure Before </th>
+<th>Project Structure After</th>
+</tr>
+<tr>
+<td valign="top" >
+<pre>
+A01-Start-AAD
+    ├── client
+    │   ├── components
+    │       ├── 🔺navigation.js
+    │   └── identity
+    │       ├── 🔺identityClient.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── server
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+<td>
+<pre>
+A03-TeamsSSO
+    ├── client
+    │   ├── components
+    │       ├── 🔺navigation.js
+    │   └── identity
+    │       ├── 🔺identityClient.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── 🆕teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── 🆕manifest
+    │   └── 🆕makePackage.js
+    │   └── 🆕manifest.template.json
+    │   └── 🆕northwind32.png
+    │   └── 🆕northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── 🔺identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### Exercise 1: Authorize Microsoft Teams to log users into your application
 
 Microsoft Teams provides a Single Sign-On (SSO) capability so users are silently logged into your application using the same credentials they used to log into Microsoft Teams. This requires giving Microsoft Teams permission to issue Azure AD tokens on behalf of your application. In this exercise, you'll provide that permission.

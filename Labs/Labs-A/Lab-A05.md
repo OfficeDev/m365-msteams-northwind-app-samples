@@ -28,6 +28,115 @@ In this lab you will learn to:
 
 - Microsoft Teams configurable tab to display a product category
 
+### Project structure
+
+The project structure when you start of this lab and end of this lab is as follows.
+Use this depiction for comparison.
+On your left is the contents of folder  `A04-StyleAndThemes` and on your right is the contents of folder `A05-ConfigurableTab`.
+
+<table>
+<tr>
+<th >Project Structure Before </th>
+<th>Project Structure After</th>
+</tr>
+<tr>
+<td valign="top" >
+<pre>
+A04-StyleAndThemes
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── identityClient.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── teamstyle.css
+    ├── manifest
+    │   └── makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── .env_Sample
+    ├── .gitignore
+    ├── package.json
+    ├── README.md
+</pre>
+</td>
+<td>
+<pre>
+A05-ConfigurableTab
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── identityClient.js
+    │       └── userPanel.js
+    ├── modules
+    │   └── env.js
+    │   └── 🔺northwindDataService.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── 🆕tabConfig.html
+    │   └── 🆕tabConfig.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── 🔺teamstyle.css
+    ├── manifest
+    │   └── makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── constants.js
+    │   └── identityService.js
+    │   └── northwindDataService.js
+    │   └── server.js
+    ├── .env_Sample
+    ├── .gitignore
+    ├── package.json
+    ├── README.md
+</pre>
+</td>
+</tr>
+</table>
+
+
+
 ### Exercise 1: Create a configuration page
 
 #### Step 1: Add the configuration page markup
