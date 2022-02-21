@@ -690,9 +690,10 @@ Update version number from `1.5.0` to `1.6.0`.
 "version": "1.6.0"
 ~~~
 > NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+
 **3.server\identityService.js**
 
-Add a condition to let validation will be performed by Bot Framework Adapter.
+Add a condition to let validation  be performed by Bot Framework Adapter.
 In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
 
 <pre>
@@ -702,6 +703,29 @@ In the function `validateApiRequest()`, add an `if` condition and check if reque
     } else {
        //do the rest
     }
+</pre>
+
+The final form of the function definition will look as below:
+<pre>
+async function validateApiRequest(req, res, next) {
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    <b>if (req.path==="/messages") {
+        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
+        next();
+    } else {
+       </b> aad.verify(token, { audience: audience }, async (err, result) => {
+            if (result) {
+                console.log(`Validated authentication on /api${req.path}`);
+                next();
+            } else {
+            console.error(`Invalid authentication on /api${req.path}: ${err.message}`);
+                res.status(401).json({ status: 401, statusText: "Access denied" });
+            }
+        });
+   <b> }</b>
+}
 </pre>
 **4.server\northwindDataService.js**
 
@@ -801,32 +825,45 @@ adapter.onTurnError = onTurnErrorHandler;
 Listen for incoming requests.
 ```javascript
 
-const PORT = process.env.PORT || 3978;
-app.listen(PORT, () => {
-  console.log(`Server is Running on Port ${PORT}`);
+app.post('/api/messages', (req, res) => {
+  adapter.processActivity(req, res, async (context) => {
+    await stockManagerBot.run(context);
+  }).catch(error=>{
+    console.log(error)
+  });
 });
 
 ```
 
-**6.env_Sample**
 
-The `.env` file needed for your local development based on `.env_Sample`, will have two additional key-value pair for bot registration's Azure AD application credentials as below. This is what is used in **server.js**  to initialize the bot adapter.
-
-```json
-BOT_REG_AAD_APP_ID=00000000-0000-0000-0000-000000000000
-BOT_REG_AAD_APP_PASSWORD=00000000-0000-0000-0000-000000000000
-```
-
-**package.json**
+**6. package.json**
 
 You'll need to install additional packages for adaptive cards and botbuilder.
-Add below packages into the `package.json` file.
+Add below packages into the `package.json` file. Add below packages inside `dependencies`:
 
 ```json
     "adaptive-expressions": "^4.15.0",
     "adaptivecards": "^2.10.0",
     "adaptivecards-templating": "^2.2.0",   
     "botbuilder": "^4.15.0"
+```
+**7. .env**
+
+Open the `.env` file in your working directory and add two new tokens `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
+
+The .env file contents will now look like below:
+```
+COMPANY_NAME=Northwind Traders
+PORT=3978
+
+TEAMS_APP_ID=c42d89e3-19b2-40a3-b20c-44cc05e6ee26
+HOSTNAME=yourhostname.ngrok.io
+
+TENANT_ID=c8888ec7-a322-45cf-a170-7ce0bdb538c5
+CLIENT_ID=b323630b-b67c-4954-a6e2-7cfa7572bbc6
+CLIENT_SECRET=111111.ABCD
+BOT_REG_AAD_APP_ID=88888888-0d02-43af-85d7-72ba1d66ae1d
+BOT_REG_AAD_APP_PASSWORD=111111vk
 ```
 ### Exercise 3: Test the changes
 ---
@@ -839,33 +876,16 @@ From the command line in your working directory, install the new packages by run
 ```nodejs
 npm i
 ```
-#### Step 2: .env file changes
 
-Open the `.env` file in your working directory and add  `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
 
-The .env file contents will now look like below:
-```
-COMPANY_NAME=Northwind Traders
-PORT=3978
-
-TEAMS_APP_ID=c42d89e3-19b2-40a3-b20c-44cc05e6ee26
-HOSTNAME=yourhostname.ngrok.io
-
-TENANT_ID=c8888ec7-a322-45cf-a170-7ce0bdb538c5
-CLIENT_ID=b323630b-b67c-4954-a6e2-7cfa7572bbc6
-CLIENT_SECRET=byi7Q~auHUlOtkqlQV7osQbuH2gyKptG.ABCD
-BOT_REG_AAD_APP_ID=88888888-0d02-43af-85d7-72ba1d66ae1d
-BOT_REG_AAD_APP_PASSWORD=78uyy~RF1XVImx_9p_CU0guKNfPSN3PtaTPvk
-```
-
-#### Step 3: Create new teams app package
+#### Step 2: Create new teams app package
 
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 4: Upload the app package
+#### Step 3: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -881,7 +901,7 @@ The Teams client will display the application information, add the application t
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 
-#### Step 5: Start your local project
+#### Step 4: Start your local project
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
 
@@ -889,7 +909,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 6 : Run the application in Teams client
+#### Step 5 : Run the application in Teams client
 
 We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
 
