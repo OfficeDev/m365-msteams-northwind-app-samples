@@ -169,7 +169,6 @@ A07-TaskModule
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Download and install the monetization sample
 

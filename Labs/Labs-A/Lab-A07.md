@@ -164,7 +164,6 @@ A07-TaskModule
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Code changes
 ---
@@ -534,6 +533,14 @@ app.get('/api/getUserDetailsFromAAD', async (req, res) => {
 
 });
 ```
+**6. manifest\manifest.template.json**
+
+Update version number from `1.6.0` to `1.7.0`.
+~~~json
+"version": "1.7.0"
+~~~
+> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+
 ### Exercise 3: Test the changes
 ---
 Now that you have applied all code changes, let's test the features.

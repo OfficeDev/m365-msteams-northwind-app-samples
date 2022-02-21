@@ -181,7 +181,7 @@ B08-Monetization
 </tr>
 </table>
 
-> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+
 ### Exercise 1: Download and install the monetization sample
 
 To complete this exercise you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also nee a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services.
