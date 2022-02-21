@@ -262,7 +262,7 @@ Add two new functions
 -  **getAADUserFromEmployeeId()** - Get's the AAD user details mapped to the employeeId in the order. 
 They are the sales representative for that particular order.
 - **getUserDetailsFromAAD()** - Get the user data from Microsoft Graph using the aad userid.
-- 
+
 Append below code in the `identityClient.js` file.
 ```javascript
 
@@ -419,6 +419,8 @@ async function displayUI() {
 - **getAADUserFromEmployeeId()** - To get the Azure AD user details based on employee id.
 - **getUserDetailsFromAAD()** - To get user information including their manager details.
     
+> We are using Microsoft Graph API to get user details from AAD.
+
 Copy the below code and append to the end of the file.
 
 
