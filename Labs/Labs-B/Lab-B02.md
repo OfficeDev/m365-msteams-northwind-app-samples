@@ -67,7 +67,7 @@ B01-Start-BespokeAuth
     ├── northwind.css
     ├── server
     │   └── constants.js
-    │   └── 🔺identityService.js
+    │   └── identityService.js
     │   └── northwindDataService.js
     │   └── server.js
     ├── 🔺.env_Sample
@@ -115,7 +115,7 @@ B02-TeamsApp-BespokeAuth
     │   └── 🆕northwind192.png
     ├── server
     │   └── constants.js
-    │   └── 🔺identityService.js
+    │   └── identityService.js
     │   └── northwindDataService.js
     │   └── server.js
     ├── 🔺.env_Sample

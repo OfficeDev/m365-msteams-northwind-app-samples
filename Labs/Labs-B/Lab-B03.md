@@ -85,7 +85,7 @@ B02-TeamsApp-BespokeAuth
     │   └── constants.js
     │   └── 🔺identityService.js
     │   └── northwindDataService.js
-    │   └── 🔺server.js
+    │   └── server.js
     ├── 🔺.env_Sample
     ├── .gitignore
     ├── 🔺package.json
@@ -135,7 +135,7 @@ B03-TeamSSO-IdMapping
     │   └── constants.js
     │   └── 🔺identityService.js
     │   └── northwindDataService.js
-    │   └── 🔺server.js
+    │   └── server.js
     ├── 🔺.env_Sample
     ├── .gitignore
     ├── 🔺package.json

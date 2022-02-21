@@ -59,7 +59,7 @@ B04-StyleAndThemes
     │       └── userPanel.js
     ├── modules
     │   └── env.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── teamsHelpers.js
     ├── pages
     │   └── categories.html
@@ -110,7 +110,7 @@ B05-ConfigurableTab
     │       └── userPanel.js
     ├── modules
     │   └── env.js
-    │   └── 🔺northwindDataService.js
+    │   └── northwindDataService.js
     │   └── teamsHelpers.js
     ├── pages
     │   └── categories.html
@@ -129,7 +129,7 @@ B05-ConfigurableTab
     ├── index.html
     ├── index.js
     ├── northwind.css
-    ├── 🔺teamstyle.css
+    ├── teamstyle.css
     ├── manifest
     │   └── makePackage.js
     │   └── 🔺manifest.template.json
