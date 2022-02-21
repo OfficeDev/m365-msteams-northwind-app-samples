@@ -820,7 +820,11 @@ Copy below import statement to the top of the file:
 **3. manifest\manifest.template.json**
 
 Update version number from `1.3.0` to `1.4.0`.
-This will help you recognize where you are with the lab exercises while testing.
+~~~json
+"version": "1.4.0"
+~~~
+
+> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
  
 #### Step 3: Create new teams app package
 
