@@ -1,8 +1,13 @@
 ## Lab A07: Add a Task Module and Deep Link
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+
 Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
+
 Let's look at `Task modules` which are dialogues and `Deep links` which is a smart navigation mechanism within Teams.
-**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. Using **Deep links** your application can help users navigate easily and intelligently within your application.
+
+**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. 
+
+Using **Deep links** your application can help users navigate easily and intelligently within your application.
 
 In this lab you will begin with the application in folder `A06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `A07-TaskModule`.
 See project structures comparison in Exercise 2.
@@ -316,9 +321,9 @@ import {
     getAADUserFromEmployeeId,getUserDetailsFromAAD
 } from '../identity/identityClient.js'
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-import templatePayload from '../modules/orderChatCard.js'
+import templatePayload from '../modules/orderChatCard.js';
 ```
-- Define two variable, which will be used later. Copy below code and paste below the imports.
+- Define two variable above `displayUI()` function definition, which will be used later. Copy below code and paste below the imports.
 ```javascript
 let orderId="0";
 let orderDetails={};
@@ -333,7 +338,7 @@ const btnTaskModuleElement = document.getElementById('btnTaskModule');
 async function displayUI() {
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
-    const btnTaskModuleElement = document.getElementById('btnTaskModule');
+    <b>const btnTaskModuleElement = document.getElementById('btnTaskModule');</b>
     try {
         <b>microsoftTeams.initialize(async () => {</b>
         const searchParams = new URLSearchParams(window.location.search);
@@ -399,6 +404,7 @@ async function displayUI() {
             //invoke the task module (dialog)    
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
+        }
     });</b>
     }
     catch (error) {            // If here, we had some other error
