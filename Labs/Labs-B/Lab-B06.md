@@ -23,68 +23,13 @@ We will cover the following concepts in this exercise:
 - A search based messaging extension to search for products and share result in the form of a rich  card in a conversation.
 - In the rich  card, provide an input field and a submit button for users to take action to update stock value of a product in the Northwind Database, all happening in the same conversation
 
-### Exercise 1: Bot registration
----
-Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
-
-Since it is a conversation between your application's web service and teams, you'll need a secure communication protocol to send and receive messages like the **Bot Framework**'s messaging schema.
-
-You'll need to register your web service as a bot in the Bot Framework and update the app manifest file to define your web service so Teams client can know about it.
-
-<div id="ex1-step1"></div>
-
-#### Step 1: Register your web service as an Azure bot in the Bot Framework in Azure portal
-
-- Go to [https://portal.azure.com/](https://portal.azure.com/).
-- In the right pane, select **Create a resource**.
-- In the search box enter *bot*, then press Enter.
-- Select the **Azure Bot** card.
-- Select **Create**.
-- Fill the form with all the required fields like *Bot handle*, *Subscription* etc.
-- Choose **Multi Tenant** for the **Type of App** field.
-- Leave everything else as is and select **Review + create**.
-- Once validation is passed, select **Create** to create the resources.
-- Once deployment is complete, select **Go to resource**. This will take you to the bot resource.
-- Once your are in the bot, on the left navigation , select **Configuration**.
-- You will see the **Microsoft App ID**, copy the ID (we will need it later as *BOT_REG_AAD_APP_ID* in .env file)
-- Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
-- Create a new **Client secret** and copy the `Value` immediately (we will need this later as *BOT_REG_AAD_APP_PASSWORD* in .env file)
-- Go to the registered bot, and on the left navigation select **Channels**.
-- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
-
-> A channel is a connection between a communication application (like teams client here) and a bot. A bot, registered with Azure, uses channels to help the bot communicate with users. You can configure a bot to connect to any of the other standard channels such as Alexa, Facebook Messenger, and Slack.
-
-<div id="ex1-step2"></div>
-
-#### Step 2: Run ngrok 
-
-Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
-
-```nodejs
-ngrok http 3978 -host-header=localhost
-```
-The terminal will display a screen like below; Save the URL for [Step 3](#ex1-step3).
-
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/01-002-ngrok.png?raw=true" alt="ngrok output"/>
-
-<div id="ex1-step3"></div>
-
-#### Step 3: Update the bot registration configuration
-
-- Copy the url from the above step and go to the bot registered in the Azure portal in [Step 1](#ex1-step1).
-- Go to the **Configuration** page from the left navigation.
-- Immediately on the top of the page you will find a field called **Messaging endpoint**.
-- Paste the ngrok url from [Step 2](#ex1-step2) and append `/api/messages` to the url and select **Apply**.
-
-After Step 3, the configuration page of your Azure Bot would look like below.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
-
-### Exercise 2: Code changes
----
+### Project structure
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
 On your left is the contents of folder  `B05-ConfigurableTab` and on your right is the contents of folder `B06-MessagingExtension`.
+- 🆕 New files/folders
 
+- 🔺Files changed
 <table>
 <tr>
 <th >Project Structure Before </th>
@@ -214,6 +159,66 @@ B06-MessagingExtension
 </td>
 </tr>
 </table>
+
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+### Exercise 1: Bot registration
+---
+Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
+
+Since it is a conversation between your application's web service and teams, you'll need a secure communication protocol to send and receive messages like the **Bot Framework**'s messaging schema.
+
+You'll need to register your web service as a bot in the Bot Framework and update the app manifest file to define your web service so Teams client can know about it.
+
+<div id="ex1-step1"></div>
+
+#### Step 1: Register your web service as an Azure bot in the Bot Framework in Azure portal
+
+- Go to [https://portal.azure.com/](https://portal.azure.com/).
+- In the right pane, select **Create a resource**.
+- In the search box enter *bot*, then press Enter.
+- Select the **Azure Bot** card.
+- Select **Create**.
+- Fill the form with all the required fields like *Bot handle*, *Subscription* etc.
+- Choose **Multi Tenant** for the **Type of App** field.
+- Leave everything else as is and select **Review + create**.
+- Once validation is passed, select **Create** to create the resources.
+- Once deployment is complete, select **Go to resource**. This will take you to the bot resource.
+- Once your are in the bot, on the left navigation , select **Configuration**.
+- You will see the **Microsoft App ID**, copy the ID (we will need it later as *BOT_REG_AAD_APP_ID* in .env file)
+- Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
+- Create a new **Client secret** and copy the `Value` immediately (we will need this later as *BOT_REG_AAD_APP_PASSWORD* in .env file)
+- Go to the registered bot, and on the left navigation select **Channels**.
+- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
+
+> A channel is a connection between a communication application (like teams client here) and a bot. A bot, registered with Azure, uses channels to help the bot communicate with users. You can configure a bot to connect to any of the other standard channels such as Alexa, Facebook Messenger, and Slack.
+
+<div id="ex1-step2"></div>
+
+#### Step 2: Run ngrok 
+
+Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
+
+```nodejs
+ngrok http 3978 -host-header=localhost
+```
+The terminal will display a screen like below; Save the URL for [Step 3](#ex1-step3).
+
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/01-002-ngrok.png?raw=true" alt="ngrok output"/>
+
+<div id="ex1-step3"></div>
+
+#### Step 3: Update the bot registration configuration
+
+- Copy the url from the above step and go to the bot registered in the Azure portal in [Step 1](#ex1-step1).
+- Go to the **Configuration** page from the left navigation.
+- Immediately on the top of the page you will find a field called **Messaging endpoint**.
+- Paste the ngrok url from [Step 2](#ex1-step2) and append `/api/messages` to the url and select **Apply**.
+
+After Step 3, the configuration page of your Azure Bot would look like below.
+<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
+
+### Exercise 2: Code changes
+---
 
 
 #### Step 1: Add new files & folders

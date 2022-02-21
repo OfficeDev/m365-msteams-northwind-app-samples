@@ -50,7 +50,6 @@ export async function logoff() {
     setLoggedinEmployeeId(0);
 
     // Redirect to the login page
-    // if (window.parent === window.self) {
     if (!(await inTeams())) {
         window.location.href = "/identity/login.html";
     } else {

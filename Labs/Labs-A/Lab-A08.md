@@ -24,6 +24,153 @@ In this lab you will learn to:
 - Sample web service that fulfills this purchase and manages licenses for Microsoft Teams users to use the Northwind Orders application
 - Northwind Orders application checks to ensure Microsoft Teams users are licensed or displays an error page
 
+### Project structure
+The project structure when you start of this lab and end of this lab is as follows.
+Use this depiction for comparison.
+- 🆕 New files/folders
+
+- 🔺Files changed
+<table>
+<tr>
+<th>Project Structure Before </th>
+<th>Project Structure After</th>
+</tr>
+<tr>
+<td valign="top" >
+<pre>
+A06-MessagingExtension
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── 🔺identityClient.js
+    │       └── 🔺userPanel.js
+    ├── images
+    │   └── 1.PNG
+    │   └── 2.PNG
+    │   └── 3.PNG
+    │   └── 4.PNG
+    │   └── 5.PNG
+    │   └── 6.PNG
+    │   └── 7.PNG
+    │   └── 8.PNG
+    │   └── 9.PNG
+    ├── modules
+    │   └── env.js
+    │   └── 🔺northwindDataService.js
+    │   └── orderChatCard.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── tabConfig.html
+    │   └── tabConfig.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── teamstyle.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── cards
+    │       └── errorCard.js
+    │       └── productCard.js
+    │       └── stockUpdateSuccess.js
+    │   └── bot.js
+    │   └── constants.js
+    │   └── identityService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+<td>
+<pre>
+A07-TaskModule
+    ├── client
+    │   ├── components
+    │       ├── navigation.js
+    │   └── identity
+    │       ├── 🔺identityClient.js
+    │       └── 🔺userPanel.js
+    ├── images
+    │   └── 1.PNG
+    │   └── 2.PNG
+    │   └── 3.PNG
+    │   └── 4.PNG
+    │   └── 5.PNG
+    │   └── 6.PNG
+    │   └── 7.PNG
+    │   └── 8.PNG
+    │   └── 9.PNG
+    ├── modules
+    │   └── env.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🆕northwindLicensing.js
+    │   └── orderChatCard.js
+    │   └── teamsHelpers.js
+    ├── pages
+    │   └── categories.html
+    │   └── categories.js
+    │   └── categoryDetails.html
+    │   └── categoryDetails.js
+    │   └── myOrders.html
+    │   └── 🆕needLicense.html
+    │   └── 🆕needLicense.js
+    │   └── orderDetail.html
+    │   └── orderDetail.js
+    │   └── privacy.html
+    │   └── productDetail.html
+    │   └── productDetail.js
+    │   └── tabConfig.html
+    │   └── tabConfig.js
+    │   └── termsofuse.html
+    ├── index.html
+    ├── index.js
+    ├── northwind.css
+    ├── teamstyle.css
+    ├── manifest
+    │   └── 🔺makePackage.js
+    │   └── 🔺manifest.template.json
+    │   └── northwind32.png
+    │   └── northwind192.png
+    ├── server
+    │   └── cards
+    │       └── errorCard.js
+    │       └── productCard.js
+    │       └── stockUpdateSuccess.js
+    │   └── bot.js
+    │   └── constants.js
+    │   └── identityService.js
+    │   └── 🔺northwindDataService.js
+    │   └── 🆕northwindLicenseService.js
+    │   └── 🔺server.js
+    ├── 🔺.env_Sample
+    ├── .gitignore
+    ├── 🔺package.json
+    ├── README.md
+</pre>
+</td>
+</tr>
+</table>
+
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+
 ### Exercise 1: Download and install the monetization sample
 
 To complete this exercise you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also nee a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services.

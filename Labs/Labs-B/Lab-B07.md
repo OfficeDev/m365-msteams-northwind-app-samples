@@ -23,12 +23,13 @@ In this exercise you will learn new concepts as below:
 
 - In the application's order details page, add a button to open a dialog with order details.
 - In the dialog add a button to initiate a group chat with the order's sales representative and their manager using deep linking.
-
-### Exercise 1: Code changes
+### Project structure
 
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
+- 🆕 New files/folders
 
+- 🔺Files changed
 <table>
 <tr>
 <th>Project Structure Before </th>
@@ -96,7 +97,7 @@ B06-MessagingExtension
     │   └── constants.js
     │   └── 🔺identityService.js
     │   └── northwindDataService.js
-    │   └── server.js
+    │   └── 🔺server.js
     ├── .env_Sample
     ├── .gitignore
     ├── package.json
@@ -165,7 +166,7 @@ B07-TaskModule
     │   └── constants.js
     │   └── 🔺identityService.js
     │   └── northwindDataService.js
-    │   └── server.js
+    │   └── 🔺server.js
     ├── .env_Sample
     ├── .gitignore
     ├── package.json
@@ -174,6 +175,8 @@ B07-TaskModule
 </td>
 </tr>
 </table>
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
+### Exercise 1: Code changes
 
 
 #### Step 1: Add new files

@@ -34,6 +34,11 @@ The project structure when you start of this lab and end of this lab is as follo
 Use this depiction for comparison.
 On your left is the contents of folder  `A04-StyleAndThemes` and on your right is the contents of folder `A05-ConfigurableTab`.
 
+- 🆕 New files/folders
+
+- 🔺Files changed
+
+
 <table>
 <tr>
 <th >Project Structure Before </th>
@@ -51,7 +56,7 @@ A04-StyleAndThemes
     │       └── userPanel.js
     ├── modules
     │   └── env.js
-    │   └── northwindDataService.js
+    │   └── 🔺northwindDataService.js
     │   └── teamsHelpers.js
     ├── pages
     │   └── categories.html
@@ -135,7 +140,7 @@ A05-ConfigurableTab
 </tr>
 </table>
 
-
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Create a configuration page
 

@@ -35,7 +35,9 @@ In this lab you will learn to:
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
 On your left is the contents of folder  `B02-TeamsApp-BespokeAuth` and on your right is the contents of folder `B03-TeamSSO-IdMapping`.
+- 🆕 New files/folders
 
+- 🔺Files changed
 <table>
 <tr>
 <th >Project Structure Before </th>
@@ -51,7 +53,7 @@ B02-TeamsApp-BespokeAuth
     │   └── identity
     │       ├── 🔺identityClient.js
     │       └── login.html
-    │       └── login.js
+    │       └── 🔺login.js
     │       └── teamsLoginLauncher.html
     │       └── teamsLoginLauncher.js
     │       └── userPanel.js
@@ -142,6 +144,7 @@ B03-TeamSSO-IdMapping
 </td>
 </tr>
 </table>
+> From Lab three, always update your `manifest.template.json` to have a <mark>different version number </mark> than previous lab.
 
 ### Exercise 1: Register your application with Azure AD
 

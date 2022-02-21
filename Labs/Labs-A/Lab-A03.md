@@ -38,6 +38,11 @@ The project structure when you start of this lab and end of this lab is as follo
 Use this depiction for comparison.
 On your left is the contents of folder  `A01-Start-AAD` and on your right is the contents of folder `A03-TeamsSSO`.
 
+- 🆕 New files/folders
+
+- 🔺Files changed
+
+
 <table>
 <tr>
 <th >Project Structure Before </th>

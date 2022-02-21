@@ -27,7 +27,9 @@ In this lab you will learn to:
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
 On your left is the contents of folder  `B01-Start-BespokeAuth` and on your right is the contents of folder `B02-TeamsApp-BespokeAuth`.
+- 🆕 New files/folders
 
+- 🔺Files changed
 <table>
 <tr>
 <th >Project Structure Before </th>
@@ -42,8 +44,8 @@ B01-Start-BespokeAuth
     │       ├── 🔺navigation.js
     │   └── identity
     │       ├── 🔺identityClient.js
-    │       └── 🔺login.html
-    │       └── login.js
+    │       └── login.html
+    │       └── 🔺login.js
     │       └── userPanel.js
     ├── modules
     │   └── env.js
