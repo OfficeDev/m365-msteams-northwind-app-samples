@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab B02: Teams App with Bespoke Authentication
 
 In this lab you will build the application you created in Lab B01 into a Microsoft Teams application. This application will still use the Northwind authentication, but since the Northwind login page won't work in the Teams tab IFrame, we'll use the Teams JavaScript SDK to show it in a pop-up.

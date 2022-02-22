@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab B06: Extend teams application with Messaging Extension
 
 This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.

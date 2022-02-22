@@ -1,4 +1,7 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab A06: Extend teams application with Messaging Extension
+
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
 So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.

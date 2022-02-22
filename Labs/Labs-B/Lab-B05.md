@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab B05: Add a Configurable Tab
 
 This lab is part of Path B, which begins with a Northwind Orders application that uses an identity system other than Azure AD.

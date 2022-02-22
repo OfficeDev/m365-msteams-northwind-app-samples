@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab A02: There is no Lab A02
 
 There is a lab B02, so to keep the number consistent we're skipping A02. Please proceed to [lab A03](./Lab-A03.md).

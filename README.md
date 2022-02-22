@@ -1,3 +1,4 @@
+![Teams App Camp](./Labs/Assets/code-lab-banner.png)
 # Microsoft Teams App Camp 2022
 
 This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Teams app running in the Teams app store. 
