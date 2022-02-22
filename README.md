@@ -1,38 +1,35 @@
 # Microsoft Teams App Camp 2022
 
-This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Teams app running in the Teams app store. Here are the steps:
+This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Teams app running in the Teams app store. 
 
-1. Starting app written in ES6 with Express server and simple no-framework web pages using ES6 modules.
+In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
 
-2. Add a Teams app - Teams personal tab
+There are two options for doing the labs:
 
-3. Add Teams tab SSO with identity mapping
+* The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
+**[START HERE](./Labs/Labs-A/Lab-A01.md) for the "A" path**
 
-4. Add a configuration page - Teams channel tab
+* the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
+**[START HERE](./Labs/Labs-B/Lab-B01.md) for the "B" path**
 
-?. Add Teams look and feel (??) - and maybe reflect Light/Dark theme from Teams?
+## Summary
 
-5. Add a simple messaging extension w/an adaptive card action
+Both paths have the following labs:
 
-6. Add a simple bot
+1. Set up the starting application (outside of Teams)
+2. ("B" path only) - Get the application working in Teams with the existing authentication
+3. Make the app work with Azure AD SSO in Microsoft Teams
+4. Update the app styling to match Microsoft Teams
+5. Add a configurable tab so your app works in group chats and Teams channels
+6. Add a messaging extension with adaptive cards
+7. Use Microsoft Graph and deep linking to initiate a chat with a business user
+8. Install a sample licensing service and App Source simulator and add licensing to your app to learn about app monetization
 
-7. Add a Teams store landing page
+## Prerequisites
 
-MORE STUFF TO PUT IN THERE SOMEWHERE
+This lab is intended for developers. Most of the labs don't assume a lot of specialzed knowledge; coding is  in JavaScript without use of specialized frameworks or libraries. But if you're not comfortable with coding, you may find it a bit challenging.
 
- - Meetings - Rob sez people are asking for this
- - Debugging your Teams app
- - Caching and optimization
- - Call the Graph - to initiate a chat?? - Barnam's idea to click an order and it opens a chat speaking w/the employee who took it, with the order in context (doable?)
- - Task Module
- - Take an order - then send an approval to someone via a proactive message
- (How to store and retrieve the conversation ID ??)
- - Deep Linking!! (Jack Lewis)
- 
-
-
-
-
+Technical prerequisites are explained [in the repo wiki](https://github.com/OfficeDev/TeamsAppCamp1/wiki/Lab-Prerequisites)
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
