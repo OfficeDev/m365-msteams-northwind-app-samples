@@ -891,33 +891,17 @@ From the command line in your working directory, install the new packages by run
 ```nodejs
 npm i
 ```
-#### Step 2: .env file changes
 
-Open the `.env` file in your working directory and add  `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
 
-The .env file contents will now look like below:
-```
-COMPANY_NAME=Northwind Traders
-PORT=3978
 
-TEAMS_APP_ID=c42d89e3-19b2-40a3-b20c-44cc05e6ee26
-HOSTNAME=yourhostname.ngrok.io
-
-TENANT_ID=c8888ec7-a322-45cf-a170-7ce0bdb538c5
-CLIENT_ID=b323630b-b67c-4954-a6e2-7cfa7572bbc6
-CLIENT_SECRET=byi7Q~auHUlOtkqlQV7osQbuH2gyKptG.ABCD
-BOT_REG_AAD_APP_ID=88888888-0d02-43af-85d7-72ba1d66ae1d
-BOT_REG_AAD_APP_PASSWORD=78uyy~RF1XVImx_9p_CU0guKNfPSN3PtaTPvk
-```
-
-#### Step 3: Create new teams app package
+#### Step 2: Create new teams app package
 
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 4: Upload the app package
+#### Step 3: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -933,7 +917,7 @@ The Teams client will display the application information, add the application t
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 
-#### Step 5: Start your local project
+#### Step 4: Start your local project
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
 
@@ -941,7 +925,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 6 : Run the application in Teams client
+#### Step 5 : Run the application in Teams client
 
 We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
 
