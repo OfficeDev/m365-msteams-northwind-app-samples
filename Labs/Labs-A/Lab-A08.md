@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab A08: Set up and integrate with licensing sample and App Source simulator
 
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.

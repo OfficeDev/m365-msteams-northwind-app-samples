@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab A03: Create a Teams app with Azure AD Single Sign-On
 
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.

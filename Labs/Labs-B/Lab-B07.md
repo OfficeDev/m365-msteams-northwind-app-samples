@@ -1,3 +1,5 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab B07: Add a Task Module and Deep Link
 
 This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.

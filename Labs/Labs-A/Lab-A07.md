@@ -1,4 +1,7 @@
+![Teams App Camp](../Assets/code-lab-banner.png)
+
 ## Lab A07: Add a Task Module and Deep Link
+
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
 Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
