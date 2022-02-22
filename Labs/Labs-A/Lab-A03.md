@@ -224,7 +224,7 @@ You should generate a different GUID for each application you register; this one
 
 #### Step 4: Update your package.json file
 
-Open the package.json file in your working directory and add a script that will generate the app package. The [script code](../../A03-TeamsSSO/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
+Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../A03-TeamsSSO/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
 ~~~json
 "scripts": {
@@ -398,7 +398,6 @@ Now modify the `connectedCallback()` function, which displays the navigation web
         }
 
     }
-}
 ~~~
 
 ---
