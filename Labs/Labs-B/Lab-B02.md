@@ -565,11 +565,6 @@ The application should appear without any login prompt. The app's navigation sho
 
 ![Run the app](../Assets/03-007-RunApp-1.png)
 
-### Exercise 5: Examine the Application Code
-
-TO BE PROVIDED
-
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 ### Known issues
 
 The application does not implement paging for large data sets, so lists of orders etc. are limited to the first 10 results.

@@ -440,14 +440,6 @@ The application should appear without any login prompt. The app's navigation sho
 > CHALLENGE: Notice the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
 ---
 
-
-
-### Exercise 5: Examine the Application Code
-
-TO BE PROVIDED
-
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
-
 ### Known issues
 
 For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
