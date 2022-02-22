@@ -94,7 +94,9 @@ Eventually you'll be prompted to log into your new tenant. Be sure to use the ne
 
 By default, end users can't upload Teams applications directly; instead an administrator needs to upload them into the enterprise app catalog. In this step you will enable direct uploads to make developement easier and allow installation directly from the Teams user interface.
 
-  a. In the left panel of the admin center, click "Show all" to open up the entire navigation
+  a. Navigate to [https://admin.microsoft.com/](https://admin.microsoft.com/), which is the Microsoft 365 Admin Center.
+
+  b. In the left panel of the admin center, click "Show all" to open up the entire navigation
 
   ![M365 Admin](../Assets/01-005-M365Admin.png)
 
@@ -102,14 +104,18 @@ By default, end users can't upload Teams applications directly; instead an admin
 
   ![M365 Admin](../Assets/01-006-M365Admin2.png)
 
-  b. In the left of the Microsoft Teams admin center, open the Teams apps accordion 1️⃣ and select Setup Policies 2️⃣. You will see a list of App setup policies. Click the Global (Org-wide default) policy 3️⃣.
+  c. In the left of the Microsoft Teams admin center, open the Teams apps accordion 1️⃣ and select Setup Policies 2️⃣. You will see a list of App setup policies. Click the Global (Org-wide default) policy 3️⃣.
 
   ![Teams admin](../Assets/01-007-TeamsAdmin1.png)
 
- c. Ensure the first switch, "Upload custom apps" is turned On.
+ d. Ensure the first switch, "Upload custom apps" is turned On.
 
  ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
 
+Be sure to scroll down and click the "Save" button to persist your change.
+
+![Teams admin](../Assets/01-008-TeamsAdmin2b.png)
+ 
  We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
 
 ### Exercise 3: Assign users as Northwind "Employees"
@@ -122,7 +128,7 @@ The Northwind Orders application expects each user's employee ID in Azure Active
 
  - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
 
- - In the left navigation, click "Show More" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+ - In the left navigation, click "Show All" to reveal the full list of admin centers, and then click "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
 
 ![Navigating to the M365 Admin site](../Assets/01-009-RegisterAADApp-1.png)
 
@@ -165,9 +171,10 @@ From the same user profile screen, click "Licenses" and ensure the user has an O
 ### Exercise 4: Register your application with Azure AD
 
 In order for users to log into your application with Azure AD, you need to register it. In this exercise you will register your application directly in the tenant you created in Exercise 2, however we'll set it up so it can be used from other tenants, such as those of customers who purchase your application in the Microsoft Teams store. To learn more about multitenant applications, see [this video](https://www.youtube.com/watch?v=RjGVOFm39j0&t=7s).
+
 #### Step 1: Start ngrok
 
-Before you can register your application, you will need to start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
+Before you can register your application, you will need to start ngrok to obtain the URL for your application. In the command line tool of your choice, navigate to the folder where you've saved **ngrok.exe** and run this command:
 
 ~~~shell
 ngrok http 3978 -host-header=localhost
@@ -263,7 +270,13 @@ You will be presented with a long list of objects that the Microsoft Graph can a
 
 ![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
 
-#### Step 4: Expose an API
+### Step 4: Consent to the permission
+
+You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, click the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
+
+![Grant consent](../Assets/01-024-RegisterAADApp-15.png)
+
+#### Step 5: Expose an API
 
 The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
 
@@ -294,7 +307,7 @@ The starting application is in github at [https://github.com/OfficeDev/TeamsAppC
 
 ![Download the lab source code](../Assets/01-001-CloneRepo.png)
 
-The starting code for the "A" path is in the A01-Start-AAD folder. Copy this folder to nother location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
+The starting code for the "A" path is in the A01-Start-AAD folder. Copy this folder to another location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
 #### Step 2: Install the app's dependencies
 
@@ -356,11 +369,6 @@ From there you can click into a product category to view a list of products, and
 
 Try logging out and logging in; you should be able to view the orders for another user in your developer tenant who has an employee ID set to a Northwind employee ID.
 
-### Exercise 7: Examine the Application Code
-
-TO BE PROVIDED
-
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 ### Known issues
 
 The application does not implement paging for large data sets, so lists of orders etc. are limited to the first 10 results.

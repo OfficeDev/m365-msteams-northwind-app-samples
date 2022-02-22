@@ -232,7 +232,13 @@ You will be presented with a long list of objects that the Microsoft Graph can a
 
 ![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
 
-#### Step 3: Expose an API
+### Step 3: Consent to the permission
+
+You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, click the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
+
+![Grant consent](../Assets/01-024-RegisterAADApp-15.png)
+
+#### Step 4: Expose an API
 
 The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
 
@@ -256,7 +262,7 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ![Add the scope](../Assets/01-023-RegisterAADApp-14.png)
 
 
-#### Step 4: Authorize Microsoft Teams to log users into your application
+#### Step 5: Authorize Microsoft Teams to log users into your application
 
 Microsoft Teams provides a Single Sign-On (SSO) capability so users are silently logged into your application using the same credentials they used to log into Microsoft Teams. This requires giving Microsoft Teams permission to issue Azure AD tokens on behalf of your application. In this step, you'll provide that permission.
 
@@ -273,6 +279,7 @@ Repeat the process for the Teams web application, `5e3ce6c0-2b1f-4285-8d4b-75ee7
 ### Exercise 2: Update the Teams application package
 
 You've given Microsoft Teams permission to issue an Azure AD access token to your application (single sign-on), but Microsoft Teams doesn't know about that. To provide the information Teams needs, we need to update the Teams Application package.
+
 #### Step 1: Add the Azure AD information to the .env file
 
 Open the .env file in your working directory and add these lines, filling in the information you saved during the app registration:
@@ -333,7 +340,34 @@ Go ahead and run it, and two files, manifest.json and northwind.zip (the app pac
 
 ### Exercise 3: Update the application source code
 
-#### Step 1: Add an identity mapping screen
+#### Step 1: Update your package.json file
+
+The updated code will use two new npm packages on the server side:
+
+* @azure/msal-node: Allows login to Azure AD from your web server; this is needed when calling the Microsoft Graph API to read and write the user's employee ID.
+* azure-ad-jwt: Validates an Azure AD access token sent by the client side code
+
+To accomodate this, open the **package.json** file in your working directory and update the `dependencies` property to include these packages like this:
+
+~~~json
+  "dependencies": {
+    "@azure/msal-node": "^1.5.0",
+    "azure-ad-jwt": "^1.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "node-fetch": "^3.1.1",
+    "request": "^2.88.0"
+  },
+~~~
+
+Then, from a command line in your working directory, install the package by typing
+
+~~~shell
+npm install
+~~~
+
+#### Step 2: Add an identity mapping screen
 
 When a user logs into the app for the first time, we will log them into _both_ Azure AD and the Northwind login scheme and save their Northwind employee ID in the Azure AD user profile. This is just one of many approaches; an application could save the Azure AD user ID and another system's user ID in a database, or it could save the Azure AD user ID in the user's profile within the other authentication. Any way you do it, the idea is to create a linkage between each Azure AD user and their user profile in the other identity service.
 
@@ -447,7 +481,7 @@ microsoftTeams.initialize(async () => {
 
 This code uses the Teams JavaScript SDK to obtain an Azure AD token using `microsoftTeams.authentication.getAuthToken()`, and then it calls the server side at /api/validateAadLogin using this token. The server will read the user's employeeId and return it. If the employee ID is not found, the server returns an HTTP 404 error and the code prompts the user to log in via the Northwind login page. When the user logs in, the code passes his or her credentials back to /api/validateAadLogin, which looks up the employeeId and writes it to the user's profile.
 
-#### Step 2: Return the username and password from the login page
+#### Step 3: Return the username and password from the login page
 
 Open the file /client/identity/login.js in your code editor, and find the call to `notifySuccess()`. Modify it to return the username and password so the aadLogin.html page can provide it to the server.
 
@@ -461,7 +495,7 @@ Open the file /client/identity/login.js in your code editor, and find the call t
 
 The completed login script is [here at B03-TeamSSO-IdMapping/client/identity/login.js](../../B03-TeamSSO-IdMapping/client/identity/login.js)
 
-#### Step 3: Modify the logoff code
+#### Step 4: Modify the logoff code
 
 Logging off in this new version of the Teams app will be a very transitory thing, because the user will immediately be logged back on again! However we'll leave it in place for testing purposes.
 
@@ -477,7 +511,7 @@ to:
     window.location.href = "/identity/aadLogin.html";
 ~~~
 
-#### Step 4: Nodify the identity server code
+#### Step 5: Nodify the identity server code
 
 Now that the client code has been updated, it's time to modify the server code to handle the /api/validateAadLogin call from the client. To do that, open the file /server/identityService.js in your code editor and add these lines at the top:
 
@@ -657,6 +691,11 @@ The finished [server/identityService.js file is here](../../B03-TeamSSO-IdMappin
 
 ### Exercise 4: Test your application in Microsoft Teams
 
+---
+😎 LOGIN STATE IS STORED IN A BROWSER COOKIE: The sample login scheme uses a browser session cookie to establish who is logged in. **It is not secure - do not use this in a real application!** Also **be aware during testing** that your login will persist until you close all instances of your web browser. For example if you leave your browser logged in after an earlier lab and then run Microsoft Teams in another instance of the same browser, your user will already be logged in.
+
+---
+
 #### Step 1: Start the application
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application with this command:
@@ -690,12 +729,6 @@ The application should appear without any login prompt. The app's navigation sho
 ---
 > CHALLENGE: Notice the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
 ---
-
-### Exercise 5: Examine the Application Code
-
-TO BE PROVIDED
-
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 
 ### Known issues
 

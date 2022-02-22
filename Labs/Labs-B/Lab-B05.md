@@ -357,11 +357,6 @@ You can click the talk bubble in the upper left of the screen to open the chat; 
 
 If you click the small arrow to the right of the tab name and choose "Settings", Teams will open the configuration page again so you can change the settings. This is possible because in the the Teams app manifest the `"canUpdateConfiguration"` property is set to true; if you set it to false, the settings option will not be available.
 
-### Exercise 4: Examine the Application Code
-
-TO BE PROVIDED
-
-
 ### Known issues
 
 For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.

@@ -224,7 +224,7 @@ You should generate a different GUID for each application you register; this one
 
 #### Step 4: Update your package.json file
 
-Open the package.json file in your working directory and add a script that will generate the app package. The [script code](../../A03-TeamsSSO/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
+Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../A03-TeamsSSO/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
 ~~~json
 "scripts": {
@@ -398,7 +398,6 @@ Now modify the `connectedCallback()` function, which displays the navigation web
         }
 
     }
-}
 ~~~
 
 ---
@@ -440,14 +439,6 @@ The application should appear without any login prompt. The app's navigation sho
 ---
 > CHALLENGE: Notice the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
 ---
-
-
-
-### Exercise 5: Examine the Application Code
-
-TO BE PROVIDED
-
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 
 ### Known issues
 

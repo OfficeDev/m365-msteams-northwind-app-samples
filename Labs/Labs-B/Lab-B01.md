@@ -57,6 +57,23 @@ The free version of ngrok will assign a URL similar to https://something.ngrok.i
 
 While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved (Lab 6 has a bot inside to support Messaging Extensions). If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
 
+#### Step 4: Start ngrok
+
+In the command line tool of your choice, navigate to the folder where you've saved **ngrok.exe** and run this command:
+
+~~~shell
+ngrok http 3978 -host-header=localhost
+~~~
+
+The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+
+![ngrok output](../Assets/01-002-ngrok.png)
+
+---
+> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercies which involve the ngrok URL so you can easily update it if it changes.
+---
+
+
 ### Exercise 2: Configure and run the application
 #### Step 1: Download the starting application
 
@@ -95,7 +112,7 @@ To run the application, open a command line in your working folder and type:
 npm start
 ~~~
 
-At this point you should be able to browse to your ngrok URL and use the application. Note that due to the ngrok tunnel, you can try your app from anywhere on the Internet.
+At this point you should be able to browse to your ngrok URL (saved in Exercise 1 Step 4) and use the application. Note that due to the ngrok tunnel, you can try your app from anywhere on the Internet.
 
 At first you will be directed to the Northwind login page.
 
@@ -127,11 +144,11 @@ From there you can click into a product category to view a list of products, and
 
 Try logging out and logging in; you should be able to view the orders for another user based on the employee ID field in the Orders table.
 
-### Exercise 7: Examine the Application Code
+---
+😎 LOGIN STATE IS STORED IN A BROWSER COOKIE: The sample login scheme uses a browser session cookie to establish who is logged in. **It is not secure - do not use this in a real application!** Also **be aware during testing** that your login will persist until you close all instances of your web browser. For example if you leave your browser logged in after this lab and then run Microsoft Teams in another instance of the same browser, your user will already be logged in when you get to the next lab.
 
-TO BE PROVIDED
+---
 
-This exercise will point out highlights in the application code to show how to log into Azure AD, call the Microsoft Graph, and query the Northwind database. A Visual Studio Code tour will be provided to accompany this exercise. No code changes are made, so it's OK to skip it.
 ### Known issues
 
 The application does not implement paging for large data sets, so lists of orders etc. are limited to the first 10 results.
