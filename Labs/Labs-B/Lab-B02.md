@@ -180,6 +180,10 @@ By default, end users can't upload Teams applications directly; instead an admin
 
  ![Teams admin](../Assets/01-008-TeamsAdmin2.png)
 
+ Be sure to scroll down and click the "Save" button to persist your change.
+
+![Teams admin](../Assets/01-008-TeamsAdmin2b.png)
+
  We have been working to get this enabled by default on developer tenants, so it may already be set for you. The change can take up to 24 hours to take effect, but usually it's much faster.
 
  ### Exercise 2: Start ngrok and obtain the ngrok URL
