@@ -234,17 +234,15 @@ Clone or download the project into your local machine.
     - sqlSampleDatabaseName
     
 > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources
-
-    1. You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
-    
-    2. For domainName and directoryId, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
+You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+For domainName and directoryId, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
     
-1. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
+- In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
 
-1. In the same window run `Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"`
+- In the same window run `Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"`
 
-1. Click **Accept**.
+- Click **Accept**.
 
  ![Graph consent](../Assets/08-001.png)
 
@@ -254,7 +252,7 @@ Once accepted, the browser will redirect and show below message. You can now clo
 
 > What this step does is add `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
 
-1. In the same window run `.\InstallApps.ps1`
+- In the same window run `.\InstallApps.ps1`
 
 > You might get a warning as shown below. And it depends on the execution policy settings in the machine. 
 
@@ -275,8 +273,8 @@ By default it is `centralus` but you can change it to `eastus` which works on bo
 
  ![app id secret](../Assets/08-002.png)
 
-1. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
-1. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+- Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
+- Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
 
 #### Step 4:  Deploy the ARM template with PowerShell
 
@@ -313,11 +311,11 @@ You should see three apps as shown in the screen below:
 
 Now let's deploy the server side code for these three applications.
 
-1. In the command line, change to the **.\MonetizationCodeSample** directory.
+- In the command line, change to the **.\MonetizationCodeSample** directory.
 
-1. Run the script `.\PublishSaaSApps.ps1`.
+- Run the script `.\PublishSaaSApps.ps1`.
 
-1. When prompted, enter the same resource group name.
+- When prompted, enter the same resource group name.
 
 You will see the source code in your local machine getting built and packaged.
 

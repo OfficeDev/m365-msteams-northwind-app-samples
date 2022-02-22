@@ -429,6 +429,8 @@ async function displayUI() {
 - **getAADUserFromEmployeeId()** - To get the Azure AD user details based on employee id.
 - **getUserDetailsFromAAD()** - To get user information including their manager details.
     
+> We are using Microsoft Graph API to get user details from AAD.
+
 Copy the below code and append to the end of the file.
 
 
