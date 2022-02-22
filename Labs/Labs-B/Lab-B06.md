@@ -1,6 +1,7 @@
 ## Lab B06: Extend teams application with Messaging Extension
 
 This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+
 So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
 
 Suppose you want to search some data in an external system (in our case the Northwind database) and share the result in a conversation. Or you want to do an action like create, add or update data into this external system and still share all this in a conversation in Teams. All this is possible using **Messaging extensions** capability in Teams. 
