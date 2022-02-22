@@ -467,6 +467,11 @@ export default
 }
 ```
 - Create a file `bot.js` inside the `server` folder. This is the `StockManagerBot` for the messaging extension which will handle the search, display and update functionality of products within the conversation.
+
+    - **handleTeamsMessagingExtensionQuery()**- Used in creating a Search-based Message Extension when you query which then returns the `Messaging Extension Response` for the query.
+    - **handleTeamsMessagingExtensionSelectItem()**- Used in creating a Search-based Message Extension when select a search query result,  which then returns the `Messaging Extension Response` for the query.
+    - **onInvokeActivity()** - If the bots receive a message activity, then the turn handler receives a notification of that incoming activity. The turn handler then sends the incoming activity to Team's activity handler `onInvokeActivity` which routes all Teams invoke activities. To implement our own logic for, you must override this method in your bot.
+    
 - Copy the following content into **bot.js** file.
 ```javascript
 import { TeamsActivityHandler, CardFactory } from 'botbuilder';
