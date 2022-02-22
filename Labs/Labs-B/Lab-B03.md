@@ -232,6 +232,12 @@ You will be presented with a long list of objects that the Microsoft Graph can a
 
 ![Adding User.Read.App permission](../Assets/01-020-RegisterAADApp-11.png)
 
+### Step 3: Consent to the permission
+
+You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, click the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
+
+![Grant consent](../Assets/01-024-RegisterAADApp-15.png)
+
 #### Step 3: Expose an API
 
 The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
