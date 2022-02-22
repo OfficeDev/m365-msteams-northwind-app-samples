@@ -1,5 +1,15 @@
 ## Lab B07: Add a Task Module and Deep Link
 
+This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+
+Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
+
+Let's look at `Task modules` which are dialogues and `Deep links` which is a smart navigation mechanism within Teams.
+
+**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code.
+
+Using **Deep links** your application can help users navigate easily and intelligently within your application.
+
 In this lab you will begin with the application in folder `B06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `B07-TaskModule`.
 See project structures comparison in Exercise 2.
 

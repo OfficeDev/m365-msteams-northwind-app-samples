@@ -245,10 +245,11 @@ Clone or download the project into your local machine.
     - sqlMockDatabaseName
     - sqlSampleDatabaseName
     
-    > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources
-     1. You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+> Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources
 
-     2. For domainName and directoryId, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
+    1. You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+    
+    2. For domainName and directoryId, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
     
 1. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
@@ -281,6 +282,8 @@ Now re-run `.\InstallApps.ps1`
 
 The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
+> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemlate.ps1` file and search for variable `$location`.
+By default it is `centralus` but you can change it to `eastus` which works on both **Visual Studio Enterprise Subscription** and **Microsoft Azure Enterprise Subscription**.
 
  ![app id secret](../Assets/08-002.png)
 
@@ -343,16 +346,13 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your lab exercise project folder `B08-Monetization` and add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt;:
+Add below entries into .env files in your lab exercise project folder `A08-Monetization` and add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt;:
 ```
  SAAS_API=https://<webApiSiteName>.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://<webApiClientId>/user_impersonation
 ```
 
-
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
-
-
 
 ### Exercise n: Grant the Northwind Orders app permission to call the licensing service in Azure
 

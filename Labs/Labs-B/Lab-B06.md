@@ -1,5 +1,10 @@
 ## Lab B06: Extend teams application with Messaging Extension
 
+This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
+
+Suppose you want to search some data in an external system (in our case the Northwind database) and share the result in a conversation. Or you want to do an action like create, add or update data into this external system and still share all this in a conversation in Teams. All this is possible using **Messaging extensions** capability in Teams. 
+
 In this lab you will begin with the application in folder `B05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `B06-MessagingExtension`.
 See project structures comparison in Exercise 2.
 
@@ -187,13 +192,15 @@ You'll need to register your web service as a bot in the Bot Framework and updat
 - Select the link **Manage** next to the Microsoft App ID label. This will take us to Certificates & secrets page of the Azure AD app tied to the bot
 - Create a new **Client secret** and copy the `Value` immediately (we will need this later as *BOT_REG_AAD_APP_PASSWORD* in .env file)
 - Go to the registered bot, and on the left navigation select **Channels**.
-- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot.
+- In the given list of channels, select **Microsoft Teams**, agree to the terms if you wish too and select **Agree** to complete the configurations needed for the bot. Select **Save**.
 
 > A channel is a connection between a communication application (like teams client here) and a bot. A bot, registered with Azure, uses channels to help the bot communicate with users. You can configure a bot to connect to any of the other standard channels such as Alexa, Facebook Messenger, and Slack.
 
 <div id="ex1-step2"></div>
 
 #### Step 2: Run ngrok 
+
+> Ignore this step if you have ngrok already running
 
 Start ngrok to obtain the URL for your application. Run this command in the command line tool of your choice:
 
@@ -225,7 +232,7 @@ After Step 3, the configuration page of your Azure Bot would look like below.
 In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🆕 near the files & folders.
 They are the new files and folders that you need to add into the project structure.
 
-- Create a new `images` folder and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/B06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
+- Create a new `images` folder under `client` and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/B06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
     As long as you got the names of the images right, we don't have to worry what images your want to add in the folder 😉. You can get creative here!
 
@@ -656,11 +663,11 @@ Update version number from `1.5.0` to `1.6.0`.
 
 > NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
 
-Add the messaging extension command information in the manifest:
-<pre>
+Add the messaging extension command information in the manifest after `showLoadingIndicator` property:
+~~~
 "composeExtensions": [
     {
-    "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
+    "botId": "<BOT_REG_AAD_APP_ID>",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -694,11 +701,11 @@ Add the messaging extension command information in the manifest:
       "supportsFiles": false
     }
   ],
-</pre>
+~~~
 
 **3.server\identityService.js**
 
-Add a condition to let validation will be performed by Bot Framework Adapter.
+Add a condition to let validation  be performed by Bot Framework Adapter.
 In the function `validateApiRequest()`, add an `if` condition and check if request is from `bot` then move to next step.
 
 <pre>
@@ -709,6 +716,30 @@ In the function `validateApiRequest()`, add an `if` condition and check if reque
        //do the rest
     }
 </pre>
+
+The final form of the function definition will look as below:
+<pre>
+async function validateApiRequest(req, res, next) {
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    <b>if (req.path==="/messages") {
+        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
+        next();
+    } else {
+       </b> aad.verify(token, { audience: audience }, async (err, result) => {
+            if (result) {
+                console.log(`Validated authentication on /api${req.path}`);
+                next();
+            } else {
+            console.error(`Invalid authentication on /api${req.path}: ${err.message}`);
+                res.status(401).json({ status: 401, statusText: "Access denied" });
+            }
+        });
+   <b> }</b>
+}
+</pre>
+
 **4.server\northwindDataService.js**
 
 Add two new functions as below
@@ -807,21 +838,16 @@ adapter.onTurnError = onTurnErrorHandler;
 Listen for incoming requests.
 ```javascript
 
-const PORT = process.env.PORT || 3978;
-app.listen(PORT, () => {
-  console.log(`Server is Running on Port ${PORT}`);
+app.post('/api/messages', (req, res) => {
+  adapter.processActivity(req, res, async (context) => {
+    await stockManagerBot.run(context);
+  }).catch(error=>{
+    console.log(error)
+  });
 });
 
 ```
 
-**6.env_Sample**
-
-The `.env` file needed for your local development based on `.env_Sample`, will have two additional key-value pair for bot registration's Azure AD application credentials as below. This is what is used in **server.js**  to initialize the bot adapter.
-
-```json
-BOT_REG_AAD_APP_ID=00000000-0000-0000-0000-000000000000
-BOT_REG_AAD_APP_PASSWORD=00000000-0000-0000-0000-000000000000
-```
 
 **package.json**
 
@@ -834,6 +860,26 @@ Add below packages into the `package.json` file.
     "adaptivecards-templating": "^2.2.0",   
     "botbuilder": "^4.15.0"
 ```
+
+**7. .env**
+
+Open the `.env` file in your working directory and add two new tokens `BOT_REG_AAD_APP_ID` and `BOT_REG_AAD_APP_PASSWORD` with values copied in [Step 1](#ex1-step1).
+
+The .env file contents will now look like below:
+```
+COMPANY_NAME=Northwind Traders
+PORT=3978
+
+TEAMS_APP_ID=c42d89e3-19b2-40a3-b20c-44cc05e6ee26
+HOSTNAME=yourhostname.ngrok.io
+
+TENANT_ID=c8888ec7-a322-45cf-a170-7ce0bdb538c5
+CLIENT_ID=b323630b-b67c-4954-a6e2-7cfa7572bbc6
+CLIENT_SECRET=111111.ABCD
+BOT_REG_AAD_APP_ID=88888888-0d02-43af-85d7-72ba1d66ae1d
+BOT_REG_AAD_APP_PASSWORD=111111vk
+```
+
 ### Exercise 3: Test the changes
 ---
 Now that you have applied all code changes, let's test the features.

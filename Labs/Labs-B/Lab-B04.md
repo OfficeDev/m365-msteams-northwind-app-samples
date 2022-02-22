@@ -1,5 +1,7 @@
 ## Lab B04: Teams styling and themes
 
+This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+
 In this lab you will begin with the application in folder `B03-TeamsSSO`, make changes as per the steps below to achieve what is in the folder `B04-StyleAndThemes`.
 See project structures comparison in Exercise 1.
 
@@ -15,6 +17,8 @@ See project structures comparison in Exercise 1.
 We will cover the following concepts in this exercise:
 
 ### Features
+
+- Apply teams styling and themes to your existing application.
 
 ### Project structure
 The project structure when you start of this lab and end of this lab is as follows.
@@ -778,9 +782,10 @@ body {
   font-family: 'Selawik Web', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
 }
 ```
-- Add a local `.env` file based on the sample file `.env_Sample`. Update all values for the keys, based on how far you have reached in this lab.
+
 
 #### Step 2: Update existing files
+
 In the project structure, on the right under `B04-StyleAndThemes`, you will see emoji 🔺 near the files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
