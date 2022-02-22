@@ -127,6 +127,11 @@ From there you can click into a product category to view a list of products, and
 
 Try logging out and logging in; you should be able to view the orders for another user based on the employee ID field in the Orders table.
 
+---
+😎 LOGIN STATE IS STORED IN A BROWSER COOKIE: The sample login scheme uses a browser session cookie to establish who is logged in. **It is not secure - do not use this in a real application!** Also **be aware during testing** that your login will persist until you close all instances of your web browser. For example if you leave your browser logged in after this lab and then run Microsoft Teams in another instance of the same browser, your user will already be logged in when you get to the next lab.
+
+---
+
 ### Exercise 7: Examine the Application Code
 
 TO BE PROVIDED
