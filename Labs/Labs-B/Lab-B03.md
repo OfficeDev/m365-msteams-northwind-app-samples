@@ -528,7 +528,7 @@ This will import two node packages:
 * @azure/msal-node - this package provides the Microsoft Authentication Library (MSAL) so your code can call the [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/) to read and write the Azure AD user profile.
 
 
-Then locate the function `initializeIdentityService()` and add these lines at the bottom of the function.
+Then locate the function `initializeIdentityService()` and add these lines near the bottom of the function, just above the `app.use('/api/', validateApiRequest);` statement.
 
 ~~~javascript 
     // Web service validates an Azure AD login
