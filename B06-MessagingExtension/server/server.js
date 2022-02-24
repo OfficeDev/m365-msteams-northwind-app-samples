@@ -12,7 +12,7 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
-import {StockManagerBot} from './bot.js';
+import {StockManagerBot} from './bot.js';//bot's main dialog
 import { BotFrameworkAdapter } from 'botbuilder';
 dotenv.config();
 const app = express();
@@ -96,12 +96,15 @@ app.get('/api/product', async (req, res) => {
 });
 
 
-// Make environment values available on the client side
+// Make some environment values available on the client side
 // NOTE: Do not pass any secret or sensitive values to the client!
 app.get('/modules/env.js', (req, res) => {
   res.contentType("application/javascript");
   res.send(`
     export const env = {
+      HOSTNAME: "${process.env.HOSTNAME}",
+      TENANT_ID: "${process.env.TENANT_ID}",
+      CLIENT_ID: "${process.env.CLIENT_ID}"
     };
   `);
 });
@@ -138,8 +141,9 @@ const onTurnErrorHandler = async (context, error) => {
 };
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;
-// Messaging endpoint
+// Listen for incoming requests on messaging endpoint
 app.post('/api/messages', (req, res) => {
+// Route received a request to adapter for processing
   adapter.processActivity(req, res, async (context) => {
     await stockManagerBot.run(context);
   }).catch(error=>{
