@@ -174,20 +174,22 @@ A07-TaskModule
 
 ### Exercise 1: Download and install the monetization sample
 
-To complete this exercise you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also nee a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services.
-To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minuted.
+To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
 
-In this exercise you'll create three Azure Active Directory applications using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
+To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
+
+In this exercise you'll create three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
 
 - Contoso Monetization Code Sample Web App
 - Contoso Monetization Code Sample Web API
 - Contoso Monetization Code Sample App source
 
- #### Step 1: Install all prerequisites
+ #### Step 1: Install the prerequisites
 
 > You would not come this far without Microsoft365 developer tenant as Global Admin and an Azure subscription. Below are the rest of the prerequisites.
  
 - Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4)
+
 - Install the following PowerShell modules:
   - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery)
 
@@ -200,21 +202,18 @@ In this exercise you'll create three Azure Active Directory applications using a
       ``` command
       Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force 
       ```
-  
+- Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
+
+OPTIONAL: If you want to run these applications locally or modify them, you may find these tools helpful:
+
 - [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
    >**Note:** use **Visual Studio Installer** to install the following development toolsets:
   - ASP.NET and web development
   - Azure development
   - Office/SharePoint development
   - .NET cross-platform development
-- [Visual Studio Code](https://code.visualstudio.com)
-- Install [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
-- Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
-- Install [gulp-cli](https://www.npmjs.com/package/gulp-cli)
 
-   ``` command
-   npm install gulp-cli --global
-   ```
+- Install [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
 
 #### Step 2:  Download the source code needed to be deployed
 
@@ -239,7 +238,6 @@ Clone or download the project into your local machine.
 You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
 For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
-    
 - In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
 
 - In the same window run `Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"`
@@ -334,7 +332,7 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your lab exercise project folder `A08-Monetization` and add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt;:
+Add below entries into .env files in your working folder where you've done Labs A01-A07. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file:
 ```
  SAAS_API=https://<webApiSiteName>.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://<webApiClientId>/user_impersonation
@@ -378,17 +376,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 ### Exercise 3: Update the Northwind Orders app to call the licensing service in Azure
 
-#### Step 1: Add licensing service information to your .env file
-
-In your working folder, open the .env file and add 
-
-~~~text
-SAAS_API=<URL of your SaaS service in Azure such as https://mySaasApiProject.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense>
-SAAS_SCOPES=<scope of your SaaS service such as api://11111111-1111-1111-1111-111111111111/user_impersonation>
-OFFER_ID=contoso_o365_addin
-~~~
-
-#### Step 2: Add a server side function to validate the user has a license
+#### Step 1: Add a server side function to validate the user has a license
 
 In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../A08-Monetization/server/northwindLicenseService.js)).
 
@@ -488,7 +476,7 @@ In Lab A03, you called the Microsoft Graph API using application permissions. Th
 
 To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to exchange the incoming access token (targeted for the Northwind Orders app) for a new access token that is targeted for the Licensing service application.
 
-#### Step 3: Add a server side API to validate the user's license
+#### Step 2: Add a server side API to validate the user's license
 
 Now that we have a function that checks the user's license on the server side, we need to add a POST request to our service that calls the function.
 
@@ -527,7 +515,7 @@ app.post('/api/validateLicense', async (req, res) => {
 });
 ~~~
 
-#### Step 4: Add client side pages to display a license error
+#### Step 3: Add client side pages to display a license error
 
 Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../A08-Monetization/client/pages/needLicense.html).
 
