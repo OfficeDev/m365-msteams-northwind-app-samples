@@ -12,7 +12,7 @@ Note that as you complete the labs, the original app should still work outside o
 
 * [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
 * [Lab B02: Creating a Teams application](./Lab-B02.md)
-* [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md) (📍You are here)
+* [Lab B03: Adding Azure AD SSO to your app](./Lab-B03.md) (📍You are here)
 * [Lab B04: Teams styling and themes](./Lab-B04.md)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
 * [Lab B06: Add a Messaging Extension](./Lab-B06.md)
@@ -208,9 +208,9 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 
 ---
 
-#### Step 2: Grant permissions to your application
+#### Step 2: Grant your application permission to call the Microsoft Graph API
 
-The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is the main API for Microsoft 365 and Microsoft Teams.
+The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is a RESTful API that allows you to access data in Azure AD and Microsoft 365, including Microsoft Teams.
 
 - While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
 

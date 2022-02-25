@@ -9,7 +9,7 @@ See project structures comparison in Exercise 1.
 
 * [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
 * [Lab B02: Create a teams app](./Lab-B02.md)
-* [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
+* [Lab B03: Make existing teams app use Azure AD SSO](./Lab-B03.md)
 * [Lab B04: Teams styling and themes](./Lab-B04.md) (📍You are here)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
 * [Lab B06: Add a Messaging Extension](./Lab-B06.md)
@@ -397,7 +397,8 @@ Copy below import statement to the top of the file:
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 ```
 
-- The Teams client supports three themes—light mode, dark mode, and high contrast mode (which is an accissibility feature for users with low visual acuity). As the users switch the themes, your application should also switch it's theme so as to blend in. To detect theme switching in Teams client we'll have to use the global onject `microsoftTeams`'s context.
+- The Teams client supports three themes—light mode, dark mode, and high contrast mode (which is an accessibility feature for users with low visual acuity). As the users switch the themes, your application should also switch its theme so as to blend in. To detect theme switching in Teams client we'll have to use the global `microsoftTeams`'s context.
+
 - We 'll add a function `setTheme()` to switch the css between the application's native style and the team's themes.
 Copy and paste below code block:
 ```javascript
@@ -438,32 +439,7 @@ Update version number from `1.3.0` to `1.4.0`.
 "version": "1.4.0"
 ~~~
 
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
- 
-#### Step 3: Create new teams app package
-
-Create updated teams app package by running below script:
-```nodejs
-npm run package
-```
-
-#### Step 4: Upload the app package
-In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
-
-* Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
-* Upload an app to your org's app catalog (upload the app for use within your organization) - this only appears if you are a tenant administrator
-* Submit an app to your org (initiate a workflow asking a tenant administrator to install your app) - this appears for everyone
-
-In this case, choose the first option 3️⃣.
-
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
-
-Navigate to the Northwind.zip file in your manifest directory and upload it. 
-The Teams client will display the application information, add the application.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-001-addapp.png?raw=true" alt="Add the app"/>
-
-
-#### Step 5: Start your local project
+#### Step 6: Start your local project
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
 
@@ -471,7 +447,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 6 : Run the application in Teams client
+#### Step 7: Run the application in Teams client
 ---
 Once the teams tab app is added, the personal tab will open `My Orders` tab. The application will now have the team's native look and feel.
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-002-tabstyle.png" alt="Teams tab style">

@@ -6,7 +6,7 @@ This lab is part of Path B, which begins with a Northwind Orders application tha
 
 * [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
 * [Lab B02: Create a teams app](./Lab-B02.md)
-* [Lab B03: Make existing teams app use Azure ADO SSO](./Lab-B03.md)
+* [Lab B03: Make existing teams app use Azure AD SSO](./Lab-B03.md)
 * [Lab B04: Teams styling and themes](./Lab-B04.md)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
 * [Lab B06: Add a Messaging Extension](./Lab-B06.md)
@@ -345,15 +345,15 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your working folder where you've done Labs A01-A07. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file:
+Add below entries into .env files in your working folder where you've done Labs A01-A07. Add below two keys, and replace the values (webApiSiteName) and (webApiClientId) with the values from your `ARMParameters.json` file:
 ```
- SAAS_API=https://<webApiSiteName>.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
- SAAS_SCOPES=api://<webApiClientId>/user_impersonation
+ SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
+ SAAS_SCOPES=api://(webApiClientId)/user_impersonation
 ```
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
 
-Try visiting the App Source simulator, which is at https://<webAppSiteName>.azurewebsites.net; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
+Try visiting the App Source simulator, which is at https://(webAppSiteName).azurewebsites.net; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
 
 ### Exercise 2: Grant the Northwind Orders app permission to call the licensing service in Azure
 
@@ -705,7 +705,7 @@ Return to your application in Microsoft Teams; refresh the tab or browser if nec
 
 Teams Store are also listed in the Microsoft App Source portal; users can purchase you app in either location. For this lab you will use an App Source simulator which you installed earlier in this lab, but users can purchase apps directly from the Teams user interface when they're listed in the Teams app store.
 
-Browse to https://<resourceMockWebSiteName>.azurewebsites.net where <resourceMockWebSiteName> is the name you chose in Exercise 1 Step 3. This should display the App Source simulator. 
+Browse to https://(resourceMockWebSiteName).azurewebsites.net where (resourceMockWebSiteName) is the name you chose in Exercise 1 Step 3. This should display the App Source simulator. 
 
 ---
 > NOTE: The App Source simulator's background color is green to make it easy to see when you are redirected to your app's landing page, which has a blue background.
@@ -747,7 +747,7 @@ Now that you've purchased a subscription, return to Microsoft Teams and refresh 
 
 ![Run application](../Assets/08-208-RunApp-8.png)
 
-Now return to the licensing application. If you've closed the tab, you can find it at https://<webAppSiteName>.azurewebsites.net where <webAppSiteName> is the name you chose in Exercise 1 Step 3. 
+Now return to the licensing application. If you've closed the tab, you can find it at https://(webAppSiteName).azurewebsites.net where (webAppSiteName) is the name you chose in Exercise 1 Step 3. 
 
 ![Run application](../Assets/08-209-RunApp-9.png)
 
