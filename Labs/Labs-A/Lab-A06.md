@@ -683,14 +683,6 @@ Add the messaging extension command information in the manifest after `showLoadi
       ]
     }
   ],
-  "bots": [
-    {
-      "botId": "<BOT_REG_AAD_APP_ID>",
-      "scopes": [ "personal", "team", "groupchat" ],
-      "isNotificationOnly": false,
-      "supportsFiles": false
-    }
-  ],
 ~~~
 
 Update version number from `1.5.0` to `1.6.0`.

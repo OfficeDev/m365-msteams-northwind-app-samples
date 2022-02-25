@@ -11,10 +11,10 @@ export class StockManagerBot extends TeamsActivityHandler {
         // Registers an activity event handler for the message event, emitted for every incoming message activity.
         this.onMessage(async (context, next) => {
             console.log('Running on Message Activity.');          
-            await next();
+            await next(); //go to the next handler 
         });
     }
-    //on search on ME
+    //When you perform a search from the messaging extension app
     async handleTeamsMessagingExtensionQuery(context, query){
         const { name, value } = query.parameters[0];
         if (name !== 'productName') {
@@ -44,7 +44,7 @@ export class StockManagerBot extends TeamsActivityHandler {
         return result;
 
     }
-    //on preview tap of search items list
+    //on preview tap of an item from the list of search result items
     async handleTeamsMessagingExtensionSelectItem(context, pdt) {        
        const preview = CardFactory.thumbnailCard(pdt.productName); 
         var template = new ACData.Template(pdtCardPayload);
@@ -66,7 +66,7 @@ export class StockManagerBot extends TeamsActivityHandler {
             },
         };
     } 
-    //on every activity on ME when invoked  
+    //on every activity 
      async onInvokeActivity(context) {
         let runEvents = true;
         try {
