@@ -6,7 +6,7 @@ In this lab you will build the application you created in Lab B01 into a Microso
 
 * [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
 * [Lab B02: Creating a Teams application](./Lab-B02.md) (📍You are here)
-* [Lab B03: Adding Azure ADO SSO to your app](./Lab-B03.md)
+* [Lab B03: Adding Azure AD SSO to your app](./Lab-B03.md)
 * [Lab B04: Teams styling and themes](./Lab-B04.md)
 * [Lab B05: Add a Configurable Tab](./Lab-B05.md)
 * [Lab B06: Add a Messaging Extension](./Lab-B06.md)

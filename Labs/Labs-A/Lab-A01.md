@@ -168,7 +168,7 @@ From the same user profile screen, click "Licenses" and ensure the user has an O
 
 ![Check license](../Assets/01-032-CheckLicense.png)
 
-> NOTE: When you publish your application in the Microsoft Teams store, its licenses will not appear here along with the licenses for Microsoft products. Instead, your application will implement its own licensing, which allows ISV's to integrate with their existing license management sytem.
+> NOTE: When you publish your application in the Microsoft Teams store, you will be responsible for your own license management and licenses for your application will not appear here along with the licenses for Microsoft products. In Lab 08, you will implement this strategy for the Northwind Orders app.
 
 ### Exercise 4: Register your application with Azure AD
 
@@ -246,9 +246,9 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 
 ---
 
-#### Step 3: Grant permissions to your application
+#### Step 3: Grant your application permission to call the Microsoft Graph API
 
-The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is the main API for Microsoft 365 and Microsoft Teams.
+The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is a RESTful API that allows you to access data in Azure AD and Microsoft 365, including Microsoft Teams.
 
 - While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
 
