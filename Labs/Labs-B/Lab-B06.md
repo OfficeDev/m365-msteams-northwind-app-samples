@@ -701,14 +701,6 @@ Add the messaging extension command information in the manifest after `showLoadi
       ]
     }
   ],
-  "bots": [
-    {
-      "botId": "<BOT_REG_AAD_APP_ID>",
-      "scopes": [ "personal", "team", "groupchat" ],
-      "isNotificationOnly": false,
-      "supportsFiles": false
-    }
-  ],
 ~~~
 
 **3.server\identityService.js**
