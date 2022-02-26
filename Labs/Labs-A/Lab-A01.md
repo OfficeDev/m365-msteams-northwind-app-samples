@@ -77,7 +77,7 @@ Log in with any Microsoft personal or work and school account, enter your inform
 
 Follow the wizard and select your administrator username and password, tenant domain name, etc. The domain name you choose is just the left-most portion - for example if you enter "Contoso" your domain will be "Contoso.onmicrosoft.com".
 
-Remember this information as you'll need it throughout the labs! You will log in as <username>@<domain>.onmicrosoft.com with the password your chose. You'll be prompted for your phone number and then the system will set up your subscription.
+Remember this information as you'll need it throughout the labs! You will log in as <username>@<domain>.onmicrosoft.com with the password you chose. You'll be prompted for your phone number and then the system will set up your subscription.
 
 Eventually you'll be prompted to log into your new tenant. Be sure to use the new administrator credentials you just created, not the ones you used when you signed up for the developer program.
 
