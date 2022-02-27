@@ -385,25 +385,20 @@ async function displayUI() {
 
         }
     <b>btnTaskModuleElement.addEventListener('click',  ev => {
-            let submitHandler = (err, result) => { console.log(result); };
-            let taskInfo = {
-                title: null,
-                height: null,
-                width: null,
-                url: null,
-                card: null,
-                fallbackUrl: null,
-                completionBotId: null,
-            };         
-
+            let submitHandler = (err, result) => { console.log(result); };          
             var template = new ACData.Template(templatePayload); 
             // Expand the template with your `$root` data object.
             // This binds it to the data and produces the final Adaptive Card payload
             var cardPayload = template.expand({$root: orderDetails});             
-            taskInfo.card = cardPayload;
-            taskInfo.title = "chat";
-            taskInfo.height = 310;
-            taskInfo.width = 430;     
+             const taskInfo = {
+                card:cardPayload,
+                title:"chat",
+                height:310,
+                width:430,
+                url: null,               
+                fallbackUrl: null,
+                completionBotId: null,
+            }; 
             //invoke the task module (dialog)    
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
@@ -463,8 +458,8 @@ export async function getUserDetailsFromAAD(aadUserId) {
     try {
         if (userCache[aadUserId]) return userCache[aadUserId];
         const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphAppUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}`
-        const graphResponse = await fetch(graphAppUrl, {
+        const graphUserUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}`
+        const graphResponse = await fetch(graphUserUrl, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -476,8 +471,8 @@ export async function getUserDetailsFromAAD(aadUserId) {
             const graphData = await graphResponse.json();
             graphResult.mail = graphData.mail;
             graphResult.displayName = graphData.displayName;
-            const graphAppUrl2 = `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
-            const graphResponse2 = await fetch(graphAppUrl2, {
+            const graphManagerUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
+            const graphResponse2 = await fetch(graphManagerUrl, {
                 method: "GET",
                 headers: {
                     "Accept": "application/json",
@@ -562,23 +557,15 @@ Update version number from `1.6.0` to `1.7.0`.
 ---
 Now that you have applied all code changes, let's test the features.
 
-#### Step 1: Install npm packages
 
-From the command line in your working directory, install the new packages by running below script:
-
-```nodejs
-npm i
-```
-
-
-#### Step 2: Create new teams app package
+#### Step 1: Create new teams app package
 
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 3: Upload the app package
+#### Step 2: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -594,7 +581,7 @@ The Teams client will display the application information, add the application t
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-001-addapp.png?raw=true" alt="Add the app"/>
 
 
-#### Step 5: Start your local project
+#### Step 3: Start your local project
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
 
@@ -602,7 +589,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 6 : Run the application in Teams client
+#### Step 4 : Run the application in Teams client
 
 We will add the application to a Team's team.
 Configure the tab, select a **Category** as shown below and select **Save**:

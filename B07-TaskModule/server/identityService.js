@@ -253,8 +253,8 @@ export async function getUserDetailsFromAAD(aadUserId) {
     try {
         if (userCache[aadUserId]) return userCache[aadUserId];
         const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphAppUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}`
-        const graphResponse = await fetch(graphAppUrl, {
+        const graphUserUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}`
+        const graphResponse = await fetch(graphUserUrl, {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -266,8 +266,8 @@ export async function getUserDetailsFromAAD(aadUserId) {
             const graphData = await graphResponse.json();
             graphResult.mail = graphData.mail;
             graphResult.displayName = graphData.displayName;
-            const graphAppUrl2 = `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
-            const graphResponse2 = await fetch(graphAppUrl2, {
+            const graphManagerUrl = `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
+            const graphResponse2 = await fetch(graphManagerUrl, {
                 method: "GET",
                 headers: {
                     "Accept": "application/json",
