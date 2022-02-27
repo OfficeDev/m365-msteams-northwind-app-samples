@@ -56,25 +56,20 @@ async function displayUI() {
 
         }
     btnTaskModuleElement.addEventListener('click',  ev => {
-            let submitHandler = (err, result) => { console.log(result); };
-            let taskInfo = {
-                title: null,
-                height: null,
-                width: null,
-                url: null,
-                card: null,
-                fallbackUrl: null,
-                completionBotId: null,
-            };         
-
+            let submitHandler = (err, result) => { console.log(result); };             
             var template = new ACData.Template(templatePayload); 
             // Expand the template with your `$root` data object.
             // This binds it to the data and produces the final Adaptive Card payload
-            var cardPayload = template.expand({$root: orderDetails});             
-            taskInfo.card = cardPayload;
-            taskInfo.title = "chat";
-            taskInfo.height = 310;
-            taskInfo.width = 430;         
+            var cardPayload = template.expand({$root: orderDetails});    
+            const taskInfo = {
+                card:cardPayload,
+                title:"chat",
+                height:310,
+                width:430,
+                url: null,               
+                fallbackUrl: null,
+                completionBotId: null,
+            };  
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
     });

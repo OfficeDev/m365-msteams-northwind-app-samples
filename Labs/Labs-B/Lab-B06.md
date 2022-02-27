@@ -671,11 +671,67 @@ Update version number from `1.5.0` to `1.6.0`.
 
 > NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
 
-Add the messaging extension command information in the manifest after `showLoadingIndicator` property:
-~~~
-"composeExtensions": [
+Add the messaging extension command information (bolded) in the manifest after `showLoadingIndicator` property:
+<pre>
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "version": "1.6.0",
+  "id": "&lt;TEAMS_APP_ID&gt;",
+  "packageName": "io.github.officedev.teamsappcamp1.northwind",
+  "developer": {
+    "name": "Northwind Traders",
+    "websiteUrl": "https://&lt;HOSTNAME&gt;/",
+    "privacyUrl": "https://&lt;HOSTNAME&gt;/privacy.html",
+    "termsOfUseUrl": "https://&lt;HOSTNAME&gt;/termsofuse.html"
+  },
+  "icons": {
+      "color": "northwind192.png",
+      "outline": "northwind32.png"
+  },
+  "name": {
+    "short": "Northwind Orders",
+    "full": "Northwind Traders Order System"
+  },
+  "description": {
+    "short": "Sample enterprise app using the Northwind Traders sample database",
+    "full": "Simple app to demonstrate porting a SaaS app to Microsoft Teams"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
     {
-    "botId": "<BOT_REG_AAD_APP_ID>",
+        "configurationUrl": "https://&lt;HOSTNAME&gt;/pages/tabConfig.html",
+        "canUpdateConfiguration": true,
+        "scopes": [
+            "team",
+            "groupchat"
+        ]
+    }
+],
+"staticTabs": [
+    {
+      "entityId": "Orders",
+      "name": "My Orders",
+      "contentUrl": "https://&lt;HOSTNAME&gt;/pages/myOrders.html",
+      "websiteUrl": "https://&lt;HOSTNAME&gt;/pages/myOrders.html",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "Products",
+      "name": "Products",
+      "contentUrl": "https://&lt;HOSTNAME&gt;/pages/categories.html",
+      "websiteUrl": "https://&lt;HOSTNAME&gt;/pages/categories.html",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "showLoadingIndicator": false,
+  <b>"composeExtensions": [
+    {
+      "botId": "&lt;BOT_REG_AAD_APP_ID&gt;",
       "canUpdateConfiguration": true,
       "commands": [
         {
@@ -700,8 +756,21 @@ Add the messaging extension command information in the manifest after `showLoadi
         }
       ]
     }
+  ], </b>
+  
+  "permissions": [
+      "identity",
+      "messageTeamMembers"
   ],
-~~~
+  "validDomains": [
+      "&lt;HOSTNAME&gt;"
+  ],
+  "webApplicationInfo": {
+      "id": "&lt;CLIENT_ID&gt;",
+      "resource": "api://&lt;HOSTNAME>/&lt;CLIENT_ID&gt;"
+  }
+}
+</pre>
 
 **3.server\identityService.js**
 
@@ -852,7 +921,13 @@ app.post('/api/messages', (req, res) => {
 **package.json**
 
 You'll need to install additional packages for adaptive cards and botbuilder.
-Add below packages into the `package.json` file.
+Add below packages into the `package.json` file by run below script to install new packages:
+
+```nodejs
+npm i adaptive-expressions adaptivecards adaptivecards-templating botbuilder
+```
+
+Check if packages are added into `dependencies` in the package.json file:
 
 ```json
     "adaptive-expressions": "^4.15.0",
@@ -884,24 +959,15 @@ BOT_REG_AAD_APP_PASSWORD=111111vk
 ---
 Now that you have applied all code changes, let's test the features.
 
-#### Step 1: Install npm packages
 
-From the command line in your working directory, install the new packages by running below script:
-
-```nodejs
-npm i
-```
-
-
-
-#### Step 2: Create new teams app package
+#### Step 1: Create new teams app package
 
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 3: Upload the app package
+#### Step 2: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -917,7 +983,7 @@ The Teams client will display the application information, add the application t
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 
-#### Step 4: Start your local project
+#### Step 3: Start your local project
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
 
@@ -925,7 +991,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 5 : Run the application in Teams client
+#### Step 4 : Run the application in Teams client
 
 We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
 
@@ -938,7 +1004,7 @@ Search for the product from the messaging extension (This should be easy if you 
 Select the product you want to add in the conversation.
 <img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
 
-    > A little preview will be shown in the message compose area. Note at the time this lab was created, there is an outstanding platform issue related to the preview. If you are in a Teams team, this will be blank. Hence showing this capability in a group chat.
+> A little preview will be shown in the message compose area. Note at the time this lab was created, there is an outstanding platform issue related to the preview. If you are in a Teams team, this will be blank. Hence showing this capability in a group chat.
 
 This is the product card, with a form to fill in and submit, incase the unit stock value has to be changed.
 
