@@ -1,5 +1,7 @@
 # Resources
 
+This page contains resources for the Microsoft [Teams App Camp](../README.md).
+
 * [Free M365 Developer Tenant](https://developer.microsoft.com/en-us/microsoft-365/dev-program)
 * [Targeted Release](https://docs.microsoft.com/en-us/microsoft-365/admin/manage/release-options-in-office-365) - set your developer tenant to get the latest features
 * [Microsoft 365 Developer Channel](https://www.youtube.com/c/Microsoft365Developer)

@@ -13,6 +13,8 @@ There are two options for doing the labs:
 * the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
 **[START HERE](./Labs/Labs-B/Lab-B01.md) for the "B" path**
 
+Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
+
 ## Summary
 
 Both paths have the following labs:
