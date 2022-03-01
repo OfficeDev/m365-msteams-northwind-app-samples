@@ -26,9 +26,9 @@ See project structures comparison in Exercise 2.
 
 In this exercise you will learn new concepts as below:
 
-- [Task modules](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-task-modules)
-- [Deep linking](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/deep-links)
-- [Microsoft Graph to get a user's manager details](https://docs.microsoft.com/en-us/graph/api/user-list-manager?view=graph-rest-1.0&tabs=http)
+- [Task modules](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/what-are-task-modules?WT.mc_id=m365-58890-cxa)
+- [Deep linking](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/deep-links?WT.mc_id=m365-58890-cxa)
+- [Microsoft Graph to get a user's manager details](https://docs.microsoft.com/en-us/graph/api/user-list-manager?view=graph-rest-1.0&tabs=http&WT.mc_id=m365-58890-cxa)
 
 
 ### Features

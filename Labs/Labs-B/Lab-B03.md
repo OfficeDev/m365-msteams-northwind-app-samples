@@ -21,10 +21,10 @@ Note that as you complete the labs, the original app should still work outside o
 
 In this lab you will learn to:
 
-- [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
+- [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app?WT.mc_id=m365-58890-cxa)
 - Update your Azure AD app registration to allow Teams to issue tokens on behalf of your application
 - Use the Microsoft Teams JavaScript SDK to request an Azure AD access token
-- How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens) in a NodeJS application
+- How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens?WT.mc_id=m365-58890-cxa) in a NodeJS application
 
 ### Features
 
@@ -204,7 +204,7 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 😎 MANAGING APP SECRETS IS AN ONGOING RESPONSIBILITY. App secrets have a limited lifetime, and if they expire your application may stop working. You can have multiple secrets, so plan to roll them over as you would with a digital certificate.
 
 ---
-😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references) for more information.
+😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references?WT.mc_id=m365-58890-cxa) for more information.
 
 ---
 
@@ -224,7 +224,7 @@ Notice that the application has one permission already: delegated permission Use
 
 The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
 
-So the application needs to read and write the user's employee ID in Azure AD. Users aren't allowed to overwrite the employeeId field on their own, so the application needs to elevate privileges to save the Northwind employee ID. To do that, the application will use an application permission, "User.ReadWrite.All". For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
+So the application needs to read and write the user's employee ID in Azure AD. Users aren't allowed to overwrite the employeeId field on their own, so the application needs to elevate privileges to save the Northwind employee ID. To do that, the application will use an application permission, "User.ReadWrite.All". For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent?WT.mc_id=m365-58890-cxa#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
 
 Click "Application permissions" to add the required permission.
 
@@ -525,7 +525,7 @@ import * as msal from '@azure/msal-node';
 This will import two node packages:
 
 * azure-ad-jwt - this package validates an Azure AD access token
-* @azure/msal-node - this package provides the Microsoft Authentication Library (MSAL) so your code can call the [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/) to read and write the Azure AD user profile.
+* @azure/msal-node - this package provides the Microsoft Authentication Library (MSAL) so your code can call the [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/?WT.mc_id=m365-58890-cxa) to read and write the Azure AD user profile.
 
 
 Then locate the function `initializeIdentityService()` and add these lines near the bottom of the function, just above the `app.use('/api/', validateApiRequest);` statement.
@@ -738,6 +738,6 @@ For the latest issues, or to file a bug report, see the [github issues list](htt
 
 ### References
 
-[Single sign-on (SSO) support for Tabs](https://docs.microsoft.com/microsoftteams/platform/tabs/how-to/authentication/auth-aad-sso)
+[Single sign-on (SSO) support for Tabs](https://docs.microsoft.com/microsoftteams/platform/tabs/how-to/authentication/auth-aad-sso?WT.mc_id=m365-58890-cxa)
 
 

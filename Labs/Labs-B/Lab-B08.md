@@ -190,7 +190,7 @@ To complete this lab you'll need to set up a mock App source simulator, as we ca
 
 To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
 
-In this exercise you'll create three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
+In this exercise you'll create three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview?WT.mc_id=m365-58890-cxa).
 
 - Contoso Monetization Code Sample Web App
 - Contoso Monetization Code Sample Web API
@@ -209,7 +209,7 @@ In this exercise you'll create three Azure Active Directory applications and the
       Install-Module Microsoft.Graph -AllowClobber -Force
       ```
 
-  - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0#installation)
+  - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0&WT.mc_id=m365-58890-cxa#installation)
 
       ``` command
       Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force 
@@ -248,7 +248,7 @@ Clone or download the project into your local machine.
     
 > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
 You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
-For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
+For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
     
 - In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
@@ -263,7 +263,7 @@ Once accepted, the browser will redirect and show below message. You can now clo
 
  ![Graph consent redirect](../Assets/08-001-1.png)
 
-> What this step does is add `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
+> What this step does is add `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal?WT.mc_id=m365-58890-cxa) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
 
 - In the same window run `.\InstallApps.ps1`
 
@@ -271,7 +271,7 @@ Once accepted, the browser will redirect and show below message. You can now clo
 
  ![execution policy](../Assets/08-001-2.png)
 
-Let's set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2).
+Let's set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
 
 Run below script:
 ```powershell
@@ -487,7 +487,7 @@ async function getOboAccessToken(clientSideToken) {
 
 In Lab B03, you called the Microsoft Graph API using application permissions. This code calls the licensing service using delegated permissions, meaning that the application is acting on behalf of the user.
 
-To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to exchange the incoming access token (targeted for the Northwind Orders app) for a new access token that is targeted for the Licensing service application.
+To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow?WT.mc_id=m365-58890-cxa) to exchange the incoming access token (targeted for the Northwind Orders app) for a new access token that is targeted for the Licensing service application.
 
 #### Step 2: Add a server side API to validate the user's license
 
@@ -719,7 +719,7 @@ Click the "Purchase" button to purchase a subscription to the Northwind Orders A
 > NOTE: The App Source simulator has a mock offer name, "Contoso Apps", rather than showing the "Northwind Orders" app. This is just a constant defined in the monetization project's SaasOfferMockData/Offers.cs file. The real App Source web page will show the application name and other information you configured in Partner Center.
 ---
 
-Next, the App Source simulator displays the plans available for the offer; the simulator has two hard-coded plans, "SeatBasedPlan" (which uses a [per-user pricing model](https://docs.microsoft.com/en-us/azure/marketplace/create-new-saas-offer-plans#define-a-pricing-model)), and a "SiteBasedPlan" (which uses a [flat-rate pricing model](https://docs.microsoft.com/en-us/azure/marketplace/plan-saas-offer#saas-pricing-models)). The real App Source would show the plans you had defined in Partner Center.
+Next, the App Source simulator displays the plans available for the offer; the simulator has two hard-coded plans, "SeatBasedPlan" (which uses a [per-user pricing model](https://docs.microsoft.com/en-us/azure/marketplace/create-new-saas-offer-plans?WT.mc_id=m365-58890-cxa#define-a-pricing-model)), and a "SiteBasedPlan" (which uses a [flat-rate pricing model](https://docs.microsoft.com/en-us/azure/marketplace/plan-saas-offer?WT.mc_id=m365-58890-cxa#saas-pricing-models)). The real App Source would show the plans you had defined in Partner Center.
 
 Since Microsoft Teams only supports the per-user pricing model, choose the "SiteBasedPlan" and click the "Purchase" button. Because this is a simulator, your credit card will not be charged.
 
@@ -731,7 +731,7 @@ The landing page gives the app a chance to interact with the user and capture an
 
 ![Run application](../Assets/08-204-RunApp-4.png)
 
-Once the region has been selected, the sample app shows a welcome page with the user's name, which is obtained by [reading the user's profile with the Microsoft Graph API](https://docs.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0). Click "License Settings" to view the license assignment screen.
+Once the region has been selected, the sample app shows a welcome page with the user's name, which is obtained by [reading the user's profile with the Microsoft Graph API](https://docs.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&WT.mc_id=m365-58890-cxa). Click "License Settings" to view the license assignment screen.
 
 ![Run application](../Assets/08-205-RunApp-5.png)
 
