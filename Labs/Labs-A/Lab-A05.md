@@ -8,9 +8,9 @@ Up to this point, the Northwind Teams application has had only "static" tabs. St
 
 "Configurable" tabs are for sharing; they run in Teams channels and group chats. The idea is that a group of people shares the configuration, so there's shared context. In this lab you will add a configurable tab that displays a specific product category so, for example, the Beverages product team can share a tab with a list of beverages. This saves them navigating through the app every time they want to see Beverages.
 
-The Teams manifest for a static tab includes the tab's URL, but for a configurable tab it includes the URL of the tab's [_configuration page_](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page). The configuration page will allow users to configure what information is shown on the tab; based on this the configuration page saves the actual tab URL and a unique _entity ID_ using the Teams JavaScript SDK. This URL can lead users directly to the information they want, or the tab to a page that looks at the entity ID to decide what to display. In this lab, the tab URL will display the product category directly, so the entity ID isn't really used. 
+The Teams manifest for a static tab includes the tab's URL, but for a configurable tab it includes the URL of the tab's [_configuration page_](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page?WT.mc_id=m365-58890-cxa). The configuration page will allow users to configure what information is shown on the tab; based on this the configuration page saves the actual tab URL and a unique _entity ID_ using the Teams JavaScript SDK. This URL can lead users directly to the information they want, or the tab to a page that looks at the entity ID to decide what to display. In this lab, the tab URL will display the product category directly, so the entity ID isn't really used. 
 
-Configuration pages don't just work for tabs; they can also be used as setup pages for [Messaging Extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/messaging-extension-v3/search-extensions#handle-onquerysettingsurl-and-onsettingsupdate-events) or [Connectors](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-creating#integrate-the-configuration-experience), so they're worth learning about!
+Configuration pages don't just work for tabs; they can also be used as setup pages for [Messaging Extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/messaging-extension-v3/search-extensions?WT.mc_id=m365-58890-cxa#handle-onquerysettingsurl-and-onsettingsupdate-events) or [Connectors](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-creating?WT.mc_id=m365-58890-cxa#integrate-the-configuration-experience), so they're worth learning about!
 
 * [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
 * Lab A02: (there is no lab A02; please skip to A03)
@@ -355,6 +355,6 @@ For the latest issues, or to file a bug report, see the [github issues list](htt
 
 ### References
 
-* [Create a configuration page](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page)
+* [Create a configuration page](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page?WT.mc_id=m365-58890-cxa)
 
 
