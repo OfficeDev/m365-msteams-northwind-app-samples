@@ -738,7 +738,17 @@ Add the messaging extension command information (bolded) in the manifest after `
         }
       ]
     }
-  ], </b>
+  ], 
+  "bots": [
+    {
+      "botId": "<BOT_REG_AAD_APP_ID>",
+      "scopes": [ "personal", "team", "groupchat" ],
+      "isNotificationOnly": false,
+      "supportsFiles": false
+    }
+  ],
+
+</b>
   
   "permissions": [
       "identity",
