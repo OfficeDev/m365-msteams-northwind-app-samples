@@ -82,6 +82,14 @@
       ]
     }
   ],
+  "bots": [
+    {
+      "botId": "<BOT_REG_AAD_APP_ID>",
+      "scopes": [ "personal", "team", "groupchat" ],
+      "isNotificationOnly": false,
+      "supportsFiles": false
+    }
+  ],
   "permissions": [
       "identity",
       "messageTeamMembers"
