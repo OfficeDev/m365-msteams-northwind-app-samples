@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/request": "^2.48.3",
-    "nodemon": "^2.0.13",
-    "adm-zip": "^0.4.16"
+    "adm-zip": "^0.4.16",
+    "nodemon": "^2.0.13"
   }
 }

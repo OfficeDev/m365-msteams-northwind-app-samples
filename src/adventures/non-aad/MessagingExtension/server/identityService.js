@@ -52,14 +52,19 @@ export async function initializeIdentityService(app) {
 
 async function validateApiRequest(req, res, next) {
     try {
-        if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
-              || req.path==="/messages") { //Request for bot, validation will be performed by Bot Framework Adapter
-            console.log(`Validated authentication on /api${req.path}`);
+        if (req.path==="/messages") {
+            console.log('Request for bot, validation will be performed by Bot Framework Adapter');
             next();
         } else {
-            console.log(`Invalid authentication on /api${req.path}`);
-            res.status(401).json({ status: 401, statusText: "Access denied" });
+            if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
+                console.log(`Validated authentication on /api${req.path}`);
+                next();
+            } else {
+                console.log(`Invalid authentication on /api${req.path}`);
+                res.status(401).json({ status: 401, statusText: "Access denied" });
+            }
         }
+      
     }
     catch (error) {
         res.status(401).json({ status: 401, statusText: error });

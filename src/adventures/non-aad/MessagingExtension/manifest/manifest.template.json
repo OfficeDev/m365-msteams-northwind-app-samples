@@ -23,17 +23,7 @@
     "full": "Simple app to demonstrate porting a SaaS app to Microsoft Teams"
   },
   "accentColor": "#FFFFFF",
-  "configurableTabs": [
-    {
-        "configurationUrl": "https://<HOSTNAME>/pages/tabConfig.html",
-        "canUpdateConfiguration": true,
-        "scopes": [
-            "team",
-            "groupchat"
-        ]
-    }
-],
-"staticTabs": [
+  "staticTabs": [
     {
       "entityId": "Orders",
       "name": "My Orders",
@@ -81,7 +71,7 @@
         }
       ]
     }
-  ],
+  ], 
   "bots": [
     {
       "botId": "<BOT_REG_AAD_APP_ID>",
@@ -90,6 +80,7 @@
       "supportsFiles": false
     }
   ],
+
   "permissions": [
       "identity",
       "messageTeamMembers"
