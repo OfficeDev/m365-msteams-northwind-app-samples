@@ -35,20 +35,15 @@ async function validateApiRequest(req, res, next) {
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     const token = req.headers['authorization'].split(' ')[1];
 
-    if (req.path==="/messages") {
-        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
-        next();
-    } else {
-        aad.verify(token, { audience: audience }, async (err, result) => {
-            if (result) {
-                console.log(`Validated authentication on /api${req.path}`);
-                next();
-            } else {
+    aad.verify(token, { audience: audience }, async (err, result) => {
+        if (result) {
+            console.log(`Validated authentication on /api${req.path}`);
+            next();
+        } else {
             console.error(`Invalid authentication on /api${req.path}: ${err.message}`);
-                res.status(401).json({ status: 401, statusText: "Access denied" });
-            }
-        });
-    }
+            res.status(401).json({ status: 401, statusText: "Access denied" });
+        }
+    });
 }
 
 // validateAndMapAadLogin() - Returns an employee ID of the logged in user based
@@ -182,7 +177,6 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
     }
     return employeeId;
 }
-
 export async function getAADUserFromEmployeeId(employeeId) {
     let aadUserdata;
 
