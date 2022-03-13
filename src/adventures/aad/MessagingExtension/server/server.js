@@ -12,8 +12,7 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
-
-import {StockManagerBot} from './bot.js';//bot's main dialog
+import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
 dotenv.config();
 const app = express();
@@ -109,18 +108,12 @@ app.get('/modules/env.js', (req, res) => {
     };
   `);
 });
-
-// Serve static pages from /client
-app.use(express.static('client'));
-
-//Bot code for messaging extension
-
-// Main dialog.
-const stockManagerBot = new StockManagerBot();
+//messaging extension
 const adapter = new BotFrameworkAdapter({
   appId: process.env.BOT_REG_AAD_APP_ID,
   appPassword:process.env.BOT_REG_AAD_APP_PASSWORD
 });
+const stockManagerBot = new StockManagerBot();
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
   // This check writes out errors to console log .vs. app insights.
@@ -142,15 +135,17 @@ const onTurnErrorHandler = async (context, error) => {
 };
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;
-// Listen for incoming requests on messaging endpoint
+
 app.post('/api/messages', (req, res) => {
-// Route received a request to adapter for processing
   adapter.processActivity(req, res, async (context) => {
     await stockManagerBot.run(context);
   }).catch(error=>{
     console.log(error)
   });
 });
+
+// Serve static pages from /client
+app.use(express.static('client'));
 
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;

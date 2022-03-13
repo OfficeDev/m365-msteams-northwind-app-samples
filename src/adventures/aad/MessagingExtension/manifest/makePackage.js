@@ -28,4 +28,3 @@ fs.readFile('manifest/manifest.template.json', 'utf-8', (err, data) => {
     });
 });
 
-

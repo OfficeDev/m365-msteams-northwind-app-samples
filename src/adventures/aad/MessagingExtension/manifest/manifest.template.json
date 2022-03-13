@@ -23,16 +23,6 @@
     "full": "Simple app to demonstrate porting a SaaS app to Microsoft Teams"
   },
   "accentColor": "#FFFFFF",
-  "configurableTabs": [
-    {
-        "configurationUrl": "https://<HOSTNAME>/pages/tabConfig.html",
-        "canUpdateConfiguration": true,
-        "scopes": [
-            "team",
-            "groupchat"
-        ]
-    }
-],
 "staticTabs": [
     {
       "entityId": "Orders",
