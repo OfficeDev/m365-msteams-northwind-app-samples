@@ -1,4 +1,4 @@
-![Teams App Camp](../Assets/code-lab-banner.png)
+![Teams App Camp](../../assets/code-lab-banner.png)
 
 ## Lab B07: Add a Task Module and Deep Link
 

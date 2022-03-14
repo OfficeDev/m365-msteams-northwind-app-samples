@@ -1,4 +1,4 @@
-![Teams App Camp](../Assets/code-lab-banner.png)
+![Teams App Camp](../../assets/code-lab-banner.png)
 
 ## Lab B04: Teams styling and themes
 

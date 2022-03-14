@@ -1,4 +1,4 @@
-![Teams App Camp](../Assets/code-lab-banner.png)
+![Teams App Camp](../../assets/code-lab-banner.png)
 
 ## Lab A04: Teams styling and themes
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
