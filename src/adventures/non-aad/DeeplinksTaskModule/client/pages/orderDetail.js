@@ -6,7 +6,6 @@ import {
 } from '../identity/identityClient.js'
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 import templatePayload from '../modules/orderChatCard.js'
-
 let orderId="0";
 let orderDetails={};
 async function displayUI() {
@@ -22,8 +21,8 @@ async function displayUI() {
             const order = await getOrder(orderId);    
             //graph call to get AAD mapped employee details        
             let user=await getAADUserFromEmployeeId(order.employeeId);  
-            if(!user)   
-               user= await getAADUserFromEmployeeId("1");     //fall back to employee 1           
+             if(!user)   
+                user= await getAADUserFromEmployeeId("1");     //fall back to employee 1 
             const salesRepdetails=await getUserDetailsFromAAD(user);          
 
             orderDetails.orderId=orderId?orderId:"";
@@ -56,7 +55,7 @@ async function displayUI() {
 
         }
     btnTaskModuleElement.addEventListener('click',  ev => {
-            let submitHandler = (err, result) => { console.log(result); };
+            let submitHandler = (err, result) => { console.log(result); };    
             var template = new ACData.Template(templatePayload); 
             // Expand the template with your `$root` data object.
             // This binds it to the data and produces the final Adaptive Card payload
@@ -69,9 +68,10 @@ async function displayUI() {
                 url: null,               
                 fallbackUrl: null,
                 completionBotId: null,
-            };         
+            }; 
+            //invoke the task module (dialog)    
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
-        });
+        });        
     });
     }
     catch (error) {            // If here, we had some other error
@@ -79,6 +79,4 @@ async function displayUI() {
     }
 }
 
-
 displayUI();
-

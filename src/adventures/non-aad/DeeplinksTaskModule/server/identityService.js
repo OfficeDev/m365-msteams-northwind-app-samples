@@ -52,8 +52,7 @@ export async function initializeIdentityService(app) {
 
 async function validateApiRequest(req, res, next) {
     try {
-        if ((req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0 )
-              || req.path==="/messages") { // todo: added temporarily to avoid SSO in ME/Bot
+        if (req.cookies.employeeId && parseInt(req.cookies.employeeId) > 0) {
             console.log(`Validated authentication on /api${req.path}`);
             next();
         } else {
@@ -217,7 +216,6 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
     }
     return employeeId;
 }
-
 export async function getAADUserFromEmployeeId(employeeId) {
     let aadUserdata;
 

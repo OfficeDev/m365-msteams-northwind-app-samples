@@ -71,6 +71,7 @@ export async function getFetchHeadersAuth() {
     return ({ "content-type": "application/json" });
 }
 
+
 export async function getAADUserFromEmployeeId(employeeId) {
 
     const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {

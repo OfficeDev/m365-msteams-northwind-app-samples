@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+
 import {
   initializeIdentityService,
   getAADUserFromEmployeeId,getUserDetailsFromAAD
 } from './identityService.js';
-
 import {
   getEmployee,
   getOrder,
@@ -13,8 +13,7 @@ import {
   getCategory,
   getProduct
 } from './northwindDataService.js';
-import {StockManagerBot} from './bot.js';//bot's main dialog
-import { BotFrameworkAdapter } from 'botbuilder';
+
 dotenv.config();
 const app = express();
 
@@ -106,7 +105,7 @@ app.get('/modules/env.js', (req, res) => {
     };
   `);
 });
-
+//deeplinks and task module
 app.get('/api/getAADUserFromEmployeeId', async (req, res) => {
 
   try {
@@ -136,45 +135,6 @@ app.get('/api/getUserDetailsFromAAD', async (req, res) => {
 
 // Serve static pages from /client
 app.use(express.static('client'));
-
-//Bot code for messaging extension
-
-// Main dialog.
-const stockManagerBot = new StockManagerBot();
-const adapter = new BotFrameworkAdapter({
-  appId: process.env.BOT_REG_AAD_APP_ID,
-  appPassword:process.env.BOT_REG_AAD_APP_PASSWORD
-});
-// Catch-all for errors.
-const onTurnErrorHandler = async (context, error) => {
-  // This check writes out errors to console log .vs. app insights.
-  // NOTE: In production environment, you should consider logging this to Azure
-  //       application insights.
-  console.error(`\n [onTurnError] unhandled error: ${ error }`);
-
-  // Send a trace activity, which will be displayed in Bot Framework Emulator
-  await context.sendTraceActivity(
-      'OnTurnError Trace',
-      `${ error }`,
-      'https://www.botframework.com/schemas/error',
-      'TurnError'
-  );
-
-  // Send a message to the user
-  await context.sendActivity('The bot encountered an error or bug.');
-  await context.sendActivity('To continue to run this bot, please fix the bot source code.');
-};
-// Set the onTurnError for the singleton BotFrameworkAdapter.
-adapter.onTurnError = onTurnErrorHandler;
-// Listen for incoming requests on messaging endpoint
-app.post('/api/messages', (req, res) => {
-// Route received a request to adapter for processing
-  adapter.processActivity(req, res, async (context) => {
-    await stockManagerBot.run(context);
-  }).catch(error=>{
-    console.log(error)
-  });
-});
 
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;
