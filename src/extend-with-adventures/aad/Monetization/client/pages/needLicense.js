@@ -4,4 +4,3 @@ if (searchParams.has('error')) {
     const displayElementError = document.getElementById('errorMsg');
     displayElementError.innerHTML = error;  
 }
-

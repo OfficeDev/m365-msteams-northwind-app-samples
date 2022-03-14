@@ -1,11 +1,6 @@
 import aad from 'azure-ad-jwt';
 import fetch from 'node-fetch';
 
-// This is the SaaS offer that will be used in this simulation.
-// Please go to the below link to learn more about SaaS offer creation:
-//
-// https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/offer-creation-checklist
-
 export async function validateLicense(thisAppAccessToken) {
 
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
@@ -42,8 +37,7 @@ export async function validateLicense(thisAppAccessToken) {
 
 }
 
-// TODO: Combine with Graph exercise which will need OBO flow
-// TODO: Add caching?
+// TODO: Securely cache the results of this function for the lifetime of the resulting token
 async function getOboAccessToken(clientSideToken) {
 
     const tenantId = process.env.TENANT_ID;
@@ -91,6 +85,5 @@ async function getOboAccessToken(clientSideToken) {
     } catch (error) {
         return error;
     }
-
 
 }

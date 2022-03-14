@@ -4,7 +4,6 @@ import {
 } from './identityClient.js';
 import { inTeams } from '../modules/teamsHelpers.js';
 import { hasValidLicense } from '../modules/northwindLicensing.js';
-
 class northwindUserPanel extends HTMLElement {
 
     async connectedCallback() {
@@ -16,11 +15,10 @@ class northwindUserPanel extends HTMLElement {
             logoff();
 
         } else {
-
             if (await inTeams()) {
                 const validLicense = await hasValidLicense();  
                 if (validLicense.status && validLicense.status.toString().toLowerCase()==="failure") {
-                     window.location.href =`/pages/needLicense.html?error=${validLicense.reason}`;
+                        window.location.href =`/pages/needLicense.html?error=${validLicense.reason}`;
                 }    
             }
 

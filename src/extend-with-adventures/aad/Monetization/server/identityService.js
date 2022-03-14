@@ -35,20 +35,15 @@ async function validateApiRequest(req, res, next) {
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     const token = req.headers['authorization'].split(' ')[1];
 
-    if (req.path==="/messages") {
-        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
-        next();
-    } else {
-        aad.verify(token, { audience: audience }, async (err, result) => {
-            if (result) {
-                console.log(`Validated authentication on /api${req.path}`);
-                next();
-            } else {
+    aad.verify(token, { audience: audience }, async (err, result) => {
+        if (result) {
+            console.log(`Validated authentication on /api${req.path}`);
+            next();
+        } else {
             console.error(`Invalid authentication on /api${req.path}: ${err.message}`);
-                res.status(401).json({ status: 401, statusText: "Access denied" });
-            }
-        });
-    }
+            res.status(401).json({ status: 401, statusText: "Access denied" });
+        }
+    });
 }
 
 // validateAndMapAadLogin() - Returns an employee ID of the logged in user based
@@ -181,79 +176,4 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
         console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
     }
     return employeeId;
-}
-
-export async function getAADUserFromEmployeeId(employeeId) {
-    let aadUserdata;
-
-    try {
-        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphResponse = await fetch(
-            `https://graph.microsoft.com/v1.0/users/?$filter=employeeId eq '${employeeId}'`,
-            {
-                "method": "GET",
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                }
-            });
-        if (graphResponse.ok) {
-            const userProfile = await graphResponse.json();
-            aadUserdata = userProfile.value[0];
-
-        } else {
-            console.log(`Error ${graphResponse.status} calling Graph in getAADUserFromEmployeeId: ${graphResponse.statusText}`);
-        }
-    }
-    catch (error) {
-        console.log(`Error calling MSAL in getAADUserFromEmployeeId: ${error}`);
-    }
-    return aadUserdata;
-
-}
-const userCache = {}
-export async function getUserDetailsFromAAD(aadUserId) {
-    let graphResult = {};
-    try {
-        if (userCache[aadUserId]) return userCache[aadUserId];
-        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphUserUrl= `https://graph.microsoft.com/v1.0/users/${aadUserId}`
-        const graphResponse = await fetch(graphUserUrl, {
-            method: "GET",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${msalResponse.accessToken}`
-            }
-        });
-        if (graphResponse.ok) {
-            const graphData = await graphResponse.json();
-            graphResult.mail = graphData.mail;
-            graphResult.displayName = graphData.displayName;
-            const graphManagerUrl= `https://graph.microsoft.com/v1.0/users/${aadUserId}/manager`
-            const graphResponse2 = await fetch(graphManagerUrl, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                }
-            });
-            if (graphResponse2.ok) {
-                const managerInfo = await graphResponse2.json();
-                graphResult.managerMail = managerInfo.mail;
-                graphResult.managerDisplayName = managerInfo.displayName;
-            } else {
-                console.log(`Error ${graphResponse2.status} calling Graph in getUserDetailsFromAAD: ${graphResponse2.statusText}`);
-            }
-            userCache[aadUserId] = graphResult;
-        } else {
-            console.log(`Error ${graphResponse.status} calling Graph in getUserDetailsFromAAD: ${graphResponse.statusText}`);
-        }
-    }
-    catch (error) {
-        console.log(`Error calling MSAL in getUserDetailsFromAAD: ${error}`);
-    }
-    return graphResult;
 }

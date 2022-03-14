@@ -163,35 +163,3 @@ export async function getFetchHeadersAuth() {
         "authorization": `Bearer ${accessToken}`
     });
 }
-
-
-export async function getAADUserFromEmployeeId(employeeId) {
-
-    const response = await fetch (`/api/getAADUserFromEmployeeId?employeeId=${employeeId}`, {
-        "method": "get",
-        "headers": await getFetchHeadersAuth(),       
-        "cache": "no-cache"
-    });
-    if (response.ok) {
-        return response.text().then((data) => data ? JSON.parse(data).id : null);      
-    } else {
-        const error = "getAADUserFromEmployeeId failed"
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
-}
-export async function getUserDetailsFromAAD(aadUserId) {
-
-    const response = await fetch (`/api/getUserDetailsFromAAD?aadUserId=${aadUserId}`, {
-        "method": "get",
-        "headers": await getFetchHeadersAuth(),       
-        "cache": "no-cache"
-    });
-    if (response.ok) {
-        return response.text().then((data) => data ? JSON.parse(data) : null);          
-    } else {
-        const error = "getUserDetailsFromAAD failed"
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
-}
