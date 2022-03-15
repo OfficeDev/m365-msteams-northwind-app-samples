@@ -1,19 +1,14 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A04: Teams styling and themes
+## Lab A03: Teams styling and themes
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
-In this lab you will begin with the application in folder `A03-TeamsSSO`, make changes as per the steps below to achieve what is in the folder `A04-StyleAndThemes`.
+In this lab you will begin with the application in folder `A02-after-teams-sso`, make changes as per the steps below to achieve what is in the folder `A03-after-apply-styling`.
 See project structures comparison in Exercise 1.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)(📍You are here)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [A01-begin-app: Setting up the application with Azure AD](./A01-begin-app.md) 
+* [A02-after-teams-sso: Creating a Teams app with Azure ADO SSO](./A02-after-teams-sso.md)
+* [A03-after-apply-styling: Teams styling and themes](./A03-after-apply-styling.md)(📍You are here)
 
 
 ### Features
@@ -39,7 +34,7 @@ On your left is the contents of folder  `A03-TeamsSSO` and on your right is the 
 <tr>
 <td valign="top" >
 <pre>
-A03-TeamsSSO
+A02-after-teams-sso
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -82,7 +77,7 @@ A03-TeamsSSO
 </td>
 <td>
 <pre>
-A04-StyleAndThemes
+A03-after-apply-styling
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -129,7 +124,7 @@ A04-StyleAndThemes
 
 #### Step 1: Add new files & folders
 
-In the project structure, on the right under `A04-StyleAndThemes`, you will see emoji 🆕 near the files & folders.
+In the project structure, on the right under `A03-after-apply-styling`, you will see emoji 🆕 near the files & folders.
 They are the new files and folders that you need to add into the project structure.
 
 - Create a file `teamstyle.css` in `client` folder and copy below code block into it:
@@ -369,7 +364,7 @@ This CSS contains basic stylings for Teams UI. After applying the styles, the ex
 The CSS also includes dark and high-contrast mode. The color switch is done with [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/var()). In the next step, you will enable the theme switching functionality in JavaScript.
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A04-StyleAndThemes`, you will see emoji 🔺 near the files.
+In the project structure, on the right under `A03-after-apply-styling`, you will see emoji 🔺 near the files.
 They are the files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
@@ -429,14 +424,13 @@ npm start
 #### Step 5: Run the application in Teams client
 ---
 Once the teams tab app is added, the personal tab will open `My Orders` tab. The application will now have the team's native look and feel.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-002-tabstyle.png" alt="Teams tab style">
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/04-002-tabstyle.png" alt="Teams tab style">
 [Change themes in teams client.](https://support.microsoft.com/en-us/office/customize-your-teams-theme-51f24f07-1209-4f9d-8788-c0da4d98aede#:~:text=Select%20Settings%20and%20more%20near%20your%20profile%20picture.&text=Select%20General.,will%20change%20to%20your%20selection.)
 
 Notice how the teams tab app also detects and changes it's theme.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-003-changetheme.gif" alt="Change theme">
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/04-003-changetheme.gif" alt="Change theme">
 
-### References
----
+
 
 
 

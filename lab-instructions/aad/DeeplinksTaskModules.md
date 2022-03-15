@@ -1,10 +1,10 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A07: Add a Task Module and Deep Link
+## Add a Task Module and Deep Link
 
-This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs A01-A03 to get to the Northwind Orders core application
 
-Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
 
 Let's look at `Task modules` which are dialogues and `Deep links` which is a smart navigation mechanism within Teams.
 
@@ -12,17 +12,6 @@ Let's look at `Task modules` which are dialogues and `Deep links` which is a sma
 
 Using **Deep links** your application can help users navigate easily and intelligently within your application.
 
-In this lab you will begin with the application in folder `A06-MessagingExtension`, make changes as per the steps below to achieve what is in the folder `A07-TaskModule`.
-See project structures comparison in Exercise 2.
-
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md) (📍You are here)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
 In this exercise you will learn new concepts as below:
 
@@ -36,154 +25,12 @@ In this exercise you will learn new concepts as below:
 - In the application's order details page, add a button to open a dialog with order details.
 - In the dialog add a button to initiate a group chat with the order's sales representative and their manager using deep linking.
 
-### Project structure
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
-- 🆕 New files/folders
-
-- 🔺Files changed
-<table>
-<tr>
-<th>Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-A06-MessagingExtension
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── 🔺identityClient.js
-    │       └── userPanel.js
-    ├── images
-    │   └── 1.PNG
-    │   └── 2.PNG
-    │   └── 3.PNG
-    │   └── 4.PNG
-    │   └── 5.PNG
-    │   └── 6.PNG
-    │   └── 7.PNG
-    │   └── 8.PNG
-    │   └── 9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── 🔺orderDetail.html
-    │   └── 🔺orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── cards
-    │       └── errorCard.js
-    │       └── productCard.js
-    │       └── stockUpdateSuccess.js
-    │   └── bot.js
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── northwindDataService.js
-    │   └── 🔺server.js
-    ├── .env_Sample
-    ├── .gitignore
-    ├── package.json
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-A07-TaskModule
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── 🔺identityClient.js
-    │       └── userPanel.js
-    ├── images
-    │   └── 1.PNG
-    │   └── 2.PNG
-    │   └── 3.PNG
-    │   └── 4.PNG
-    │   └── 5.PNG
-    │   └── 6.PNG
-    │   └── 7.PNG
-    │   └── 8.PNG
-    │   └── 9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── 🆕orderChatCard.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── 🔺orderDetail.html
-    │   └── 🔺orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── cards
-    │       └── errorCard.js
-    │       └── productCard.js
-    │       └── stockUpdateSuccess.js
-    │   └── bot.js
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── northwindDataService.js
-    │   └── 🔺server.js
-    ├── .env_Sample
-    ├── .gitignore
-    ├── package.json
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### Exercise 1: Code changes
 ---
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `A07-TaskModule`, you will see emoji 🆕 near the files.
-They are the new files and folders that you need to add into the project structure.
+There are new files and folders that you need to add into the project.
 
 **1.\client\modules\orderChatCard.js**
 
@@ -255,8 +102,8 @@ export default
 ```
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A07-TaskModule`, you will see emoji 🔺 near the files.
-They are the files that were updated to add the new features.
+
+There are files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
 **1.\client\identity\identityClient.js**
@@ -402,7 +249,7 @@ async function displayUI() {
             //invoke the task module (dialog)    
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
-        }
+        
     });</b>
     }
     catch (error) {            // If here, we had some other error
@@ -551,7 +398,7 @@ Update version number from `1.6.0` to `1.7.0`.
 ~~~json
 "version": "1.7.0"
 ~~~
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+> NOTE: Make each new version greater than the last app so you can update the application in Teams!
 
 ### Exercise 3: Test the changes
 ---
@@ -574,11 +421,11 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. 
 The Teams client will display the application information, add the application to a team or a group chat.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-001-addapp.png?raw=true" alt="Add the app"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-001-addapp.png?raw=true" alt="Add the app"/>
 
 
 #### Step 3: Start your local project
@@ -591,21 +438,13 @@ npm start
 
 #### Step 4 : Run the application in Teams client
 
-We will add the application to a Team's team.
-Configure the tab, select a **Category** as shown below and select **Save**:
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-002-configuretab.png?raw=true" alt="Configure the app"/>
+Once you are in the application, go to `My orders` page and select any order as shown below:
 
-Once you are in the tab, select the product to navigate to the `Product details` page.
-
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-003-selectproduct.png?raw=true" alt="Product details page"/>
-
-From the `Product details page`, select any order as shown below:
-
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
 This will take you to the `Order details page`.
 
 Notice the button `Chat here`1️⃣. This button opens a dialogue 2️⃣ to show the Sales representative and their team.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-005-chat.png?raw=true" alt="chat"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-005-chat.png?raw=true" alt="chat"/>
 
 Select `Chat with the sales rep team` button, this will initiate a group chat with the user, and the sales rep team.
     > Manually close the dialog once you are in the group chat.
@@ -614,14 +453,8 @@ Select `Chat with the sales rep team` button, this will initiate a group chat wi
     > Sales rep's manager information is taken from Microsoft365 data using Microsoft Graph's [Get manager](https://docs.microsoft.com/en-us/graph/api/orgcontact-get-manager?view=graph-rest-1.0&tabs=http) api.
 1. The chat's topic has the order number from where the chat is initiated.
 1. The chat's initial message is already typed and ready with the order number.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
 
 ### Known issues
 
 The task module (dialog) has to be closed manually.
-
-### References
-
-
-
-

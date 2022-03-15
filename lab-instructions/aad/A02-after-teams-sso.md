@@ -1,6 +1,6 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A03: Create a Teams app with Azure AD Single Sign-On
+## Lab A02: Create a Teams app with Azure AD Single Sign-On
 
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
@@ -8,18 +8,14 @@ In this lab you will extend the Northwind Orders application as a personal tab i
 
 The Northwind Orders app doesn't check for IFrames, but Azure AD does, so the existing site won't work without modifications. To accomodate this and to prevent extra user logins, you'll set this tab up to use Teams' Azure AD Single Sign-on. 
 
-The completed solution can be found in the [A03-TeamsSSO](../../A03-TeamsSSO/) folder, but the instructions will guide you through modifying the app running in your working folder. 
+The completed solution can be found in the [A02-after-teams-sso](../../A02-after-teams-sso/) folder, but the instructions will guide you through modifying the app running in your working folder. 
 
 Note that as you complete the labs, the original app should still work outside of Teams! This is often a requirement of ISV's who have an app in market and need to serve an existing customer base outside of Teams.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md) (📍You are here)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [A01-begin-app: Setting up the application with Azure AD](./A01-begin-app.md) 
+* [A02-after-teams-sso: Creating a Teams app with Azure ADO SSO](./A02-after-teams-sso.md)(📍You are here)
+* [A03-after-apply-styling: Teams styling and themes](./A03-after-apply-styling.md)
+
 
 In this lab you will learn to:
 
@@ -38,7 +34,7 @@ In this lab you will learn to:
 
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
-On your left is the contents of folder  `A01-Start-AAD` and on your right is the contents of folder `A03-TeamsSSO`.
+On your left is the contents of folder  `A01-begin-app` and on your right is the contents of folder `A02-after-teams-sso`.
 
 - 🆕 New files/folders
 
@@ -53,7 +49,7 @@ On your left is the contents of folder  `A01-Start-AAD` and on your right is the
 <tr>
 <td valign="top" >
 <pre>
-A01-Start-AAD
+A01-begin-app
     ├── client
     │   ├── components
     │       ├── 🔺navigation.js
@@ -91,7 +87,7 @@ A01-Start-AAD
 </td>
 <td>
 <pre>
-A03-TeamsSSO
+A02-after-teams-sso
     ├── client
     │   ├── components
     │       ├── 🔺navigation.js
@@ -177,7 +173,7 @@ Go to your local copy of the `A03-TeamsSSO` folder on your computer and copy the
 
 #### Step 2: Examine the manifest template
 
-In the manifest folder you just copied, open [manifest.template.json](../../A03-TeamsSSO/manifest/manifest.template.json) in your code editor. This is the JSON that Teams needs to display your application.
+In the manifest folder you just copied, open [manifest.template.json](../../src/create-core-app/aad/A02-after-teams-sso/manifest/manifest.template.json) in your code editor. This is the JSON that Teams needs to display your application.
 
 Notice that the template contains tokens such as`<HOSTNAME>` and `<CLIENT_ID>`. A small build script will take these values from your .env file and plug them into the manifest. However there's one token, `<TEAMS_APP_ID>` that's not yet in the .env file; we'll add that in the next step.
 
@@ -226,7 +222,7 @@ You should generate a different GUID for each application you register; this one
 
 #### Step 4: Update your package.json file
 
-Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../A03-TeamsSSO/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
+Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../src/create-core-app/aad/A02-after-teams-sso/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
 ~~~json
 "scripts": {
@@ -317,7 +313,7 @@ Now modify the `getAccessToken2()` function to include this code at the top:
     }
 ~~~
 
-This codechecks to see if it's running in Teams and if so, uses the Teams JavaScript SDK's `getAuthToken()` function to get the access token needed to call the server.
+This code checks to see if it's running in Teams and if so, uses the Teams JavaScript SDK's `getAuthToken()` function to get the access token needed to call the server.
 
 The completed `getAccessToken2()` function should look like this:
 
@@ -444,7 +440,7 @@ The application should appear without any login prompt. The app's navigation sho
 
 ### Known issues
 
-For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
+For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
 ### References
 

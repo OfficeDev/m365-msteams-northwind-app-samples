@@ -1,24 +1,15 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A06: Extend teams application with Messaging Extension
+## Extend teams application with Messaging Extension
 
-This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs A01-A03 to get to the Northwind Orders core application
 
 So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
 
 Suppose you want to search some data in an external system (in our case the Northwind database) and share the result in a conversation. Or you want to do an action like create, add or update data into this external system and still share all this in a conversation in Teams. All this is possible using **Messaging extensions** capability in Teams. 
 
-In this lab you will begin with the application in folder `A05-ConfigurableTab`, make changes as per the steps below to achieve what is in the folder `A06-MessagingExtension`.
-See project structures comparison in Exercise 2.
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* [Lab A02: Setting up your Microsoft 365 Tenant](./Lab-A02.md)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md) (📍You are here)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
 We will cover the following concepts in this exercise:
 
@@ -30,132 +21,6 @@ We will cover the following concepts in this exercise:
 
 - A search based messaging extension to search for products and share result in the form of a rich  card in a conversation.
 - In the rich  card, provide an input field and a submit button for users to take action to update stock value of a product in the Northwind Database, all happening in the same conversation
-
-### Project structure
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
-On your left is the contents of folder  `A05-ConfigurableTab` and on your right is the contents of folder `A06-MessagingExtension`.
-- 🆕 New files/folders
-
-- 🔺Files changed
-- 
-<table>
-<tr>
-<th >Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-A05-ConfigurableTab
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── 🔺northwindDataService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-A06-MessagingExtension
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── 🆕images
-    │   └── 🆕1.PNG
-    │   └── 🆕2.PNG
-    │   └── 🆕3.PNG
-    │   └── 🆕4.PNG
-    │   └── 🆕5.PNG
-    │   └── 🆕6.PNG
-    │   └── 🆕7.PNG
-    │   └── 🆕8.PNG
-    │   └── 🆕9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── 🆕cards
-    │       └── 🆕errorCard.js
-    │       └── 🆕productCard.js
-    │       └── 🆕stockUpdateSuccess.js
-    │   └── 🆕bot.js
-    │   └── constants.js
-    │   └── 🔺identityService.js
-    │   └── 🔺northwindDataService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
 
 
 ### Exercise 1: Bot registration
@@ -202,7 +67,7 @@ ngrok http 3978 -host-header=localhost
 ```
 The terminal will display a screen like below; Save the URL for [Step 3](#ex1-step3).
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/01-002-ngrok.png?raw=true" alt="ngrok output"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/01-002-ngrok.png?raw=true" alt="ngrok output"/>
 
 <div id="ex1-step3"></div>
 
@@ -214,15 +79,14 @@ The terminal will display a screen like below; Save the URL for [Step 3](#ex1-st
 - Paste the ngrok url from [Step 2](#ex1-step2) and append `/api/messages` to the url and select **Apply**.
 
 After Step 3, the configuration page of your Azure Bot would look like below.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
 
 ### Exercise 2: Code changes
 ---
 
 #### Step 1: Add new files & folders
 
-In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🆕 near the files & folders.
-They are the new files and folders that you need to add into the project structure.
+There are new files and folders that you need to add into the project structure.
 
 - Create a new `images` folder under `client` folder and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/A06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
@@ -630,8 +494,7 @@ export class StockManagerBot extends TeamsActivityHandler {
 ```
 
 #### Step 2: Update existing files
-In the project structure, on the right under `A06-MessagingExtension`, you will see emoji 🔺 near the files.
-They are the files that were updated to add the new features.
+There are files that were updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
 **1. manifest\makePackage.js**
@@ -768,7 +631,7 @@ Update version number from `1.5.0` to `1.6.0`.
 ~~~json
 "version": "1.6.0"
 ~~~
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+> NOTE: Make each new version greater than the last so you can update the application in Teams!
 
 **3.server\identityService.js**
 
@@ -971,11 +834,11 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. 
 The Teams client will display the application information, add the application to a team or a group chat.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 
 #### Step 3: Start your local project
@@ -991,25 +854,25 @@ npm start
 We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
 
 Open the messaging extension app from the compose area.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-003-openme.png?raw=true" alt="Open the app"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-003-openme.png?raw=true" alt="Open the app"/>
 
 Search for the product from the messaging extension (This should be easy if you have used [GIPHY](https://giphy.com/) before 😉)
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
 
 Select the product you want to add in the conversation.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
 
 > A little preview will be shown in the message compose area. Note at the time this lab was created, there is an outstanding platform issue related to the preview. If you are in a Teams team, this will be blank. Hence showing this capability in a group chat.
 
 This is the product card, with a form to fill in and submit, incase the unit stock value has to be changed.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-006-productcard.png?raw=true" alt="Product card"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-006-productcard.png?raw=true" alt="Product card"/>
 
 Fill in a new value in the form, and select **Update stock**.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
 
 Once it's success fully updated, the card refreshes to show the new stock value.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-008-updated.png?raw=true" alt="Product updated"/>
+<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/06-008-updated.png?raw=true" alt="Product updated"/>
 
 ### Known issues
 ---

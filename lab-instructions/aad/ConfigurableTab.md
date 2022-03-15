@@ -1,8 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A05: Add a Configurable Tab
+## Add a Configurable Tab
 
-This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
+This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs A01-A03 to get to the Northwind Orders core application
 
 Up to this point, the Northwind Teams application has had only "static" tabs. Static tabs are for personal use, and aren't part of a Teams channel or group chat. Each static tab has a single, static URL.
 
@@ -11,15 +12,6 @@ Up to this point, the Northwind Teams application has had only "static" tabs. St
 The Teams manifest for a static tab includes the tab's URL, but for a configurable tab it includes the URL of the tab's [_configuration page_](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page?WT.mc_id=m365-58890-cxa). The configuration page will allow users to configure what information is shown on the tab; based on this the configuration page saves the actual tab URL and a unique _entity ID_ using the Teams JavaScript SDK. This URL can lead users directly to the information they want, or the tab to a page that looks at the entity ID to decide what to display. In this lab, the tab URL will display the product category directly, so the entity ID isn't really used. 
 
 Configuration pages don't just work for tabs; they can also be used as setup pages for [Messaging Extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/resources/messaging-extension-v3/search-extensions?WT.mc_id=m365-58890-cxa#handle-onquerysettingsurl-and-onsettingsupdate-events) or [Connectors](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/connectors-creating?WT.mc_id=m365-58890-cxa#integrate-the-configuration-experience), so they're worth learning about!
-
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md) (📍You are here)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
 
 In this lab you will learn to:
 
@@ -30,124 +22,11 @@ In this lab you will learn to:
 
 - Microsoft Teams configurable tab to display a product category
 
-### Project structure
-
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
-On your left is the contents of folder  `A04-StyleAndThemes` and on your right is the contents of folder `A05-ConfigurableTab`.
-
-- 🆕 New files/folders
-
-- 🔺Files changed
-
-
-<table>
-<tr>
-<th >Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-A04-StyleAndThemes
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── modules
-    │   └── env.js
-    │   └── 🔺northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
-    │   └── server.js
-    ├── .env_Sample
-    ├── .gitignore
-    ├── package.json
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-A05-ConfigurableTab
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── userPanel.js
-    ├── modules
-    │   └── env.js
-    │   └── 🔺northwindDataService.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── 🆕tabConfig.html
-    │   └── 🆕tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── 🔺teamstyle.css
-    ├── manifest
-    │   └── makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
-    │   └── server.js
-    ├── .env_Sample
-    ├── .gitignore
-    ├── package.json
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### Exercise 1: Create a configuration page
 
 #### Step 1: Add the configuration page markup
 
-Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../A05-ConfigurableTab/client/pages/tabConfig.html)):
+Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../ConfigurableTab/client/pages/tabConfig.html)):
 
 ~~~html
 <!doctype html>
@@ -178,7 +57,7 @@ Create a new file /client/pages/tabconfig.html and add this markup (or copy it f
 
 #### Step 2: Add the configuration page script
 
-Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../A05-ConfigurableTab/client/pages/tabConfig.js)):
+Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../ConfigurableTab/client/pages/tabConfig.js)):
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';

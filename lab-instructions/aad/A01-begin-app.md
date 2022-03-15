@@ -12,16 +12,12 @@ There are two options for doing the labs:
 
 This is the very first lab in Path A, which begins with an application that already uses Azure AD.
 
-In this lab you will set up the Northwind Orders application, which can be found in the [A01-Start-AAD](../../A01-Start-AAD/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
+In this lab you will set up the Northwind Orders application, which can be found in the [A01-begin-app](../../A01-begin-app/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
 
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md) (📍You are here)
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md)
+* [A01-begin-app: Setting up the application with Azure AD](./A01-begin-app.md) (📍You are here)
+* [A02-after-teams-sso: Creating a Teams app with Azure ADO SSO](./A02-after-teams-sso.md)
+* [A03-after-apply-styling: Teams styling and themes](./A03-after-apply-styling.md)
+
 
 In this lab you will learn to:
 
@@ -305,7 +301,7 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ### Exercise 6: Configure and run the application
 #### Step 1: Download the starting application
 
-The starting application is in github at [https://github.com/OfficeDev/TeamsAppCamp1](https://github.com/OfficeDev/TeamsAppCamp1). Select the "Code" button and clone or download the content to your computer.
+The starting application is in github at [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples). Select the "Code" button and clone or download the content to your computer.
 
 ![Download the lab source code](../../assets/01-001-CloneRepo.png)
 
@@ -377,9 +373,4 @@ The application does not implement paging for large data sets, so lists of order
 
 While it will work on mobile devices, the application is not responsive and will not look good on these devices. This will be addressed in a future version of the lab.
   
-### References
-
-
-
-
 

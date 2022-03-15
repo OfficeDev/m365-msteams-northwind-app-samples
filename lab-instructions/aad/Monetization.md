@@ -1,18 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A08: Set up and integrate with licensing sample and App Source simulator
+## Set up and integrate with licensing sample and App Source simulator
 
-This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
-
-
-* [Lab A01: Setting up the application with Azure AD](./Lab-A01.md)
-* Lab A02: (there is no lab A02; please skip to A03)
-* [Lab A03: Creating a Teams app with Azure ADO SSO](./Lab-A03.md)
-* [Lab A04: Teams styling and themes](./Lab-A04.md)
-* [Lab A05: Add a Configurable Tab](./Lab-A05.md)
-* [Lab A06: Add a Messaging Extension](./Lab-A06.md)
-* [Lab A07: Add a Task Module and Deep Link](./Lab-A07.md)
-* [Lab A08: Add support for selling your app in the Microsoft Teams store](./Lab-A08.md) (📍You are here)
+This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs A01-A03 to get to the Northwind Orders core application
 
 In this lab you will learn to:
 
@@ -25,152 +16,6 @@ In this lab you will learn to:
 - App Source simulator where a customer can "purchase" a subscription to your application
 - Sample web service that fulfills this purchase and manages licenses for Microsoft Teams users to use the Northwind Orders application
 - Northwind Orders application checks to ensure Microsoft Teams users are licensed or displays an error page
-
-### Project structure
-The project structure when you start of this lab and end of this lab is as follows.
-Use this depiction for comparison.
-- 🆕 New files/folders
-
-- 🔺Files changed
-<table>
-<tr>
-<th>Project Structure Before </th>
-<th>Project Structure After</th>
-</tr>
-<tr>
-<td valign="top" >
-<pre>
-A06-MessagingExtension
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── 🔺userPanel.js
-    ├── images
-    │   └── 1.PNG
-    │   └── 2.PNG
-    │   └── 3.PNG
-    │   └── 4.PNG
-    │   └── 5.PNG
-    │   └── 6.PNG
-    │   └── 7.PNG
-    │   └── 8.PNG
-    │   └── 9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── orderChatCard.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── cards
-    │       └── errorCard.js
-    │       └── productCard.js
-    │       └── stockUpdateSuccess.js
-    │   └── bot.js
-    │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-<td>
-<pre>
-A07-TaskModule
-    ├── client
-    │   ├── components
-    │       ├── navigation.js
-    │   └── identity
-    │       ├── identityClient.js
-    │       └── 🔺userPanel.js
-    ├── images
-    │   └── 1.PNG
-    │   └── 2.PNG
-    │   └── 3.PNG
-    │   └── 4.PNG
-    │   └── 5.PNG
-    │   └── 6.PNG
-    │   └── 7.PNG
-    │   └── 8.PNG
-    │   └── 9.PNG
-    ├── modules
-    │   └── env.js
-    │   └── northwindDataService.js
-    │   └── 🆕northwindLicensing.js
-    │   └── orderChatCard.js
-    │   └── teamsHelpers.js
-    ├── pages
-    │   └── categories.html
-    │   └── categories.js
-    │   └── categoryDetails.html
-    │   └── categoryDetails.js
-    │   └── myOrders.html
-    │   └── 🆕needLicense.html
-    │   └── 🆕needLicense.js
-    │   └── orderDetail.html
-    │   └── orderDetail.js
-    │   └── privacy.html
-    │   └── productDetail.html
-    │   └── productDetail.js
-    │   └── tabConfig.html
-    │   └── tabConfig.js
-    │   └── termsofuse.html
-    ├── index.html
-    ├── index.js
-    ├── northwind.css
-    ├── teamstyle.css
-    ├── manifest
-    │   └── 🔺makePackage.js
-    │   └── 🔺manifest.template.json
-    │   └── northwind32.png
-    │   └── northwind192.png
-    ├── server
-    │   └── cards
-    │       └── errorCard.js
-    │       └── productCard.js
-    │       └── stockUpdateSuccess.js
-    │   └── bot.js
-    │   └── constants.js
-    │   └── identityService.js
-    │   └── northwindDataService.js
-    │   └── 🆕northwindLicenseService.js
-    │   └── 🔺server.js
-    ├── 🔺.env_Sample
-    ├── .gitignore
-    ├── 🔺package.json
-    ├── README.md
-</pre>
-</td>
-</tr>
-</table>
-
 
 ### Exercise 1: Download and install the monetization sample
 
@@ -336,6 +181,7 @@ Add below entries into .env files in your working folder where you've done Labs 
 ```
  SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://(webApiClientId)/user_impersonation
+ OFFER_ID=contoso_o365_addin
 ```
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
@@ -378,7 +224,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../A08-Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
