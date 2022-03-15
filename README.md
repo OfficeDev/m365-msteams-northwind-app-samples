@@ -1,4 +1,4 @@
-![Teams App Camp](./Labs/Assets/code-lab-banner.png)
+![Teams App Camp](./assets/code-lab-banner.png)
 # Microsoft Teams App Camp 2022
 
 This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Teams app running in the Teams app store. 
@@ -8,10 +8,10 @@ In this series of labs, you will port a simple "Northwind Orders" web applicatio
 There are two options for doing the labs:
 
 * The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
-**[START HERE](./Labs/Labs-A/Lab-A01.md) for the "A" path**
+**[START HERE](./lab-instructions/aad/A01-begin-app.md) for the "A" path**
 
 * the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
-**[START HERE](./Labs/Labs-B/Lab-B01.md) for the "B" path**
+**[START HERE](./lab-instructions/bespoke/B01-begin-app.md) for the "B" path**
 
 Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
 
@@ -32,7 +32,7 @@ Both paths have the following labs:
 
 This lab is intended for developers. Most of the labs don't assume a lot of specialzed knowledge; coding is  in JavaScript without use of specialized frameworks or libraries. But if you're not comfortable with coding, you may find it a bit challenging.
 
-Technical prerequisites are explained [in the repo wiki](https://github.com/OfficeDev/TeamsAppCamp1/wiki/Lab-Prerequisites)
+Technical prerequisites are explained [in the repo wiki](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/wiki/Prerequisites)
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
