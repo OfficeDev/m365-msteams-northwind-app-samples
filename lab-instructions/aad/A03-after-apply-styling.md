@@ -424,12 +424,11 @@ npm start
 #### Step 5: Run the application in Teams client
 ---
 Once the teams tab app is added, the personal tab will open `My Orders` tab. The application will now have the team's native look and feel.
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/04-002-tabstyle.png" alt="Teams tab style">
+<img src="../../assets/04-002-tabstyle.png" alt="Teams tab style">
 [Change themes in teams client.](https://support.microsoft.com/en-us/office/customize-your-teams-theme-51f24f07-1209-4f9d-8788-c0da4d98aede#:~:text=Select%20Settings%20and%20more%20near%20your%20profile%20picture.&text=Select%20General.,will%20change%20to%20your%20selection.)
 
 Notice how the teams tab app also detects and changes it's theme.
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/04-003-changetheme.gif" alt="Change theme">
-
+<img src="../../assets/04-003-changetheme.gif" alt="Change theme">
 
 
 

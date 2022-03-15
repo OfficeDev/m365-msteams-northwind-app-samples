@@ -12,7 +12,7 @@ There are two options for doing the labs:
 
 This is the very first lab in Path A, which begins with an application that already uses Azure AD.
 
-In this lab you will set up the Northwind Orders application, which can be found in the [A01-begin-app](../../A01-begin-app/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
+In this lab you will set up the Northwind Orders application, which can be found in the [A01-begin-app](../../src/create-core-app/aad/A01-begin-app/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application as well. 
 
 * [A01-begin-app: Setting up the application with Azure AD](./A01-begin-app.md) (📍You are here)
 * [A02-after-teams-sso: Creating a Teams app with Azure ADO SSO](./A02-after-teams-sso.md)
