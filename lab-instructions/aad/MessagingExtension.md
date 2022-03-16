@@ -2,8 +2,8 @@
 
 ## Extend teams application with Messaging Extension
 
-This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
-> Complete labs A01-A03 to get to the Northwind Orders core application
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
 
@@ -877,10 +877,3 @@ Once it's success fully updated, the card refreshes to show the new stock value.
 ### Known issues
 ---
 😔 The rich adaptive card does not preview in compose area in a Microsoft Teams team's context. This is a bug which is currently with the product team. Fixes will be applied in March '22
-
-### References
----
-
-
-
-

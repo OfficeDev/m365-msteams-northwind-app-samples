@@ -2,8 +2,8 @@
 
 ## Set up and integrate with licensing sample and App Source simulator
 
-This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
-> Complete labs A01-A03 to get to the Northwind Orders core application
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
+> Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 In this lab you will learn to:
 
@@ -218,13 +218,13 @@ Now select "Delegated permissions" 1️⃣ and the one scope exposed by the lice
 
 You have added the permission but nobody has consented to it. Fortunately you're an administrator and can grant your consent from this same screen! Just click the "Grant admin consent for <tenant>" button 1️⃣ and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" 3️⃣ should be displayed for each permission.
 
-![Grant consent](../../assets//08-102-Grant-Consent.png)
+![Grant consent](../../assets/08-102-Grant-Consent.png)
 
 ### Exercise 3: Update the Northwind Orders app to call the licensing service in Azure
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
@@ -363,7 +363,7 @@ app.post('/api/validateLicense', async (req, res) => {
 
 #### Step 3: Add client side pages to display a license error
 
-Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../A08-Monetization/client/pages/needLicense.html).
+Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/pages/needLicense.html).
 
 ~~~html
 <!doctype html>
@@ -388,7 +388,7 @@ Add a new file, client/pages/needLicense.html and paste in this markup, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../A08-Monetization/client/pages/needLicense.js).
+To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/pages/needLicense.js).
 
 ~~~javascript
 const searchParams = new URLSearchParams(window.location.search);
@@ -401,7 +401,7 @@ if (searchParams.has('error')) {
 
 #### Step 5: Add client side function to check if the user has a license
 
-Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../A08-Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -584,7 +584,7 @@ Now return to the licensing application. If you've closed the tab, you can find 
 
 ![Run application](../../assets/08-209-RunApp-9.png)
 
-Notice that your username has been assigned a license. The sample app stored this in a SQL Server database. When the Teams application called the licensing service, the access token contained the tenant ID and user ID, enabling the licening service to determine that the user has a license.
+Notice that your username has been assigned a license. The sample app stored this in a SQL Server database. When the Teams application called the licensing service, the access token contained the tenant ID and user ID, enabling the licensing service to determine that the user has a license.
 
 ## ** CONGRATULATIONS **
 
@@ -592,9 +592,5 @@ You have completed the Teams App Camp! Thanks very much; we hope this helps in t
 
 ### Known issues
 
-For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
-
-### References
-
-
+For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
