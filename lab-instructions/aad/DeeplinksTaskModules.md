@@ -3,7 +3,7 @@
 ## Add a Task Module and Deep Link
 
 This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
-> Complete labs A01-A03 to get to the Northwind Orders core application
+> Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 
 Let's look at `Task modules` which are dialogues and `Deep links` which is a smart navigation mechanism within Teams.
@@ -114,6 +114,7 @@ They are the sales representative for that particular order.
 - **getUserDetailsFromAAD()** - Get the user data from Microsoft Graph using the aad userid.
 
 Append below code in the `identityClient.js` file.
+
 ```javascript
 
 
@@ -177,10 +178,6 @@ import templatePayload from '../modules/orderChatCard.js';
 ```javascript
 let orderId="0";
 let orderDetails={};
-```
-- Update the **displayUI()** function by first creating a constant to get the button for the task module that we added earlier in **orderDetail.html**. Paste below code after constant definition for **detailsElement**.
-```javascript
-const btnTaskModuleElement = document.getElementById('btnTaskModule');
 ```
 - Replace the **displayUI()** function definition with below code
 
@@ -348,6 +345,7 @@ export async function getUserDetailsFromAAD(aadUserId) {
 **5.\server\server.js**
 
 - Import the two functions `getAADUserFromEmployeeId()` and `getUserDetailsFromAAD()` from the module `identityService.js`.
+- 
 Replace below code block"
 Import statement
 ```javascript
@@ -423,9 +421,7 @@ In this case, choose the first option 3️⃣.
 
 <img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
-Navigate to the Northwind.zip file in your manifest directory and upload it. 
-The Teams client will display the application information, add the application to a team or a group chat.
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-001-addapp.png?raw=true" alt="Add the app"/>
+Navigate to the Northwind.zip file in your manifest directory and upload it. Add the personal tab.
 
 
 #### Step 3: Start your local project
