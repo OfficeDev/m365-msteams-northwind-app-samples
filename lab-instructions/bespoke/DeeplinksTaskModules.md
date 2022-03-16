@@ -1,8 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab B07: Add a Task Module and Deep Link
+## Add a Task Module and Deep Link
 
-This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `bespoke` path.
+> Complete labs [B01](B01-begin-app.md)-[B04](B04-after-apply-styling.md) to get to the Northwind Orders core application
 
 Now that you have seen how to create a Messaging extension in Teams, you might be wondering what other improvements can you make in your application to allow users to stay in it. 
 
@@ -31,8 +32,7 @@ In this exercise you will learn new concepts as below:
 
 #### Step 1: Add new files
 
-In the project structure, on the right under `B07-TaskModule`, you will see emoji 🆕 near the files.
-They are the new files and folders that you need to add into the project structure.
+There are new files and folders that you need to add into the project structure.
 
 **1.\client\modules\orderChatCard.js**
 
@@ -178,10 +178,7 @@ import templatePayload from '../modules/orderChatCard.js'
 let orderId="0";
 let orderDetails={};
 ```
-- Update the **displayUI()** function by first creating a constant to get the button for the task module that we added earlier in **orderDetail.html**. Paste below code after constant definition for **detailsElement**.
-```javascript
-const btnTaskModuleElement = document.getElementById('btnTaskModule');
-```
+
 - Replace the **displayUI()** function definition with below code
 
 <pre>
@@ -249,7 +246,7 @@ async function displayUI() {
             //invoke the task module (dialog)    
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
-        }
+        
     });</b>
     }
     catch (error) {            // If here, we had some other error
@@ -399,7 +396,7 @@ Update version number from `1.6.0` to `1.7.0`.
 ~~~json
 "version": "1.7.0"
 ~~~
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+> NOTE: Make each new version greater than the last so you can update the application in Teams!
 ### Exercise 3: Test the changes
 ---
 Now that you have applied all code changes, let's test the features.
@@ -421,11 +418,11 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+<img src="../../assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. 
 The Teams client will display the application information, add the application to a team or a group chat.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-001-addapp.png?raw=true" alt="Add the app"/>
+<img src="../../assets/07-001-addapp.png?raw=true" alt="Add the app"/>
 
 
 #### Step 3: Start your local project
@@ -440,19 +437,19 @@ npm start
 
 We will add the application to a Team's team.
 Configure the tab, select a **Category** as shown below and select **Save**:
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-002-configuretab.png?raw=true" alt="Configure the app"/>
+<img src="../../assets/07-002-configuretab.png?raw=true" alt="Configure the app"/>
 
 Once you are in the tab, select the product to navigate to the `Product details` page.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-003-selectproduct.png?raw=true" alt="Product details page"/>
+<img src="../../assets/07-003-selectproduct.png?raw=true" alt="Product details page"/>
 
 From the `Product details page`, select any order as shown below:
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
+<img src="../../assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
 This will take you to the `Order details page`.
 
 Notice the button `Chat here`1️⃣. This button opens a dialogue 2️⃣ to show the Sales representative and their team.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-005-chat.png?raw=true" alt="chat"/>
+<img src="../../assets/07-005-chat.png?raw=true" alt="chat"/>
 
 Select `Chat with the sales rep team` button, this will initiate a group chat with the user, and the sales rep team.
     > Manually close the dialog once you are in the group chat.
@@ -461,7 +458,7 @@ Select `Chat with the sales rep team` button, this will initiate a group chat wi
     > Sales rep's manager information is taken from Microsoft365 data using Microsoft Graph's [Get manager](https://docs.microsoft.com/en-us/graph/api/orgcontact-get-manager?view=graph-rest-1.0&tabs=http) api.
 1. The chat's topic has the order number from where the chat is initiated.
 1. The chat's initial message is already typed and ready with the order number.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
+<img src="../../assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
 
 ### Known issues
 

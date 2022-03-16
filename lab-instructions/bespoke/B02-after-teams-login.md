@@ -38,7 +38,7 @@ On your left is the contents of folder  `B01-Start-BespokeAuth` and on your righ
 <tr>
 <td valign="top" >
 <pre>
-B01-Start-BespokeAuth
+B01-begin-app
     ├── client
     │   ├── components
     │       ├── 🔺navigation.js
@@ -78,7 +78,7 @@ B01-Start-BespokeAuth
 </td>
 <td>
 <pre>
-B02-TeamsApp-BespokeAuth
+B02-after-teams-login
     ├── client
     │   ├── components
     │       ├── 🔺navigation.js

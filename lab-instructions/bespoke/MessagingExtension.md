@@ -1,8 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab B06: Extend teams application with Messaging Extension
+## Extend teams application with Messaging Extension
 
-This lab is part of Path B, which begins with a Northwind Orders application that does not use Azure AD authentication.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `bespoke` path.
+> Complete labs [B01](B01-begin-app.md)-[B04](B04-after-apply-styling.md) to get to the Northwind Orders core application
 
 So far you have see how you can bring your application into teams but in this exercise we will explore how you can streamline work using the capabilities in the Microsoft Teams development platform.
 
@@ -78,7 +79,7 @@ The terminal will display a screen like below; Save the URL for [Step 3](#ex1-st
 - Paste the ngrok url from [Step 2](#ex1-step2) and append `/api/messages` to the url and select **Apply**.
 
 After Step 3, the configuration page of your Azure Bot would look like below.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
+<img src="../../assets/06-001-azbotconfig.png?raw=true" alt="Azure bot configuration"/>
 
 ### Exercise 2: Code changes
 ---
@@ -86,8 +87,7 @@ After Step 3, the configuration page of your Azure Bot would look like below.
 
 #### Step 1: Add new files & folders
 
-In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🆕 near the files & folders.
-They are the new files and folders that you need to add into the project structure.
+There are new files and folders that you need to add into the project structure.
 
 - Create a new `images` folder under `client` and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/B06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
@@ -495,8 +495,7 @@ export class StockManagerBot extends TeamsActivityHandler {
 ```
 
 #### Step 2: Update existing files
-In the project structure, on the right under `B06-MessagingExtension`, you will see emoji 🔺 near the files.
-They are the files that were updated to add the new features.
+There are files that needs to be updated to add the new features.
 Let's take files one by one to understand what changes you need to make for this exercise. 
 
 **1. manifest\makePackage.js**
@@ -523,7 +522,7 @@ Update version number from `1.5.0` to `1.6.0`.
 "version": "1.6.0"
 ~~~
 
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+> NOTE:Make each new version greater than the last so you can update the application in Teams!
 
 Add the messaging extension command information (bolded) in the manifest after `showLoadingIndicator` property:
 <pre>
@@ -839,11 +838,11 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+<img src="../../assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. 
-The Teams client will display the application information, add the application to a team or a group chat.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-002-addapp.png?raw=true" alt="Add the app"/>
+The Teams client will display the application information, add the application.
+<img src="../../assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 
 #### Step 3: Start your local project
@@ -859,25 +858,25 @@ npm start
 We have added the app into a Group chat for demonstration. Go to the chat where the app is installed.
 
 Open the messaging extension app from the compose area.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-003-openme.png?raw=true" alt="Open the app"/>
+<img src="../../assets/06-003-openme.png?raw=true" alt="Open the app"/>
 
 Search for the product from the messaging extension (This should be easy if you have used [GIPHY](https://giphy.com/) before 😉)
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
+<img src="../../assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
 
 Select the product you want to add in the conversation.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
+<img src="../../assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
 
 > A little preview will be shown in the message compose area. Note at the time this lab was created, there is an outstanding platform issue related to the preview. If you are in a Teams team, this will be blank. Hence showing this capability in a group chat.
 
 This is the product card, with a form to fill in and submit, incase the unit stock value has to be changed.
 
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-006-productcard.png?raw=true" alt="Product card"/>
+<img src="../../assets/06-006-productcard.png?raw=true" alt="Product card"/>
 
 Fill in a new value in the form, and select **Update stock**.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
+<img src="../../assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
 
 Once it's success fully updated, the card refreshes to show the new stock value.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/06-008-updated.png?raw=true" alt="Product updated"/>
+<img src="../../assets/06-008-updated.png?raw=true" alt="Product updated"/>
 
 ### Known issues
 ---
