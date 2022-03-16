@@ -7,14 +7,11 @@ This lab is part of Path B, which begins with a Northwind Orders application tha
 In this lab you will begin with the application in folder `B03-TeamsSSO`, make changes as per the steps below to achieve what is in the folder `B04-StyleAndThemes`.
 See project structures comparison in Exercise 1.
 
-* [Lab B01: Start an application with bespoke authentication](./Lab-B01.md)
-* [Lab B02: Create a teams app](./Lab-B02.md)
-* [Lab B03: Make existing teams app use Azure AD SSO](./Lab-B03.md)
-* [Lab B04: Teams styling and themes](./Lab-B04.md) (📍You are here)
-* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
-* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
-* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md) 
-* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
+* [B01-begin-app: Setting up the application with Azure AD](../bespoke/B01-begin-app.md) 
+* [B02-after-teams-login: Creating a Teams application](../bespoke/B02-after-teams-login.md)
+* [B03-after-teams-sso: Adding Azure AD SSO to your app](../bespoke/B03-after-teams-sso.md)
+* [B04-after-apply-styling: Teams styling and themes](../bespoke/B04-after-apply-styling.md)(📍You are here)
+
 
 We will cover the following concepts in this exercise:
 

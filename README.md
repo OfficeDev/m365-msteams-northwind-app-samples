@@ -2,8 +2,16 @@
 
 # Microsoft Teams App Camp V2
 
+Our developers come first and we want you to thrive in Microsoft Teams app development! 
+
+In this workshop we want you to,
+
+**LEARN > ASK QUESTIONS > REMOVE FRICTIONS**
+
+So you can focus on building and monetizing applications and leave the platform issues to us.
+
 This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Microsoft Teams app running in the Teams.
-And extend it to have many capabilities including your journey to reach the Teams app store!
+It will also enable them to extend their application with capabilities currently supported in Teams and take them to the Team's app store.
 
 ![app-camp](./assets/appcamp-readme.png)
 

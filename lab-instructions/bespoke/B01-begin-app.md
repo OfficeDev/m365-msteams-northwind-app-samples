@@ -12,16 +12,13 @@ There are two options for doing the labs:
 
 **This is the very first lab in Path B**, which begins with an application that has its own, bespoke identity system. You will learn a pattern for adding Azure AD authentication for users while maintaining the bespoke identity system's user profiles and authorization. This won't work everywhere but a number of partners have been successful with this kind of approach.
 
-In this lab you will set up the Northwind Orders application, which can be found in the [B01-Start-BespokeAuth](../../B01-Start-BespokeAuth/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application with Azure AD Single Sign-On. 
+In this lab you will set up the Northwind Orders application, which can be found in the [B01-begin-app](../../src/create-core-app/bespoke/B01-begin-app/) folder. The labs that follow will lead you step by step into extending the web application to be a Microsoft Teams application with Azure AD Single Sign-On. 
 
-* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md) (📍You are here)
-* [Lab B02: Creating a Teams application](./Lab-B02.md)
-* [Lab B03: Adding Azure AD SSO to your app](./Lab-B03.md)
-* [Lab B04: Teams styling and themes](./Lab-B04.md)
-* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
-* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
-* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
-* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
+* [B01-begin-app: Setting up the application with Azure AD](../bespoke/B01-begin-app.md) (📍You are here)
+* [B02-after-teams-login: Creating a Teams application](../bespoke/B02-after-teams-login.md)
+* [B03-after-teams-sso: Adding Azure AD SSO to your app](../bespoke/B03-after-teams-sso.md)
+* [B04-after-apply-styling: Teams styling and themes](../bespoke/B04-after-apply-styling.md)
+
 
 In this lab you will learn to:
 
