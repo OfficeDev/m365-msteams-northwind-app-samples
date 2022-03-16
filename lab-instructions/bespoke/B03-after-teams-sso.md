@@ -10,14 +10,12 @@ The completed solution can be found in the [B03-TeamsSSO-IdMapping](../../B03-Te
 
 Note that as you complete the labs, the original app should still work outside of Teams! This is often a requirement of ISV's who have an app in market and need to serve an existing customer base outside of Teams.
 
-* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
-* [Lab B02: Creating a Teams application](./Lab-B02.md)
-* [Lab B03: Adding Azure AD SSO to your app](./Lab-B03.md) (📍You are here)
-* [Lab B04: Teams styling and themes](./Lab-B04.md)
-* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
-* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
-* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
-* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
+* [B01-begin-app: Setting up the application with Azure AD](../bespoke/B01-begin-app.md) 
+* [B02-after-teams-login: Creating a Teams application](../bespoke/B02-after-teams-login.md)
+* [B03-after-teams-sso: Adding Azure AD SSO to your app](../bespoke/B03-after-teams-sso.md)(📍You are here)
+* [B04-after-apply-styling: Teams styling and themes](../bespoke/B04-after-apply-styling.md)
+
+
 
 In this lab you will learn to:
 

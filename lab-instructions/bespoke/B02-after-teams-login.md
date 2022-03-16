@@ -4,14 +4,12 @@
 
 In this lab you will build the application you created in Lab B01 into a Microsoft Teams application. This application will still use the Northwind authentication, but since the Northwind login page won't work in the Teams tab IFrame, we'll use the Teams JavaScript SDK to show it in a pop-up.
 
-* [Lab B01: Setting up the application with Azure AD](./Lab-B01.md)
-* [Lab B02: Creating a Teams application](./Lab-B02.md) (📍You are here)
-* [Lab B03: Adding Azure AD SSO to your app](./Lab-B03.md)
-* [Lab B04: Teams styling and themes](./Lab-B04.md)
-* [Lab B05: Add a Configurable Tab](./Lab-B05.md)
-* [Lab B06: Add a Messaging Extension](./Lab-B06.md)
-* [Lab B07: Add a Task Module and Deep Link](./Lab-B07.md)
-* [Lab B08: Add support for selling your app in the Microsoft Teams store](./Lab-B08.md)
+* [B01-begin-app: Setting up the application with Azure AD](../bespoke/B01-begin-app.md) 
+* [B02-after-teams-login: Creating a Teams application](../bespoke/B02-after-teams-login.md)(📍You are here)
+* [B03-after-teams-sso: Adding Azure AD SSO to your app](../bespoke/B03-after-teams-sso.md)
+* [B04-after-apply-styling: Teams styling and themes](../bespoke/B04-after-apply-styling.md)
+
+
 
 In this lab you will learn to:
 
