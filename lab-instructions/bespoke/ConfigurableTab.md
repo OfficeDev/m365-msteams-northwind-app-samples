@@ -1,8 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab B05: Add a Configurable Tab
+## Add a Configurable Tab
 
-This lab is part of Path B, which begins with a Northwind Orders application that uses an identity system other than Azure AD.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `bespoke` path.
+> Complete labs [B01](B01-begin-app.md)-[B04](B04-after-apply-styling.md) to get to the Northwind Orders core application
 
 Up to this point, the Northwind Teams application has had only "static" tabs. Static tabs are for personal use, and aren't part of a Teams channel or group chat. Each static tab has a single, static URL.
 
@@ -26,7 +27,7 @@ In this lab you will learn to:
 
 #### Step 1: Add the configuration page markup
 
-Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../B05-ConfigurableTab/client/pages/tabConfig.html)):
+Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../src/extend-with-capabilities/bespoke/ConfigurableTab/client/pages/tabConfig.html)):
 
 ~~~html
 <!doctype html>
@@ -57,7 +58,7 @@ Create a new file /client/pages/tabconfig.html and add this markup (or copy it f
 
 #### Step 2: Add the configuration page script
 
-Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../B05-ConfigurableTab/client/pages/tabConfig.js)):
+Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../src/extend-with-capabilities/bespoke/ConfigurableTab/client/pages/tabConfig.js)):
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -139,7 +140,7 @@ Update the version number from 1.4.0 to 1.5.0
 "version": "1.5.0"
 ~~~
 
-> NOTE: Have you noticed in this lab the middle version number is the same as the lab number, 5 in this case? This isn't necessary of course; the important thing is to make each new version greater than the last so you can update the application in Teams!
+> NOTE: Make each new version greater than the last so you can update the application in Teams!
 
 Now, immediately under the "accentColor" property, add a new property for "configurableTabs":
 
@@ -230,7 +231,7 @@ If you click the small arrow to the right of the tab name and choose "Settings",
 
 ### Known issues
 
-For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
+For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
 ### References
 

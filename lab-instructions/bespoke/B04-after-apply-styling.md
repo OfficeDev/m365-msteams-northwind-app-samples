@@ -22,7 +22,7 @@ We will cover the following concepts in this exercise:
 ### Project structure
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
-On your left is the contents of folder  `B03-TeamsSSO` and on your right is the contents of folder `B04-StyleAndThemes`.
+On your left is the contents of folder  `B03-after-teams-sso` and on your right is the contents of folder `B04-after-apply-styling`.
 - 🆕 New files/folders
 
 - 🔺Files changed
@@ -34,7 +34,7 @@ On your left is the contents of folder  `B03-TeamsSSO` and on your right is the 
 <tr>
 <td valign="top" >
 <pre>
-B03-TeamsSSO
+B03-after-teams-sso
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -83,7 +83,7 @@ B03-TeamsSSO
 </td>
 <td>
 <pre>
-B04-StyleAndThemes
+B04-after-apply-styling
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -140,7 +140,7 @@ B04-StyleAndThemes
 
 #### Step 1: Add new files & folders
 
-In the project structure, on the right under `B04-StyleAndThemes`, you will see emoji 🆕 near the files & folders.
+In the project structure, on the right under `B03-after-teams-sso`, you will see emoji 🆕 near the files & folders.
 They are the new files and folders that you need to add into the project structure.
 
 - Create a file `teamstyle.css` in `client` folder and copy below code block into it:
@@ -447,11 +447,11 @@ npm start
 #### Step 7: Run the application in Teams client
 ---
 Once the teams tab app is added, the personal tab will open `My Orders` tab. The application will now have the team's native look and feel.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-002-tabstyle.png" alt="Teams tab style">
+<img src="../../assets/04-002-tabstyle.png" alt="Teams tab style">
 [Change themes in teams client.](https://support.microsoft.com/en-us/office/customize-your-teams-theme-51f24f07-1209-4f9d-8788-c0da4d98aede#:~:text=Select%20Settings%20and%20more%20near%20your%20profile%20picture.&text=Select%20General.,will%20change%20to%20your%20selection.)
 
 Notice how the teams tab app also detects and changes it's theme.
-<img src="https://github.com/OfficeDev/TeamsAppCamp1/blob/main/Labs/Assets/04-003-changetheme.gif" alt="Change theme">
+<img src="../../assets/04-003-changetheme.gif" alt="Change theme">
 
 ### References
 ---

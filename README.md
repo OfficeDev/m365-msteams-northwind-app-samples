@@ -2,13 +2,15 @@
 
 # Microsoft Teams App Camp V2
 
+_Migrate applications into Microsoft Teams_
+
 Our developers come first and we want you to thrive in Microsoft Teams app development! 
 
 In this workshop we want you to,
 
-**LEARN > ASK QUESTIONS > REMOVE FRICTIONS**
+**LEARN > ASK QUESTIONS > UNBLOCK**
 
-So you can focus on building and monetizing applications and leave the platform issues to us.
+so you can focus on building and monetizing amazing applications.
 
 This hands-on experience will lead developers through the steps needed to take an existing SaaS app from "zero Microsoft" to a complete Microsoft Teams app running in the Teams.
 It will also enable them to extend their application with capabilities currently supported in Teams and take them to the Team's app store.

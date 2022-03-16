@@ -34,7 +34,7 @@ In this lab you will learn to:
 
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
-On your left is the contents of folder  `B02-TeamsApp-BespokeAuth` and on your right is the contents of folder `B03-TeamSSO-IdMapping`.
+On your left is the contents of folder  `B02-after-teams-login` and on your right is the contents of folder `B03-after-teams-sso`.
 - 🆕 New files/folders
 
 - 🔺Files changed
@@ -46,7 +46,7 @@ On your left is the contents of folder  `B02-TeamsApp-BespokeAuth` and on your r
 <tr>
 <td valign="top" >
 <pre>
-B02-TeamsApp-BespokeAuth
+B02-after-teams-login
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -94,7 +94,7 @@ B02-TeamsApp-BespokeAuth
 </td>
 <td>
 <pre>
-B03-TeamSSO-IdMapping
+B03-after-teams-sso
     ├── client
     │   ├── components
     │       ├── navigation.js
@@ -309,7 +309,7 @@ Add a comma after the validDomains property and then add a new property, `webApp
   }
 ~~~
 
-This provides the Azure AD app registration information to Microsoft Teams for use in the SSO process. The [finished manifest.template.json file is here](../../B03-TeamSSO-IdMapping/manifest/manifest.template.json) for your reference.
+This provides the Azure AD app registration information to Microsoft Teams for use in the SSO process. The [finished manifest.template.json file is here](../../src/create-core-app/bespoke/B03-after-teams-sso/manifest/manifest.template.json) for your reference.
 
 #### Step 3: Modify the packaging code to include the CLIENT_ID
 
@@ -347,7 +347,7 @@ The updated code will use two new npm packages on the server side:
 * @azure/msal-node: Allows login to Azure AD from your web server; this is needed when calling the Microsoft Graph API to read and write the user's employee ID.
 * azure-ad-jwt: Validates an Azure AD access token sent by the client side code
 
-To accomodate this, open the **package.json** file in your working directory and update the `dependencies` property to include these packages like this:
+To accommodate this, open the **package.json** file in your working directory and update the `dependencies` property to include these packages like this:
 
 ~~~json
   "dependencies": {
@@ -493,7 +493,7 @@ Open the file /client/identity/login.js in your code editor, and find the call t
     });
 ~~~
 
-The completed login script is [here at B03-TeamSSO-IdMapping/client/identity/login.js](../../B03-TeamSSO-IdMapping/client/identity/login.js)
+The completed login script is [here at B03-after-teams-sso/client/identity/login.js](../../src/create-core-app/bespoke/B03-after-teams-sso/client/identity/login.js)
 
 #### Step 4: Modify the logoff code
 
@@ -687,7 +687,7 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
 
 If `validateAndMapAadLogin()` fails to get an employee ID, and a username and password were provided, it looks up the employee ID and uses `setEmployeeIdForUser()` to write it to the user's Azure AD profile.
 
-The finished [server/identityService.js file is here](../../B03-TeamSSO-IdMapping/server/identityService.js).
+The finished [server/identityService.js file is here](../../src/create-core-app/bespoke/B03-after-teams-sso/server/identityService.js).
 
 ### Exercise 4: Test your application in Microsoft Teams
 
@@ -732,7 +732,7 @@ The application should appear without any login prompt. The app's navigation sho
 
 ### Known issues
 
-For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
+For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
 ### References
 

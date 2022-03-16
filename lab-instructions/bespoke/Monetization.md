@@ -1,10 +1,9 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab B08: Set up and integrate with licensing sample and App Source simulator
+## Set up and integrate with licensing sample and App Source simulator
 
-This lab is part of Path B, which begins with a Northwind Orders application that uses an identity system other than Azure AD, and then adds Azure AD SSO.
-
-
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `bespoke` path.
+> Complete labs [B01](B01-begin-app.md)-[B04](B04-after-apply-styling.md) to get to the Northwind Orders core application
 
 In this lab you will learn to:
 
@@ -184,6 +183,7 @@ Add below entries into .env files in your working folder where you've done Labs 
 ```
  SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://(webApiClientId)/user_impersonation
+ OFFER_ID=contoso_o365_addin
 ```
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
@@ -226,7 +226,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../A08-Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/bespoke/Monetization/server/validateLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
@@ -365,7 +365,7 @@ app.post('/api/validateLicense', async (req, res) => {
 
 #### Step 3: Add client side pages to display a license error
 
-Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../B08-Monetization/client/pages/needLicense.html).
+Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-capabilities/bespoke/Monetization/client/pages/needLicense.html).
 
 ~~~html
 <!doctype html>
@@ -390,7 +390,7 @@ Add a new file, client/pages/needLicense.html and paste in this markup, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../B08-Monetization/client/pages/needLicense.js).
+To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/bespoke/Monetization/client/pages/needLicense.js).
 
 ~~~javascript
 const searchParams = new URLSearchParams(window.location.search);
@@ -403,7 +403,7 @@ if (searchParams.has('error')) {
 
 #### Step 5: Add client side function to check if the user has a license
 
-Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../B08-Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/bespoke/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -594,7 +594,7 @@ You have completed the Teams App Camp! Thanks very much; we hope this helps in t
 
 ### Known issues
 
-For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/TeamsAppCamp1/issues) for this repository.
+For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
 ### References
 
