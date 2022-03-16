@@ -2,7 +2,7 @@
 
 ## Set up and integrate with licensing sample and App Source simulator
 
-This lab is an adventure should you choose to go on which begins with a Northwind Orders core application using the `aad` path.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 In this lab you will learn to:
@@ -224,7 +224,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
@@ -363,7 +363,7 @@ app.post('/api/validateLicense', async (req, res) => {
 
 #### Step 3: Add client side pages to display a license error
 
-Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/client/pages/needLicense.html).
+Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/pages/needLicense.html).
 
 ~~~html
 <!doctype html>
@@ -388,7 +388,7 @@ Add a new file, client/pages/needLicense.html and paste in this markup, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/client/pages/needLicense.js).
+To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/pages/needLicense.js).
 
 ~~~javascript
 const searchParams = new URLSearchParams(window.location.search);
@@ -401,7 +401,7 @@ if (searchParams.has('error')) {
 
 #### Step 5: Add client side function to check if the user has a license
 
-Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-adventures/aad/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/aad/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
