@@ -163,13 +163,19 @@ Microsoft Teams applications don't run "inside" of Microsoft Teams, they just ap
 
 To create a Teams application, you need to create a file called *manifest.json* which contains the information Teams needs to display the app, such as the URL of the Northwind Orders application. This file is placed in a .zip file along with the application icons, and the resulting application package is uploaded into Teams or distributed through the Teams app store.
 
+
 In this exercise you'll create a manifest.json file and application package for the Northwind Orders app and upload it into Microsoft Teams.
 
 #### Step 1: Copy the *manifest* folder to your working directory
 
 Many developers use the [Teams Developer Portal](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/teams-developer-portal?WT.mc_id=m365-58890-cxa) to create an app package; this is preferred by many enterprise developer and systems integrators. However ISV's may want to keep the app package settings in their source control system, and that's the approach used in the lab. It's just a zip file; you can create it any way you want!
 
-Go to your local copy of the `A03-TeamsSSO` folder on your computer and copy the *manifest* folder into the working folder you used in the previous lab. This folder contains a template for building the manifest.json file.
+---
+😎 THE TEAMS DEVELOPER PORTAL IS IMPORTANT EVEN IF YOU GENERATE YOUR OWN APP PACKAGE. Import your pacakge into the Teams Developer Portal to run validation checks prior to submitting it to the Teams app store! If you do this periodically during development you can catch issues earlier and avoid rework.
+
+---
+
+Go to your local copy of the `A02-TeamsSSO` folder on your computer and copy the *manifest* folder into the working folder you used in the previous lab. This folder contains a template for building the manifest.json file.
 
 #### Step 2: Examine the manifest template
 
@@ -220,7 +226,15 @@ TEAMS_APP_ID=1331dbd6-08eb-4123-9713-017d9e0fc04a
 
 You should generate a different GUID for each application you register; this one is just here for your convenience. We could have hard-coded the app ID in the manifest.json template, but there are times when you need it in your code, so this will make that possible in the future.
 
-#### Step 4: Update your package.json file
+#### Step 4: Add npm package to create .zip files
+
+Run this command in your working application folder:
+
+~~~shell
+npm install adm-zip --save-dev
+~~~
+
+#### Step 5: Build the package
 
 Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../src/create-core-app/aad/A02-after-teams-sso/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
@@ -231,25 +245,6 @@ Open the **package.json** file in your working directory and add a script that w
   "package": "node manifest/makePackage.js"
 },
 ~~~
-
-The script uses an npm package called "adm-zip" to create the .zip file, so you need to add that as a development dependency. Update the `devDependencies` property to include it like this:
-
-~~~json
-  "devDependencies": {
-    "@types/express": "^4.17.2",
-    "@types/request": "^2.48.3",
-    "nodemon": "^2.0.13",
-    "adm-zip": "^0.4.16"
-  }
-~~~
-
-Then, from a command line in your working directory, install the package by typing
-
-~~~shell
-npm install
-~~~
-
-#### Step 5: Build the package
 
 Now you can build a new package at any time with this command:
 
@@ -366,6 +361,19 @@ async function getAccessToken2() {
 }
 ~~~
 
+Finally, update the logoff function to disable logging off if it's running in Teams.
+
+~~~javascript
+export async function logoff() {
+    getLoggedInEmployeeIdPromise = null;
+    getAccessTokenPromise = null;
+
+    if (!(await inTeams())) {
+        msalClient.logoutRedirect(msalRequest);
+    }
+}
+~~~
+
 #### Step 3: Hide the navigation within Teams
 
 Microsoft Teams already has multiple levels of navigation, including multiple tabs as configured in the previous exercise. So the applications' built-in navigation is redundant in Teams.
@@ -435,7 +443,7 @@ The application should appear without any login prompt. The app's navigation sho
 ![Run the app](../../assets/03-007-RunApp-1.png)
 
 ---
-> CHALLENGE: Notice the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
+> CHALLENGE: You might have noticed the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
 ---
 
 ### Known issues
