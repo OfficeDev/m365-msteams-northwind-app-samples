@@ -54,11 +54,11 @@ ngrok is a tunneling program that allows you to access your local web server (ru
 
 The free version of ngrok will assign a URL similar to https://something.ngrok.io, where "something" is a random identifier. As long as ngrok is running (leave it going in a command or terminal window), you can browse your web site at that URL. If you start and stop ngrok, or try to keep it running for more than 8 hours, you'll get a new identifier and you'll need to update your app registration, environment variables, etc. The paid version of ngrok allows you to reserve the same URL for use over time, removing the need to update it when you return to the lab.
 
-While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved (Lab 6 has a bot inside to support Messaging Extensions). If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
+While ngrok isn't strictly required for developing Microsoft Teams applications, it makes things much easier, especially if Bots are involved. An example of this is the Messaging Extension lab since Messaging Extensions use a Bot to communicate with Microsoft Teams. If you or your company aren't comfortable with running ngrok (some companies block it on their corporate networks), please check out [this video](https://www.youtube.com/watch?v=A5U-3o-mHD0) which explains the details and work-arounds.
 
 ### Exercise 2: Set up your Microsoft 365 Subscription
 
-The initial Northwind Orders application does not require Microsoft 365, but it does use Azure AD. In order to ensure the users are in the same directory as Microsoft Teams, we'll set up the Microsoft 365 tenant now and set up the application in the same Azure AD directory that we'll use throughout the workshop.
+The initial Northwind Orders application doesn't require Microsoft 365, but it does use Azure AD. So let's set up a Microsoft 365 tenant now, which will give you an Azure AD instance where you're a full administrator so you can register the Northwind Orders application. In the labs which follow, you'll also use this tenant to run Microsoft Teams.
 
 #### Step 1: Get a tenant
 
@@ -238,7 +238,7 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 😎 MANAGING APP SECRETS IS AN ONGOING RESPONSIBILITY. App secrets have a limited lifetime, and if they expire your application may stop working. You can have multiple secrets, so plan to roll them over as you would with a digital certificate.
 
 ---
-😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and reference store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references?WT.mc_id=m365-58890-cxa) for more information.
+😎 KEEP YOUR SECRETS SECRET. Give each developer a free developer tenant and register their apps in their tenants so each developer has his or her own app secrets. Limit who has access to app secrets for production. If you're running in Microsoft Azure, a great place to store your secrets is [Azure KeyVault](https://azure.microsoft.com/en-us/services/key-vault/). You could deploy an app just like this one and store sensitive application settings in Keyvault. See [this article](https://docs.microsoft.com/en-us/azure/app-service/app-service-key-vault-references?WT.mc_id=m365-58890-cxa) for more information.
 
 ---
 
@@ -298,7 +298,8 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ![Add the scope](../../assets/01-023-RegisterAADApp-14.png)
 
 
-### Exercise 6: Configure and run the application
+### Exercise 5: Configure and run the application
+
 #### Step 1: Download the starting application
 
 The starting application is in github at [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples). Select the "Code" button and clone or download the content to your computer.
@@ -333,7 +334,7 @@ CLIENT_SECRET=xxxxx
 
 Fill in the information you've gathered so far, including your ngrok hostname and the information from the app registration.
 
-#### Step 8: Run the application
+#### Step 4: Run the application
 
 To run the application, open a command line in your working folder and type:
 
