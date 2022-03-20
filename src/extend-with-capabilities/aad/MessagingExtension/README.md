@@ -2,9 +2,10 @@
 
 ## Summary
 
-This sample is a Search messaging extension created from using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application It inserts information about Northwind customers into the compose box.
+This sample is a Search messaging extension created from using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. It inserts information about Northwind products into the compose box where team members can update stock value.
 
 Users can search the Northwind database when composing a message and find the product.
+
 <img src="../../../../assets/06-004-searchproduct.png?raw=true" alt="Search product"/>
 
 Select a product and insert an adaptive card which is a form with product details and stock input, into the conversation.
@@ -37,13 +38,9 @@ Version|Date|Author|Comments
 
 ## Minimal Path to Awesome
 
-- Clone the repository
+- Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
 
-    ```bash
-    git clone https://github.com/OfficeDev/m365-msteams-northwind-app-samples
-    ```
-
-- In a console, navigate to `src/extend-with-capabilities/aad/MessagingExtension/`
+- In a console, navigate to `src/extend-with-capabilities/aad/MessagingExtension/` from the main folder `m365-msteams-northwind-app-samples`.
 
     ```bash
     cd src/extend-with-capabilities/aad/MessagingExtension/
@@ -62,17 +59,17 @@ Version|Date|Author|Comments
     ```
 
 - Since messaging extensions utilize the Azure Bot Framework, you will need to register a new bot. 
-[These instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework) provide options for registering with or without an Azure subscription. 
+[Follow these instructions](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-1-register-your-web-service-as-an-azure-bot-in-the-bot-framework-in-azure-portal).
   - Be sure to enable the Microsoft Teams bot channel so your solution can communicate with Microsoft Teams
-  - For local testing, set the messaging endpoint to the https URL returned by ngrok plus "/api/messages"
-  - Note the bot's Application ID and password (also called the Client Secret) assigned to your bot during the registration process. In the Azure portal this is under the Bot Registration settings; in the legacy portal it's in the Settings tab. Click Manage to go to Azure AD to obtain the Client Secret. You may need to create a new Application Secret in order to have an opportunity to copy it out of the Azure portal. 
+  - For local testing, update the bot configuration as per [these instructions](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-3-update-the-bot-registration-configuration)
 
-- Update the `.env` configuration for the bot to use the Microsoft App Id and App Password (aka Client Secret) from the previous step.
+- Update the `.env` configuration for the bot to use the Microsoft App Id and Client secret from the [previous steps](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-1-register-your-web-service-as-an-azure-bot-in-the-bot-framework-in-azure-portal)
+
 BOT_REG_AAD_APP_ID=&lt;Microsoft App Id&gt;
 BOT_REG_AAD_APP_PASSWORD=&lt;Client Secret&gt;
 
 
-  Upload the resulting zip file into Teams [using these instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/deploy-and-publish/apps-upload).
+- Upload the resulting zip file into Teams [using these instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/deploy-and-publish/apps-upload).
 
 - Run the bot locally
     ```bash
