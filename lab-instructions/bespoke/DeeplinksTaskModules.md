@@ -398,7 +398,7 @@ Update the version number so it's greater than it was; for example if your manif
 "version": "1.5.0"
 ~~~
 
-### Exercise 3: Test the changes
+### Exercise 2: Test the changes
 ---
 Now that you have applied all code changes, let's test the features.
 
