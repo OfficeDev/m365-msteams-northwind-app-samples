@@ -438,7 +438,7 @@ Once you are in the application, go to `My orders` page and select any order as 
 <img src="../../assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
 This will take you to the `Order details page`.
 
-Notice the button `Chat here`1️⃣. This button opens a dialog(task module) 2️⃣ to display the Sales representative and their team.
+Notice the button `Chat here`. This button opens a dialog(task module) to display the Sales representative and their team.
 
 <img src="../../assets/07-005-chat.png?raw=true" alt="chat"/>
 
