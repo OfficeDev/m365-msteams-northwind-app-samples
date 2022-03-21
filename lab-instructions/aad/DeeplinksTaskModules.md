@@ -438,10 +438,14 @@ Once you are in the application, go to `My orders` page and select any order as 
 <img src="../../assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
 This will take you to the `Order details page`.
 
-Notice the button `Chat here`1️⃣. This button opens a dialogue 2️⃣ to show the Sales representative and their team.
+Notice the button `Chat here`1️⃣. This button opens a dialog(task module) 2️⃣ to display the Sales representative and their team.
+
 <img src="../../assets/07-005-chat.png?raw=true" alt="chat"/>
 
-Select `Chat with the sales rep team` button, this will initiate a group chat with the user, and the sales rep team.
+In the dialog,  select `Chat with the sales rep team` button, this will initiate a group chat with the user and the sales rep team using deep linking.
+
+<img src="../../assets/07-005-chat01.png?raw=true" alt="chat"/>
+
     > Manually close the dialog once you are in the group chat.
 
 1. You'll see that the chat is initiated to a group (Sales rep and the sales rep's manager)

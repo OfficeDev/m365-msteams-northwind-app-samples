@@ -3,8 +3,14 @@
 ## Summary
 
 This sample is an enhancement of the personal tab created from using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md).
-In this sample, users can open a dialog(task module) from within the personal tab to view north wind orders' sales team information along with an option to open a group chat using deep linking to discuss a particular order with the sale team.
 
+In this sample, users can open a dialog(task module) from within the personal tab to view north wind orders' sales team information.
+
+<img src="../../../../assets/07-005-chat.png?raw=true" alt="chat"/>
+
+And in the dialog, a button to initiate a group chat using deep linking to discuss a particular order with the sale team.
+
+<img src="../../../../assets/07-005-chat01.png?raw=true" alt="chat"/>
 
 ## Version history
 
