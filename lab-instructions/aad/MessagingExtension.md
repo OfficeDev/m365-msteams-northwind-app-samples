@@ -22,6 +22,7 @@ We will cover the following concepts in this exercise:
 - A search based messaging extension to search for products and share result in the form of a rich  card in a conversation.
 - In the rich  card, provide an input field and a submit button for users to take action to update stock value of a product in the Northwind Database, all happening in the same conversation
 
+> A fully working sample can be found [here](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/tree/main/src/extend-with-capabilities/aad/MessagingExtension/)
 
 ### Exercise 1: Bot registration
 ---
@@ -88,7 +89,7 @@ After Step 3, the configuration page of your Azure Bot would look like below.
 
 There are new files and folders that you need to add into the project structure.
 
-- Create a new `images` folder under `client` folder and copy over the [9 image files](https://github.com/OfficeDev/TeamsAppCamp1/tree/main/A06-MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
+- Create a new `images` folder under `client` folder and copy over the [9 image files](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/tree/main/src/extend-with-capabilities/aad/MessagingExtension/client/images) needed for the rich adaptive cards to display products' inventory.
     > Northwind Database does not have nice images for us to show rich cards with images so we have added some images and mapped them to each product using hashing mechanism.
     As long as you got the names of the images right, we don't have to worry what images your want to add in the folder 😉. You can get creative here!
 
@@ -727,6 +728,8 @@ import {StockManagerBot} from './bot.js';
 import { BotFrameworkAdapter } from 'botbuilder';
 ```
 
+> As a standard , `app.listen()` should always be at the end of the file, so any code update should happen before this request.
+
 A bot adapter authenticates and connects a bot to a service endpoint to send and receive message.
 So to authenticate, we'll need to pass the bot registration's AAD app id and app secret.
 Add below code to initialize the bot adapter.
@@ -778,6 +781,7 @@ app.post('/api/messages', (req, res) => {
 ```
 
 
+
 **6. package.json**
 
 You'll need to install additional packages for adaptive cards and botbuilder.
@@ -817,15 +821,22 @@ BOT_REG_AAD_APP_PASSWORD=111111vk
 ---
 Now that you have applied all code changes, let's test the features.
 
-
-#### Step 1: Create new teams app package
+#### Step 1 : Create new teams app package
 
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 2: Upload the app package
+#### Step 2: Start your local project
+
+Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
+
+```nodejs
+npm start
+```
+
+#### Step 3: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -840,14 +851,6 @@ Navigate to the Northwind.zip file in your manifest directory and upload it.
 The Teams client will display the application information, add the application to a team or a group chat.
 <img src="../../assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
-
-#### Step 3: Start your local project
-
-Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
-
-```nodejs
-npm start
-```
 
 #### Step 4 : Run the application in Teams client
 
