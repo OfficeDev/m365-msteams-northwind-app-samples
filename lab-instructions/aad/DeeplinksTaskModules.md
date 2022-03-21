@@ -402,15 +402,22 @@ Update the version number so it's greater than it was; for example if your manif
 ---
 Now that you have applied all code changes, let's test the features.
 
-
-#### Step 1: Create new teams app package
-
+#### Step 1 : Create new teams app package
+Make sure the env file is configured as per the sample file .env_Sample.
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
 ```
 
-#### Step 2: Upload the app package
+#### Step 2: Start your local project
+
+Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
+
+```nodejs
+npm start
+```
+
+#### Step 3: Upload the app package
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
 * Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
@@ -419,37 +426,33 @@ In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manag
 
 In this case, choose the first option 3️⃣.
 
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+<img src="../../assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. Add the personal tab.
 
-
-#### Step 3: Start your local project
-
-Now it's time to run your updated application and run it in Microsoft Teams. Start the application by running below command: 
-
-```nodejs
-npm start
-```
 
 #### Step 4 : Run the application in Teams client
 
 Once you are in the application, go to `My orders` page and select any order as shown below:
 
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
+<img src="../../assets/07-004-selectorder.png?raw=true" alt="Order details page"/>
 This will take you to the `Order details page`.
 
-Notice the button `Chat here`1️⃣. This button opens a dialogue 2️⃣ to show the Sales representative and their team.
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-005-chat.png?raw=true" alt="chat"/>
+Notice the button `Chat here`. This button opens a dialog(task module) to display the Sales representative and their team.
 
-Select `Chat with the sales rep team` button, this will initiate a group chat with the user, and the sales rep team.
+<img src="../../assets/07-005-chat.png?raw=true" alt="chat"/>
+
+In the dialog,  select `Chat with the sales rep team` button, this will initiate a group chat with the user and the sales rep team using deep linking.
+
+<img src="../../assets/07-005-chat01.png?raw=true" alt="chat"/>
+
     > Manually close the dialog once you are in the group chat.
 
 1. You'll see that the chat is initiated to a group (Sales rep and the sales rep's manager)
     > Sales rep's manager information is taken from Microsoft365 data using Microsoft Graph's [Get manager](https://docs.microsoft.com/en-us/graph/api/orgcontact-get-manager?view=graph-rest-1.0&tabs=http) api.
 1. The chat's topic has the order number from where the chat is initiated.
 1. The chat's initial message is already typed and ready with the order number.
-<img src="https://github.com/OfficeDev/m365-msteams-northwind-app-samples/assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
+<img src="../../assets/07-006-groupchat.png?raw=true" alt="Group chat"/>
 
 ### Known issues
 
