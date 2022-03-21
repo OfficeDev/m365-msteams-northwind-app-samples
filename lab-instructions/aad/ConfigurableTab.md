@@ -133,7 +133,7 @@ displayUI();
 
 In your code editor, open the manifest/manifest.template.json file.
 
-Update the version number from 1.4.0 to 1.5.0
+Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
 
 ~~~json
 "version": "1.5.0"

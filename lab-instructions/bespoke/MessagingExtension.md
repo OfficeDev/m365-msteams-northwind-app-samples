@@ -517,12 +517,11 @@ With:
 
 **2.manifest\manifest.template.json**
 
-Update version number from `1.5.0` to `1.6.0`.
-~~~json
-"version": "1.6.0"
-~~~
+Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
 
-> NOTE:Make each new version greater than the last so you can update the application in Teams!
+~~~json
+"version": "1.5.0"
+~~~
 
 Add the messaging extension command information (bolded) in the manifest after `showLoadingIndicator` property:
 <pre>
