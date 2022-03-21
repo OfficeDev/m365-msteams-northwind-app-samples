@@ -403,7 +403,7 @@ Update version number to `1.7.0`.
 Now that you have applied all code changes, let's test the features.
 
 #### Step 1 : Create new teams app package
-
+Make sure the env file is configured as per the sample file .env_Sample.
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
