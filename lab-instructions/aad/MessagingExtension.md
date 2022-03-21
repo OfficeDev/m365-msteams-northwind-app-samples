@@ -628,7 +628,7 @@ Add the messaging extension command information (bolded) in the manifest after `
 }
 </pre>
 
-Update version number from `1.5.0` to `1.6.0`.
+Update version number to `1.6.0`.
 ~~~json
 "version": "1.6.0"
 ~~~
