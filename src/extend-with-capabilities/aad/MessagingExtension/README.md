@@ -69,12 +69,18 @@ BOT_REG_AAD_APP_ID=&lt;Microsoft App Id&gt;
 BOT_REG_AAD_APP_PASSWORD=&lt;Client Secret&gt;
 
 
-- Upload the resulting zip file into Teams [using these instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/deploy-and-publish/apps-upload).
+- Package the app
+
+    ```bash
+    npm run package
+    ```
 
 - Run the bot locally
     ```bash
     npm start
     ```
+
+- Upload the the packaged zip file inside `manifest` folder into Teams [using these instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/deploy-and-publish/apps-upload).
 
 - Test in Microsoft Teams by clicking the ... beneath the compose box in a Team where the application has been installed. Load the app.
 - Search the product in the search box and select the desired product and post the card into the channel conversation.
