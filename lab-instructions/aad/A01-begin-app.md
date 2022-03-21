@@ -158,7 +158,12 @@ Change the Employee ID to the ID of one of the users in the Northwind datbase, w
 
 You may also choose to rename the users to match the database.
 
-#### Step 2: Ensure the users are licensed for Microsoft 365
+#### Step 2: Ensure the users have managers
+
+Still on the edit screen, assign a manager for each user by clicking "Edit" again and then click "Change" next to the manager field and select a manager.
+
+![Assign a manager](../../assets/01-033-EditUser3.png)
+#### Step 3: Ensure the users are licensed for Microsoft 365
 
 From the same user profile screen, select "Licenses" and ensure the user has an Office 365 license so they can run Microsoft Teams.
 

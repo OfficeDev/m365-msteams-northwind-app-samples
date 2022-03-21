@@ -160,7 +160,7 @@ Copy below code and paste it above the `<top-nav-panel>` tag.
 <script src='https://unpkg.com/adaptivecards/dist/adaptivecards.min.js'></script>
  
 ```
-- Add a new button to open the task module (dialog). Add below code above the `<table>` tag.
+- Add a new button to open the task module (dialog). Add below code below the `</table>` tag.
 ```html
  <button id="btnTaskModule">Chat here</button>
 ```
@@ -346,14 +346,16 @@ export async function getUserDetailsFromAAD(aadUserId) {
 
 - Import the two functions `getAADUserFromEmployeeId()` and `getUserDetailsFromAAD()` from the module `identityService.js`.
 - 
-Replace below code block"
-Import statement
+Replace the import statement
+
 ```javascript
 import {
   initializeIdentityService
 } from './identityService.js';
 ```
+
 With:
+
 ```javascript
 import {
   initializeIdentityService,
@@ -361,7 +363,8 @@ import {
 } from './identityService.js';
 ```
 
-- Append below code for routing the api calls for `getAADUserFromEmployeeId` and `getUserDetailsFromAAD`
+- Just before the call to `app.use(express.static('client'));`, add this code for routing calls to `getAADUserFromEmployeeId` and `getUserDetailsFromAAD`
+
 ```javascript
 app.get('/api/getAADUserFromEmployeeId', async (req, res) => {
 
@@ -390,6 +393,7 @@ app.get('/api/getUserDetailsFromAAD', async (req, res) => {
 
 });
 ```
+
 **6. manifest\manifest.template.json**
 
 Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
