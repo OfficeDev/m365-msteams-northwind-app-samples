@@ -127,7 +127,6 @@ Paste below code in the dislayUI() function in the end, before closing the `try`
 ```
 To invoke a dialog from a tab use `microsoftTeams.tasks.startTask()`.
 You can pass the [taskInfo](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/invoking-task-modules#the-taskinfo-object) object and a callback function called `submitHandler` to pass the results back from the dialog.
-Here we are appending it to the content area to display. See line `orderElement.append(newComment);`.
 
 The final look of displayUI() function is as below:
 
@@ -204,7 +203,7 @@ async function displayUI() {
 }
 displayUI();
 ```
-**6. manifest\manifest.template.json**
+**3. manifest\manifest.template.json**
 
 Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
 
