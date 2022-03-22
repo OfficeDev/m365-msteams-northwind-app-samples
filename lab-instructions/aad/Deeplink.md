@@ -14,9 +14,9 @@ In this exercise you will learn new concepts as below:
 - [Deep links](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/deep-links?WT.mc_id=m365-58890-cxa)
 
 
-### How to build the deep link for this lab.
+### How to build the deep link
 
-Now using th syntax below, we will create the link
+Use below syntax, to create the deep link for this lab.
 
 ```
 https://teams.microsoft.com/l/entity/<app-id>/<entitiyId>?context={"subEntityId": "<subEntityId>"}
@@ -121,7 +121,7 @@ async function displayUI() {
                     } catch (err) {
                         console.error('Failed to copy: ', err);
                       }});
-            }
+            
         }else{
             errorMsgElement.innerText = `No order to show`;
             displayElement.style.display="none";
