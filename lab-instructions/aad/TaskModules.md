@@ -2,11 +2,11 @@
 
 ## Add a Task Module 
 
-This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
-> Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
+This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
 
-**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. This can greatly simplify the user experience when a data input is required. For simplicity let's call them a dialog for this lab.
+> Recommended to complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) for deeper understanding of how the core application works.
 
+**Task modules** are modal pop-up experiences in Teams application using html or JavaScript code, iframes or adaptive cards. This can greatly simplify the user experience when a data input is required. For simplicity let's call them a dialog for this lab. There are many ways you can incorporate a task module. In this lab we focus on using the app's own HTML form.
 
 In this exercise you will learn new concepts as below:
 
@@ -67,7 +67,7 @@ Create a new file `orderNotesForm.html` in the path `\client\pages`and copy belo
 ```
 
 This is a web form which captures an input `notes` which is a multi line text area.
-The form uses Microsoft Teams SDK's `microsoftTeams.tasks.submitTask` to pass the form values back into a handler.
+The form uses Microsoft Teams SDK's `microsoftTeams.tasks.submitTask` to pass the form values back into a callback function.
 
 
 #### Step 2: Update existing files
@@ -75,7 +75,7 @@ The form uses Microsoft Teams SDK's `microsoftTeams.tasks.submitTask` to pass th
 
 **1.\client\pages\orderDetail.html**
 
-Add a content area to display the all comments/notes for an order.
+Add a content area to display all comments/notes for the order.
 Add a new button to open the web based form as a dialog.
 
 Copy below block of code and paste it above the `<table>` element of the page.
@@ -96,7 +96,7 @@ In the displayUI() function, define two constants to get the two HTML elements w
  const orderElement=document.getElementById('orderContent');
 ```
 To open the dialog, add an event listener for the button `btnTaskModule`.
-Paste below code in the dislayUI() function in the end, before closing the `try`.
+Paste below code in the dislayUI() function in the end, before closing the `try` block.
 
 ```javascript
  btnTaskModuleElement.addEventListener('click',  ev => {  
@@ -121,11 +121,11 @@ Paste below code in the dislayUI() function in the end, before closing the `try`
             taskInfo.title = "Task module order notes";
             taskInfo.height = 210;
             taskInfo.width = 400;
-           
+           //open the dialog
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
 ```
-To invoke a dialog from a tab use `microsoftTeams.tasks.startTask()`.
+To open a dialog from a tab, use `microsoftTeams.tasks.startTask()`.
 You can pass the [taskInfo](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/invoking-task-modules#the-taskinfo-object) object and a callback function called `submitHandler` to pass the results back from the dialog.
 
 The final look of displayUI() function is as below:
@@ -216,6 +216,7 @@ Update the version number so it's greater than it was; for example if your manif
 Now that you have applied all code changes, let's test the features.
 
 #### Step 1 : Create new teams app package
+
 Make sure the env file is configured as per the sample file .env_Sample.
 Create updated teams app package by running below script:
 ```nodejs
@@ -253,6 +254,6 @@ Navigate to the Northwind.zip file in your manifest directory and upload it. Add
 
 ![task module working](../../assets/taskmodule-working.gif)
 
-> The comments are not saved back into the northwind database as it is only read only for this lab. You can call your CRUD operations suitably in your application.
+> The comments are not saved back into the northwind database as it is read only for this lab. You can call your CRUD operations suitably in your application.
 
 
