@@ -4,7 +4,7 @@
 
 This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
 
-> Recommended to complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) for deeper understanding of how the core application works.
+> Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) for deeper understanding of how the core application works, to set up AAD application registration etc. to update the `.env` file as per the `.env_sample`. This configuration is required for the success of the lab.
 
 **Task modules** are modal pop-up experiences in Teams application using html or JavaScript code, iframes or adaptive cards. This can greatly simplify the user experience when a data input is required. For simplicity let's call them a dialog for this lab. There are many ways you can incorporate a task module. In this lab we focus on using the app's own HTML form.
 
