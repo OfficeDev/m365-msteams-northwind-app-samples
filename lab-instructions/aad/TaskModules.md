@@ -5,7 +5,7 @@
 This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
-**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. 
+**Task modules** are modal pop-up experiences in Teams application to run your app's own html or JavaScript code. This can greatly simplify the user experience when a data input is required. For simplicity let's call them a dialog for this lab.
 
 
 In this exercise you will learn new concepts as below:
@@ -15,7 +15,7 @@ In this exercise you will learn new concepts as below:
 
 ### Features
 
-- In the application's order details page, add a button to open a web based form to add notes into a order database. 
+- In the application's order details page, add a button to open a web based form to add notes for a particular order.
 
 
 ### Exercise 1: Code changes
@@ -66,34 +66,37 @@ Create a new file `orderNotesForm.html` in the path `\client\pages`and copy belo
 
 ```
 
+This is a web form which captures an input `notes` which is a multi line text area.
+The form uses Microsoft Teams SDK's `microsoftTeams.tasks.submitTask` to pass the form values back into a handler.
+
+
 #### Step 2: Update existing files
 
 
 **1.\client\pages\orderDetail.html**
 
-Add a content area to display the comments that will get added into each order.
-Add a new button to open the web based form as a task module in the `orderDetail.html` page.
+Add a content area to display the all comments/notes for an order.
+Add a new button to open the web based form as a dialog.
 
-Copy below block of code and paste it above the `<table>` element.
+Copy below block of code and paste it above the `<table>` element of the page.
 
 ```html
- <div id="orderContent">
-    
+<div id="orderContent">    
 </div>
-    <br/>
- <br/>
-    <button id="btnTaskModule">Add notes</button>
+<br/>
+<button id="btnTaskModule">Add notes</button>
 ```
+
 **2.\client\pages\orderDetail.js**
 
-In the displayUI() function define two constants to get the above two HTML elements.
+In the displayUI() function, define two constants to get the two HTML elements we just added.
 
 ```javascript
  const btnTaskModuleElement = document.getElementById('btnTaskModule');
  const orderElement=document.getElementById('orderContent');
 ```
-To open the task module (web form), add an event listener for the button we added earlier.
-Paste below code in the dislayUI() function in the end before closing the `try`.
+To open the dialog, add an event listener for the button `btnTaskModule`.
+Paste below code in the dislayUI() function in the end, before closing the `try`.
 
 ```javascript
  btnTaskModuleElement.addEventListener('click',  ev => {  
@@ -122,10 +125,11 @@ Paste below code in the dislayUI() function in the end before closing the `try`.
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
         });
 ```
-This code `microsoftTeams.tasks.startTask(taskInfo, submitHandler);` will ensure that the web based form opens as a dialog and the call back function `submitHandler` will take care of the values passed from the form. You can perform any action on the results.
+To invoke a dialog from a tab use `microsoftTeams.tasks.startTask()`.
+You can pass the [taskInfo](https://docs.microsoft.com/en-us/microsoftteams/platform/task-modules-and-cards/task-modules/invoking-task-modules#the-taskinfo-object) object and a callback function called `submitHandler` to pass the results back from the dialog.
 Here we are appending it to the content area to display. See line `orderElement.append(newComment);`.
 
-The final look of displayUI() function is as below
+The final look of displayUI() function is as below:
 
 ```javascript
 import {
@@ -198,12 +202,8 @@ async function displayUI() {
         message.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
-
-
 displayUI();
 ```
-
-
 **6. manifest\manifest.template.json**
 
 Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
@@ -247,9 +247,13 @@ Navigate to the Northwind.zip file in your manifest directory and upload it. Add
 
 #### Step 4 : Run the application in Teams client
 
-Once you are in the application, go to `My orders` page and select any order as shown below:
+- Once you are in the application, go to `My orders` page and select any order.
+- Once in the order details page, select the **Add notes** button to open the dialog.
+- Add comment/note and select **Save**.
+- Notice the dialog closed and the results getting added into the order details page.
+
+![task module working](../../assets/taskmodule-working.gif)
+
+> The comments are not saved back into the northwind database as it is only read only for this lab. You can call your CRUD operations suitably in your application.
 
 
-### Known issues
-
-The task module (dialog) has to be closed manually.

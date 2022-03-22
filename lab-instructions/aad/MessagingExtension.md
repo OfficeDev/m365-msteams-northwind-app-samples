@@ -877,6 +877,8 @@ Fill in a new value in the form, and select **Update stock**.
 Once it's success fully updated, the card refreshes to show the new stock value.
 <img src="../../assets/06-008-updated.png?raw=true" alt="Product updated"/>
 
+> The new stock values are not saved back into the northwind database as it is only read only for this lab. You can call your CRUD operations suitably in your application. Here we are manipulating the cache.
+
 ### Known issues
 ---
 😔 The rich adaptive card does not preview in compose area in a Microsoft Teams team's context. This is a bug which is currently with the product team. Fixes will be applied in March '22
