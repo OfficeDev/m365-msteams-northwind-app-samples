@@ -57,12 +57,13 @@ Add below block of code and paste it above `orderDetails` div element.
 
 **2. client\page\orderDetail.js**
  
-Import the teams SDK module as well as the new function to get teams app Id.
+Import the teams SDK module as well as the environment variable we exported to use.
 
 Paste below code above the displayUI() function definition.
 
 ```javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+import { env } from '/modules/env.js';
 
 ```
 
@@ -112,9 +113,8 @@ async function displayUI() {
                         //temp textarea for copy to clipboard functionality
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
-                        const appId=await getTeamsAppId();     
                         //form the deeplink
-                        const deeplink = `https://teams.microsoft.com/l/entity/${appId}/OrderDetails?&context=${encodedContext}`;
+                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();

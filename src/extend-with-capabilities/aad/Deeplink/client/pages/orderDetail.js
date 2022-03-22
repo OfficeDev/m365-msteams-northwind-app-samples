@@ -2,7 +2,7 @@ import {
     getOrder
 } from '../modules/northwindDataService.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-
+import { env } from '/modules/env.js';
 
 async function displayUI() {
 
@@ -49,7 +49,7 @@ async function displayUI() {
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);                            
                         //form the deeplink                       
-                        const deeplink = `https://teams.microsoft.com/l/entity/c42d89e3-19b2-40a3-b20c-44cc05e6ee26/OrderDetails?&context=${encodedContext}`;
+                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();
