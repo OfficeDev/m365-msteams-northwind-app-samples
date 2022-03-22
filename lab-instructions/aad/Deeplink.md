@@ -227,7 +227,13 @@ Update the version number so it's greater than it was; for example if your manif
 Now that you have applied all code changes, let's test the features.
 
 #### Step 1 : Create new teams app package
+
 Make sure the env file is configured as per the sample file .env_Sample.
+Make sure all npm packages are installed, run below script in the command line tool:
+
+```nodejs
+npm i
+```
 Create updated teams app package by running below script:
 ```nodejs
 npm run package
