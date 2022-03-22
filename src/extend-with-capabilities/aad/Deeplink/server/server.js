@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import {
-  initializeIdentityService
+  initializeIdentityService,getTeamsAppId
 } from './identityService.js';
 import {
   getEmployee,
@@ -103,14 +103,26 @@ app.get('/modules/env.js', (req, res) => {
     export const env = {
       HOSTNAME: "${process.env.HOSTNAME}",
       TENANT_ID: "${process.env.TENANT_ID}",
-      CLIENT_ID: "${process.env.CLIENT_ID}"
+      CLIENT_ID: "${process.env.CLIENT_ID}",
+      TEAMS_APP_ID: "${process.env.TEAMS_APP_ID}",
     };
   `);
 });
 
 // Serve static pages from /client
 app.use(express.static('client'));
+app.get('/api/getTeamsAppId', async (req, res) => {
 
+  try {   
+    const appId = await getTeamsAppId();
+    res.send(appId);
+  }
+  catch (error) {
+      console.log(`Error in /api/getTeamsAppId handling: ${error}`);
+      res.status(500).json({ status: 500, statusText: error });
+  }
+
+});
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;
 app.listen(PORT, () => {

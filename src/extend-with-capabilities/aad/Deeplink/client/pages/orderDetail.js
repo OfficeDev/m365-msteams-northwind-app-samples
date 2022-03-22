@@ -2,6 +2,7 @@ import {
     getOrder
 } from '../modules/northwindDataService.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+import {getTeamsAppId} from '../identity/identityClient.js'
 let order={};
 async function displayUI() {
 
@@ -10,11 +11,14 @@ async function displayUI() {
     const copyUrlElement = document.getElementById('btnCopyOrderUrl');
     const copyMsgElement=document.getElementById('copyMessage');
     const copySectionElement=document.getElementById('copySection');
+    const errorMsgElement=document.getElementById('message');
     try {
 
         const searchParams = new URLSearchParams(window.location.search);
+        
         microsoftTeams.initialize(async () => {
-        microsoftTeams.getContext(async function (context) {
+        microsoftTeams.getContext(async (context)=> {
+       
      
         if (searchParams.has('orderId')||context.subEntityId) {
             const orderId = searchParams.get('orderId')?searchParams.get('orderId'):context.subEntityId;
@@ -42,12 +46,15 @@ async function displayUI() {
 
             });
             if(searchParams.has('orderId')){
-                copyUrlElement.addEventListener('click',  ev => {
+                copySectionElement.style.display = "flex";
+                copyUrlElement.addEventListener('click', async ev => {
                     try { 
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
                         //check why the app id is different in catalog
-                        const deeplink = `https://teams.microsoft.com/l/entity/5135eda5-f7a4-4999-9c4d-b81ca00e2c43/OrderDetails?&context=${encodedContext}`;
+                        let appId=await getTeamsAppId(); 
+                        console.log(appId)
+                        const deeplink = `https://teams.microsoft.com/l/entity/${appId}/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();
@@ -62,17 +69,17 @@ async function displayUI() {
                 copySectionElement.style.display = "none";
                
             }
-            
-        
-    
-
+        }else{
+            errorMsgElement.innerText = `No order to show`;
+            displayElement.style.display="none";
+            orderDetails.style.display="none";
         }
     });
 });
        
     }
     catch (error) {            // If here, we had some other error
-        message.innerText = `Error: ${JSON.stringify(error)}`;
+        errorMsgElement.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
 

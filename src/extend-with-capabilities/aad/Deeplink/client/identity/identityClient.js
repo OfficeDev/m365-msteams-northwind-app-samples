@@ -163,3 +163,19 @@ export async function getFetchHeadersAuth() {
         "authorization": `Bearer ${accessToken}`
     });
 }
+export async function getTeamsAppId() {
+    
+    const response = await fetch (`/api/getTeamsAppId`, {
+        "method": "get",
+        "headers": await getFetchHeadersAuth(),       
+        "cache": "no-cache"
+    });
+    if (response.ok) {
+        const value=await response.json();
+        return value[0].id;  
+    } else {
+        const error = "getTeamsAppId failed"
+        console.log (`ERROR: ${error}`);
+        throw (error);
+    }
+}
