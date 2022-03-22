@@ -3,7 +3,7 @@ import {
 } from '../modules/northwindDataService.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 import {getTeamsAppId} from '../identity/identityClient.js'
-let order={};
+
 async function displayUI() {
 
     const displayElement = document.getElementById('content');
@@ -14,17 +14,13 @@ async function displayUI() {
     const errorMsgElement=document.getElementById('message');
     try {
 
-        const searchParams = new URLSearchParams(window.location.search);
-        
+        const searchParams = new URLSearchParams(window.location.search);        
         microsoftTeams.initialize(async () => {
-        microsoftTeams.getContext(async (context)=> {
-       
+        microsoftTeams.getContext(async (context)=> {      
      
         if (searchParams.has('orderId')||context.subEntityId) {
             const orderId = searchParams.get('orderId')?searchParams.get('orderId'):context.subEntityId;
-
-            order = await getOrder(orderId);
-
+            const order = await getOrder(orderId);
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>
                     <p>Customer: ${order.customerName}<br />
@@ -49,11 +45,12 @@ async function displayUI() {
                 copySectionElement.style.display = "flex";
                 copyUrlElement.addEventListener('click', async ev => {
                     try { 
+                        //temp textarea for copy to clipboard functionality
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
-                        //check why the app id is different in catalog
-                        let appId=await getTeamsAppId(); 
-                        console.log(appId)
+                        // get teams app id from Microsoft Graph
+                        const appId=await getTeamsAppId();     
+                        //form the deeplink                       
                         const deeplink = `https://teams.microsoft.com/l/entity/${appId}/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);

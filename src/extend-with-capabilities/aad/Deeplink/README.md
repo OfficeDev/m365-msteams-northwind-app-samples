@@ -70,7 +70,7 @@ Version|Date|Author|Comments
 To deep link into the personal tab, we need the server generated app id, which is different to the TEAMS_APP_ID in the `.env` file.
 We will use Microsoft Graph's [api](https://docs.microsoft.com/en-us/graph/api/appcatalogs-list-teamsapps?view=graph-rest-1.0&tabs=http#http-request) to get the id.
 
-To do this, go to the Azure Active Directory where you have registered the teams application and add the needed `applicatio permission`.
+Go to the Azure Active Directory where you have registered the teams application and add the needed `application permission`.
 
 The steps are similar to this [lab](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/A01-begin-app.md#step-3-grant-your-application-permission-to-call-the-microsoft-graph-api)
 
