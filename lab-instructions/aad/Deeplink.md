@@ -110,7 +110,7 @@ async function displayUI() {
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
                         //form the deeplink
-                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/OrderDetails?&context=${encodedContext}`;
+                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/Orders?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();
@@ -136,23 +136,29 @@ async function displayUI() {
     }
 }
 ```
+##### Explanation for above code changes
 
-We will use Microsoft Teams SDK to get the current context through which we can get the entityId and userId of the current user in the personal tab they are in.
+We will use Microsoft Teams SDK to get the current tems context through which we can get the entityId and userId of the current user in the personal tab they are in.
 That is why we use below lines of code to initialize and get context from teams
-```javascript
+<pre>
 microsoftTeams.initialize(async () => {
 microsoftTeams.getContext(async (context)=> {      
-     
-```
+</pre>
 
 If the tab is opened using a query parameter (as done in the core lab) **OR**
-there is an **subEntityId** then, get the order details and display. We are reusing the page `orderDetails` to be a tab in the personal app which takes the order id as the **subEntityId** which is a similar idea to query parameters.
+there is an **subEntityId** in the teams context (which is passed in the deep link) then get the order details and display to the user. 
+This is why we added an extra condition to the if statement here:
 
+<pre>
+   if (searchParams.has('orderId')<b>||context.subEntityId</b>) {
+            const orderId = searchParams.get('orderId')<b>?searchParams.get('orderId'):context.subEntityId;</b>
+</pre>
 
 In the `copyUrlElement.addEventListener()` what goes on is explained next.
 
-The new tab is the entity and it's **entityId** will be defined in the manifest file (In the next section), the entityId here is `OrderDetails`.
-This enables the teams application to understand which tab (entityId) is to be opened and what parameter(subEntityId) is to be passed to display information.
+The **entityId** is basically used by Teams apps to identify it's own tab. When creating the deep link the **entityId** we use in `Orders` as we will be using `My Orders` tab as the landing tab when the link is opened.
+The teams app id is taken from `.env` file, which is the id in the manifest file.
+`encodedContext` is a JSON constant that defines the parameter(subEntityId)  to be passed to the tab, to display order information.
 
 **4. client\myOrders.js**
 
