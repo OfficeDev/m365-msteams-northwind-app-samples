@@ -65,9 +65,8 @@ Version|Date|Author|Comments
 
 ## Features
 
-User use their own web page in a dialog to capture user input. 
-
-The user input is sent back to the tab for further processing.
+User can open dialog form the tab application to capture notes on a particular order. 
+On save, the form sends results back to the tab for further processing.
 
 ## Debug and test locally
 
