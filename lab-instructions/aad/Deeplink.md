@@ -15,11 +15,6 @@ In this exercise you will learn new concepts as below:
 
 ### How to build the deep link for this lab.
 
-In this lab we will focus on creating a deep link within a static personal tab.
-We will introduce a new tab in the personal tab app called `Order details`.
-
-> `Order details` tab is just added only to show how deeplinking works
-
 Now using th syntax below, we will create the link
 
 ```
@@ -27,7 +22,7 @@ https://teams.microsoft.com/l/entity/<app-id>/<entitiyId>?context={"subEntityId"
 ```
 
 - **app-id** - This teams app id from the manifest file
-- **entityId** - This is defined in your manifest file in the `staticTabs` object for the particular entity (tab).
+- **entityId** - This is defined in your manifest file in the `staticTabs` object for the particular entity (tab). In our case this is the entity id `Orders` of  `My Orders` tab.
 - **subEntityId** - This is the ID for the item you are displaying information for. This is similar to query parameters. In our case in this lab, it will be the orderId.
 
 
@@ -106,7 +101,7 @@ async function displayUI() {
                 detailsElement.append(orderRow);
 
             });
-            if(searchParams.has('orderId')){
+            
                 copySectionElement.style.display = "flex";
                 copyUrlElement.addEventListener('click', async ev => {
                     try { 
@@ -125,9 +120,6 @@ async function displayUI() {
                     } catch (err) {
                         console.error('Failed to copy: ', err);
                       }});
-            }else{
-                copySectionElement.style.display = "none";
-               
             }
         }else{
             errorMsgElement.innerText = `No order to show`;
@@ -260,23 +252,19 @@ In this case, choose the first option 3️⃣.
 
 <img src="../../assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
 
-Navigate to the Northwind.zip file in your manifest directory and upload it. 
-The Teams client will display the application information, add the application to a team or a group chat.
-<img src="../../assets/06-002-addapp.png?raw=true" alt="Add the app"/>
+Once uploaded, add the personal tab.
+
+[add app](../../assets/deeplink-add-app.png)
 
 #### Step 4 : Run the application in Teams client
 
 Once you are in the application, go to `My orders` page and select any order.
 Select **Copy order url**.
 
-![copy button](../../assets/deeplink-copy-button.png)
-
 On selection, the message next to button changes from *Copy to clipboard* to *Link copied!*
-
-![copy success](../../assets/deeplink-copy-success.png)
 
 Login as another user who has Northwind Order app installed in their teams.
 Open the link in the browser. It should open in the personal tab with the order information displayed.
 
-![order](../../assets/deeplink-order-detail.png)
+![order](../../assets/deeplink-working.gif)
 

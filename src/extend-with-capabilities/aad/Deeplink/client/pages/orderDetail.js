@@ -40,7 +40,7 @@ async function displayUI() {
                 detailsElement.append(orderRow);
 
             });
-            if(searchParams.has('orderId')){
+           
                 copySectionElement.style.display = "flex";
                 copyUrlElement.addEventListener('click', async ev => {
                     try { 
@@ -58,16 +58,12 @@ async function displayUI() {
                     
                     } catch (err) {
                         console.error('Failed to copy: ', err);
-                      }});
-            }else{
-                copySectionElement.style.display = "none";
-               
-            }
-        }else{
-            errorMsgElement.innerText = `No order to show`;
-            displayElement.style.display="none";
-            orderDetails.style.display="none";
-        }
+                      }});            
+                }else{
+                    errorMsgElement.innerText = `No order to show`;
+                    displayElement.style.display="none";
+                    orderDetails.style.display="none";
+                }
     });
 });
        
