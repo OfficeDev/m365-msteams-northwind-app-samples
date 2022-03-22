@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import {
-  initializeIdentityService,getTeamsAppId
+  initializeIdentityService
 } from './identityService.js';
 import {
   getEmployee,

@@ -29,7 +29,6 @@ async function displayUI() {
                     ${order.employeeTitle}: ${order.employeeName} (${order.employeeId})
                     </p>
                 `;
-
             order.details.forEach(item => {
                 const orderRow = document.createElement('tr');
                 orderRow.innerHTML = `<tr>
@@ -49,7 +48,7 @@ async function displayUI() {
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);                            
                         //form the deeplink                       
-                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/OrderDetails?&context=${encodedContext}`;
+                        const deeplink = `https://teams.microsoft.com/l/entity/${env.TEAMS_APP_ID}/Orders?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();

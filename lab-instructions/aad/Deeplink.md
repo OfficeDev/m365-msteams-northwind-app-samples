@@ -161,104 +161,67 @@ In the `copyUrlElement.addEventListener()` what goes on is explained next.
 The new tab is the entity and it's **entityId** will be defined in the manifest file (In the next section), the entityId here is `OrderDetails`.
 This enables the teams application to understand which tab (entityId) is to be opened and what parameter(subEntityId) is to be passed to display information.
 
-**4. manifest\manifest.template.json**
+**4. client\myOrders.js**
 
-Add a new static tab entry in the manifest to show the order details to navigate using the deeplink.
-Paste below code after `Orders`
+Add import statement for Microsoft Teams SDK. 
 
-```json
-{
-      "entityId": "OrderDetails",
-      "name": "Order details",
-      "contentUrl": "https://<HOSTNAME>/pages/orderDetail.html",
-      "websiteUrl": "https://<HOSTNAME>/pages/orderDetail.html",
-      "scopes": [
-        "personal"
-      ]
-    },
+```javascript
+import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
 ```
-Finished manifest looks like this:
-<pre>
-{
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
-  "version": "1.9.0",
-  "id": "&lt;TEAMS_APP_ID&gt;",
-  "packageName": "io.github.officedev.teamsappcamp1.northwind",
-  "developer": {
-    "name": "Northwind Traders",
-    "websiteUrl": "https://&lt;HOSTNAME&gt;/",
-    "privacyUrl": "https://&lt;HOSTNAME&gt;/privacy.html",
-    "termsOfUseUrl": "https://&lt;HOSTNAME&gt;/termsofuse.html"
-  },
-  "icons": {
-      "color": "northwind192.png",
-      "outline": "northwind32.png"
-  },
-  "name": {
-    "short": "Northwind Orders",
-    "full": "Northwind Traders Order System"
-  },
-  "description": {
-    "short": "Sample enterprise app using the Northwind Traders sample database",
-    "full": "Simple app to demonstrate porting a SaaS app to Microsoft Teams"
-  },
-  "accentColor": "#FFFFFF",
-  "configurableTabs": [
-    {
-        "configurationUrl": "https://&lt;HOSTNAME&gt;/pages/tabConfig.html",
-        "canUpdateConfiguration": true,
-        "scopes": [
-            "team",
-            "groupchat"
-        ]
+
+Using the `My Orders` tab as the base, we will redirect the deeplink to `Order details` page to show the order only if the **subEntitiyId** is present in the teams context.
+Add an *if* condition in the function displayUI() after getting the teams context.
+
+```javascript
+ microsoftTeams.initialize(async () => {
+            microsoftTeams.getContext(async (context) => {                
+                if (context.subEntityId) {
+                    window.location.href = `/pages/orderDetail.html?orderId=${context.subEntityId}`;
+                } else { //..rest of the code
+              }});});
+
+```
+
+The updated function definition looks like below:
+
+```javascript
+async function displayUI() {
+
+    const displayElement = document.getElementById('content');
+    const ordersElement = document.getElementById('orders');
+    const messageDiv = document.getElementById('message');
+
+    try {
+        microsoftTeams.initialize(async () => {
+            microsoftTeams.getContext(async (context) => {                
+                if (context.subEntityId) {
+                    window.location.href = `/pages/orderDetail.html?orderId=${context.subEntityId}`;
+                } else {
+                    const employee = await getLoggedInEmployee();
+                    if (employee) {
+                        displayElement.innerHTML = `<h3>Orders for ${employee.displayName}<h3>`;
+                        employee.orders.forEach(order => {
+                        const orderRow = document.createElement('tr');
+                        orderRow.innerHTML = `<tr>
+                            <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
+                            <td>${(new Date(order.orderDate)).toDateString()}</td>
+                            <td>${order.shipName}</td>
+                            <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
+                            </tr>`;
+                            ordersElement.append(orderRow);
+                        });
+                    }
+                }
+            });
+        });
     }
-],
-"staticTabs": [
-    {
-      "entityId": "Orders",
-      "name": "My Orders",
-      "contentUrl": "https://&lt;HOSTNAME&gt;/pages/myOrders.html",
-      "websiteUrl": "https://&lt;HOSTNAME&gt;/pages/myOrders.html",
-      "scopes": [
-        "personal"
-      ]
-    },
-<b>
-    {
-      "entityId": "OrderDetails",
-      "name": "Order details",
-      "contentUrl": "https://&ltHOSTNAME&gt;/pages/orderDetail.html",
-      "websiteUrl": "https://&ltHOSTNAME&gt;/pages/orderDetail.html",
-      "scopes": [
-        "personal"
-      ]
-    },
-</b>
-    {
-      "entityId": "Products",
-      "name": "Products",
-      "contentUrl": "https://&lt;HOSTNAME&gt;/pages/categories.html",
-      "websiteUrl": "https://&lt;HOSTNAME&gt;/pages/categories.html",
-      "scopes": [
-        "personal"
-      ]
+    catch (error) {            // If here, we had some other error
+        messageDiv.innerText = `Error: ${JSON.stringify(error)}`;
     }
-  ],
-  "showLoadingIndicator": false,
-  "permissions": [
-      "identity",
-      "messageTeamMembers"
-  ],
-  "validDomains": [
-      "&lt;HOSTNAME&gt;"
-  ],
-  "webApplicationInfo": {
-      "id": "&lt;CLIENT_ID&gt;",
-      "resource": "api://&lt;HOSTNAME>/&lt;CLIENT_ID&gt;"
-  }
 }
-</pre>
+```
+
+**5. manifest\manifest.template.json**
 
 Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
 
