@@ -127,7 +127,7 @@ Here we are appending it to the content area to display. See line `orderElement.
 
 The final look of displayUI() function is as below
 
-<pre>
+```javascript
 import {
     getOrder
 } from '../modules/northwindDataService.js';
@@ -136,8 +136,8 @@ async function displayUI() {
 
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
-    <b>const btnTaskModuleElement = document.getElementById('btnTaskModule');
-    const orderElement=document.getElementById('orderContent');</b>
+    const btnTaskModuleElement = document.getElementById('btnTaskModule');
+    const orderElement=document.getElementById('orderContent');
     try {
 
         const searchParams = new URLSearchParams(window.location.search);
@@ -168,7 +168,7 @@ async function displayUI() {
             });
 
         }
-        <b>btnTaskModuleElement.addEventListener('click',  ev => {  
+        btnTaskModuleElement.addEventListener('click',  ev => {  
             let submitHandler = (err, result) => {                 
                 const postDate = new Date().toLocaleString()
                 const newComment = document.createElement('p');  
@@ -192,7 +192,7 @@ async function displayUI() {
             taskInfo.width = 400;
            
             microsoftTeams.tasks.startTask(taskInfo, submitHandler);
-        });</b>
+        });
     }
     catch (error) {            // If here, we had some other error
         message.innerText = `Error: ${JSON.stringify(error)}`;
@@ -201,7 +201,8 @@ async function displayUI() {
 
 
 displayUI();
-</pre>
+```
+
 
 **6. manifest\manifest.template.json**
 
