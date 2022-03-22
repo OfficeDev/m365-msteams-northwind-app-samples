@@ -402,6 +402,7 @@ Select **Copy order url**.
 ![copy button](../../assets/deeplink-copy-button.png)
 
 On selection, the message next to button changes from *Copy to clipboard* to *Link copied!*
+
 ![copy success](../../assets/deeplink-copy-success.png)
 
 Login as another user who has Northwind Order app installed in their teams.
