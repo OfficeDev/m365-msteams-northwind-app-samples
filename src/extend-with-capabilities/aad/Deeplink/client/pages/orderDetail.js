@@ -46,6 +46,7 @@ async function displayUI() {
                     try { 
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
+                        //check why the app id is different in catalog
                         const deeplink = `https://teams.microsoft.com/l/entity/5135eda5-f7a4-4999-9c4d-b81ca00e2c43/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
