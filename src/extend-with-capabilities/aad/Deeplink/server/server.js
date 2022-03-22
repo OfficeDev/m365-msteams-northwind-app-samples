@@ -111,18 +111,7 @@ app.get('/modules/env.js', (req, res) => {
 
 // Serve static pages from /client
 app.use(express.static('client'));
-app.get('/api/getTeamsAppId', async (req, res) => {
 
-  try {   
-    const appId = await getTeamsAppId();
-    res.send(appId);
-  }
-  catch (error) {
-      console.log(`Error in /api/getTeamsAppId handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
 //start listening to server side calls
 const PORT = process.env.PORT || 3978;
 app.listen(PORT, () => {

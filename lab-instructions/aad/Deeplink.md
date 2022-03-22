@@ -11,7 +11,7 @@ In this lab we will create deep link to entities in Teams so the user can naviga
 In this exercise you will learn new concepts as below:
 
 - [Deep links](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/deep-links?WT.mc_id=m365-58890-cxa)
-- [Microsoft Graph List teams apps api](https://docs.microsoft.com/en-us/graph/api/appcatalogs-list-teamsapps?view=graph-rest-1.0&tabs=http&WT.mc_id=m365-58890-cxa)
+
 
 ### How to build the deep link for this lab.
 
@@ -26,30 +26,10 @@ Now using th syntax below, we will create the link
 https://teams.microsoft.com/l/entity/<app-id>/<entitiyId>?context={"subEntityId": "<subEntityId>"}
 ```
 
-- **app-id** - This app installation id in your org's app catalog. This is not the same as the ID in your teams application's manifest but is associated with it. We will use Microsoft Graph api to retrieve this id based on the manifest ID of the teams application.
+- **app-id** - This teams app id from the manifest file
 - **entityId** - This is defined in your manifest file in the `staticTabs` object for the particular entity (tab).
 - **subEntityId** - This is the ID for the item you are displaying information for. This is similar to query parameters. In our case in this lab, it will be the orderId.
 
-### Microsoft Graph
-
-We need to get the  app installation id based on the manifest ID of the associated app. For this based on the type of installation of this app, we need to use Microsoft Graph API.
-In this lab, we will install the teams application in the app catalog of the org.
-So we will use [List teams app api for app catalog](https://docs.microsoft.com/en-us/graph/api/appcatalogs-list-teamsapps?view=graph-rest-1.0&tabs=http#http-request).
-
-#### Grant the Northwind Orders app permission use Microsoft Graph API
-
-Go to the Azure Active Directory where you have registered the teams application and add the needed `application permission`.
-
-The steps are similar to this [lab](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/A01-begin-app.md#step-3-grant-your-application-permission-to-call-the-microsoft-graph-api)
-
-Select below "Application permissions" to add the required permission.
-
-- AppCatalog.Read.All
-- AppCatalog.ReadWrite.All
-
-Grant admin consent. The page now looks like this.
-
-![deeplink aad consent](../../assets/deeplink-aad-graph-permission.png)
 
 ### Features
 
@@ -61,89 +41,8 @@ Grant admin consent. The page now looks like this.
 
 #### Step 1: Update existing files
 
-**1. server\identityService.js**
 
-Let's add server side functions for making the Microsoft Graph call.
-
-Add below block of code to add a new function **getTeamsAppId()** to get teams app id based on the manifest id of the application.
-
-```javascript
-//get's app ID using client credential flow
-export async function getTeamsAppId() {
-    let appId;
-    const externalId=process.env.TEAMS_APP_ID;
-    try {
-        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphResponse = await fetch(
-            `https://graph.microsoft.com/v1.0/appCatalogs/teamsApps?$filter=externalId eq '${externalId}'&$select=id`,
-            {
-                "method": "GET",
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                }
-            });
-        if (graphResponse.ok) {
-            const appData = await graphResponse.json();
-            appId = appData.value;
-
-        } else {
-            console.log(`Error ${graphResponse.status} calling Graph in getTeamsAppId: ${graphResponse.statusText}`);
-        }
-    }
-    catch (error) {
-        console.log(`Error calling MSAL in getTeamsAppId: ${error}`);
-    }
-    return appId;
-
-}
-```
-**2. client\identity\identityClient.js**
-
-Let's add the client side function `getTeamsAppId()` that will call the server side call.
-Add below block of code to `identityClient.js`.
-
-```javascript
-export async function getTeamsAppId() {
-    
-    const response = await fetch (`/api/getTeamsAppId`, {
-        "method": "get",
-        "headers": await getFetchHeadersAuth(),       
-        "cache": "no-cache"
-    });
-    if (response.ok) {
-        const value=await response.json();
-        return value[0].id;  
-    } else {
-        const error = "getTeamsAppId failed"
-        console.log (`ERROR: ${error}`);
-        throw (error);
-    }
-}
-```
-**3. server\server.js**
-
-For the `getTeamsAppId()` let's add the request route in `server.js`.
-Add below block of code above app.listen() request:
-
-```javascript
-app.get('/api/getTeamsAppId', async (req, res) => {
-
-  try {   
-    const appId = await getTeamsAppId();
-    res.send(appId);
-  }
-  catch (error) {
-      console.log(`Error in /api/getTeamsAppId handling: ${error}`);
-      res.status(500).json({ status: 500, statusText: error });
-  }
-
-});
-```
-> As a standard , app.listen() should always be at the end of the file, so any code update should happen before this request.
-
-**4. client\page\orderDetail.html**
+**1. client\page\orderDetail.html**
 
 Let's add the copy to clipboard button and a div to display a message to show if the copy was successful.
 
@@ -156,7 +55,7 @@ Add below block of code and paste it above `orderDetails` div element.
 </div> 
 ```
 
-**4. client\page\orderDetail.js**
+**2. client\page\orderDetail.js**
  
 Import the teams SDK module as well as the new function to get teams app Id.
 
@@ -164,7 +63,7 @@ Paste below code above the displayUI() function definition.
 
 ```javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-import {getTeamsAppId} from '../identity/identityClient.js'
+
 ```
 
 Replace the displayUI() function with below definition:
@@ -213,7 +112,6 @@ async function displayUI() {
                         //temp textarea for copy to clipboard functionality
                         var textarea = document.createElement("textarea");
                         const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
-                        // get teams app id from Microsoft Graph
                         const appId=await getTeamsAppId();     
                         //form the deeplink
                         const deeplink = `https://teams.microsoft.com/l/entity/${appId}/OrderDetails?&context=${encodedContext}`;
@@ -387,12 +285,21 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ```
 
-#### Step 3: Upload the app package to the org's app catalog 
-In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. 
+#### Step 3: Upload the app package to Teams
+
+In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
+
+* Upload a custom app (upload the app for yourself or a specific team or group chat) - this only appears if you have enabled "Upload custom apps" in your setup policy; this was a step in the previous lab
 * Upload an app to your org's app catalog (upload the app for use within your organization) - this only appears if you are a tenant administrator
+* Submit an app to your org (initiate a workflow asking a tenant administrator to install your app) - this appears for everyone
 
-Navigate to the Northwind.zip file in your manifest directory and upload it. Add the personal tab from the org.
+In this case, choose the first option 3️⃣.
 
+<img src="../../assets/03-005-InstallApp-1.png?raw=true" alt="Upload the app"/>
+
+Navigate to the Northwind.zip file in your manifest directory and upload it. 
+The Teams client will display the application information, add the application to a team or a group chat.
+<img src="../../assets/06-002-addapp.png?raw=true" alt="Add the app"/>
 
 #### Step 4 : Run the application in Teams client
 

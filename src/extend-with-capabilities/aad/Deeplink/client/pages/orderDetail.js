@@ -2,7 +2,7 @@ import {
     getOrder
 } from '../modules/northwindDataService.js';
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
-import {getTeamsAppId} from '../identity/identityClient.js'
+
 
 async function displayUI() {
 
@@ -47,11 +47,9 @@ async function displayUI() {
                     try { 
                         //temp textarea for copy to clipboard functionality
                         var textarea = document.createElement("textarea");
-                        const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);
-                        // get teams app id from Microsoft Graph
-                        const appId=await getTeamsAppId();     
+                        const encodedContext = encodeURI(`{"subEntityId": "${order.orderId}"}`);                            
                         //form the deeplink                       
-                        const deeplink = `https://teams.microsoft.com/l/entity/${appId}/OrderDetails?&context=${encodedContext}`;
+                        const deeplink = `https://teams.microsoft.com/l/entity/c42d89e3-19b2-40a3-b20c-44cc05e6ee26/OrderDetails?&context=${encodedContext}`;
                         textarea.value = deeplink;
                         document.body.appendChild(textarea);
                         textarea.select();

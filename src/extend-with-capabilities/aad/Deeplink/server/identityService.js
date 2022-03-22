@@ -177,33 +177,3 @@ async function setEmployeeIdForUser(aadUserId, employeeId) {
     }
     return employeeId;
 }
-//get's app ID using client credential flow
-export async function getTeamsAppId() {
-    let appId;
-    const externalId=process.env.TEAMS_APP_ID;
-    try {
-        const msalResponse = await msalClientApp.acquireTokenByClientCredential(msalRequest);
-        const graphResponse = await fetch(
-            `https://graph.microsoft.com/v1.0/appCatalogs/teamsApps?$filter=externalId eq '${externalId}'&$select=id`,
-            {
-                "method": "GET",
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                }
-            });
-        if (graphResponse.ok) {
-            const appData = await graphResponse.json();
-            appId = appData.value;
-
-        } else {
-            console.log(`Error ${graphResponse.status} calling Graph in getTeamsAppId: ${graphResponse.statusText}`);
-        }
-    }
-    catch (error) {
-        console.log(`Error calling MSAL in getTeamsAppId: ${error}`);
-    }
-    return appId;
-
-}
