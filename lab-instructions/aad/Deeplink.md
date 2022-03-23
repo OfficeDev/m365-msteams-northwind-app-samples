@@ -138,7 +138,7 @@ async function displayUI() {
 ```
 ##### Explanation for above code changes
 
-We will use Microsoft Teams SDK to get the current tems context through which we can get the entityId and userId of the current user in the personal tab they are in.
+We will use Microsoft Teams SDK to get the current tems context through which we can get the entityId and subEntityId of the current user in the personal tab they are in.
 That is why we use below lines of code to initialize and get context from teams
 <pre>
 microsoftTeams.initialize(async () => {
