@@ -244,8 +244,27 @@ async function displayUI() {
     }
 }
 ```
+**5. server\server.js**
 
-**5. manifest\manifest.template.json**
+We need the teams app id from the manifest (which is added based on the value in the .env file).
+We'll need to expose this id in the client side code.
+
+Update the request `app.get('/modules/env.js')` and add TEAMS_APP_ID as below:
+<pre>
+app.get('/modules/env.js', (req, res) => {
+  res.contentType("application/javascript");
+  res.send(`
+    export const env = {
+      HOSTNAME: "${process.env.HOSTNAME}",
+      TENANT_ID: "${process.env.TENANT_ID}",
+      CLIENT_ID: "${process.env.CLIENT_ID}",
+      <b>TEAMS_APP_ID: "${process.env.TEAMS_APP_ID}",</b>
+    };
+  `);
+});
+</pre>
+
+**6. manifest\manifest.template.json**
 
 Update the version number so it's greater than it was; for example if your manifest was version 1.4, make it 1.4.1 or 1.5.0. This is required in order for you to update the app in Teams.
 
