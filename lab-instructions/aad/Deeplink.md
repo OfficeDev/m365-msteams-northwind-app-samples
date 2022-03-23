@@ -156,7 +156,32 @@ This is why we added an extra condition to the if statement here:
 
 In the `copyUrlElement.addEventListener()` what goes on is explained next.
 
-The **entityId** is basically used by Teams apps to identify it's own tab. When creating the deep link the **entityId** we use in `Orders` as we will be using `My Orders` tab as the landing tab when the link is opened.
+The **entityId** is basically used by Teams apps to identify it's own tab. When creating the deep link the **entityId** we use in the lab is `Orders` which is the id for  `My Orders` tab. See manifest file for reference.
+
+```json
+....
+ "staticTabs": [
+    {
+      "entityId": "Orders",
+      "name": "My Orders",
+      "contentUrl": "https://<HOSTNAME>/pages/myOrders.html",
+      "websiteUrl": "https://<HOSTNAME>/pages/myOrders.html",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "Products",
+      "name": "Products",
+      "contentUrl": "https://<HOSTNAME>/pages/categories.html",
+      "websiteUrl": "https://<HOSTNAME>/pages/categories.html",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+....
+```
 The teams app id is taken from `.env` file, which is the id in the manifest file.
 `encodedContext` is a JSON constant that defines the parameter(subEntityId)  to be passed to the tab, to display order information.
 
