@@ -257,8 +257,8 @@ app.get('/modules/env.js', (req, res) => {
     export const env = {
       HOSTNAME: "${process.env.HOSTNAME}",
       TENANT_ID: "${process.env.TENANT_ID}",
-      CLIENT_ID: "${process.env.CLIENT_ID}",
-      <b>TEAMS_APP_ID: "${process.env.TEAMS_APP_ID}",</b>
+      CLIENT_ID: "${process.env.CLIENT_ID}"<b>,
+      TEAMS_APP_ID: "${process.env.TEAMS_APP_ID}"</b>
     };
   `);
 });
