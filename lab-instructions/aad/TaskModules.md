@@ -249,6 +249,7 @@ In this case, choose the first option 3️⃣.
 
 Navigate to the Northwind.zip file in your manifest directory and upload it. Add the personal tab.
 
+![add app](../../assets/deeplink-add-app.png)
 
 #### Step 4 : Run the application in Teams client
 
