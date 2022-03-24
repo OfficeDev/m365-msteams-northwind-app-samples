@@ -30,10 +30,10 @@ Version|Date|Author|Comments
 
 - Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
 
-- In a console, navigate to `src/extend-with-capabilities/aad/TaskModule/` from the main folder `m365-msteams-northwind-app-samples`.
+- In a console, navigate to `src/extend-with-capabilities/TaskModule/` from the main folder `m365-msteams-northwind-app-samples`.
 
     ```bash
-    cd src/extend-with-capabilities/aad/TaskModule/
+    cd src/extend-with-capabilities/TaskModule/
     ```
 
 - Install modules

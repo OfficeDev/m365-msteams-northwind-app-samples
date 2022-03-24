@@ -26,7 +26,7 @@ In this lab you will learn to:
 
 #### Step 1: Add the configuration page markup
 
-Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../src/extend-with-capabilities/aad/ConfigurableTab/client/pages/tabConfig.html)):
+Create a new file /client/pages/tabconfig.html and add this markup (or copy it from [here](../../src/extend-with-capabilities/ConfigurableTab/client/pages/tabConfig.html)):
 
 ~~~html
 <!doctype html>
@@ -57,7 +57,7 @@ Create a new file /client/pages/tabconfig.html and add this markup (or copy it f
 
 #### Step 2: Add the configuration page script
 
-Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../src/extend-with-capabilities/aad/ConfigurableTab/client/pages/tabConfig.js)):
+Create a new file, /client/pages/tabconfig.js, and paste in this code (or copy it from [here](../../src/extend-with-capabilities/ConfigurableTab/client/pages/tabConfig.js)):
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
