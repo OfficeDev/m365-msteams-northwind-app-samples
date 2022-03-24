@@ -6,7 +6,7 @@ This lab is part of extending app capabilities for your teams app which begins w
 
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) for deeper understanding of how the core application works, to set up AAD application registration etc. to update the `.env` file as per the `.env_sample`. This configuration is required for the success of the lab.
 
-The completed lab is [here](../../src/extend-with-capabilities/aad/Deeplink/)
+The completed lab is [here](../../src/extend-with-capabilities/Deeplink/)
 
 Deep links help the user to directly navigate to the content.
 In this lab we will create deep link to entities in Teams so the user can navigate to contents within the app's tab.

@@ -40,10 +40,10 @@ Version|Date|Author|Comments
 
 - Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
 
-- In a console, navigate to `src/extend-with-capabilities/aad/MessagingExtension/` from the main folder `m365-msteams-northwind-app-samples`.
+- In a console, navigate to `src/extend-with-capabilities/MessagingExtension/` from the main folder `m365-msteams-northwind-app-samples`.
 
     ```bash
-    cd src/extend-with-capabilities/aad/MessagingExtension/
+    cd src/extend-with-capabilities/MessagingExtension/
     ```
 
 - Install modules
