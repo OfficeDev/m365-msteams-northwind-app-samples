@@ -208,11 +208,27 @@ In the left navigation, click "API permissions" 1️⃣ and then "+ Add a permis
 
 ![Add Permission](../../assets/08-100-Add-Permission-0.png)
 
-In the flyout, select the "My APIs" tab 1️⃣ and then find the licensing service you installed earlier in this lab and click on it. By default, it will be called the "Contoso Monetization Code Sample Web API" 2️⃣.
+In the flyout, select the "My APIs" tab 1️⃣ and then find the licensing service you installed earlier in this lab and click on it. By default, it will be called the "Contoso Monetization Code Sample Web API" 2️⃣. If you can't find it, you probably installed the licensing service in another tenant. No problem - just skip to Step 2A below.
 
 ![Add permission](../../assets/08-100-Add-Permission.png)
 
 Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. Check this permission 2️⃣ and click "Add permissions" 3️⃣.
+
+#### Step 2A (ONLY IF NEEDED): Add permission across tenants
+
+If you were able to complete Step 2, then you don't need this; move on to Step 3.
+
+If, in the course of doing Step 2, you are unable to find the licensing service, then it's probably registered in a different tenant (different Azure AD instance). No worries - now you get to learn how to set up a cross-tenant consent!
+
+ * First, navigate to the Azure AD app registration for the licensing service. Click "Authentication" and then "+ Add a platform". Choose the "web" platform and enter `http://localhost` as the Redirect URI. This will allow the administrator of your M365 tenant to log in using a web browser just for the purpose of consent. In a real application, you would create a web page that acknowledges the consent instead of using http://localhost, which will send the admin to an error page but only after doing the initial consent.
+
+[Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
+
+* Construct a URL as follows: https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
+
+Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. When you're done, the browser will redirect you to http://localhost, which probably won't work, so just close the browser and move on!
+
+* You have just created an Enterprise Application (a.k.a. Service Principal) for the licensing service in the M365 tenant. You should now be able to complete Step 2.
 
 #### Step 3: Consent to the permission
 
