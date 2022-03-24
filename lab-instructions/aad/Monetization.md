@@ -222,7 +222,7 @@ If, in the course of doing Step 2, you are unable to find the licensing service,
 
  * First, navigate to the Azure AD app registration for the licensing service. Click "Authentication" and then "+ Add a platform". Choose the "web" platform and enter `http://localhost` as the Redirect URI. This will allow the administrator of your M365 tenant to log in using a web browser just for the purpose of consent. In a real application, you would create a web page that acknowledges the consent instead of using http://localhost, which will send the admin to an error page but only after doing the initial consent.
 
-[Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
+![Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
 
 * Construct a URL as follows: https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
 
