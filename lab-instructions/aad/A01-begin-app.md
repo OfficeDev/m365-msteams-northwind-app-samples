@@ -311,11 +311,11 @@ The starting application is in github at [https://github.com/OfficeDev/m365-mste
 
 ![Download the lab source code](../../assets/01-001-CloneRepo.png)
 
-The starting code for the "A" path is in the `lab-instructions\aad\A01-begin-app.md` folder. Copy this folder to another location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
+The starting code for the "A" path is in the `src\create-core-app\aad\A01-begin-app\` folder. Copy this folder to another location on your computer; this will be your working copy to keep the original source separate. Folders are also provided with the final code for the other labs.
 
 #### Step 2: Install the app's dependencies
 
-Using a command line tool of your choice, navigate to your working directory and type the command:
+Using a command line tool of your choice, navigate to the `A01-begin-app\server\` directory and type the command:
 
 ~~~shell
 npm install
