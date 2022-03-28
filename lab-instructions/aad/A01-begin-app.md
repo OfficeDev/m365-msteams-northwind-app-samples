@@ -315,7 +315,7 @@ The starting code for the "A" path is in the `src\create-core-app\aad\A01-begin-
 
 #### Step 2: Install the app's dependencies
 
-Using a command line tool of your choice, navigate to the `A01-begin-app\` directory and type the command:
+Using a command line tool of your choice, navigate to the `A01-begin-app` directory and type the command:
 
 ~~~shell
 npm install
