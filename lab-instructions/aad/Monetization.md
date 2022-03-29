@@ -113,11 +113,11 @@ Run below script:
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
-Now re-run `.\InstallApps.ps1`
+Now run `.\InstallApps.ps1`
 
 The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
-> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemlate.ps1` file and search for variable `$location`.
+> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemplate.ps1` file and search for variable `$location`.
 By default it is `centralus` but you can change it to `eastus` which works on both **Visual Studio Enterprise Subscription** and **Microsoft Azure Enterprise Subscription**.
 
  ![app id secret](../../assets/08-002.png)
