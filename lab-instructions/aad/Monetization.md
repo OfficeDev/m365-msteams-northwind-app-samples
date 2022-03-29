@@ -40,7 +40,7 @@ In this lab you will:
 
 To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real AppSource. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
 
-To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
+To help you succeed at this, we have set up some scripts you can run in PowerShell to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
 
 In this exercise you'll create three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview?WT.mc_id=m365-58890-cxa).
 
