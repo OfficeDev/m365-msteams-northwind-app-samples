@@ -890,3 +890,12 @@ Once it's success fully updated, the card refreshes to show the new stock value.
 ### Known issues
 ---
 😔 The rich adaptive card does not preview in compose area in a Microsoft Teams team's context. This is a bug which is currently with the product team. Fixes will be applied in March '22
+
+### Next steps
+
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
+- [Add a Task Module](TaskModules.md)

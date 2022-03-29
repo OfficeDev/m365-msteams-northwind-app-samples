@@ -296,3 +296,11 @@ Open the link in the browser. It should open in the personal tab with the order 
 
 ![order](../../assets/deeplink-working.gif)
 
+### Next steps
+
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
+- [Add a Task Module](TaskModules.md)

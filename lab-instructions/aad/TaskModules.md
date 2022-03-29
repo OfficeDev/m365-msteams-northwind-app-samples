@@ -222,4 +222,11 @@ This lab assumes you already completed the Core lab and registered an Azure AD a
 
 > The comments are not saved back into the northwind database as it is read only for this lab. You can call your CRUD operations suitably in your application.
 
+### Next steps
 
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)

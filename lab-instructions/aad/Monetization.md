@@ -602,11 +602,15 @@ Now return to the licensing application. If you've closed the tab, you can find 
 
 Notice that your username has been assigned a license. The sample app stored this in a SQL Server database. When the Teams application called the licensing service, the access token contained the tenant ID and user ID, enabling the licensing service to determine that the user has a license.
 
-## ** CONGRATULATIONS **
-
-You have completed the Teams App Camp! Thanks very much; we hope this helps in the process of extending your application to Microsoft Teams!
-
 ### Known issues
 
 For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
+### Next steps
+
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Add a Task Module](TaskModules.md)
