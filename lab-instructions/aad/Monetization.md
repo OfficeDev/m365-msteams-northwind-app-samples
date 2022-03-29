@@ -3,13 +3,14 @@
 ## Set up and integrate with licensing sample and App Source simulator
 
 This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path.
+
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
-In this lab you will learn to:
+In this lab you will:
 
-- Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
-- Observe the interactions between App Source and a SaaS landing page in a simulated environment
-- Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
+1. Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
+2. Observe the interactions between App Source and a SaaS landing page in a simulated environment
+3. Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
 
 ### Features
 
@@ -17,9 +18,27 @@ In this lab you will learn to:
 - Sample web service that fulfills this purchase and manages licenses for Microsoft Teams users to use the Northwind Orders application
 - Northwind Orders application checks to ensure Microsoft Teams users are licensed or displays an error page
 
-### Exercise 1: Download and install the monetization sample
+### Prerequisites for this lab include the following.
 
-To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
+1. An active Azure subscription on your own Azure tenant.
+2. An active M365 tenant, which can be the one you created in the prerequisites lab.
+3. [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4)(This is cross-platform and will run on MacOS and Linux)
+4. [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1) (This is cross-platform and will run on MacOS and Linux)
+
+**OPTIONAL:** If you want to run or modify these applications locally, you may find the following tools helpful
+
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) for Windows (The free **Community** edition will work fine)
+   >**Note:** use **Visual Studio Installer** to install the following development toolsets:
+  - ASP.NET and web development
+  - Azure development
+  - Office/SharePoint development
+  - .NET cross-platform development
+
+- [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
+
+### Exercise 1: Download and install
+
+To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real AppSource. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
 
 To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
 
@@ -31,35 +50,22 @@ In this exercise you'll create three Azure Active Directory applications and the
 
  #### Step 1: Install the prerequisites
 
-> You would not come this far without Microsoft365 developer tenant as Global Admin and an Azure subscription. Below are the rest of the prerequisites.
- 
-- Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4) (This is cross-platform and will run on MacOS and Linux)
+1. Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4) (This is cross-platform and will run on MacOS and Linux)
 
-- Install the following PowerShell modules:
-  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery) (You will need an elevated prompt)
+2. Install the following PowerShell modules (You will need an elevated prompt)
+  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery) 
 
-      ``` powershell
+      ```powershell
       Install-Module Microsoft.Graph -AllowClobber -Force
       ```
 
   - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0&WT.mc_id=m365-58890-cxa#installation)
 
-      ```powershell
-      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-      Install-Module Az -Repository PSGallery -AllowClobber 
-      ```
-- Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
+    ```powershell
+    Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force
+    ```
 
-OPTIONAL: If you want to run these applications locally or modify them, you may find these tools helpful:
-
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) for Windows (The free **Community** edition will work fine)
-   >**Note:** use **Visual Studio Installer** to install the following development toolsets:
-  - ASP.NET and web development
-  - Azure development
-  - Office/SharePoint development
-  - .NET cross-platform development
-
-- Install [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
+3. Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
 
 #### Step 2:  Download the source code needed to be deployed
 
@@ -107,13 +113,13 @@ Once accepted, the browser will redirect and show below message. You can now clo
 
  ![execution policy](../../assets/08-001-2.png)
 
-Let's set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
+Set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
 
 Run below script:
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
-Now run `.\InstallApps.ps1`
+Now re-run `.\InstallApps.ps1`
 
 The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
