@@ -33,10 +33,10 @@ In this exercise you'll create three Azure Active Directory applications and the
 
 > You would not come this far without Microsoft365 developer tenant as Global Admin and an Azure subscription. Below are the rest of the prerequisites.
  
-- Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4)
+- Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4) (This is cross-platform and will run on MacOS and Linux)
 
 - Install the following PowerShell modules:
-  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery)
+  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery) (You will need an elevated prompt)
 
       ``` command
       Install-Module Microsoft.Graph -AllowClobber -Force
@@ -45,13 +45,14 @@ In this exercise you'll create three Azure Active Directory applications and the
   - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0&WT.mc_id=m365-58890-cxa#installation)
 
       ``` command
-      Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force 
+      Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+      Install-Module Az -Repository PSGallery -AllowClobber 
       ```
 - Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
 
 OPTIONAL: If you want to run these applications locally or modify them, you may find these tools helpful:
 
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) for Windows (The free **Community** edition will work fine)
    >**Note:** use **Visual Studio Installer** to install the following development toolsets:
   - ASP.NET and web development
   - Azure development
@@ -67,7 +68,7 @@ Clone or download the project into your local machine.
 
 #### Step 3:  Get everything ready to run ARM template
 
-- In the project you just downloaded in Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/`.
+- In the project you just downloaded in Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/` in your text editor.
 - Open the `ARMParameters.json` file and update the following parameters with values you choose:
     - webAppSiteName
     - webApiSiteName
