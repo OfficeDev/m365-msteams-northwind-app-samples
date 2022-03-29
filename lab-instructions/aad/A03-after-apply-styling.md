@@ -434,7 +434,7 @@ Here's how to [change themes in teams client.](https://support.microsoft.com/off
 
 ### Next steps
 
-Congratualtions! You have completed all core application development labs in **path A**. You may continue with any of the following labs.
+Congratulations! You have completed all core application development labs in **path A**. You may continue with any of the following labs.
 
 - [Add a Configurable Tab](./ConfigurableTab.md)
 - [Add a Deep link to a personal Tab](./Deeplink.md)
