@@ -2,7 +2,7 @@
 
 ## Set up and integrate with licensing sample and App Source simulator
 
-This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path.
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 In this lab you will learn to:
