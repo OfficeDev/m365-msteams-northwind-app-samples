@@ -38,13 +38,13 @@ In this exercise you'll create three Azure Active Directory applications and the
 - Install the following PowerShell modules:
   - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery) (You will need an elevated prompt)
 
-      ``` command
+      ``` powershell
       Install-Module Microsoft.Graph -AllowClobber -Force
       ```
 
   - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0&WT.mc_id=m365-58890-cxa#installation)
 
-      ``` command
+      ```powershell
       Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
       Install-Module Az -Repository PSGallery -AllowClobber 
       ```
@@ -81,16 +81,19 @@ Clone or download the project into your local machine.
     - sqlSampleDatabaseName
     
 > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
-You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
 For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
 - In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
 
-- In the same window run `Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"`
+- Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog.
+    ```powershell
+    Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"
+    ```
 
-- Click **Accept**.
+![Graph consent](../../assets/08-001.png)
 
- ![Graph consent](../../assets/08-001.png)
+Click **Accept**.
 
 Once accepted, the browser will redirect and show below message. You can now close the browser and continue with the PowerShell command line.
 
