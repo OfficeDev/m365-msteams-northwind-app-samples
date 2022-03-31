@@ -17,6 +17,16 @@
     <div id="content">
         <p>Loading...</p>
     </div>
+    <div id="copySection" style="display: none;">
+        <div> <button id="btnCopyOrderUrl">Copy order url</button></div>
+         <div style="flex-grow: 1;padding:5px;" id="copyMessage">Copy to clipboard</div>
+       </div>  
+    <br/>
+	<div id="orderContent">
+    
+    </div>
+    <br/>
+    <button id="btnTaskModule">Add notes</button>
     <table id="orderDetails">
         <tr>
             <th>Quantity</th>
@@ -26,7 +36,7 @@
         </tr>
     </table>
     <div id="message" class="errorMessage"></div>
-
+    
     <script type="module" src="/components/navigation.js"></script>
     <script type="module" src="orderDetail.js"></script>
 

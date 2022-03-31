@@ -6,7 +6,7 @@ export async function getEmployee(employeeId) {
         return null;
     }
 
-    const response = await fetch (`/api/employee?employeeId=${employeeId}`, {
+    const response = await fetch(`/api/employee?employeeId=${employeeId}`, {
         "method": "get",
         "headers": await getFetchHeadersAuth(),
         "cache": "default"
@@ -16,14 +16,13 @@ export async function getEmployee(employeeId) {
         return employee;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
     }
 }
 
-export async function getOrder(orderId)
-{
-    const response = await fetch (`/api/order?orderId=${orderId}`, {
+export async function getOrder(orderId) {
+    const response = await fetch(`/api/order?orderId=${orderId}`, {
         "method": "get",
         "headers": await getFetchHeadersAuth(),
         "cache": "default"
@@ -33,14 +32,13 @@ export async function getOrder(orderId)
         return orders;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
-    }    
+    }
 }
 
-export async function getCategories()
-{
-    const response = await fetch (`/api/categories`, {
+export async function getCategories() {
+    const response = await fetch(`/api/categories`, {
         "method": "get",
         "headers": await getFetchHeadersAuth(),
         "cache": "default"
@@ -50,14 +48,13 @@ export async function getCategories()
         return categories;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
-    }    
+    }
 }
 
-export async function getCategory(categoryId)
-{
-    const response = await fetch (`/api/category?categoryId=${categoryId}`, {
+export async function getCategory(categoryId) {
+    const response = await fetch(`/api/category?categoryId=${categoryId}`, {
         "method": "get",
         "headers": await getFetchHeadersAuth(),
         "cache": "default"
@@ -67,14 +64,13 @@ export async function getCategory(categoryId)
         return categories;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
-    }    
+    }
 }
 
-export async function getProduct(productId)
-{
-    const response = await fetch (`/api/product?productId=${productId}`, {
+export async function getProduct(productId) {
+    const response = await fetch(`/api/product?productId=${productId}`, {
         "method": "get",
         "headers": await getFetchHeadersAuth(),
         "cache": "default"
@@ -84,7 +80,7 @@ export async function getProduct(productId)
         return categories;
     } else {
         const error = await response.json();
-        console.log (`ERROR: ${error}`);
+        console.log(`ERROR: ${error}`);
         throw (error);
-    }    
+    }
 }

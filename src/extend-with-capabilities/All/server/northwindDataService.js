@@ -186,7 +186,7 @@ export async function getCategory(categoryId) {
         supplierName: product.Supplier.CompanyName,
         supplierCountry: product.Supplier.Country,
         discontinued: product.Discontinued
-    })).sort((a,b) => a.productName.localeCompare(b.productName));
+    })).sort((a, b) => a.productName.localeCompare(b.productName));
 
     categoryCache[categoryId] = result;
     return result;
@@ -194,9 +194,9 @@ export async function getCategory(categoryId) {
 
 const productCache = {};
 export async function getProduct(productId) {
-    
+
     if (productCache[productId]) return productCache[productId];
-    
+
     const result = {};
 
     const response = await fetch(
@@ -248,4 +248,42 @@ export async function getProduct(productId) {
 
     productCache[productId] = result;
     return result;
+}
+export async function getProductByName(productName) {
+    let result = {};
+    let url = productName === "" ? `${NORTHWIND_ODATA_SERVICE}/Products?$top=5`
+        : `${NORTHWIND_ODATA_SERVICE}/Products?$top=5&$filter=startswith(ProductName, '${productName}')`;
+    const response = await fetch(url, {
+        "method": "GET",
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    });
+    if (response.ok) {
+        const product = await response.json();
+        result = product.value.map(pdt => ({
+            productId: pdt.ProductID,
+            productName: pdt.ProductName,
+            unitsInStock: pdt.UnitsInStock,
+            categoryId: pdt.CategoryID
+            //todo: add more             
+        }));
+    }
+    return result;
+}
+export async function updateProductUnitStock(categoryId, productId, unitsInStock) {
+    //get cache
+    if (!productCache[productId]) await getProduct(productId);
+    if (!categoryCache[categoryId]) await getCategory(categoryId);
+
+    // update stock in product cache    
+    productCache[productId].unitsInStock = unitsInStock;
+    //update stock in  category cache   
+    let pdts = categoryCache[categoryId].products;
+    for (var i = 0; i < pdts.length; ++i) {
+        if (pdts[i]['productId'] === productId) {
+            pdts[i]['unitsInStock'] = unitsInStock;
+        }
+    }
 }
