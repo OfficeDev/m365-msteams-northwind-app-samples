@@ -166,7 +166,7 @@ You should see three apps as shown in the screen below:
 
 Now let's deploy the server side code for these three applications.
 
-- In the command line, change to the **.\MonetizationCodeSample** directory.
+- In the command line, change to the `.\MonetizationCodeSample` directory.
 
 - Run the script `.\PublishSaaSApps.ps1`.
 
@@ -175,8 +175,6 @@ Now let's deploy the server side code for these three applications.
 You will see the source code in your local machine getting built and packaged.
 
   ![Build Apps](../../assets/08-007.png)
-
-
 
 > **Note:** You may see some warnings about file expiration, please ignore.
 
@@ -187,7 +185,10 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your working folder where you've done Labs A01-A07. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file:
+Go back to the `A01-begin-app` directory you worked in for Labs A01-A03.
+
+Add below entries into `.env` file. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file.
+
 ```
  SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://(webApiClientId)/user_impersonation
@@ -222,7 +223,9 @@ In the flyout, select the "My APIs" tab 1️⃣ and then find the licensing serv
 
 ![Add permission](../../assets/08-100-Add-Permission.png)
 
-Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. Check this permission 2️⃣ and click "Add permissions" 3️⃣.
+Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. 
+
+Check this permission 2️⃣ and click "Add permissions" 3️⃣.
 
 #### Step 2A (ONLY IF NEEDED): Add permission across tenants
 
@@ -234,9 +237,15 @@ If, in the course of doing Step 2, you are unable to find the licensing service,
 
 ![Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
 
-* Construct a URL as follows: https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
+* Construct a URL as follows: 
+ 
+    ```url
+    https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
+    ```
 
-Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. When you're done, the browser will redirect you to http://localhost, which probably won't work, so just close the browser and move on!
+Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. 
+
+**NOTE:** When you're done, the browser will redirect you to http://localhost, **which probably won't work**, so just close the browser and move on!
 
 * You have just created an Enterprise Application (a.k.a. Service Principal) for the licensing service in the M365 tenant. You should now be able to complete Step 2.
 
@@ -250,7 +259,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file `/server/validateLicenseService.js` and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
