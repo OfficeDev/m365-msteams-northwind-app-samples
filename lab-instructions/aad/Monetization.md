@@ -197,11 +197,13 @@ Add below entries into `.env` file. Add below two keys, and replace the values &
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
 
-Try visiting the App Source simulator, which is at https://(webAppSiteName).azurewebsites.net; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
+You created a website that emulates the **AppSource** online store for the purposes of these labs.
+
+Try visiting the App Source simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
 
 ### Exercise 2: Grant the Northwind Orders app permission to call the licensing service in Azure
 
-In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the App Source simulator and enforcing the licenses in Microsoft Teams.
+In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the **App Source simulator** and enforcing the licenses in Microsoft Teams.
 
 The licensing web service is secured using Azure AD, so in order to call it the Northwind Orders app will acquire an access token to call the licenisng service on behalf of the logged in user.
 
@@ -398,7 +400,7 @@ app.post('/api/validateLicense', async (req, res) => {
 
 #### Step 3: Add client side pages to display a license error
 
-Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html).
+Add a new file, `client/pages/needLicense.html` and paste in this HTML, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html).
 
 ~~~html
 <!doctype html>
@@ -423,20 +425,20 @@ Add a new file, client/pages/needLicense.html and paste in this markup, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js).
+To provide the JavaScript for the new page, create a file `/client/pages/needLicense.js` and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js).
 
-~~~javascript
+```javascript
 const searchParams = new URLSearchParams(window.location.search);
 if (searchParams.has('error')) {
     const error = searchParams.get('error');
     const displayElementError = document.getElementById('errorMsg');
     displayElementError.innerHTML = error;  
 }
-~~~
+```
 
 #### Step 5: Add client side function to check if the user has a license
 
-Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+Add a new file, `client/modules/northwindLicensing.js` and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -476,17 +478,15 @@ export async function hasValidLicense() {
     }
 
 }
-
 ~~~
 
 #### Step 6: Add client side call to check the license on every request
 
-Open the file client/identity/userPanel.js in your code editor. This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
+Open the file `client/identity/userPanel.js` in your code editor. This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
 
-Add these lines at the top of the file:
+Add this line at the top of the file:
 
 ~~~javascript
-import { inTeams } from '../modules/teamsHelpers.js';
 import { hasValidLicense } from '../modules/northwindLicensing.js';
 ~~~
 
@@ -501,7 +501,7 @@ Now add this code in the `else` clause within the `connectedCallback()` function
     }
 ~~~
 
-The completed userPanel.js should look like this:
+The completed `userPanel.js` should look like this:
 
 ~~~javascript
 import {
@@ -554,8 +554,6 @@ document.body.insertBefore(panel, document.body.firstChild);
 ~~~
 
 > NOTE: There are many ways to make the license check more robust, such as checking it on every web service call and caching this on the server side to avoid excessive calls to the licensing server, however this is just a lab so we wanted to keep it simple.
-
-
 
 ### Exercise 4: Run the application
 
