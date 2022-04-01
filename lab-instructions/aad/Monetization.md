@@ -363,13 +363,13 @@ To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-
 
 Now that we have a function that checks the user's license on the server side, we need to add a POST request to our service that calls the function.
 
-In your working folder, locate the file server/server.js and open it in your code editor.
+In your working folder, locate the file `server/server.js` and open it in your code editor.
 
 Add these lines to the top of the file:
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
-import { validateLicense } from './northwindLicenseService.js';
+import { validateLicense } from './validateLicenseService.js';
 ~~~
 
 Now, immediately below the call to `await initializeIdentityService()`, add this code:
