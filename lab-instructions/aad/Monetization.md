@@ -559,6 +559,8 @@ document.body.insertBefore(panel, document.body.firstChild);
 
 #### Step 1: Run the app in Teams without a license
 
+Ensure your NW Trader Orders application is running with the new code you just added.
+
 Return to your application in Microsoft Teams; refresh the tab or browser if necessary. The UI will begin to render, and then it will detect the license failure and display an error page.
 
 ![Run application](../../assets/08-201-RunApp-1.png)
