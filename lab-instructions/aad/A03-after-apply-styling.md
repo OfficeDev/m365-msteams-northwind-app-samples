@@ -4,6 +4,7 @@
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
 In this lab you will begin with the application in folder `A02-after-teams-sso`, make changes as per the steps below to achieve what is in the folder `A03-after-apply-styling`.
+
 See project structures comparison in Exercise 1.
 
 * [A01-begin-app: Setting up the application with Azure AD](./A01-begin-app.md) 
@@ -431,7 +432,12 @@ Here's how to [change themes in teams client.](https://support.microsoft.com/off
 
 <img src="../../assets/04-003-changetheme.gif" alt="Change theme">
 
+### Next steps
 
+Congratulations! You have completed all core application development labs in **path A**. You may continue with any of the following labs.
 
-
-
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
+- [Add a Task Module](TaskModules.md)

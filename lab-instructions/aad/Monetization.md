@@ -2,14 +2,15 @@
 
 ## Set up and integrate with licensing sample and App Source simulator
 
-This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path.
+
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
-In this lab you will learn to:
+In this lab you will:
 
-- Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
-- Observe the interactions between App Source and a SaaS landing page in a simulated environment
-- Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
+1. Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
+2. Observe the interactions between App Source and a SaaS landing page in a simulated environment
+3. Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
 
 ### Features
 
@@ -17,11 +18,29 @@ In this lab you will learn to:
 - Sample web service that fulfills this purchase and manages licenses for Microsoft Teams users to use the Northwind Orders application
 - Northwind Orders application checks to ensure Microsoft Teams users are licensed or displays an error page
 
-### Exercise 1: Download and install the monetization sample
+### Prerequisites for this lab include the following.
 
-To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real App source. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
+1. An active Azure subscription on your own Azure tenant.
+2. An active M365 tenant, which can be the one you created in the prerequisites lab.
+3. [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4)(This is cross-platform and will run on MacOS and Linux)
+4. [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1) (This is cross-platform and will run on MacOS and Linux)
 
-To help you succeed at this, we have set up some scripts that you can run in PowerShell in order to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
+**OPTIONAL:** If you want to run or modify these applications locally, you may find the following tools helpful
+
+- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) for Windows (The free **Community** edition will work fine)
+   >**Note:** use **Visual Studio Installer** to install the following development toolsets:
+  - ASP.NET and web development
+  - Azure development
+  - Office/SharePoint development
+  - .NET cross-platform development
+
+- [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
+
+### Exercise 1: Download and install
+
+To complete this lab you'll need to set up a mock App source simulator, as we cannot test apps in Microsoft's real AppSource. You will also need a sample SaaS fulfillment and licensing service in Azure which can be later replaced by your company's services. 
+
+To help you succeed at this, we have set up some scripts you can run in PowerShell to deploy the needed resources in Azure as well as get your mock simulator and licensing services up and running in few minutes.
 
 In this exercise you'll create three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview?WT.mc_id=m365-58890-cxa).
 
@@ -31,34 +50,22 @@ In this exercise you'll create three Azure Active Directory applications and the
 
  #### Step 1: Install the prerequisites
 
-> You would not come this far without Microsoft365 developer tenant as Global Admin and an Azure subscription. Below are the rest of the prerequisites.
- 
-- Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4)
+1. Install [PowerShell 7](https://github.com/PowerShell/PowerShell/releases/tag/v7.1.4) (This is cross-platform and will run on MacOS and Linux)
 
-- Install the following PowerShell modules:
-  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery)
+2. Install the following PowerShell modules (You will need an elevated prompt)
+  - [Microsoft Graph PowerShell SDK](https://github.com/microsoftgraph/msgraph-sdk-powershell#powershell-gallery) 
 
-      ``` command
+      ```powershell
       Install-Module Microsoft.Graph -AllowClobber -Force
       ```
 
   - [Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-6.4.0&WT.mc_id=m365-58890-cxa#installation)
 
-      ``` command
-      Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force 
-      ```
-- Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
+    ```powershell
+    Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -AllowClobber -Force
+    ```
 
-OPTIONAL: If you want to run these applications locally or modify them, you may find these tools helpful:
-
-- [Visual Studio 2019](https://visualstudio.microsoft.com/vs/)
-   >**Note:** use **Visual Studio Installer** to install the following development toolsets:
-  - ASP.NET and web development
-  - Azure development
-  - Office/SharePoint development
-  - .NET cross-platform development
-
-- Install [.NET Framework 4.8 Developer Pack](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-developer-pack-offline-installer)
+3. Install [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download/dotnet/3.1)
 
 #### Step 2:  Download the source code needed to be deployed
 
@@ -67,7 +74,7 @@ Clone or download the project into your local machine.
 
 #### Step 3:  Get everything ready to run ARM template
 
-- In the project you just downloaded in Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/`.
+- In the project you just downloaded in Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/` in your text editor.
 - Open the `ARMParameters.json` file and update the following parameters with values you choose:
     - webAppSiteName
     - webApiSiteName
@@ -80,16 +87,19 @@ Clone or download the project into your local machine.
     - sqlSampleDatabaseName
     
 > Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
-You need to make sure enter a unique name for each web app and web site in the parameter list shown below because the script will create many Azure web apps and sites and each one must have a unique name.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
 For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
 - In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
 
-- In the same window run `Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"`
+- Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog.
+    ```powershell
+    Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"
+    ```
 
-- Click **Accept**.
+![Graph consent](../../assets/08-001.png)
 
- ![Graph consent](../../assets/08-001.png)
+Click **Accept**.
 
 Once accepted, the browser will redirect and show below message. You can now close the browser and continue with the PowerShell command line.
 
@@ -103,7 +113,7 @@ Once accepted, the browser will redirect and show below message. You can now clo
 
  ![execution policy](../../assets/08-001-2.png)
 
-Let's set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
+Set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
 
 Run below script:
 ```powershell
@@ -113,7 +123,7 @@ Now re-run `.\InstallApps.ps1`
 
 The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
-> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemlate.ps1` file and search for variable `$location`.
+> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemplate.ps1` file and search for variable `$location`.
 By default it is `centralus` but you can change it to `eastus` which works on both **Visual Studio Enterprise Subscription** and **Microsoft Azure Enterprise Subscription**.
 
  ![app id secret](../../assets/08-002.png)
@@ -156,7 +166,7 @@ You should see three apps as shown in the screen below:
 
 Now let's deploy the server side code for these three applications.
 
-- In the command line, change to the **.\MonetizationCodeSample** directory.
+- In the command line, change to the `.\MonetizationCodeSample` directory.
 
 - Run the script `.\PublishSaaSApps.ps1`.
 
@@ -165,8 +175,6 @@ Now let's deploy the server side code for these three applications.
 You will see the source code in your local machine getting built and packaged.
 
   ![Build Apps](../../assets/08-007.png)
-
-
 
 > **Note:** You may see some warnings about file expiration, please ignore.
 
@@ -177,7 +185,10 @@ The final messages may look like this:
 
 #### Step 6: Update .env file with deployed resources.
 
-Add below entries into .env files in your working folder where you've done Labs A01-A07. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file:
+Go back to the `A01-begin-app` directory you worked in for Labs A01-A03.
+
+Add below entries into `.env` file. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file.
+
 ```
  SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
  SAAS_SCOPES=api://(webApiClientId)/user_impersonation
@@ -186,11 +197,13 @@ Add below entries into .env files in your working folder where you've done Labs 
 
 Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
 
-Try visiting the App Source simulator, which is at https://(webAppSiteName).azurewebsites.net; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
+You created a website that emulates the **AppSource** online store for the purposes of these labs.
+
+Try visiting the App Source simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
 
 ### Exercise 2: Grant the Northwind Orders app permission to call the licensing service in Azure
 
-In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the App Source simulator and enforcing the licenses in Microsoft Teams.
+In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the **App Source simulator** and enforcing the licenses in Microsoft Teams.
 
 The licensing web service is secured using Azure AD, so in order to call it the Northwind Orders app will acquire an access token to call the licenisng service on behalf of the logged in user.
 
@@ -212,7 +225,9 @@ In the flyout, select the "My APIs" tab 1️⃣ and then find the licensing serv
 
 ![Add permission](../../assets/08-100-Add-Permission.png)
 
-Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. Check this permission 2️⃣ and click "Add permissions" 3️⃣.
+Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. 
+
+Check this permission 2️⃣ and click "Add permissions" 3️⃣.
 
 #### Step 2A (ONLY IF NEEDED): Add permission across tenants
 
@@ -224,9 +239,15 @@ If, in the course of doing Step 2, you are unable to find the licensing service,
 
 ![Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
 
-* Construct a URL as follows: https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
+* Construct a URL as follows: 
+ 
+    ```url
+    https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
+    ```
 
-Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. When you're done, the browser will redirect you to http://localhost, which probably won't work, so just close the browser and move on!
+Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. 
+
+**NOTE:** When you're done, the browser will redirect you to http://localhost, **which probably won't work**, so just close the browser and move on!
 
 * You have just created an Enterprise Application (a.k.a. Service Principal) for the licensing service in the M365 tenant. You should now be able to complete Step 2.
 
@@ -240,7 +261,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 #### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file /server/validateLicenseService.js and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
+In your working folder, create a new file `/server/validateLicenseService.js` and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
@@ -342,13 +363,13 @@ To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-
 
 Now that we have a function that checks the user's license on the server side, we need to add a POST request to our service that calls the function.
 
-In your working folder, locate the file server/server.js and open it in your code editor.
+In your working folder, locate the file `server/server.js` and open it in your code editor.
 
 Add these lines to the top of the file:
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
-import { validateLicense } from './northwindLicenseService.js';
+import { validateLicense } from './validateLicenseService.js';
 ~~~
 
 Now, immediately below the call to `await initializeIdentityService()`, add this code:
@@ -379,7 +400,7 @@ app.post('/api/validateLicense', async (req, res) => {
 
 #### Step 3: Add client side pages to display a license error
 
-Add a new file, client/pages/needLicense.html and paste in this markup, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html).
+Add a new file, `client/pages/needLicense.html` and paste in this HTML, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html).
 
 ~~~html
 <!doctype html>
@@ -404,20 +425,20 @@ Add a new file, client/pages/needLicense.html and paste in this markup, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file /client/pages/needLicense.js and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js).
+To provide the JavaScript for the new page, create a file `/client/pages/needLicense.js` and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js).
 
-~~~javascript
+```javascript
 const searchParams = new URLSearchParams(window.location.search);
 if (searchParams.has('error')) {
     const error = searchParams.get('error');
     const displayElementError = document.getElementById('errorMsg');
     displayElementError.innerHTML = error;  
 }
-~~~
+```
 
 #### Step 5: Add client side function to check if the user has a license
 
-Add a new file, client/modules/northwindLicensing.js and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+Add a new file, `client/modules/northwindLicensing.js` and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -457,17 +478,15 @@ export async function hasValidLicense() {
     }
 
 }
-
 ~~~
 
 #### Step 6: Add client side call to check the license on every request
 
-Open the file client/identity/userPanel.js in your code editor. This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
+Open the file `client/identity/userPanel.js` in your code editor. This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
 
-Add these lines at the top of the file:
+Add this line at the top of the file:
 
 ~~~javascript
-import { inTeams } from '../modules/teamsHelpers.js';
 import { hasValidLicense } from '../modules/northwindLicensing.js';
 ~~~
 
@@ -482,7 +501,7 @@ Now add this code in the `else` clause within the `connectedCallback()` function
     }
 ~~~
 
-The completed userPanel.js should look like this:
+The completed `userPanel.js` should look like this:
 
 ~~~javascript
 import {
@@ -536,11 +555,11 @@ document.body.insertBefore(panel, document.body.firstChild);
 
 > NOTE: There are many ways to make the license check more robust, such as checking it on every web service call and caching this on the server side to avoid excessive calls to the licensing server, however this is just a lab so we wanted to keep it simple.
 
-
-
 ### Exercise 4: Run the application
 
 #### Step 1: Run the app in Teams without a license
+
+Ensure your NW Trader Orders application is running with the new code you just added.
 
 Return to your application in Microsoft Teams; refresh the tab or browser if necessary. The UI will begin to render, and then it will detect the license failure and display an error page.
 
@@ -602,11 +621,15 @@ Now return to the licensing application. If you've closed the tab, you can find 
 
 Notice that your username has been assigned a license. The sample app stored this in a SQL Server database. When the Teams application called the licensing service, the access token contained the tenant ID and user ID, enabling the licensing service to determine that the user has a license.
 
-## ** CONGRATULATIONS **
-
-You have completed the Teams App Camp! Thanks very much; we hope this helps in the process of extending your application to Microsoft Teams!
-
 ### Known issues
 
 For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
+### Next steps
+
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Add a Task Module](TaskModules.md)

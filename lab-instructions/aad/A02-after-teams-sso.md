@@ -455,3 +455,6 @@ For the latest issues, or to file a bug report, see the [github issues list](htt
 [Single sign-on (SSO) support for Tabs](https://docs.microsoft.com/microsoftteams/platform/tabs/how-to/authentication/auth-aad-sso?WT.mc_id=m365-58890-cxa)
 
 
+### Next Steps
+
+After completing this lab, you may continue to the next lab in this learning path, [A03-after-apply-styling: Teams styling and themes](./A03-after-apply-styling.md).
