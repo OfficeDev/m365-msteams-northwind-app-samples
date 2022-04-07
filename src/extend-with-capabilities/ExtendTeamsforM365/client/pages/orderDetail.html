@@ -11,12 +11,16 @@
 <body>
 <!-- 
     <script type="module" src="/identity/userPanel.js"></script> -->
-
+    <script src='https://unpkg.com/markdown-it/dist/markdown-it.min.js'></script>
+    <script src='https://unpkg.com/adaptive-expressions/lib/browser.js'></script>
+    <script src='https://unpkg.com/adaptivecards-templating/dist/adaptivecards-templating.min.js'></script>
+    <script src='https://unpkg.com/adaptivecards/dist/adaptivecards.min.js'></script>
     <top-nav-panel></top-nav-panel>
-
+    <div class="container">
+    <div class="element">
     <div id="content">
         <p>Loading...</p>
-    </div>
+    </div>    
     <table id="orderDetails">
         <tr>
             <th>Quantity</th>
@@ -26,7 +30,8 @@
         </tr>
     </table>
     <div id="message" class="errorMessage"></div>
-
+    <div><button id="btnTaskModule" style="display: none;">Track order</button></div>
+</div>
     <script type="module" src="/components/navigation.js"></script>
     <script type="module" src="orderDetail.js"></script>
 

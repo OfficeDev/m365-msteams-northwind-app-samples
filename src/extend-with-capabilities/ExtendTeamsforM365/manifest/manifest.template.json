@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json",
     "manifestVersion": "m365DevPreview",
-    "version": "1.4.0",
+    "version": "1.11.0",
     "id": "<TEAMS_APP_ID>",
     "packageName": "io.github.officedev.teamsappcamp1.northwind",
     "developer": {
@@ -29,15 +29,6 @@
             "name": "My Orders",
             "contentUrl": "https://<HOSTNAME>/pages/myOrders.html",
             "websiteUrl": "https://<HOSTNAME>/pages/myOrders.html",
-            "scopes": [
-                "personal"
-            ]
-        },
-        {
-            "entityId": "Products",
-            "name": "Products",
-            "contentUrl": "https://<HOSTNAME>/pages/categories.html",
-            "websiteUrl": "https://<HOSTNAME>/pages/categories.html",
             "scopes": [
                 "personal"
             ]
