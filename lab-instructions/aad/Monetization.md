@@ -1,6 +1,6 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Set up and integrate with licensing sample and App Source simulator
+## Selling Your SaaS-based Teams Extension
 
 This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path.
 
