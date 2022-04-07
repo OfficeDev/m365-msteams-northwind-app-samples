@@ -19,6 +19,16 @@ It will also enable them to extend their application with capabilities currently
 
 In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
 
+## Paths 🛣️
+
+There are two paths for doing the core application development labs:
+
+- **The "A" path** is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
+- **The "B" path** is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
+- **Paths A & B** have a set of optional modules for extending the core application. These are detailed below in the Labs section.
+
+Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
+
 ## Labs 📚
 
 ### Path A - Core application development
@@ -40,7 +50,10 @@ In this series of labs, you will port a simple "Northwind Orders" web applicatio
   4. [Enable Azure AD Single Sign-On](./lab-instructions/bespoke/B03-after-teams-sso.md)
   5. [Teams styling and themes](./lab-instructions/bespoke/B04-after-apply-styling.md)
   
-## Path A - Extending the core application
+## Paths A & B - Extending the core application
+
+> For extending your application with capabilities above, make sure you complete your core Teams application lab.
+
 
 **Optional** for path A. Choose your own adventure! 
 
