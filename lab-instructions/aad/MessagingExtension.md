@@ -897,5 +897,5 @@ After completing this lab, you may continue with any of the following labs.
 
 - [Add a Configurable Tab](./ConfigurableTab.md)
 - [Add a Deep link to a personal Tab](./Deeplink.md)
-- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
 - [Add a Task Module](TaskModules.md)
+- [Selling Your SaaS-based Teams Extension](./Monetization.md)

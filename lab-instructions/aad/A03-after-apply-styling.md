@@ -438,6 +438,6 @@ Congratulations! You have completed all core application development labs in **p
 
 - [Add a Configurable Tab](./ConfigurableTab.md)
 - [Add a Deep link to a personal Tab](./Deeplink.md)
-- [Extend teams application with Messaging Extension](./MessagingExtension.md)
-- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
+- [Add a Messaging Extension](./MessagingExtension.md)
 - [Add a Task Module](TaskModules.md)
+- [Selling Your SaaS-based Teams Extension](./Monetization.md)
