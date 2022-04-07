@@ -21,31 +21,34 @@ In this series of labs, you will port a simple "Northwind Orders" web applicatio
 
 ## Labs 📚
 
-- Core application development [Mandatory]
-- Extending the core application with other capabilities [Optional]
+### Path A - Core application development
 
+**Mandatory** (for AAD apps, detailed below)
 
-## Paths 🛣️
+  1. Prerequisites (This page) 📍
+  2. [Start with Azure Active Directory](./lab-instructions/aad/A01-begin-app.md)
+  3. [Create a Teams app with Azure AD Single Sign-On](./lab-instructions/aad/A02-after-teams-sso.md)
+  4. [Teams styling and themes](./lab-instructions/aad/A03-after-apply-styling.md)
+   
+### Path B - Core application development
 
-There are two paths for doing the core application development labs:
+**Mandatory** for non-AAD apps
+  
+  1. Prerequisites (This page) 📍
+  2. [Start with a non-Azure Active Directory Identity System](./lab-instructions/bespoke/B01-begin-app.md)
+  3. [Teams App with Bespoke Authentication](./lab-instructions/bespoke/B02-after-teams-login.md)
+  4. [Enable Azure AD Single Sign-On](./lab-instructions/bespoke/B03-after-teams-sso.md)
+  5. [Teams styling and themes](./lab-instructions/bespoke/B04-after-apply-styling.md)
+  
+## Path A - Extending the core application
 
-* The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
-**[START HERE](./lab-instructions/aad/A01-begin-app.md) for the "A" path**
+**Optional** for path A. Choose your own adventure! 
 
-* the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
-**[START HERE](./lab-instructions/bespoke/B01-begin-app.md) for the "B" path**
-
-You can also develop any or all capabilities which is of your interest on top of your core teams application:
-
-1. Add a configurable tab so your app works in group chats and Teams channels
-2. Add a messaging extension with adaptive cards
-3. Use Microsoft Graph, a task module, and deep linking to initiate a chat with a business user
-4. Install a sample licensing service and App Source simulator and add licensing to your app to learn about app monetization
-
-> For extending your application with capabilities above, make sure you complete your core teams application lab.
-
-Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
-
+  - [Add a Configurable Tab](./lab-instructions/aad/ConfigurableTab.md)
+  - [Add a Deep link to a personal Tab](./lab-instructions/aad/Deeplink.md)
+  - [Add a Messaging Extension](./lab-instructions/aad/MessagingExtension.md)
+  - [Add a Task Module ](./lab-instructions/aad/TaskModules.md)
+  - [Set up and integrate with licensing sample and App Source simulator](./lab-instructions/aad/Monetization.md)
 
 ## Prerequisites 📃 
 
