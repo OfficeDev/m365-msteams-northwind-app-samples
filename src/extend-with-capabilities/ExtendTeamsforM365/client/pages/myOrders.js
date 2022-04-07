@@ -17,7 +17,16 @@ async function displayUI() {
                 const displayElement = document.getElementById('rOchart');
                 displayElement.style.display="flex";
               }           
-            });           
+            });          
+           //send mail
+            if(microsoftTeams.mail.isSupported()){
+                const displayElementbtn = document.getElementById('btnMail');
+                displayElementbtn.style.display="block";
+                btnTaskModuleElement.addEventListener('click', async ev => {
+                const input=[{type:"new",toRecipients:"admin@m365.com",subject:"Hello"}]
+                await microsoftTeams.mail.composeMail(input);
+                });
+            } 
         }
     }
     catch (error) {            // If here, we had some other error

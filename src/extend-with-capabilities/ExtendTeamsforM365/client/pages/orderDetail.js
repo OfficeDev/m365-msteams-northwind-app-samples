@@ -33,8 +33,7 @@ async function displayUI() {
 
             });
             // microsoftTeams.app.initialize();
-            if(microsoftTeams.dialog.isSupported()){
-                alert(microsoftTeams.dialog.isSupported())
+            if(microsoftTeams.dialog.isSupported()){               
                 const btnTaskModuleElement = document.getElementById('btnTaskModule');
                 btnTaskModuleElement.style.display="block";
                 btnTaskModuleElement.addEventListener('click',  ev => {
