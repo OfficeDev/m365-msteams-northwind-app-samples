@@ -1,4 +1,4 @@
-import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+import 'https://statics.teams.cdn.office.net/sdk/2.0.0-beta.1/js/MicrosoftTeams.min.js';
 
 // async function returns true if we're running in Teams
 export async function inTeams() {

@@ -3,7 +3,8 @@ import { getEmployee } from '../modules/northwindDataService.js';
 import 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
 import { env } from '/modules/env.js';
 import { inTeams } from '/modules/teamsHelpers.js';
-import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
+import 'https://statics.teams.cdn.office.net/sdk/2.0.0-beta.1/js/MicrosoftTeams.min.js';
+
 
 // interface IIdentityClient {
 //     async getLoggedinEmployeeId(): number;
