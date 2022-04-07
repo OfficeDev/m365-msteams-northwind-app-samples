@@ -22,48 +22,47 @@ In this series of labs, you will port a simple "Northwind Orders" web applicatio
 **Document outline**
 <!-- no toc -->
 - [Paths 🛣️](#paths-️)
-- [Labs 📚](#labs-)
-  - [Path A - Core application development](#path-a---core-application-development)
-  - [Path B - Core application development](#path-b---core-application-development)
-  - [Paths A & B - Extending the core application](#paths-a--b---extending-the-core-application)
+- [Labs 📚](#labs)
+  - [Path A: Core application development](#path-a-core-application-development)
+  - [Path B: Core application development](#path-b-core-application-development)
 - [Prerequisites 📃](#prerequisites)
 - [Contributing](#contributing)
 - [Trademarks](#trademarks)
 
 ## Paths 🛣️
 
-There are two paths for doing the core application development labs:
+There are two paths for doing the core application development labs.
 
-- **The "A" path** is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
+- **The "A" path** is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL). Path A includes optional modules for extending the core application. There is a set of optional modules for extending the core application.
+
 - **The "B" path** is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
-- **Paths A & B** have a set of optional modules for extending the core application. These are detailed below in the Labs section.
 
 Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
 
 ## Labs 📚
 
-### Path A - Core application development
+### Path A: Core application development
 
 **Mandatory** for AAD apps.
-
+Selling Your SaaS-based Teams Extension
   1. [Prerequisites 📃](#prerequisites)
   2. [Start with Azure Active Directory](./lab-instructions/aad/A01-begin-app.md)
   3. [Create a Teams app with Azure AD Single Sign-On](./lab-instructions/aad/A02-after-teams-sso.md)
   4. [Teams styling and themes](./lab-instructions/aad/A03-after-apply-styling.md)
 
-####Extending the core application
-
-> For extending your application with capabilities below, make sure you complete your core Teams application lab.
+#### Extending the core application
 
 **Optional** for path A. Choose your own adventure! 
+
+> For extending your application with capabilities below, make sure you complete your core Teams application lab.
 
   - [Add a Configurable Tab](./lab-instructions/aad/ConfigurableTab.md)
   - [Add a Deep link to a personal Tab](./lab-instructions/aad/Deeplink.md)
   - [Add a Messaging Extension](./lab-instructions/aad/MessagingExtension.md)
   - [Add a Task Module ](./lab-instructions/aad/TaskModules.md)
-  - [Set up and integrate with licensing sample and App Source simulator](./lab-instructions/aad/Monetization.md)
+  - [Selling Your SaaS-based Teams Extension](./lab-instructions/aad/Monetization.md)
    
-### Path B - Core application development
+### Path B: Core application development
 
 **Mandatory** for non-AAD apps.
   
