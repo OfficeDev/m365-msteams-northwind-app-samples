@@ -50,9 +50,7 @@ Selling Your SaaS-based Teams Extension
   3. [Create a Teams app with Azure AD Single Sign-On](./lab-instructions/aad/A02-after-teams-sso.md)
   4. [Teams styling and themes](./lab-instructions/aad/A03-after-apply-styling.md)
 
-#### Extending the core application
-
-**Optional** for path A. Choose your own adventure! 
+**Optional** for AAD apps. Choose your own adventure! 
 
 > For extending your application with capabilities below, make sure you complete your core Teams application lab.
 
