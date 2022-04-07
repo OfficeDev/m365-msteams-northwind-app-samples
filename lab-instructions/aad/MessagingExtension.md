@@ -1,6 +1,6 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Extend teams application with Messaging Extension
+## Extend Teams application with Messaging Extension
 
 This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
 
