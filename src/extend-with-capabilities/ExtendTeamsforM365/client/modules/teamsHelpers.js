@@ -16,6 +16,7 @@ function setTheme (theme) {
     const el = document.documentElement;
     el.setAttribute('data-theme', theme); // switching CSS
 };
+
 if(microsoftTeams.app !== undefined) {
   microsoftTeams.app.initialize();
   microsoftTeams.app.getContext().then(context=> { 
@@ -23,41 +24,33 @@ if(microsoftTeams.app !== undefined) {
       setTheme(context.theme);     
       switch(context.app.host.name){
         case "Teams":{
-          let element = document.createElement("link");
-          element.setAttribute("rel", "stylesheet");
-          element.setAttribute("type", "text/css");
-          element.setAttribute("href", "/northwind.css");
-          document.getElementsByTagName("head")[0].appendChild(element);
+          setHubTheme("/northwind.css");
           // When the theme changes, update the CSS again: Only for teams
           microsoftTeams.app.registerOnThemeChangeHandler((theme) => {
           setTheme(theme);
         });
-        };
-        
+        };        
         break;
         case "Outlook":{
-          let element = document.createElement("link");
-          element.setAttribute("rel", "stylesheet");
-          element.setAttribute("type", "text/css");
-          element.setAttribute("href", "/northwind-outlook.css");
-          document.getElementsByTagName("head")[0].appendChild(element);
+          setHubTheme("/northwind-outlook.css");
         };
           break;
         case "Office":{
-          let element = document.createElement("link");
-          element.setAttribute("rel", "stylesheet");
-          element.setAttribute("type", "text/css");
-          element.setAttribute("href", "/northwind-office.css");
-          document.getElementsByTagName("head")[0].appendChild(element);
+          setHubTheme("/northwind-office.css");
         }
         break;
         default:{
-          let element = document.createElement("link");
-          element.setAttribute("rel", "stylesheet");
-          element.setAttribute("type", "text/css");
-          element.setAttribute("href", "/northwind.css");
-          document.getElementsByTagName("head")[0].appendChild(element);
+          setHubTheme("/northwind.css");
         }
       }     
-    }});
+    }
+
+function setHubTheme(fileName) {
+    let element = document.createElement("link");
+    element.setAttribute("rel", "stylesheet");
+    element.setAttribute("type", "text/css");
+    element.setAttribute("href", fileName);
+    document.getElementsByTagName("head")[0].appendChild(element);
+  }
+});
 }
