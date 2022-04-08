@@ -6,41 +6,37 @@ This lab is part of extending with capabilities for your teams app which begins 
 
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get the Northwind Orders core application ready for this lab.
 
-In this lab you will perform four exercises.
+In this lab you will perform five exercises.
 
 <!-- no toc -->
-- [Selling Your SaaS-based Teams Extension](#selling-your-saas-based-teams-extension)
-  - [Features added in this lab](#features-added-in-this-lab)
-  - [Lab prerequisites](#lab-prerequisites)
-    - [Install the prerequisites](#install-the-prerequisites)
-  - [Exercise 1: Download source code for lab](#exercise-1-download-source-code-for-lab)
-  - [Exercise 2:  Deploy resources to Azure](#exercise-2--deploy-resources-to-azure)
-    - [Step 1](#step-1)
-    - [Step 2: Overcoming install errors](#step-2-overcoming-install-errors)
-    - [Step 3: Deploy the ARM template with PowerShell](#step-3-deploy-the-arm-template-with-powershell)
-    - [Step 4: Deploy server side code](#step-4-deploy-server-side-code)
-    - [Step 5: Update .env file with deployed resources.](#step-5-update-env-file-with-deployed-resources)
-  - [Exercise 3: Grant the Northwind Orders app permission to call the licensing service in Azure](#exercise-3-grant-the-northwind-orders-app-permission-to-call-the-licensing-service-in-azure)
-    - [Step 1: Return to the Northwind Orders app registration](#step-1-return-to-the-northwind-orders-app-registration)
-    - [Step 2: Add permission to call the licensing application](#step-2-add-permission-to-call-the-licensing-application)
-    - [Step 2A (ONLY IF NEEDED): Add permission across tenants](#step-2a-only-if-needed-add-permission-across-tenants)
-    - [Step 3: Consent to the permission](#step-3-consent-to-the-permission)
-  - [Exercise 4: Update the Northwind Orders app to call the licensing service in Azure](#exercise-4-update-the-northwind-orders-app-to-call-the-licensing-service-in-azure)
-    - [Step 1: Add a server side function to validate the user has a license](#step-1-add-a-server-side-function-to-validate-the-user-has-a-license)
-    - [Step 2: Add a server side API to validate the user's license](#step-2-add-a-server-side-api-to-validate-the-users-license)
-    - [Step 3: Add client side pages to display a license error](#step-3-add-client-side-pages-to-display-a-license-error)
-    - [Step 4: Add client side function to check if the user has a license](#step-4-add-client-side-function-to-check-if-the-user-has-a-license)
-    - [Step 5: Add client side call to check the license on every request](#step-5-add-client-side-call-to-check-the-license-on-every-request)
-  - [Exercise 5: Run the application](#exercise-5-run-the-application)
-    - [Step 1: Run the app in Teams without a license](#step-1-run-the-app-in-teams-without-a-license)
-    - [Step 2: "Purchase" a subscription and set licensing policy](#step-2-purchase-a-subscription-and-set-licensing-policy)
-    - [Step 3: Run the application in Teams](#step-3-run-the-application-in-teams)
-  - [Known issues](#known-issues)
-  - [Next steps](#next-steps)
+- [Exercise 1: Download source code for lab](#exercise-1-download-source-code-for-lab)
+- [Exercise 2:  Deploy resources to Azure](#exercise-2--deploy-resources-to-azure)
+  - [Step 1: Update ARM parameters file](#step-1-update-arm-parameters-file)
+  - [Step 2: Overcoming install errors](#step-2-overcoming-install-errors)
+  - [Step 3: Deploy the ARM template with PowerShell](#step-3-deploy-the-arm-template-with-powershell)
+  - [Step 4: Deploy the applications to Azure](#step-4-deploy-the-applications-to-azure)
+  - [Step 5: Update .env file with deployed resources.](#step-5-update-env-file-with-deployed-resources)
+- [Exercise 3: Set application permissions](#exercise-3-set-application-permissions)
+  - [Step 1: Return to the Northwind Orders app registration](#step-1-return-to-the-northwind-orders-app-registration)
+  - [Step 2: Add permission to call the licensing application](#step-2-add-permission-to-call-the-licensing-application)
+  - [Step 2A (ONLY IF NEEDED): Add permission across tenants](#step-2a-only-if-needed-add-permission-across-tenants)
+  - [Step 3: Consent to the permission](#step-3-consent-to-the-permission)
+- [Exercise 4: Northwind Orders calls the licensing service](#exercise-4-northwind-orders-calls-the-licensing-service)
+  - [Step 1: Add a server side function to validate the user has a license](#step-1-add-a-server-side-function-to-validate-the-user-has-a-license)
+  - [Step 2: Add a server side API to validate the user's license](#step-2-add-a-server-side-api-to-validate-the-users-license)
+  - [Step 3: Add client pages to display a license error](#step-3-add-client-pages-to-display-a-license-error)
+  - [Step 4: Check if the user has a license](#step-4-check-if-the-user-has-a-license)
+  - [Step 5: Call the license API](#step-5-call-the-license-api)
+- [Exercise 5: Run the application](#exercise-5-run-the-application)
+  - [Step 1: Run Teams without a license](#step-1-run-teams-without-a-license)
+  - [Step 2: "Purchase" a subscription and set licensing policy](#step-2-purchase-a-subscription-and-set-licensing-policy)
+  - [Step 3: Run the application in Teams](#step-3-run-the-application-in-teams)
 
-1. Deploy the **AppSource** simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
-2. Observe the interactions between **AppSource** and a SaaS landing page in a simulated environment
-3. Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
+Over the course of these exercises you will complete the following lab goals.
+
+1. Deploy the **AppSource** simulator and sample SaaS fulfillment and licensing service in Microsoft Azure.
+2. Observe the interactions between **AppSource** and a **SaaS landing page** in a simulated environment
+3. Connect the Northwind Orders application to the sample **SaaS licensing service** to enforce licenses for Microsoft Teams users
 
 ## Features added in this lab
 
