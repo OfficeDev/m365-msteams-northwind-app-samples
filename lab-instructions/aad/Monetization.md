@@ -104,141 +104,144 @@ You'll create the three applications and their supporting infrastructure using a
 1. Go to [https://github.com/OfficeDev/office-add-in-saas-monetization-sample](https://github.com/OfficeDev/office-add-in-saas-monetization-sample).
 2. Clone or download the project to your local machine.
 
-## Exercise 2:  Deploy resources
+## Exercise 2:  Deploy resources to Azure
 
-In this exercise you will deploy resources into your Azure subscription using an ARM template. These resources will all share the same resource group. They include three web applications and a SQL server with a database.
+In this exercise you will deploy resources into your Azure subscription using an ARM template. These resources will all share the same resource group. They include the three web applications and a SQL server instance with a database.
 
 ### Step 1
 
 - In the project you just downloaded in Exercise 1, Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/` in your text editor.
-- Open the `ARMParameters.json` file and update the following parameters with values you choose:
-    - webAppSiteName
-    - webApiSiteName
-    - resourceMockWebSiteName
-    - domainName
-    - directoryId (Directory (tenant) ID)
-    - sqlAdministratorLogin
-    - sqlAdministratorLoginPassword
-    - sqlMockDatabaseName
-    - sqlSampleDatabaseName
+- Open the `ARMParameters.json` file and update the following parameters with values you choose.
     
-> Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
-Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+    ```text
+        - webAppSiteName
+        - webApiSiteName
+        - resourceMockWebSiteName
+        - domainName
+        - directoryId (Directory (tenant) ID)
+        - sqlAdministratorLogin
+        - sqlAdministratorLoginPassword
+        - sqlMockDatabaseName
+        - sqlSampleDatabaseName
+    ```
 
-For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
+Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
+ 
+1. Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+    > For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
 
-- In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
-
-- Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog.
+    > Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemplate.ps1` file and search for variable `$location`.
+    By default it is `centralus` but you can change it to `eastus`.
+2. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
+3. Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog as shown below.
     ```powershell
     Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"
     ```
 
 ![Graph consent](../../assets/08-001.png)
 
-Click **Accept**.
+4. Click **Accept**.
 
-Once accepted, the browser will redirect and show below message. You can now close the browser and continue with the PowerShell command line.
+Once accepted, the browser will redirect and show the below message. You can now close the browser and continue with the PowerShell command line.
 
  ![Graph consent redirect](../../assets/08-001-1.png)
 
-> What this step does is add `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal?WT.mc_id=m365-58890-cxa) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
+5. In the same PowerShell terminal window run `.\InstallApps.ps1`.
 
-- In the same window run `.\InstallApps.ps1`
-
-> You might get a warning as shown below. And it depends on the execution policy settings in the machine. 
+    > This step adds `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal?WT.mc_id=m365-58890-cxa) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
+     
+⚠️ You might get an error as shown below. And it depends on the execution policy settings in the machine. If you do get the error, move to Step 2. If you do not get the error keep going.
 
  ![execution policy](../../assets/08-001-2.png)
 
-Set it to be `bypass` for now. But please read more on Execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
+6. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
+7. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+8. Since you did not get the PowerShell error, [move to Step 3](#step-3-deploy-the-arm-template-with-powershell).
 
-Run below script:
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-Now re-run `.\InstallApps.ps1`
+### Step 2: Overcoming install errors
 
-The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
+⚠️ **This step is only needed if the previous step ended in an error.**
 
-> Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemplate.ps1` file and search for variable `$location`.
-By default it is `centralus` but you can change it to `eastus` which works on both **Visual Studio Enterprise Subscription** and **Microsoft Azure Enterprise Subscription**.
+The error you experienced above is likely due to the execution policy of your PowerShell terminal. Here you will set the PowerShell execution policy to be less restrictive and then re-run the install script.
 
- ![app id secret](../../assets/08-002.png)
+You will set the execution policy to `Bypass` for now. Read more on execution policies [here](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.2&WT.mc_id=m365-58890-cxa).
 
-- Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
-- Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+1. Run below PowerShell command.
+    ```powershell
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+    ```
+2. Now re-run `.\InstallApps.ps1`
 
-### Step 2: Deploy the ARM template with PowerShell
+    The script should now run to create all three applications in Azure AD. At the end of the script, your command line should display below information.:
 
-Open PowerShell 7 and run the Powershell command `Connect-AzAccount`.
+![app id secret](../../assets/08-002.png)
 
-This will redirect you to login page. Once you confirm with the Global admin credentials you have been using all along in this exercise, you will be redirected to a page displaying below:
+3. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
+4. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+
+### Step 3: Deploy the ARM template with PowerShell
+
+1. Open PowerShell 7 and run the Powershell command `Connect-AzAccount`. This will redirect you to login page.
+2. Confirm with the Global admin credentials. You will be redirected to a page displaying below.
 
 ![Azure CLI consent redirect](../../assets/08-001-1.png)
 
-You can now close the browser and continue with the PowerShell command line. You will see similar output in your command line, if everything is okay:
+3. Close the browser and continue with PowerShell. You will see similar output to that shown below in your command line, if everything is okay.
 
 ![AZ CLI](../../assets/08-003.png)
 
-Run the script `.\DeployTemplate.ps1`. When prompted, enter the name of the resource group to create. 
+4. Run the script `.\DeployTemplate.ps1`. 
+    When prompted, enter the name of the resource group to create.
 
 ![AZ CLI](../../assets/08-004-1.png)
 
-Your resourses will start to get deployed one after the other and you'll see the output as shown below if everything is okay:
+Your resources will start to get deployed one after the other and you'll see the output as shown below if everything is okay.
 
 ![AZ CLI](../../assets/08-004.png)
 
-You'll get a message on the command line, that the ARM Template deployment was successfully as shown below:
+You'll get a message on the command line that the ARM Template deployment was successfully as shown below.
 
 ![AZ CLI](../../assets/08-005.png)
 
-To confirm the creation of all three azure ad apps, go to the `App registrations` in Azure AD in Azure portal. Use this [link](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps) to navigate to it.
+5. Go to the `App registrations` in Azure AD in Azure portal. Use this [link](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps) to navigate to it.
 
 Under **All applications**,  filter with Display name `Contoso Monetization`.
 You should see three apps as shown in the screen below:
 
 ![AZ AD Apps](../../assets/08-006.png)
 
-### Step 3: Deploy server side code
+### Step 4: Deploy server side code
 
-Now let's deploy the server side code for these three applications.
+Here you'll deploy the server side code for these three applications.
 
-- In the command line, change to the `.\MonetizationCodeSample` directory.
+1. In the command line, change to the `.\MonetizationCodeSample` directory.
+2. Run the script `.\PublishSaaSApps.ps1`.
+3. When prompted, enter the same resource group name.
+    You will see the source code in your local machine getting built and packaged.
 
-- Run the script `.\PublishSaaSApps.ps1`.
-
-- When prompted, enter the same resource group name.
-
-You will see the source code in your local machine getting built and packaged.
-
-  ![Build Apps](../../assets/08-007.png)
+![Build Apps](../../assets/08-007.png)
 
 > **Note:** You may see some warnings about file expiration, please ignore.
 
-The final messages may look like this:
+The final messages may look like the image below.
 
  ![publish Apps](../../assets/08-008.png)
 
+You just created a website that emulates the **AppSource** online store for the purposes of these labs.
 
-### Step 4: Update .env file with deployed resources.
+### Step 5: Update .env file with deployed resources.
 
-Go back to the `A01-begin-app` directory you worked in for Labs A01-A03.
+1. Go back to the `A01-begin-app` directory you worked in for Labs A01-A03.
+2. Add below entries into `.env` file. 
+    ```
+    SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
+    SAAS_SCOPES=api://(webApiClientId)/user_impersonation
+    OFFER_ID=contoso_o365_addin
+    ```
+3. Replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file.
+4. Try visiting the App Source simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. **Don't** purchase a subscription yet, however!
 
-Add below entries into `.env` file. Add below two keys, and replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file.
-
-```
- SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
- SAAS_SCOPES=api://(webApiClientId)/user_impersonation
- OFFER_ID=contoso_o365_addin
-```
-
-Where the values for `webApiSiteName` and `webApiClientId` are copied from the file `ARMParameters.json`.
-
-You created a website that emulates the **AppSource** online store for the purposes of these labs.
-
-Try visiting the App Source simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. Don't purchase a subscription yet, however!
-
-## Exercise 2: Grant the Northwind Orders app permission to call the licensing service in Azure
+## Exercise 3: Grant the Northwind Orders app permission to call the licensing service in Azure
 
 In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the **App Source simulator** and enforcing the licenses in Microsoft Teams.
 
