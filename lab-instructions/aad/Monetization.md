@@ -297,7 +297,7 @@ You have added the permission but nobody has consented to it. Fortunately you're
 
 ![Grant consent](../../assets/08-102-Grant-Consent.png)
 
-## Exercise 3: Update the Northwind Orders app to call the licensing service in Azure
+## Exercise 4: Update the Northwind Orders app to call the licensing service in Azure
 
 ### Step 1: Add a server side function to validate the user has a license
 
@@ -595,7 +595,7 @@ document.body.insertBefore(panel, document.body.firstChild);
 
 > NOTE: There are many ways to make the license check more robust, such as checking it on every web service call and caching this on the server side to avoid excessive calls to the licensing server, however this is just a lab so we wanted to keep it simple.
 
-## Exercise 4: Run the application
+## Exercise 5: Run the application
 
 ### Step 1: Run the app in Teams without a license
 
