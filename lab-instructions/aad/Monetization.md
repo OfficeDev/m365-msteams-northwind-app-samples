@@ -97,9 +97,9 @@ To complete this lab you'll deploy the following to Azure.
 - AppSource Simulator - An application that simulates the AppSource 
 - SQL Server and database
 
-You'll create the three Azure Active Directory applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
+You'll create the three applications and their supporting infrastructure using automated deployment scripts called [ARM templates](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
 
-**Download the source code needed to be deployed**
+**Download the source code needed for these services**
 
 1. Go to [https://github.com/OfficeDev/office-add-in-saas-monetization-sample](https://github.com/OfficeDev/office-add-in-saas-monetization-sample).
 2. Clone or download the project to your local machine.
