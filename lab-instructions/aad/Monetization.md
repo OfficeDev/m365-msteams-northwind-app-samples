@@ -38,13 +38,13 @@ In this lab you will perform four exercises.
   - [Known issues](#known-issues)
   - [Next steps](#next-steps)
 
-1. Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
-2. Observe the interactions between App Source and a SaaS landing page in a simulated environment
+1. Deploy the **AppSource** simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
+2. Observe the interactions between **AppSource** and a SaaS landing page in a simulated environment
 3. Connect the Northwind Orders application to the sample SaaS licensing service to enforce licenses for Microsoft Teams users
 
 ## Features added in this lab
 
-- **App Source simulator** enabling a customer can "purchase" a subscription to your application
+- ****AppSource** simulator** enabling a customer can "purchase" a subscription to your application
 - **Sample web service** that fulfills this purchase and manages licenses for Microsoft Teams users to use the Northwind Orders application
 - **Northwind Orders application** checks to ensure Microsoft Teams users are licensed or displays an error page
 
@@ -139,20 +139,20 @@ In this exercise you will deploy resources into your Azure subscription using an
 
 6. Click **Accept**.
 
-Once accepted, the browser will redirect and show the below message. You can now close the browser and continue with the PowerShell command line.
+Once accepted, the browser will redirect and show the below message. You can close the browser and continue with the PowerShell command line.
 
  ![Graph consent redirect](../../assets/08-001-1.png)
 
 7. In the same PowerShell terminal window run `.\InstallApps.ps1`.
 
-    > This step adds `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal?WT.mc_id=m365-58890-cxa) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
+    > This step adds `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
      
     ⚠️ You might get an error as shown below. It depends on the execution policy settings in PowerShell. If you do get the error, **move to [Step 2](#step-2-overcoming-install-errors)**. If you do not get the error **keep going**.
 
  ![execution policy](../../assets/08-001-2.png)
 
 8. Copy the values from the output and later you will need  these values to update the code and .`env` file for deploying add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
-9. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+9. Note how the `ARMParameters.json` file is now updated with the values of applications deployed.
 10. Since you did not get the PowerShell error, [move to Step 3](#step-3-deploy-the-arm-template-with-powershell).
 
 ### Step 2: Overcoming install errors
@@ -207,24 +207,22 @@ You should see three apps as shown in the screen below:
 
 ![AZ AD Apps](../../assets/08-006.png)
 
-### Step 4: Deploy server side code
+### Step 4: Deploy the applications to Azure
 
-Here you'll deploy the server side code for these three applications.
+Here you'll deploy the server side code for the three applications.
 
 1. In the command line, change to the `.\MonetizationCodeSample` directory.
 2. Run the script `.\PublishSaaSApps.ps1`.
-3. When prompted, enter the same resource group name.
+3. When prompted, enter the same resource group name you chose earlier.
     You will see the source code in your local machine getting built and packaged.
 
 ![Build Apps](../../assets/08-007.png)
 
-> **Note:** You may see some warnings about file expiration, please ignore.
+>📃 **Note:** You may see some warnings about file expiration, please ignore.
 
 The final messages may look like the image below.
 
  ![publish Apps](../../assets/08-008.png)
-
-You just created a website that emulates the **AppSource** online store for the purposes of these labs.
 
 ### Step 5: Update .env file with deployed resources.
 
@@ -236,69 +234,83 @@ You just created a website that emulates the **AppSource** online store for the 
     OFFER_ID=contoso_o365_addin
     ```
 3. Replace the values &lt;webApiSiteName&gt; and &lt;webApiClientId&gt; with the values from your `ARMParameters.json` file.
-4. Try visiting the App Source simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. **Don't** purchase a subscription yet, however!
+4. Try visiting the **AppSource** simulator, which is at `https://(webAppSiteName).azurewebsites.net`; you should be able to log in using your tenant administrator account. **Don't** purchase a subscription yet, however!
 
-## Exercise 3: Grant the Northwind Orders app permission to call the licensing service in Azure
+## Exercise 3: Set application permissions
 
-In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the **App Source simulator** and enforcing the licenses in Microsoft Teams.
+Here you will grant the Northwind Orders app permission to call the licensing service in Azure.
 
-The licensing web service is secured using Azure AD, so in order to call it the Northwind Orders app will acquire an access token to call the licenisng service on behalf of the logged in user.
+In this exercise and the next, you will connect the Northwind Orders application to the sample licensing service you just installed. This will allow you to simulate purchasing the Northwind Orders application in the ****AppSource** simulator** and enforcing the licenses in Microsoft Teams.
+
+The licensing web service is secured using Azure AD. To call it the Northwind Orders app will acquire an access token to call the licensing service on behalf of the logged in user.
 
 ### Step 1: Return to the Northwind Orders app registration
 
-Return to the [Azure AD admin portal](https://aad.portal.azure.com/) and make sure you're logged in as the administrator of your development tenant. Click "Azure Active Directory" 1️⃣ and then "App Registrations" 2️⃣.
+1. Return to the [Azure AD admin portal](https://aad.portal.azure.com/) and make sure you're logged in as the administrator of your development tenant. 
+2. Click 1️⃣ **Azure Active Directory** and then 2️⃣ **App Registrations** .
 
 ![Return to your app registration](../../assets/03-001-AppRegistrationUpdate-1.png)
 
-Select the app you registered earlier to view the application overview.
+3. Select the app you registered earlier to view the application overview.
 
 ### Step 2: Add permission to call the licensing application
 
-In the left navigation, click "API permissions" 1️⃣ and then "+ Add a permission" 2️⃣.
+1. In the left navigation, click 1️⃣ **API permissions** and then 2️⃣ **+ Add a permission**.
 
 ![Add Permission](../../assets/08-100-Add-Permission-0.png)
 
-In the flyout, select the "My APIs" tab 1️⃣ and then find the licensing service you installed earlier in this lab and click on it. By default, it will be called the "Contoso Monetization Code Sample Web API" 2️⃣. If you can't find it, you probably installed the licensing service in another tenant. No problem - just skip to Step 2A below.
+2. In the flyout, select the **My APIs** tab.
+3. Find the licensing service you installed earlier in this lab. and click on it. By default, it will be called the "Contoso Monetization Code Sample Web API". 
+⚠️ If you can't find it, you probably installed the licensing service in another tenant. No problem - just skip to [Step 2A](#step-2a-only-if-needed-add-permission-across-tenants).
 
 ![Add permission](../../assets/08-100-Add-Permission.png)
 
-Now select "Delegated permissions" 1️⃣ and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. 
-
-Check this permission 2️⃣ and click "Add permissions" 3️⃣.
+4. Now select **Delegated permissions** and the one scope exposed by the licensing web API, "user_impersonation", will be displayed. 
+5. Select this permission and click **Add permissions**.
+6. Move forward to [Step 3](#step-3-consent-to-the-permission).
 
 ### Step 2A (ONLY IF NEEDED): Add permission across tenants
 
-> If you were able to complete Step 2, then you don't need this; move on to Step 3.
+> ⚠️If you were able to complete Step 2, then you don't need this. Move on to [Step 3](#step-3-consent-to-the-permission).
 > 
-> If, in the course of doing Step 2, you are unable to find the licensing service, then it's probably registered in a different tenant (different Azure AD instance). No worries - now you get to learn how to set up a cross-tenant consent!
+> If you were unable to find the licensing service in **Step 2** above, then it's probably registered in a different tenant (different Azure AD instance). Now you will set up a cross-tenant consent!
 
- * First, navigate to the Azure AD app registration for the licensing service. Click "Authentication" and then "+ Add a platform". Choose the "web" platform and enter `http://localhost` as the Redirect URI. This will allow the administrator of your M365 tenant to log in using a web browser just for the purpose of consent. In a real application, you would create a web page that acknowledges the consent instead of using http://localhost, which will send the admin to an error page but only after doing the initial consent.
+ 1. Navigate to the Azure AD app registration for the licensing service. 
+ 2. Click 1️⃣ **Authentication** and then 2️⃣ **+ Add a platform**. 
+ 3. Choose the "web" platform and enter `http://localhost` as the Redirect URI. 
+   
+This allows the administrator of your M365 tenant to log in using a web browser for the purpose of consent. In a real application, you would create a web page that acknowledges the consent instead of using http://localhost, which will send the admin to an error page but only after doing the initial consent.
 
 ![Adding a redirect address](../../assets/08-103-Cross-Tenant-Consent.png)
 
-* Construct a URL as follows: 
- 
-    ```url
+4. Construct a URL as follows: 
+     ```url
     https://login.microsoftonline.com/<m365-tenant-id>/adminconsent?client_id=<license-service-client-id>&redirect_uri=http://localhost
     ```
 
-Substitute your M365 tenant ID and the license service client ID (from the other tenant) in this URL and browse there. Log in using your M365 admin account and agree to the consent. 
+    Substitute your M365 **tenant ID** and the **license service client ID** (from the other tenant) in this URL and browse there.
 
-**NOTE:** When you're done, the browser will redirect you to http://localhost, **which probably won't work**, so just close the browser and move on!
-
-* You have just created an Enterprise Application (a.k.a. Service Principal) for the licensing service in the M365 tenant. You should now be able to complete Step 2.
+5. Go back to [Step 2](#step-2-add-permission-to-call-the-licensing-application) and complete it before moving to **Step 3**.
 
 ### Step 3: Consent to the permission
 
-You have added the permission but nobody has consented to it. Fortunately you're an administrator and can grant your consent from this same screen! Just click the "Grant admin consent for <tenant>" button 1️⃣ and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" 3️⃣ should be displayed for each permission.
+You have added the permission but nobody has consented to it. Fortunately you're an administrator and can grant your consent from this same screen! 
+
+1. Click the 1️⃣ **Grant admin consent** for <tenant>" button.
+2.  2️⃣ **Click Yes** to agree to grant the consent. 
+   
+   The message 3️⃣ **Granted for *tenant*** should be displayed for each permission.
 
 ![Grant consent](../../assets/08-102-Grant-Consent.png)
 
-## Exercise 4: Update the Northwind Orders app to call the licensing service in Azure
+## Exercise 4: Northwind Orders calls the licensing service
+
+In this exercise, you will update the Northwind Orders app to call the licensing service in Azure.
 
 ### Step 1: Add a server side function to validate the user has a license
 
-In your working folder, create a new file `/server/validateLicenseService.js` and paste in this code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
+1. In your working folder, create a new file `/server/validateLicenseService.js` 
+2. Paste in the following code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/server/northwindLicenseService.js)).
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
@@ -392,24 +404,23 @@ async function getOboAccessToken(clientSideToken) {
 }
 ~~~
 
-In Lab A03, you called the Microsoft Graph API using application permissions. This code calls the licensing service using delegated permissions, meaning that the application is acting on behalf of the user.
+In Lab A03, you called the Microsoft Graph API using application permissions. The above code calls the licensing service using **delegated permissions**, meaning that the application is acting on behalf of the user.
 
-To do this, the code uses the [On Behalf Of flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow?WT.mc_id=m365-58890-cxa) to exchange the incoming access token (targeted for the Northwind Orders app) for a new access token that is targeted for the Licensing service application.
+To do this, the code uses the [On Behalf of Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow?WT.mc_id=m365-58890-cxa) to exchange the incoming access token (targeted for the Northwind Orders app) for a new access token that is targeted for the licensing service application.
 
 ### Step 2: Add a server side API to validate the user's license
 
-Now that we have a function that checks the user's license on the server side, we need to add a POST request to our service that calls the function.
+Now that you have a function that checks the user's license on the server side, you need to add a POST request to the service that calls the function.
 
-In your working folder, locate the file `server/server.js` and open it in your code editor.
-
-Add these lines to the top of the file:
+1. In your working folder, locate the file `server/server.js` and open it in your code editor.
+2. Add these lines to the top of the file:
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
 import { validateLicense } from './validateLicenseService.js';
 ~~~
 
-Now, immediately below the call to `await initializeIdentityService()`, add this code:
+3. Immediately below the call to `await initializeIdentityService()`, add the following code.
 
 ~~~javascript
 // Web service validates a user's license
@@ -435,9 +446,12 @@ app.post('/api/validateLicense', async (req, res) => {
 });
 ~~~
 
-### Step 3: Add client side pages to display a license error
+### Step 3: Add client pages to display a license error
 
-Add a new file, `client/pages/needLicense.html` and paste in this HTML, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html).
+The client needs to be able to show if there is a licensing error. This step adds that code to the client.
+
+1. Add a new file, `client/pages/needLicense.html`. 
+2. Paste in the following HTML (or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.html)).
 
 ~~~html
 <!doctype html>
@@ -462,7 +476,10 @@ Add a new file, `client/pages/needLicense.html` and paste in this HTML, or copy 
 </html>
 ~~~
 
-To provide the JavaScript for the new page, create a file `/client/pages/needLicense.js` and paste in this code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js).
+The HTML page needs some JavaScript to work properly.
+
+1. Create a file `/client/pages/needLicense.js`.
+2. Paste in the following code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/pages/needLicense.js)).
 
 ```javascript
 const searchParams = new URLSearchParams(window.location.search);
@@ -473,9 +490,14 @@ if (searchParams.has('error')) {
 }
 ```
 
-### Step 4: Add client side function to check if the user has a license
+### Step 4: Check if the user has a license
 
-Add a new file, `client/modules/northwindLicensing.js` and paste in the following code, or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js). This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
+In this step, you will add client side function to check if the user has a license
+
+1. Add a new file, `client/modules/northwindLicensing.js`.
+2. Paste in the following code (or copy the file from [here](../../src/extend-with-capabilities/Monetization/client/modules/northwindLicensing.js)). 
+
+This code calls the server-side API we just added using an Azure AD token obtained using Microsoft Teams SSO.
 
 ~~~javascript
 import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.js';
@@ -513,21 +535,22 @@ export async function hasValidLicense() {
         console.log(`ERROR: ${error}`);
 
     }
-
 }
 ~~~
 
-### Step 5: Add client side call to check the license on every request
+### Step 5: Call the license API
 
-Open the file `client/identity/userPanel.js` in your code editor. This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
+In this step, you'l add client side code that checks the user's license on every request.
 
-Add this line at the top of the file:
+1. Open the file `client/identity/userPanel.js` in your code editor. 
+This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
+2. Add this line at the top of the file.
 
 ~~~javascript
 import { hasValidLicense } from '../modules/northwindLicensing.js';
 ~~~
 
-Now add this code in the `else` clause within the `connectedCallback()` function:
+3. Add the following code in the `else` clause within the `connectedCallback()` function.
 
 ~~~javascript
     if (await inTeams()) {
@@ -538,7 +561,7 @@ Now add this code in the `else` clause within the `connectedCallback()` function
     }
 ~~~
 
-The completed `userPanel.js` should look like this:
+The completed `userPanel.js` should look like the following code.
 
 ~~~javascript
 import {
@@ -590,63 +613,85 @@ const panel = document.createElement('northwind-user-panel');
 document.body.insertBefore(panel, document.body.firstChild);
 ~~~
 
-> NOTE: There are many ways to make the license check more robust, such as checking it on every web service call and caching this on the server side to avoid excessive calls to the licensing server, however this is just a lab so we wanted to keep it simple.
+> 📃 **NOTE:** There are many ways to make the license check more robust, such as checking it on every web service call and caching this on the server side to avoid excessive calls to the licensing server. However this is just a lab so we wanted to keep it simple.
 
 ## Exercise 5: Run the application
 
-### Step 1: Run the app in Teams without a license
+Now that all the pieces are in place, it's time to run the application you've set up.
 
-Ensure your NW Trader Orders application is running with the new code you just added.
+### Step 1: Run Teams without a license
 
-Return to your application in Microsoft Teams; refresh the tab or browser if necessary. The UI will begin to render, and then it will detect the license failure and display an error page.
+In this initial step, you'll run the application without a user license to see how the application behaves.
+
+1. Ensure your NW Trader Orders application is running with the new code you just added.
+2. Return to your application in Microsoft Teams.
+3. Refresh the tab or browser if necessary. 
+   The UI will begin to render, and then it will detect the license failure and display an error page.
 
 ![Run application](../../assets/08-201-RunApp-1.png)
 
->NOTE: The sample application checks the license in JavaScript, which is convenient for this lab but it would be easy for someone to bypass the license check. In a real application you'd probably check the license on all accesses to your application web site.
+> 📃 **NOTE:** The sample application checks the license in JavaScript, which is convenient for this lab but it would be easy for someone to bypass the license check. In a real application you'd probably check the license on all accesses to your application web site.
 
 ### Step 2: "Purchase" a subscription and set licensing policy
 
-Teams Store are also listed in the Microsoft App Source portal; users can purchase you app in either location. For this lab you will use an App Source simulator which you installed earlier in this lab, but users can purchase apps directly from the Teams user interface when they're listed in the Teams app store.
+The **Teams Store** is also listed in the **Microsoft **AppSource** portal**. Users can purchase your app in either location. For this lab you will use an **AppSource** simulator which you installed earlier in this lab. Just know that Teams users can purchase apps directly from the user interface when they're listed in the Teams app store.
 
-Browse to https://(resourceMockWebSiteName).azurewebsites.net where (resourceMockWebSiteName) is the name you chose in Exercise 1 Step 3. This should display the App Source simulator. 
+1. Browse to https://(resourceMockWebSiteName).azurewebsites.net where (resourceMockWebSiteName) is the name you chose earlier in this lab. 
+This should display the **AppSource** simulator. 
 
-> NOTE: The App Source simulator's background color is green to make it easy to see when you are redirected to your app's landing page, which has a blue background.
+> 📃**NOTE:** The **AppSource** simulator's background color is green to make it easy to see when you are redirected to your app's landing page, which has a blue background.
 
-Click the "Purchase" button to purchase a subscription to the Northwind Orders Application.
+2. Click the **Purchase** button to purchase a subscription to the Northwind Orders application.
 
 ![Run application](../../assets/08-202-RunApp-2.png)
 
-> NOTE: The App Source simulator has a mock offer name, "Contoso Apps", rather than showing the "Northwind Orders" app. This is just a constant defined in the monetization project's SaasOfferMockData/Offers.cs file. The real App Source web page will show the application name and other information you configured in Partner Center.
+> 📃 **NOTE:** The **AppSource** simulator has a mock offer name, "Contoso Apps", rather than showing the "Northwind Orders" app. This is just a constant defined in the monetization project's `SaasOfferMockData/Offers.cs` file. 
+> The real **AppSource** web page will show the application name and other information you configured in Partner Center.
 
-Next, the App Source simulator displays the plans available for the offer; the simulator has two hard-coded plans, "SeatBasedPlan" (which uses a [per-user pricing model](https://docs.microsoft.com/en-us/azure/marketplace/create-new-saas-offer-plans?WT.mc_id=m365-58890-cxa#define-a-pricing-model)), and a "SiteBasedPlan" (which uses a [flat-rate pricing model](https://docs.microsoft.com/en-us/azure/marketplace/plan-saas-offer?WT.mc_id=m365-58890-cxa#saas-pricing-models)). The real App Source would show the plans you had defined in Partner Center.
+The **AppSource** simulator displays the plans available for the offer. The simulator has two hard-coded plans, "SeatBasedPlan" (which uses a [per-user pricing model](https://docs.microsoft.com/en-us/azure/marketplace/create-new-saas-offer-plans)), and a "SiteBasedPlan" (which uses a [flat-rate pricing model](https://docs.microsoft.com/en-us/azure/marketplace/plan-saas-offer?WT.mc_id=m365-58890-cxa#saas-pricing-models)). 
 
-Since Microsoft Teams only supports the per-user pricing model, choose the "SiteBasedPlan" and click the "Purchase" button. Because this is a simulator, your credit card will not be charged.
+The real **AppSource** would show the plans you had defined in Partner Center, the publisher's portal for defining and publishing **AppSource** offers.
+
+Microsoft Teams only supports the per-user pricing model
+
+3. Select the "SiteBasedPlan" and click the **Purchase** button. 
+Because this is a simulator, your credit card will not be charged.
 
 ![Run application](../../assets/08-203-RunApp-3.png)
 
-The simulated purchase is now complete, so you will be redirected to the app's landing page. You will need to supply a page like this as part of your application; it needs to interpret a token sent by App Source and log the user in with Azure Active Directory. This token can be sent to the Microsoft Commercial Marketplace API, which will respond with the details about what the customer has purchased. You can find [the code for this](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/blob/7673db6c8e6c809ae7aa0ba894460183aed964fc/MonetizationCodeSample/SaaSSampleWebApp/Services/SubscriptionService.cs#L37) in the Monetization repo's SaaSSampleWebApp project under /Services/SubscriptionService.cs.
+The simulated purchase is now complete, so you will be redirected to the app's landing page. 
+
+You will need to supply a page like this as part of your application; it needs to interpret a token sent by **AppSource** and log the user in with Azure Active Directory. This token can be sent to the **SaaS Fulfillment API v2**, which will respond with the details about what the customer has purchased. 
+
+You can find [the code for this](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/blob/7673db6c8e6c809ae7aa0ba894460183aed964fc/MonetizationCodeSample/SaaSSampleWebApp/Services/SubscriptionService.cs#L37) in the Monetization repo's **SaaSSampleWebApp** project under `/Services/SubscriptionService.cs`.
 
 The landing page gives the app a chance to interact with the user and capture any configuration information it needs. Users who purchase the app in the Teams store would be brought to this same page. The sample app's landing page allows the user to select a region; the app stores this information in its own database based on the Microsoft 365 tenant ID.
 
 ![Run application](../../assets/08-204-RunApp-4.png)
 
-Once the region has been selected, the sample app shows a welcome page with the user's name, which is obtained by [reading the user's profile with the Microsoft Graph API](https://docs.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&WT.mc_id=m365-58890-cxa). Click "License Settings" to view the license assignment screen.
+Once the region has been selected, the sample app shows a welcome page with the user's name, which is obtained by [reading the user's profile with the Microsoft Graph API](https://docs.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&WT.mc_id=m365-58890-cxa). 
+
+4. Click **License Settings** to view the license assignment screen.
 
 ![Run application](../../assets/08-205-RunApp-5.png)
 
-On this screen you can add individual user licenses using the "Add User" button, or you can set a policy that allows users to claim licenses on a first come, first served basis. Turn on the "First come first served" switch to enable this option.
+On this screen you can add individual user licenses using the **Add User** button, or you can set a policy that allows users to claim licenses on a first come, first served basis. Turn on the **First come first served** switch to enable this option.
 
 ![Run application](../../assets/08-206-RunApp-6.png)
 
-Note that everything on this screen is defined by this application. It's intended to be flexible since our partners have a wide range of licensing approaches. Apps can tell who's logging in via Azure AD and use the user ID and tenant ID to authorize access, provide personalization, etc.
+Note that everything on this screen is defined by this application. It's intended to be flexible since publishers have a wide range of licensing approaches. Apps can tell who's logging in via Azure AD and use the user ID and tenant ID to authorize access, provide personalization, etc.
 
 ### Step 3: Run the application in Teams
 
-Now that you've purchased a subscription, return to Microsoft Teams and refresh your application. The license will be checked and the user can interact with the application normally.
+Now that you've purchased a subscription, you can see the Northwind Orders application in Teams.
+
+1. Return to Microsoft Teams and refresh your application. 
+    The license will be approved and the user can interact with the application normally.
 
 ![Run application](../../assets/08-208-RunApp-8.png)
 
-Now return to the licensing application. If you've closed the tab, you can find it at https://(webAppSiteName).azurewebsites.net where (webAppSiteName) is the name you chose in Exercise 1 Step 3. 
+2. Return to the licensing application. 
+    If you've closed the tab, you can find it at https://(webAppSiteName).azurewebsites.net where (webAppSiteName) is the name you chose earlier in this lab. 
 
 ![Run application](../../assets/08-209-RunApp-9.png)
 
