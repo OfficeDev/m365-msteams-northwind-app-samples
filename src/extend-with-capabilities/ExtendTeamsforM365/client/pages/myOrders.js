@@ -5,9 +5,10 @@ async function displayUI() {
     const messageDiv = document.getElementById('message');
     try {
         const employee = await getLoggedInEmployee();
-        if (employee) {            
+        if (employee){            
             displayAllMyOrders(employee);
         }
+        //taos- Initialize and get context for host information to show/hide hub specific displays
         if(microsoftTeams.app !== undefined) {
             microsoftTeams.app.initialize();
             microsoftTeams.app.getContext().then(context=> { 
@@ -18,14 +19,15 @@ async function displayUI() {
                 displayElement.style.display="flex";
               }           
             });          
-           //send mail
+            //taos- In a perfect world this button should only work and display in Outlook.
             if(microsoftTeams.mail.isSupported()){
                 const displayElementbtn = document.getElementById('btnMail');
                 displayElementbtn.style.display="block";
                 btnTaskModuleElement.addEventListener('click', async ev => {
-                const input=[{type:"new",toRecipients:"admin@m365.com",subject:"Hello"}]
+                //this is hardcoded for test, should be dynamic (Select and send followup mail)
+                const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
                 await microsoftTeams.mail.composeMail(input);
-                });
+             });
             } 
         }
     }
@@ -33,15 +35,13 @@ async function displayUI() {
         messageDiv.innerText = `Error: ${JSON.stringify(error)}`;
     }   
 }
-
+//display the order detail tab
 displayUI();
-function displayAllMyOrders(employee) {
+//fn definition for all of current user's orders from northwind database
+const displayAllMyOrders=(employee)=> {
     const ordersElement = document.getElementById('orders');
     const displayElement = document.getElementById('content');
-    displayElement.innerHTML = `
-            <h3>Orders for ${employee.displayName}<h3>
-        `;
-
+    displayElement.innerHTML = `<h3>Orders for ${employee.displayName}<h3>`;
     employee.orders.forEach(order => {
         const orderRow = document.createElement('tr');
         orderRow.innerHTML = `<tr>
@@ -49,39 +49,39 @@ function displayAllMyOrders(employee) {
             <td>${(new Date(order.orderDate)).toDateString()}</td>
             <td>${order.shipName}</td>
             <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
-        </tr>`;
+            </tr>`;
         ordersElement.append(orderRow);
-
     });
 }
-function displayMyRecentOrders(orders) {
+//fn definition for recent order of current user 
+const displayMyRecentOrders=(orders)=> {
     const displayElement = document.getElementById('rOContent');
     const rordersElement = document.getElementById('rOTable');
     const rOFilesElement = document.getElementById('rOFiles');
     const recentOrderArea = document.getElementById('rODiv');
     recentOrderArea.style.display = "block";
-    displayElement.innerHTML = `
-    <h3>My recent orders<h3>
-`;
+    displayElement.innerHTML = `<h3>My recent orders<h3>`;
+    //Show only top 5 as recent for demo purpose. 
+    //Show show based on modified date sort for real world scenario
     orders.splice(1, 5).forEach(order => {
-        const orderRow = document.createElement('tr');
-        orderRow.innerHTML = `<tr>
-    <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
-    <td>${(new Date(order.orderDate)).toDateString()}</td>
-    <td>${order.shipName}</td>
-    <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
-</tr>`;
-        rordersElement.append(orderRow);
+    const orderRow = document.createElement('tr');
+    orderRow.innerHTML = `<tr>
+        <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
+        <td>${(new Date(order.orderDate)).toDateString()}</td>
+        <td>${order.shipName}</td>
+        <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
+        </tr>`;
+    rordersElement.append(orderRow);
     });
     recentFiles.forEach(file => {
-        const orderRow = document.createElement('tr');
-        orderRow.innerHTML = `<tr>
+    const orderRow = document.createElement('tr');
+    orderRow.innerHTML = `<tr>
     <td><a href="/">${file.name}</a></td>             
-    <td>${file.modified}</td>
-          </tr>`;
-        rOFilesElement.append(orderRow);
+    <td>${file.modified}</td></tr>`;
+    rOFilesElement.append(orderRow);
     });
 }
+//Northwind database does not have file so adding a json obj for demo.
 const recentFiles=[{"name":"INV-order987","modified":"Today at 7.am"},
 {"name":"Invitation to partners","modified":"Yesterday at 4.pm"},
 {"name":"FAQ - Faulty deliveries","modified":"Yesterday at 2.pm"},

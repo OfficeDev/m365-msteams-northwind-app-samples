@@ -3,12 +3,9 @@ import {
 } from '../modules/northwindDataService.js';
 
 async function displayUI() {
-
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
-
     try {
-
         const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.has('orderId')) {
             const orderId = searchParams.get('orderId');
@@ -32,35 +29,35 @@ async function displayUI() {
                 detailsElement.append(orderRow);
 
             });
-            // microsoftTeams.app.initialize();
-            if(microsoftTeams.dialog.isSupported()){               
+           //taos- Task module button click based on dialog support in hubs
+            if (microsoftTeams.dialog.isSupported()) {
                 const btnTaskModuleElement = document.getElementById('btnTaskModule');
-                btnTaskModuleElement.style.display="block";
-                btnTaskModuleElement.addEventListener('click',  ev => {
-                    let submitHandler = (err, result) => {  };             
-                    var template = new ACData.Template(templatePayload); 
-                    // Expand the template with your `$root` data object.
-                    // This binds it to the data and produces the final Adaptive Card payload
-                    var cardPayload = template.expand({$root:{}});    
+                btnTaskModuleElement.style.display = "block";
+                btnTaskModuleElement.addEventListener('click', ev => {
+                    let submitHandler = (err, result) => {
+                        //empty for demo purpose. But this is where you get form results from the callback.
+                     };
+                    var template = new ACData.Template(templatePayload);
+                    var cardPayload = template.expand({ $root: {} });
                     const taskInfo = {
-                        card:cardPayload,
-                        title:"chat",
-                        height:310,
-                        width:430,
-                        url: null,               
+                        card: cardPayload,
+                        title: "chat",
+                        height: 310,
+                        width: 430,
+                        url: null,
                         fallbackUrl: null,
                         completionBotId: null,
-                    };  
+                    };
                     microsoftTeams.dialog.open(taskInfo, submitHandler);
                 });
             }
-
         }
     }
     catch (error) {            // If here, we had some other error
         message.innerText = `Error: ${JSON.stringify(error)}`;
     }
 }
+//adaptive card shown in the dialog/task module. Hard coded values but could be dynamic too with templating.
 const templatePayload=`{
     "type": "AdaptiveCard",
     "body": [
@@ -339,5 +336,5 @@ const templatePayload=`{
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.5"
 }`
-
+//display the tab for order details
 displayUI();
