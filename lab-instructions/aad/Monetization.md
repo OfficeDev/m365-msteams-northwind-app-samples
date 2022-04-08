@@ -12,32 +12,31 @@ In this lab you will perform four exercises.
 - [Selling Your SaaS-based Teams Extension](#selling-your-saas-based-teams-extension)
   - [Features added in this lab](#features-added-in-this-lab)
   - [Lab prerequisites](#lab-prerequisites)
-  - [Exercise 1: Download and install](#exercise-1-download-and-install)
-    - [Step 1: Install the prerequisites](#step-1-install-the-prerequisites)
-    - [Step 2:  Download the source code needed to be deployed](#step-2--download-the-source-code-needed-to-be-deployed)
-  - [Exercise 2:  Deploy with an ARM template](#exercise-2--deploy-with-an-arm-template)
+    - [Install the prerequisites](#install-the-prerequisites)
+  - [Exercise 1: Download source code for lab](#exercise-1-download-source-code-for-lab)
+  - [Exercise 2:  Deploy resources to Azure](#exercise-2--deploy-resources-to-azure)
     - [Step 1](#step-1)
-    - [Step 2: Deploy the ARM template with PowerShell](#step-2-deploy-the-arm-template-with-powershell)
-    - [Step 3: Deploy server side code](#step-3-deploy-server-side-code)
-    - [Step 4: Update .env file with deployed resources.](#step-4-update-env-file-with-deployed-resources)
-  - [Exercise 2: Grant the Northwind Orders app permission to call the licensing service in Azure](#exercise-2-grant-the-northwind-orders-app-permission-to-call-the-licensing-service-in-azure)
+    - [Step 2: Overcoming install errors](#step-2-overcoming-install-errors)
+    - [Step 3: Deploy the ARM template with PowerShell](#step-3-deploy-the-arm-template-with-powershell)
+    - [Step 4: Deploy server side code](#step-4-deploy-server-side-code)
+    - [Step 5: Update .env file with deployed resources.](#step-5-update-env-file-with-deployed-resources)
+  - [Exercise 3: Grant the Northwind Orders app permission to call the licensing service in Azure](#exercise-3-grant-the-northwind-orders-app-permission-to-call-the-licensing-service-in-azure)
     - [Step 1: Return to the Northwind Orders app registration](#step-1-return-to-the-northwind-orders-app-registration)
     - [Step 2: Add permission to call the licensing application](#step-2-add-permission-to-call-the-licensing-application)
     - [Step 2A (ONLY IF NEEDED): Add permission across tenants](#step-2a-only-if-needed-add-permission-across-tenants)
     - [Step 3: Consent to the permission](#step-3-consent-to-the-permission)
-  - [Exercise 3: Update the Northwind Orders app to call the licensing service in Azure](#exercise-3-update-the-northwind-orders-app-to-call-the-licensing-service-in-azure)
+  - [Exercise 4: Update the Northwind Orders app to call the licensing service in Azure](#exercise-4-update-the-northwind-orders-app-to-call-the-licensing-service-in-azure)
     - [Step 1: Add a server side function to validate the user has a license](#step-1-add-a-server-side-function-to-validate-the-user-has-a-license)
     - [Step 2: Add a server side API to validate the user's license](#step-2-add-a-server-side-api-to-validate-the-users-license)
     - [Step 3: Add client side pages to display a license error](#step-3-add-client-side-pages-to-display-a-license-error)
     - [Step 4: Add client side function to check if the user has a license](#step-4-add-client-side-function-to-check-if-the-user-has-a-license)
     - [Step 5: Add client side call to check the license on every request](#step-5-add-client-side-call-to-check-the-license-on-every-request)
-  - [Exercise 4: Run the application](#exercise-4-run-the-application)
+  - [Exercise 5: Run the application](#exercise-5-run-the-application)
     - [Step 1: Run the app in Teams without a license](#step-1-run-the-app-in-teams-without-a-license)
     - [Step 2: "Purchase" a subscription and set licensing policy](#step-2-purchase-a-subscription-and-set-licensing-policy)
     - [Step 3: Run the application in Teams](#step-3-run-the-application-in-teams)
   - [Known issues](#known-issues)
   - [Next steps](#next-steps)
-
 
 1. Deploy the App Source simulator and sample SaaS fulfillment and licensing service in Microsoft Azure so you can test it
 2. Observe the interactions between App Source and a SaaS landing page in a simulated environment
@@ -108,11 +107,10 @@ You'll create the three applications and their supporting infrastructure using a
 
 In this exercise you will deploy resources into your Azure subscription using an ARM template. These resources will all share the same resource group. They include the three web applications and a SQL server instance with a database.
 
-### Step 1
+### Step 1: Update ARM parameters file
 
-- In the project you just downloaded in Exercise 1, Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/` in your text editor.
-- Open the `ARMParameters.json` file and update the following parameters with values you choose.
-    
+1. In the project you just downloaded in Exercise 1, Step 2, go to folder `office-add-in-saas-monetization-sample/Deployment_SaaS_Resources/` in your text editor.
+2. Open the `ARMParameters.json` file and note the following parameters.
     ```text
         - webAppSiteName
         - webApiSiteName
@@ -124,39 +122,38 @@ In this exercise you will deploy resources into your Azure subscription using an
         - sqlMockDatabaseName
         - sqlSampleDatabaseName
     ```
-
-Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
- 
-1. Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
-    > For **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name) to find your Microsoft Azure AD tenant ID and primary domain name.
+3. Enter a unique name for each web app and web site in the parameter list shown below because each one must have a unique name across all of Azure.  All of the parameters that correspond to web apps and sites in the following list end in **SiteName**.
+   
+    > If you need assistance findign you **domainName** and **directoryId**, please refer to this [article](https://docs.microsoft.com/en-us/partner-center/find-ids-and-domain-names?WT.mc_id=m365-58890-cxa#find-the-microsoft-azure-ad-tenant-id-and-primary-domain-name).
 
     > Based on the subscription you are using, you may change the location where your azure resources are deployed. To change this, find the `DeployTemplate.ps1` file and search for variable `$location`.
     By default it is `centralus` but you can change it to `eastus`.
-2. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
-3. Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog as shown below.
+
+    Leave the rest of the configuration in file `ARMParameters.json` as is, this will be automatically filled in after scripts deploy the resources.
+4. In a Powershell 7 window, change to the **.\Deployment_SaaS_Resources** directory.
+5. Run the following command. You will be prompted to sign in and accept a **Permissions requested** dialog as shown below.
     ```powershell
     Connect-Graph -Scopes "Application.ReadWrite.All, Directory.AccessAsUser.All DelegatedPermissionGrant.ReadWrite.All Directory.ReadWrite.All"
     ```
-
 ![Graph consent](../../assets/08-001.png)
 
-4. Click **Accept**.
+6. Click **Accept**.
 
 Once accepted, the browser will redirect and show the below message. You can now close the browser and continue with the PowerShell command line.
 
  ![Graph consent redirect](../../assets/08-001-1.png)
 
-5. In the same PowerShell terminal window run `.\InstallApps.ps1`.
+7. In the same PowerShell terminal window run `.\InstallApps.ps1`.
 
     > This step adds `Microsoft Graph PowerShell` in Azure Active Directory under [Enterprise Applications](https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/add-application-portal?WT.mc_id=m365-58890-cxa) with the necessary permissions so we can create the needed applications for this particular exercise using its commands.
      
-⚠️ You might get an error as shown below. And it depends on the execution policy settings in the machine. If you do get the error, move to Step 2. If you do not get the error keep going.
+    ⚠️ You might get an error as shown below. It depends on the execution policy settings in PowerShell. If you do get the error, **move to [Step 2](#step-2-overcoming-install-errors)**. If you do not get the error **keep going**.
 
  ![execution policy](../../assets/08-001-2.png)
 
-6. Copy the values from the output and later you will need  these values to update the code and .env file for deploying Add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
-7. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
-8. Since you did not get the PowerShell error, [move to Step 3](#step-3-deploy-the-arm-template-with-powershell).
+8. Copy the values from the output and later you will need  these values to update the code and .`env` file for deploying add-ins. These values will also be pre-populated in `ARMParameters.json`. Do not change this file.
+9. Notice how the `ARMParameters.json` file is now updated with the values of applications deployed.
+10. Since you did not get the PowerShell error, [move to Step 3](#step-3-deploy-the-arm-template-with-powershell).
 
 ### Step 2: Overcoming install errors
 
