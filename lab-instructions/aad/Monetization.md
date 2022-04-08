@@ -58,7 +58,7 @@ This lab requires the following prerequisites.
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) for Windows. The free **Community** edition will work fine.
 
-**Note:** During installation, select the following modules to be added to Visual Studio.
+> 📃**NOTE:** During installation, select the following modules to be added to Visual Studio.
 
 1. ASP.NET and web development
 2. Azure development
@@ -214,7 +214,7 @@ Here you'll deploy the server side code for the three applications.
 
 ![Build Apps](../../assets/08-007.png)
 
->📃 **Note:** You may see some warnings about file expiration, please ignore.
+>📃 **NOTE:** You may see some warnings about file expiration, please ignore.
 
 The final messages may look like the image below.
 
@@ -675,7 +675,7 @@ On this screen you can add individual user licenses using the **Add User** butto
 
 ![Run application](../../assets/08-206-RunApp-6.png)
 
-Note that everything on this screen is defined by this application. It's intended to be flexible since publishers have a wide range of licensing approaches. Apps can tell who's logging in via Azure AD and use the user ID and tenant ID to authorize access, provide personalization, etc.
+> 📃**NOTE:** Everything on this screen is defined by this application. It's intended to be flexible since publishers have a wide range of licensing approaches. Apps can tell who's logging in via Azure AD and use the user ID and tenant ID to authorize access, provide personalization, etc.
 
 ### Step 3: Run the application in Teams
 
