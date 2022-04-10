@@ -23,7 +23,7 @@ async function displayUI() {
             if(microsoftTeams.mail.isSupported()){
                 const displayElementbtn = document.getElementById('btnMail');
                 displayElementbtn.style.display="block";
-                btnTaskModuleElement.addEventListener('click', async ev => {
+                displayElementbtn.addEventListener('click', async ev => {
                 //this is hardcoded for test, should be dynamic (Select and send followup mail)
                 const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
                 await microsoftTeams.mail.composeMail(input);

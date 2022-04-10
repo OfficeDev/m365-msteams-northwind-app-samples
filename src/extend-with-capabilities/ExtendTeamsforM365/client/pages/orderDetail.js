@@ -43,7 +43,7 @@ async function displayUI() {
                         card: cardPayload,
                         title: "chat",
                         height: 310,
-                        width: 430,
+                        width: 500,
                         url: null,
                         fallbackUrl: null,
                         completionBotId: null,
