@@ -89,7 +89,9 @@ td .categoryImage {
     background-color: black;
   }
   .container {
-    display: flex; /* or inline-flex */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
   .content:after{
     display: inline-block;

@@ -1,7 +1,8 @@
 import {
     getOrder
 } from '../modules/northwindDataService.js';
-
+import templatePayload2 from '../cards/orderChatCard.js'
+let orderDetails={};
 async function displayUI() {
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
@@ -9,7 +10,11 @@ async function displayUI() {
         const searchParams = new URLSearchParams(window.location.search);
         if (searchParams.has('orderId')) {
             const orderId = searchParams.get('orderId');
-            const order = await getOrder(orderId);
+            const order = await getOrder(orderId);           
+            orderDetails.orderId=orderId?orderId:"";
+            orderDetails.contact=order.contactName&&order.contactTitle?`${order.contactName}(${order.contactTitle})`:"";
+            //get from graph, for demo hardcoded.
+            orderDetails.salesRepEmail="adelev@m365404404.onmicrosoft.com,AlexW@m365404404.onmicrosoft.com";
             displayElement.innerHTML = `
                     <h1>Order ${order.orderId}</h1>
                     <p>Customer: ${order.customerName}<br />
@@ -50,6 +55,19 @@ async function displayUI() {
                     };
                     microsoftTeams.dialog.open(taskInfo, submitHandler);
                 });
+            }
+            if(microsoftTeams.chat.isSupported()){              
+                const chatArea=document.getElementById("chatBox");
+                chatArea.style.display="block";
+                var template = new ACData.Template(templatePayload2);
+                var card = template.expand({$root: orderDetails});
+                var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+                adaptiveCard.onExecuteAction = action=> {                   
+                    const param=encodeURI(`users="${orderDetails.salesRepEmail}"&topicName=" Enquire about order  ${orderDetails.orderId}"&message=Regarding order #${orderDetails.orderId} `)
+                    microsoftTeams.executeDeepLink(`https://teams.microsoft.com/l/chat/0/0?${param}`)
+                }
+                adaptiveCard.parse(card);                         
+                chatArea.appendChild(adaptiveCard.render());
             }
         }
     }
@@ -338,3 +356,4 @@ const templatePayload=`{
 }`
 //display the tab for order details
 displayUI();
+

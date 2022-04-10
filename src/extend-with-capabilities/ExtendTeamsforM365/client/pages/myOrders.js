@@ -20,15 +20,15 @@ async function displayUI() {
               }           
             });          
             //taos- In a perfect world this button should only work and display in Outlook.
-            if(microsoftTeams.mail.isSupported()){
-                const displayElementbtn = document.getElementById('btnMail');
-                displayElementbtn.style.display="block";
-                displayElementbtn.addEventListener('click', async ev => {
-                //this is hardcoded for test, should be dynamic (Select and send followup mail)
-                const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
-                await microsoftTeams.mail.composeMail(input);
-             });
-            } 
+            // if(microsoftTeams.mail.isSupported()){
+            //     const displayElementbtn = document.getElementById('btnMail');
+            //     displayElementbtn.style.display="block";
+            //     displayElementbtn.addEventListener('click', async ev => {
+            //     //this is hardcoded for test, should be dynamic (Select and send followup mail)
+            //     const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
+            //     await microsoftTeams.mail.composeMail(input);
+            //  });
+            // } 
         }
     }
     catch (error) {            // If here, we had some other error
