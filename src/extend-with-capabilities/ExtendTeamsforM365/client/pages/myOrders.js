@@ -2,22 +2,23 @@ import {
     getLoggedInEmployee
 } from '../identity/identityClient.js';
 async function displayUI() {   
-    const messageDiv = document.getElementById('message');
+const messageDiv = document.getElementById('message');
     try {
         const employee = await getLoggedInEmployee();
-        if (employee){            
-            displayAllMyOrders(employee);
-        }
         //taos- Initialize and get context for host information to show/hide hub specific displays
         if(microsoftTeams.app !== undefined) {
             microsoftTeams.app.initialize();
-            microsoftTeams.app.getContext().then(context=> { 
-              if(context &&context.app.host.name==="Office" ){
+            microsoftTeams.app.getContext().then(context=> {                
+                if (employee && context.app.host.name!=="Office" ){   
+                    document.getElementById("allOrders").style.display="block";     
+                    displayAllMyOrders(employee);
+                }
+                if(context &&context.app.host.name==="Office" ){
                 displayMyRecentOrders(employee.orders);
-              }else if(context &&context.app.host.name==="Teams"){
+                }else if(context &&context.app.host.name==="Teams"){
                 const displayElement = document.getElementById('rOchart');
                 displayElement.style.display="flex";
-              }           
+                }           
             });          
             //taos- In a perfect world this button should only work and display in Outlook.
             // if(microsoftTeams.mail.isSupported()){
@@ -59,7 +60,9 @@ const displayMyRecentOrders=(orders)=> {
     const rordersElement = document.getElementById('rOTable');
     const rOFilesElement = document.getElementById('rOFiles');
     const recentOrderArea = document.getElementById('rODiv');
+    const recentOrderFilesArea = document.getElementById('rODiv2');
     recentOrderArea.style.display = "block";
+    recentOrderFilesArea.style.display = "block";
     displayElement.innerHTML = `<h3>My recent orders<h3>`;
     //Show only top 5 as recent for demo purpose. 
     //Show show based on modified date sort for real world scenario
@@ -84,5 +87,7 @@ const displayMyRecentOrders=(orders)=> {
 //Northwind database does not have file so adding a json obj for demo.
 const recentFiles=[{"name":"INV-order987","modified":"Today at 7.am"},
 {"name":"Invitation to partners","modified":"Yesterday at 4.pm"},
+{"name":"FAQ - Faulty deliveries 2022","modified":"Yesterday at 2.45 pm"},
 {"name":"FAQ - Faulty deliveries","modified":"Yesterday at 2.pm"},
-{"name":"Customer survey order 9787","modified":"Yesterday at 11.am"}];
+{"name":"Customer survey order 9787","modified":"Yesterday at 11.am"},
+{"name":"Customer survey order 44587","modified":"Yesterday at 8.30.am"}];

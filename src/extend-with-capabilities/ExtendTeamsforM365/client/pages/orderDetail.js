@@ -1,7 +1,8 @@
 import {
     getOrder
 } from '../modules/northwindDataService.js';
-import templatePayload2 from '../cards/orderChatCard.js'
+import chatCard from '../cards/orderChatCard.js'
+import orderTrackerCard from '../cards/orderTrackerCard.js'
 let orderDetails={};
 async function displayUI() {
     const displayElement = document.getElementById('content');
@@ -42,8 +43,8 @@ async function displayUI() {
                     let submitHandler = (err, result) => {
                         //empty for demo purpose. But this is where you get form results from the callback.
                      };
-                    var template = new ACData.Template(templatePayload);
-                    var cardPayload = template.expand({ $root: {} });
+                    var template = new ACData.Template(orderTrackerCard);
+                    var cardPayload = template.expand({ $root: orderDetails }); 
                     const taskInfo = {
                         card: cardPayload,
                         title: "chat",
@@ -59,7 +60,7 @@ async function displayUI() {
             if(microsoftTeams.chat.isSupported()){              
                 const chatArea=document.getElementById("chatBox");
                 chatArea.style.display="block";
-                var template = new ACData.Template(templatePayload2);
+                var template = new ACData.Template(chatCard);
                 var card = template.expand({$root: orderDetails});
                 var adaptiveCard = new AdaptiveCards.AdaptiveCard();
                 adaptiveCard.onExecuteAction = action=> {                   
@@ -73,287 +74,8 @@ async function displayUI() {
     }
     catch (error) {            // If here, we had some other error
         message.innerText = `Error: ${JSON.stringify(error)}`;
-    }
-}
-//adaptive card shown in the dialog/task module. Hard coded values but could be dynamic too with templating.
-const templatePayload=`{
-    "type": "AdaptiveCard",
-    "body": [
-        {
-            "type": "ColumnSet",
-            "columns": [
-                {
-                    "type": "Column",
-                    "items": [
-                        {
-                            "type": "ColumnSet",
-                            "columns": [
-                                {
-                                    "type": "Column",
-                                    "spacing": "None",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "2:00 PM",
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "text": "5 days ago",
-                            "isSubtle": true,
-                            "wrap": true
-                        }
-                    ],
-                    "width": "110px"
-                },
-                {
-                    "type": "Column",
-                    "backgroundImage": {
-                        "url": "https://messagecardplayground.azurewebsites.net/assets/SmallVerticalLineGray.png",
-                        "fillMode": "RepeatVertically",
-                        "horizontalAlignment": "Center"
-                    },
-                    "items": [
-                        {
-                            "type": "Image",
-                            "horizontalAlignment": "Center",
-                            "url": "https://messagecardplayground.azurewebsites.net/assets/CircleGreen_coffee.png",
-                            "altText": "Location A: Coffee"
-                        }
-                    ],
-                    "width": "auto",
-                    "spacing": "None"
-                },
-                {
-                    "type": "Column",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "text": "**Order out for delivery**",
-                            "wrap": true
-                        },
-                        {
-                            "type": "ColumnSet",
-                            "spacing": "None",
-                            "columns": [
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "Image",
-                                            "url": "https://messagecardplayground.azurewebsites.net/assets/location_gray.png",
-                                            "altText": "Location"
-                                        }
-                                    ],
-                                    "width": "auto"
-                                },
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Sydney",
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "ImageSet",
-                            "spacing": "Small",
-                            "imageSize": "Small",
-                            "images": [
-                                {
-                                    "type": "Image",
-                                    "url": "https://messagecardplayground.azurewebsites.net/assets/person_m1.png",
-                                    "size": "Small",
-                                    "altText": "Person with glasses and short hair"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "ColumnSet",
-                            "spacing": "Small",
-                            "columns": [
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "Delivery team",
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
-                                }
-                            ]
-                        }
-                    ],
-                    "width": 40
-                }
-            ]
-        },
-        {
-            "type": "ColumnSet",
-            "spacing": "None",
-            "columns": [
-                {
-                    "type": "Column",
-                    "width": "110px"
-                },
-                {
-                    "type": "Column",
-                    "backgroundImage": {
-                        "url": "https://messagecardplayground.azurewebsites.net/assets/SmallVerticalLineGray.png",
-                        "fillMode": "RepeatVertically",
-                        "horizontalAlignment": "Center"
-                    },
-                    "items": [
-                        {
-                            "type": "Image",
-                            "horizontalAlignment": "Center",
-                            "url": "https://messagecardplayground.azurewebsites.net/assets/Gray_Dot.png"
-                        }
-                    ],
-                    "width": "auto",
-                    "spacing": "None"
-                },
-                {
-                    "type": "Column",
-                    "items": [
-                        {
-                            "type": "ColumnSet",
-                            "columns": [
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "Image",
-                                            "url": "https://messagecardplayground.azurewebsites.net/assets/car.png",
-                                            "altText": "Travel by car"
-                                        }
-                                    ],
-                                    "width": "auto"
-                                },
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "about 2 days ago",
-                                            "isSubtle": true,
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
-                                }
-                            ]
-                        }
-                    ],
-                    "width": 40
-                }
-            ]
-        },
-        {
-            "type": "ColumnSet",
-            "spacing": "None",
-            "columns": [
-                {
-                    "type": "Column",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "text": "8:00 PM",
-                            "wrap": true
-                        },
-                        {
-                            "type": "TextBlock",
-                            "spacing": "None",
-                            "text": "1 day ago",
-                            "isSubtle": true,
-                            "wrap": true
-                        }
-                    ],
-                    "width": "110px"
-                },
-                {
-                    "type": "Column",
-                    "backgroundImage": {
-                        "url": "https://messagecardplayground.azurewebsites.net/assets/SmallVerticalLineGray.png",
-                        "fillMode": "RepeatVertically",
-                        "horizontalAlignment": "Center"
-                    },
-                    "items": [
-                        {
-                            "type": "Image",
-                            "horizontalAlignment": "Center",
-                            "url": "https://messagecardplayground.azurewebsites.net/assets/CircleBlue_flight.png",
-                            "altText": "Location B: Flight"
-                        }
-                    ],
-                    "width": "auto",
-                    "spacing": "None"
-                },
-                {
-                    "type": "Column",
-                    "items": [
-                        {
-                            "type": "TextBlock",
-                            "text": "**Reached Brisbane warehouse**",
-                            "wrap": true
-                        },
-                        {
-                            "type": "ColumnSet",
-                            "spacing": "None",
-                            "columns": [
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "Image",
-                                            "url": "https://messagecardplayground.azurewebsites.net/assets/location_gray.png",
-                                            "altText": "Location"
-                                        }
-                                    ],
-                                    "width": "auto"
-                                },
-                                {
-                                    "type": "Column",
-                                    "items": [
-                                        {
-                                            "type": "TextBlock",
-                                            "text": "400 George, Brisbane - 4000, QLD",
-                                            "wrap": true
-                                        }
-                                    ],
-                                    "width": "stretch"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "Image",
-                            "url": "https://messagecardplayground.azurewebsites.net/assets/SeaTacMap.png",
-                            "size": "Stretch",
-                            "altText": "Map of the Seattle-Tacoma airport"
-                        }
-                    ],
-                    "width": 40
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.5"
-}`
+    }}
+
 //display the tab for order details
 displayUI();
 
