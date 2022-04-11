@@ -3,7 +3,7 @@ import {
 } from '../modules/northwindDataService.js';
 import chatCard from '../cards/orderChatCard.js';
 import orderTrackerCard from '../cards/orderTrackerCard.js';
-
+import mailCard from '../cards/orderMailCard.js';
 let orderDetails={};
 async function displayUI() {
     const displayElement = document.getElementById('content');
@@ -78,14 +78,18 @@ async function displayUI() {
                         if (context.app.host.name==="Outlook" ){ 
                             const mailArea=document.getElementById("mailBox");
                             mailArea.style.display="block";
-                            const displayElementbtn = document.getElementById('btnMail');
-                            displayElementbtn.addEventListener('click', async ev => {                                               
-                            alert('send mail');
-                            const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
-                            await microsoftTeams.mail.composeMail(input);
-                            });                           
-                        }
-                    });
+                            var template = new ACData.Template(mailCard);
+                            var card = template.expand({$root: orderDetails});
+                            var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+                            adaptiveCard.onExecuteAction = async action=> {                   
+                                alert('send mail');
+                                        const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
+                                        await microsoftTeams.mail.composeMail(input);
+                            }
+                            adaptiveCard.parse(card);                         
+                            mailArea.appendChild(adaptiveCard.render());                                                
+                            }
+                        });
                 }              
 
             }
