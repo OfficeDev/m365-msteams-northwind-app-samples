@@ -1,6 +1,6 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Extend teams application with Messaging Extension
+## Add a Messaging Extension
 
 This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
 
@@ -897,5 +897,5 @@ After completing this lab, you may continue with any of the following labs.
 
 - [Add a Configurable Tab](./ConfigurableTab.md)
 - [Add a Deep link to a personal Tab](./Deeplink.md)
-- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
 - [Add a Task Module](TaskModules.md)
+- [Selling Your SaaS-based Teams Extension](./Monetization.md)
