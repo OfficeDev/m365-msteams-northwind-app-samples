@@ -92,6 +92,7 @@ td .categoryImage {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    background: #F5F5F5;
   }
   .content:after{
     display: inline-block;
@@ -111,7 +112,8 @@ td .categoryImage {
     border-radius: 6px;
     margin: 10px;
     padding: 10px;
-    box-shadow: 2px 2px 2px 2px #6264A7;
+    background: white;
+   
   }
   * {
     -webkit-box-sizing: border-box;
@@ -217,8 +219,16 @@ td .categoryImage {
     
   }
   div#rOchart {
+    margin: 10px;
     padding: 10px;
 }
 button#btnTaskModule {
     margin: 10px;
+}
+
+div#allOrders {
+  width: 55%;
+}
+div#allOrders, div#rODiv {
+  width: 55%;
 }

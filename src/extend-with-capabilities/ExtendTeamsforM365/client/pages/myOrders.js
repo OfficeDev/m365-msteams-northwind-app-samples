@@ -17,22 +17,13 @@ const messageDiv = document.getElementById('message');
                 displayMyRecentOrders(employee.orders);
                 }else if(context &&context.app.host.name==="Teams"){
                 const displayElement = document.getElementById('rOchart');
-                displayElement.style.display="flex";
+                displayElement.style.display="block";
                 }           
             });          
-            //taos- In a perfect world this button should only work and display in Outlook.
-            // if(microsoftTeams.mail.isSupported()){
-            //     const displayElementbtn = document.getElementById('btnMail');
-            //     displayElementbtn.style.display="block";
-            //     displayElementbtn.addEventListener('click', async ev => {
-            //     //this is hardcoded for test, should be dynamic (Select and send followup mail)
-            //     const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
-            //     await microsoftTeams.mail.composeMail(input);
-            //  });
-            // } 
+          
         }
     }
-    catch (error) {            // If here, we had some other error
+    catch (error) { // If here, we had some other error
         messageDiv.innerText = `Error: ${JSON.stringify(error)}`;
     }   
 }
@@ -42,14 +33,19 @@ displayUI();
 const displayAllMyOrders=(employee)=> {
     const ordersElement = document.getElementById('orders');
     const displayElement = document.getElementById('content');
-    displayElement.innerHTML = `<h3>Orders for ${employee.displayName}<h3>`;
+    displayElement.innerHTML = `<h3>All my orders<h3>`;
     employee.orders.forEach(order => {
         const orderRow = document.createElement('tr');
-        orderRow.innerHTML = `<tr>
+        console.log(order)
+        orderRow.innerHTML = `<tr>           
             <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
             <td>${(new Date(order.orderDate)).toDateString()}</td>
+            <td>${order.customerName}</td>
+            <td>${order.customerContact}</td>
+            <td>${order.customerPhone}</td>
             <td>${order.shipName}</td>
-            <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
+            <td>${order.shipAddress}</td>
+            <td>...</td>
             </tr>`;
         ordersElement.append(orderRow);
     });
@@ -71,8 +67,12 @@ const displayMyRecentOrders=(orders)=> {
     orderRow.innerHTML = `<tr>
         <td><a href="/pages/orderDetail.html?orderId=${order.orderId}">${order.orderId}</a></td>
         <td>${(new Date(order.orderDate)).toDateString()}</td>
+        <td>${order.customerName}</td>
+        <td>${order.customerContact}</td>
+        <td>${order.customerPhone}</td>
         <td>${order.shipName}</td>
-        <td>${order.shipAddress}, ${order.shipCity} ${order.shipRegion || ''} ${order.shipPostalCode || ''} ${order.shipCountry}</td>
+        <td>${order.shipAddress}</td>
+        <td>...</td>
         </tr>`;
     rordersElement.append(orderRow);
     });
@@ -80,7 +80,7 @@ const displayMyRecentOrders=(orders)=> {
     const orderRow = document.createElement('tr');
     orderRow.innerHTML = `<tr>
     <td><a href="/">${file.name}</a></td>             
-    <td>${file.modified}</td></tr>`;
+    <td>${file.modified}</td> <td>...</td></tr>`;
     rOFilesElement.append(orderRow);
     });
 }
