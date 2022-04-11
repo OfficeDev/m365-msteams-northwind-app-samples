@@ -191,14 +191,14 @@ td .categoryImage {
   
     .figure-key-list li{
       margin: 0 0 8px;
-      padding: 0;  
+      padding: 10px;  
     }
   
     .shape-circle {
       display: inline-block;
       vertical-align: middle;
-      width: 32px;
-      height: 32px;
+      width: 20px;
+      height: 20px;
       -webkit-border-radius: 50%;
       -moz-border-radius: 50%;
       border-radius: 50%;
@@ -206,13 +206,13 @@ td .categoryImage {
       
      
   .shape-fuschia {
-      background-color: #ce4b99;
+      background-color: #464775;
   }
   .shape-lemon-lime {
-      background-color: #b1c94e;
+      background-color: #BDBDE6;
   }
   .shape-blue {
-      background-color: #377bbc;
+      background-color: #DFDEDE;
   }
     
   }
