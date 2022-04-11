@@ -2,7 +2,7 @@
 
 ## Add a Configurable Tab
 
-This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path.
+This lab is part of extending with capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path.
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) to get to the Northwind Orders core application
 
 Up to this point, the Northwind Teams application has had only "static" tabs. Static tabs are for personal use, and aren't part of a Teams channel or group chat. Each static tab has a single, static URL.
@@ -237,3 +237,11 @@ For the latest issues, or to file a bug report, see the [github issues list](htt
 * [Create a configuration page](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-tab-pages/configuration-page?WT.mc_id=m365-58890-cxa)
 
 
+### Next steps
+
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
+- [Add a Task Module](TaskModules.md)

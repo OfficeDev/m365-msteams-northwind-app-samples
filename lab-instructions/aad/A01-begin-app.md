@@ -381,3 +381,6 @@ The application does not implement paging for large data sets, so lists of order
 While it will work on mobile devices, the application is not responsive and will not look good on these devices. This will be addressed in a future version of the lab.
   
 
+### Next steps
+
+After completing this lab, you may continue to the next lab in this learning path, [A02-after-teams-sso: Creating a Teams app with Azure ADO SSO](./A02-after-teams-sso.md).

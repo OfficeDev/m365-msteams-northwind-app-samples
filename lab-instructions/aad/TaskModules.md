@@ -2,7 +2,7 @@
 
 ## Add a Task Module 
 
-This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `aad` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
+This lab is part of extending app capabilities for your teams app which begins with a Northwind Orders core application using the `AAD` path. The [core app](../../src/create-core-app/aad/A03-after-apply-styling/) is the boilerplate application with which you will do this lab.
 
 > Complete labs [A01](A01-begin-app.md)-[A03](A03-after-apply-styling.md) for deeper understanding of how the core application works, to set up AAD application registration etc. to update the `.env` file as per the `.env_sample`. This configuration is required for the success of the lab.
 
@@ -222,4 +222,11 @@ This lab assumes you already completed the Core lab and registered an Azure AD a
 
 > The comments are not saved back into the northwind database as it is read only for this lab. You can call your CRUD operations suitably in your application.
 
+### Next steps
 
+After completing this lab, you may continue with any of the following labs.
+
+- [Add a Configurable Tab](./ConfigurableTab.md)
+- [Add a Deep link to a personal Tab](./Deeplink.md)
+- [Extend teams application with Messaging Extension](./MessagingExtension.md)
+- [Set up and integrate with licensing sample and App Source simulator](./Monetization.md)
