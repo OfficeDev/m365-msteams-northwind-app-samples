@@ -16,12 +16,17 @@
     <script src='https://unpkg.com/adaptivecards-templating/dist/adaptivecards-templating.min.js'></script>
     <script src='https://unpkg.com/adaptivecards/dist/adaptivecards.min.js'></script>
     <top-nav-panel></top-nav-panel>
+    <script async defer src="https://teams.microsoft.com/share/launcher.js"></script>
+   
     <div class="container">
         <div class="element">
             <div id="content">
                 <p>Loading...</p>
             </div>
-            <table id="orderDetails">
+            <div class="teams-share-button" data-href="" data-button-type="medium" data-icon-px-size="160" data-preview="true"></div>
+ 
+            <script async defer src="https://teams.microsoft.com/share/launcher.js"></script>
+                    <table id="orderDetails">
                 <tr>
                     <th>Quantity</th>
                     <th>Product</th>
@@ -30,7 +35,8 @@
                 </tr>
             </table>
             <div id="message" class="errorMessage"></div>
-            <div><button id="btnTaskModule" style="display: none;">Track order</button></div>
+            <div><button id="btnTaskModule" style="display: none;">Track order</button>  
+            </div>
             <!-- <div><button id="btnMail" style="display: none;">Chat</button></div> -->
         </div>
         <div class="element" id="chatBox" style="display: none;"></div>
