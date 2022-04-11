@@ -18,11 +18,11 @@ async function displayUI() {
             //get from graph, for demo hardcoded.
             orderDetails.salesRepEmail="adelev@m365404404.onmicrosoft.com,AlexW@m365404404.onmicrosoft.com";
             displayElement.innerHTML = `
-                    <h1>Order ${order.orderId}</h1>
-                    <p>Customer: ${order.customerName}<br />
-                    Contact: ${order.contactName}, ${order.contactTitle}<br />
-                    Date: ${new Date(order.orderDate).toDateString()}<br />
-                    ${order.employeeTitle}: ${order.employeeName} (${order.employeeId})
+                    <h2>Order details for ${order.orderId}</h2>
+                    <p><b>Customer:</b> ${order.customerName}<br />
+                    <b>Contact:</b> ${order.contactName}, ${order.contactTitle}<br />
+                    <b>Date:</b> ${new Date(order.orderDate).toDateString()}<br />
+                   <b> ${order.employeeTitle}</b>: ${order.employeeName} (${order.employeeId})
                     </p>
                 `;
             order.details.forEach(item => {
@@ -90,8 +90,7 @@ async function displayUI() {
                             mailArea.appendChild(adaptiveCard.render());                                                
                             }
                         });
-                }              
-
+                }  
             }
         }
     }

@@ -22,9 +22,9 @@ export default
                 "items": [
                   {
                     "type": "TextBlock",
-                    "size": "Large",
-                    "weight": "Bolder",
-                    "text": "**ORDER STATUS**",
+                    "size": "Medium",
+                    "weight": "Bold",
+                    "text": "**Order status**",
                     "wrap": true,
                     "style": "heading"
                   }

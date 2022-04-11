@@ -2,6 +2,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background: #F5F5F5;
 }
 
 th, td {
@@ -92,7 +93,7 @@ td .categoryImage {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    background: #F5F5F5;
+   
   }
   .content:after{
     display: inline-block;
@@ -231,4 +232,9 @@ div#allOrders {
 }
 div#allOrders, div#rODiv {
   width: 55%;
+}
+
+div#content {
+  background: #ddd3;
+  padding: 10px;
 }
