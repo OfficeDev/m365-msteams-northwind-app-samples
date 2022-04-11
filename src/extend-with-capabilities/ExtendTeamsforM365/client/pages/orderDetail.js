@@ -1,8 +1,9 @@
 import {
     getOrder
 } from '../modules/northwindDataService.js';
-import chatCard from '../cards/orderChatCard.js'
-import orderTrackerCard from '../cards/orderTrackerCard.js'
+import chatCard from '../cards/orderChatCard.js';
+import orderTrackerCard from '../cards/orderTrackerCard.js';
+
 let orderDetails={};
 async function displayUI() {
     const displayElement = document.getElementById('content');
@@ -69,6 +70,24 @@ async function displayUI() {
                 }
                 adaptiveCard.parse(card);                         
                 chatArea.appendChild(adaptiveCard.render());
+            }else { //add if condition for mail support.
+                //for now use hostName, remove once mail support issue is fixed.
+                if(microsoftTeams.app !== undefined) {
+                    microsoftTeams.app.initialize();
+                    microsoftTeams.app.getContext().then(context=> { 
+                        if (context.app.host.name==="Outlook" ){ 
+                            const mailArea=document.getElementById("mailBox");
+                            mailArea.style.display="block";
+                            const displayElementbtn = document.getElementById('btnMail');
+                            displayElementbtn.addEventListener('click', async ev => {                                               
+                            alert('send mail');
+                            const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
+                            await microsoftTeams.mail.composeMail(input);
+                            });                           
+                        }
+                    });
+                }              
+
             }
         }
     }
