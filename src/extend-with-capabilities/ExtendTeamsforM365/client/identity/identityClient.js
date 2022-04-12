@@ -78,16 +78,8 @@ export function getAccessToken() {
 async function getAccessToken2() {
 
     if (await inM365()) {
-
-        microsoftTeams.app.initialize();
-        const accessToken = await new Promise((resolve, reject) => {
-            microsoftTeams.authentication.getAuthToken({}).then(result=>{
-                resolve(result); }).catch(error=>{
-                    reject(error);
-                });              
-        });
-        return accessToken;
-
+        await microsoftTeams.app.initialize();
+        return await microsoftTeams.authentication.getAuthToken({});
     } else {
 
         // If we were waiting for a redirect with an auth code, handle it here

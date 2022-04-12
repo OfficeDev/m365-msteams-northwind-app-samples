@@ -7,7 +7,7 @@ const messageDiv = document.getElementById('message');
         const employee = await getLoggedInEmployee();
         //taos- Initialize and get context for host information to show/hide hub specific displays
         if(microsoftTeams.app !== undefined) {
-            microsoftTeams.app.initialize();
+            await microsoftTeams.app.initialize();
             microsoftTeams.app.getContext().then(context=> {                
                 if (employee && context.app.host.name!=="Office" ){   
                     document.getElementById("allOrders").style.display="block";     
@@ -19,8 +19,7 @@ const messageDiv = document.getElementById('message');
                 const displayElement = document.getElementById('rOchart');
                 displayElement.style.display="block";
                 }           
-            });          
-          
+            });   
         }
     }
     catch (error) { // If here, we had some other error
