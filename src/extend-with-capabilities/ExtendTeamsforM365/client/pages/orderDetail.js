@@ -70,29 +70,24 @@ async function displayUI() {
                 }
                 adaptiveCard.parse(card);                         
                 chatArea.appendChild(adaptiveCard.render());
-            }else { //add if condition for mail support.
-                //for now use hostName, remove once mail support issue is fixed.
-                if(microsoftTeams.app !== undefined) {
-                    microsoftTeams.app.initialize();
-                    microsoftTeams.app.getContext().then(context=> { 
-                        if (context.app.host.name==="Outlook" ){ 
+            } else if(microsoftTeams.mail.isSupported()) { //add if condition for mail support.          
                             const mailArea=document.getElementById("mailBox");
                             mailArea.style.display="block";
                             var template = new ACData.Template(mailCard);
                             var card = template.expand({$root: orderDetails});
                             var adaptiveCard = new AdaptiveCards.AdaptiveCard();
-                            adaptiveCard.onExecuteAction = async action=> {                   
-                                alert('send mail');
-                                        const input=[{type:"new",toRecipients:"adelev@m365404404.onmicrosoft.com",subject:"Order follow up"}]
-                                        await microsoftTeams.mail.composeMail(input);
+                            adaptiveCard.onExecuteAction = action=> {                                    
+                                    microsoftTeams.mail.composeMail({ 
+                                      type: microsoftTeams.mail.ComposeMailType.New,
+                                      toRecipients: [ orderDetails.salesRepEmail],
+                                      subject: `Enquire about order ${orderDetails.orderId}`,
+                                      message: "Hello there, <br/>",
+                                    });                                  
                             }
                             adaptiveCard.parse(card);                         
                             mailArea.appendChild(adaptiveCard.render());                                                
-                            }
-                        });
-                }  
+                        } 
             }
-        }
     }
     catch (error) {            // If here, we had some other error
         message.innerText = `Error: ${JSON.stringify(error)}`;

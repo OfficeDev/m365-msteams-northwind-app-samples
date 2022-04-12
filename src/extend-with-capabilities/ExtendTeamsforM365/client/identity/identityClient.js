@@ -2,7 +2,7 @@
 import { getEmployee } from '../modules/northwindDataService.js';
 import 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
 import { env } from '/modules/env.js';
-import { inTeams } from '/modules/teamsHelpers.js';
+import { inM365 } from '/modules/teamsHelpers.js';
 import 'https://res.cdn.office.net/teams-js/2.0.0-beta.3/js/MicrosoftTeams.min.js';
 
 // interface IIdentityClient {
@@ -77,7 +77,7 @@ export function getAccessToken() {
 
 async function getAccessToken2() {
 
-    if (await inTeams()) {
+    if (await inM365()) {
 
         microsoftTeams.app.initialize();
         const accessToken = await new Promise((resolve, reject) => {
@@ -139,7 +139,7 @@ export async function logoff() {
     getLoggedInEmployeeIdPromise = null;
     getAccessTokenPromise = null;
 
-    if (!(await inTeams())) {
+    if (!(await inM365())) {
         msalClient.logoutRedirect(msalRequest);
     }
 }
