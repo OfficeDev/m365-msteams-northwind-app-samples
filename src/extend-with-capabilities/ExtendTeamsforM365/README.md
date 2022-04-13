@@ -24,6 +24,48 @@ Version|Date|Author|Comments
 
 ## Minimal Path to Awesome
 
+### Assign users as Northwind "Employees"
+
+ The Northwind database contains 9 employees, so up to 9 users in your tenant will be able to use the application. (You'll only need two to complete the labs.)
+
+The Northwind Orders application expects each user's employee ID in Azure Active Directory to match their employee ID in the Northwind database. In this exercise you'll set up some test users accordingly.
+
+- Edit Azure AD users
+
+ - Navigate to the Microsoft 365 admin center at https://admin.microsoft.com/ and log in as the administrator of your new dev tenant.
+
+ - In the left navigation, select "Show All" to reveal the full list of admin centers, and then select "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
+
+![Navigating to the M365 Admin site](../../../assets/01-009-RegisterAADApp-1.png)
+
+- Select "Azure Active Directory" again in the left navigation bar.
+
+![Navigating to the M365 Admin site](../../../assets/01-010-RegisterAADApp-2.png)
+
+- This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and select "Users" in the navigation bar.
+
+![Edit users](../../../assets/01-030-EditUsers-1.png)
+
+You can use existing users to run the Northwind Orders application (the names may not match the Northwind database unless you change them, but you'll know what's going on), or create new ones. It's easiest if one of the users is the administrator account you're logged into right now, so you can test the application without logging on and off, but that's up to you. Select on the user to view their user profile, and then select the "Edit" button.
+
+![Edit user's employee ID](../../../assets/01-031-EditUser-2.png)
+
+Change the Employee ID to the ID of one of the users in the Northwind datbase, which are:
+
+| Employee ID | Name |
+|---|---|
+| 1 | Nancy Davolio |
+| 2 | Andrew Fuller |
+| 3 | Janet Leverling |
+| 4 | Margaret Peacock |
+| 5 | Steven Buchanan |
+| 6 | Michael Suyama |
+| 7 | Robert King |
+| 8 | Laura Callahan |
+| 9 | Anne Dodsworth |
+
+You may also choose to rename the users to match the database.
+
 ###  Authorize Microsoft Teams to log users into your application
 
 - Register an application in Azure Active Directory so you can
@@ -133,7 +175,7 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 
 Click "Expose an API" 1️⃣ and then "+ Add a client application" 2️⃣.
 
-![Open the Expose an API screen](../../assets/03-002-AppRegistrationUpdate-2.png)
+![Open the Expose an API screen](../../../assets/03-002-AppRegistrationUpdate-2.png)
 
 Paste the ID for the Teams mobile or desktop app, `1fec8e78-bce4-4aaf-ab1b-5451cc387264` into the flyout 1️⃣ and check the scope you created earlier 2️⃣ to allow Teams to issue tokens for that scope. Then click "Add application" 3️⃣ to save your work.
 
@@ -151,7 +193,7 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 |Outlook Web Access|	00000002-0000-0ff1-ce00-000000000000|
 |Outlook Web Access	|bc59ab01-8403-45c6-8796-ac3ef710b3e3|
 
-![Add a client application](../../assets/03-003-AppRegistrationUpdate-3.png)
+![Add a client application](../../../assets/03-003-AppRegistrationUpdate-3.png)
 
 ### Project set up
 - Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
@@ -176,7 +218,7 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 
 - Update the `.env` configuration 
 
-### Package application 
+### Package & upload app
 
 - Package the app
 
@@ -191,11 +233,9 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 
 - Upload the the packaged zip file inside `manifest` folder into Teams [using these instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/deploy-and-publish/apps-upload).
 
-
+## Test the app
 
 ## Features
-
-
 
 ## Debug and test locally
 
