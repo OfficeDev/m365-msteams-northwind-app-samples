@@ -218,6 +218,20 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 
 - Update the `.env` configuration 
 
+Update the env file with the below values:
+
+```
+COMPANY_NAME=Northwind Traders
+PORT=3978
+
+TEAMS_APP_ID=<any GUID>
+HOSTNAME=<Your ngrok url>
+TENANT_ID=<Your tenant id>
+CLIENT_ID=<client id from AAD app registration>
+CLIENT_SECRET=<client secret from AAD app registration>
+CONTACTS=<Any user/users you'd like to chat/mail for orders. Comma separated if more than one user>
+```
+
 ### Package & upload app
 
 - Package the app
