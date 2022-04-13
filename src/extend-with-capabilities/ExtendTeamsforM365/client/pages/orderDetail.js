@@ -15,7 +15,7 @@ async function displayUI() {
             orderDetails.orderId = orderId ? orderId : "";
             orderDetails.contact = order.contactName && order.contactTitle ? `${order.contactName}(${order.contactTitle})` : "";
             //get from graph, for use env config with other users in your AAD
-            orderDetails.salesRepEmail =env.CONTACTS ;
+            orderDetails.salesRepEmail =env.CONTACTS.indexOf(',') > -1?env.CONTACTS.split(','):[env.CONTACTS];
             orderDetails.salesRepMailrecipients =env.CONTACTS.replace(',',';');
             displayElement.innerHTML = `
                     <h2>Order details for ${order.orderId}</h2>
@@ -65,13 +65,19 @@ async function displayUI() {
                 var template = new ACData.Template(chatCard);
                 var card = template.expand({ $root: orderDetails });
                 var adaptiveCard = new AdaptiveCards.AdaptiveCard();
-                adaptiveCard.onExecuteAction = action => {
-                    const param = encodeURI(`users="${orderDetails.salesRepEmail}"&topicName=" Enquire about order  ${orderDetails.orderId}"&message=Regarding order #${orderDetails.orderId} `)
-                    microsoftTeams.executeDeepLink(`https://teams.microsoft.com/l/chat/0/0?${param}`)
+                adaptiveCard.onExecuteAction = async action => {                  
+                    if (orderDetails.salesRepEmail.length > 1) {                                      
+                        await microsoftTeams.chat.openGroupChat({users:orderDetails.salesRepEmail,
+                            topic:`Enquiry about order ${orderDetails.orderId}`,
+                            message:`Hi, to discuss about ${orderDetails.orderId}`})
+                    }else{
+                       await  microsoftTeams.chat.openChat({user:orderDetails.salesRepEmail[0],                            
+                            message:`Enquiry about order ${orderDetails.orderId}`})
+                    }
                 }
                 adaptiveCard.parse(card);
                 chatArea.appendChild(adaptiveCard.render());
-            } else if(microsoftTeams.mail.isSupported()) {  //taos- mail support
+            }else if(microsoftTeams.mail.isSupported()) {  //taos- mail support
                 const mailArea = document.getElementById("mailBox");
                 mailArea.style.display = "block";
                 var template = new ACData.Template(mailCard);
@@ -87,6 +93,8 @@ async function displayUI() {
                 }
                 adaptiveCard.parse(card);
                 mailArea.appendChild(adaptiveCard.render());
+            }else{
+                message.innerText = `Error: chat/mail not supported`;
             }
         }
     }

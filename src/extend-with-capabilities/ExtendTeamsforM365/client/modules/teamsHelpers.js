@@ -1,6 +1,6 @@
-import 'https://res.cdn.office.net/teams-js/2.0.0-beta.3/js/MicrosoftTeams.min.js';
-// async function returns true if we're running in Teams, Outlook, Office
+import 'https://res-sdf.cdn.office.net/teams-js/2.0.0-beta.4-dev.24/js/MicrosoftTeams.min.js';
 
+// async function returns true if we're running in Teams, Outlook, Office
 export async function inM365() {     
   await microsoftTeams.app.initialize();
   const context= await microsoftTeams.app.getContext(); 
