@@ -8,14 +8,16 @@ const messageDiv = document.getElementById('message');
         //taos- Initialize and get context for host information to show/hide hub specific displays
         if(microsoftTeams.app !== undefined) {
             await microsoftTeams.app.initialize();
-            microsoftTeams.app.getContext().then(context=> {                
-                if (employee && context.app.host.name!=="Office" ){   
+            microsoftTeams.app.getContext().then(context=> {   
+                //main section content             
+                if (employee && context.app.host.name!==microsoftTeams.HostName.office ){   
                     document.getElementById("allOrders").style.display="block";     
                     displayAllMyOrders(employee);
                 }
-                if(context &&context.app.host.name==="Office" ){
+                //secondary section content
+                if(context.app.host.name===microsoftTeams.HostName.office ){
                 displayMyRecentOrders(employee.orders);
-                }else if(context &&context.app.host.name==="Teams"){
+                }else if(context.app.host.name===microsoftTeams.HostName.teams){
                 const displayElement = document.getElementById('rOchart');
                 displayElement.style.display="block";
                 }           

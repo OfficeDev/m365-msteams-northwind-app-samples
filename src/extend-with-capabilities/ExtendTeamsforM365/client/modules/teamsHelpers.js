@@ -1,24 +1,23 @@
 import 'https://res.cdn.office.net/teams-js/2.0.0-beta.3/js/MicrosoftTeams.min.js';
 // async function returns true if we're running in Teams, Outlook, Office
 
-export async function inM365() { 
-  const m365Apps=["Teams","Outlook","Office"];
+export async function inM365() {     
   await microsoftTeams.app.initialize();
-  const context= await microsoftTeams.app.getContext();
-  return m365Apps.includes(context.app.host.name);
+  const context= await microsoftTeams.app.getContext(); 
+  return Object.values(microsoftTeams.HostName).includes(context.app.host.name);
 }
  const setTheme = (theme)=>{
     const el = document.documentElement;
     el.setAttribute('data-theme', theme); // switching CSS
 };
-const displayTheme=()=>{
+const displayTheme=async()=>{
   if(microsoftTeams.app !== undefined) {
     await microsoftTeams.app.initialize();
     microsoftTeams.app.getContext().then(context=> { 
       if(context) {
         setTheme(context.theme);     
         switch(context.app.host.name){
-          case "Teams":{
+          case microsoftTeams.HostName.teams:{
             setHubTheme("/northwind.css");
             // When the theme changes, update the CSS again: Only for teams
             microsoftTeams.app.registerOnThemeChangeHandler((theme) => {
@@ -26,11 +25,11 @@ const displayTheme=()=>{
           });
           };        
           break;
-          case "Outlook":{
+          case microsoftTeams.HostName.outlook:{
             setHubTheme("/northwind-outlook.css");
           };
             break;
-          case "Office":{
+          case microsoftTeams.HostName.office:{
             setHubTheme("/northwind-office.css");
           }
           break;

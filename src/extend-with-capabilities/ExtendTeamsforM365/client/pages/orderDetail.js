@@ -1,12 +1,10 @@
-import {
-    getOrder
-} from '../modules/northwindDataService.js';
+import { getOrder} from '../modules/northwindDataService.js';
 import chatCard from '../cards/orderChatCard.js';
 import orderTrackerCard from '../cards/orderTrackerCard.js';
 import mailCard from '../cards/orderMailCard.js';
-let orderDetails = {};
-
+import { env } from '/modules/env.js';
 async function displayUI() {
+    let orderDetails = {};
     const displayElement = document.getElementById('content');
     const detailsElement = document.getElementById('orderDetails');
     try {
@@ -16,9 +14,9 @@ async function displayUI() {
             const order = await getOrder(orderId);
             orderDetails.orderId = orderId ? orderId : "";
             orderDetails.contact = order.contactName && order.contactTitle ? `${order.contactName}(${order.contactTitle})` : "";
-            //get from graph, for demo hardcoded.
-            orderDetails.salesRepEmail = "adelev@m365404404.onmicrosoft.com,AlexW@m365404404.onmicrosoft.com";
-            orderDetails.salesRepMailrecipients = "adelev@m365404404.onmicrosoft.com; AlexW@m365404404.onmicrosoft.com";
+            //get from graph, for use env config with other users in your AAD
+            orderDetails.salesRepEmail =env.CONTACTS ;
+            orderDetails.salesRepMailrecipients =env.CONTACTS.replace(',',';');
             displayElement.innerHTML = `
                     <h2>Order details for ${order.orderId}</h2>
                     <p><b>Customer:</b> ${order.customerName}<br />
@@ -38,7 +36,7 @@ async function displayUI() {
                 detailsElement.append(orderRow);
 
             });
-            //taos- Task module button click based on dialog support in hubs
+            //taos- dialog/task module support
             if(microsoftTeams.dialog.isSupported()) {
                 const btnTaskModuleElement = document.getElementById('btnTaskModule');
                 btnTaskModuleElement.style.display = "block";
