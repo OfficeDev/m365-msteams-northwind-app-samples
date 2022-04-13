@@ -455,7 +455,3 @@ Notice how the teams tab app also detects and changes it's theme.
 
 ### References
 ---
-
-
-
-

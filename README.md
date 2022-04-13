@@ -19,34 +19,57 @@ It will also enable them to extend their application with capabilities currently
 
 In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
 
-## Labs 📚
-
-- Core application development [Mandatory]
-- Extending the core application with other capabilities [Optional]
-
+**Document outline**
+<!-- no toc -->
+- [Paths 🛣️](#paths-️)
+- [Labs 📚](#labs)
+  - [Path A: Core application development](#path-a-core-application-development)
+  - [Path B: Core application development](#path-b-core-application-development)
+- [Prerequisites 📃](#prerequisites)
+- [Contributing](#contributing)
+- [Trademarks](#trademarks)
 
 ## Paths 🛣️
 
-There are two paths for doing the core application development labs:
+There are two paths for doing the core application development labs.
 
-* The "A" path is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL).
-**[START HERE](./lab-instructions/aad/A01-begin-app.md) for the "A" path**
+- **The "A" path** is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL). Path A includes optional modules for extending the core application. There is a set of optional modules for extending the core application.
 
-* the "B" path is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
-**[START HERE](./lab-instructions/bespoke/B01-begin-app.md) for the "B" path**
-
-You can also develop any or all capabilities which is of your interest on top of your core teams application:
-
-1. Add a configurable tab so your app works in group chats and Teams channels
-2. Add a messaging extension with adaptive cards
-3. Use Microsoft Graph, a task module, and deep linking to initiate a chat with a business user
-4. Install a sample licensing service and App Source simulator and add licensing to your app to learn about app monetization
-
-> For extending your application with capabilities above, make sure you complete your core teams application lab.
+- **The "B" path** is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
 
 Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
 
+## Labs 📚
 
+### Path A: Core application development
+
+**Mandatory** for AAD apps.
+Selling Your SaaS-based Teams Extension
+  1. [Prerequisites 📃](#prerequisites)
+  2. [Start with Azure Active Directory](./lab-instructions/aad/A01-begin-app.md)
+  3. [Create a Teams app with Azure AD Single Sign-On](./lab-instructions/aad/A02-after-teams-sso.md)
+  4. [Teams styling and themes](./lab-instructions/aad/A03-after-apply-styling.md)
+
+**Optional** for AAD apps. Choose your own adventure! 
+
+> For extending your application with capabilities below, make sure you complete your core Teams application lab.
+
+  - [Add a Configurable Tab](./lab-instructions/aad/ConfigurableTab.md)
+  - [Add a Deep link to a personal Tab](./lab-instructions/aad/Deeplink.md)
+  - [Add a Messaging Extension](./lab-instructions/aad/MessagingExtension.md)
+  - [Add a Task Module ](./lab-instructions/aad/TaskModules.md)
+  - [Selling Your SaaS-based Teams Extension](./lab-instructions/aad/Monetization.md)
+   
+### Path B: Core application development
+
+**Mandatory** for non-AAD apps.
+  
+  1. [Prerequisites 📃](#prerequisites)
+  2. [Start with a non-Azure Active Directory Identity System](./lab-instructions/bespoke/B01-begin-app.md)
+  3. [Teams App with Bespoke Authentication](./lab-instructions/bespoke/B02-after-teams-login.md)
+  4. [Enable Azure AD Single Sign-On](./lab-instructions/bespoke/B03-after-teams-sso.md)
+  5. [Teams styling and themes](./lab-instructions/bespoke/B04-after-apply-styling.md)
+  
 ## Prerequisites 📃 
 
 This lab is intended for developers. Most of the labs don't assume a lot of specialized knowledge; coding is  in JavaScript without use of specialized frameworks or libraries. But if you're not comfortable with coding, you may find it a bit challenging.
