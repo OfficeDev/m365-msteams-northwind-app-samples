@@ -2,7 +2,8 @@ import fetch from 'node-fetch';
 import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 import { dbService } from '../northwindDB/dbService.js';
 
-const db = new dbService();
+const db = new dbService();     // Singleton service for Northwind DB
+
 export async function getEmployee(employeeId) {
 
     const employees = await db.getTable("Employees", "EmployeeID");
@@ -26,7 +27,7 @@ export async function getEmployee(employeeId) {
         orderId: order.OrderID,
         orderDate: order.OrderDate,
         customerId: order.CustomerID,
-        customerName: customers.item(order.CustomerID).CompanyName, // customerById.lookup(order.CustomerID).CompanyName,
+        customerName: customers.item(order.CustomerID).CompanyName,
         customerContact: customers.item(order.CustomerID).ContactName,
         customerPhone: customers.item(order.CustomerID).Phone,
         shipName: order.ShipName,
