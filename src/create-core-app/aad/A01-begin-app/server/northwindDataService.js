@@ -28,7 +28,7 @@ export async function getEmployee(employeeId) {
 
     result.orders = employeeOrders.map((order) => {
         const customer = customers.item(order.CustomerID);
-        return {
+        return ({
             orderId: order.OrderID,
             orderDate: order.OrderDate,
             customerId: order.CustomerID,
@@ -41,7 +41,7 @@ export async function getEmployee(employeeId) {
             shipRegion: order.ShipRegion,
             shipPostalCode: order.shipPostalCode,
             shipCountry: order.shipCountry
-        };
+        });
     });
 
     employeeCache[employeeId] = result;
@@ -110,26 +110,17 @@ export async function getOrder(orderId) {
 const categoriesCache = {};
 export async function getCategories() {
 
-    if (categoriesCache.value) return categoriesCache.value;
+    if (categoriesCache.data) return categoriesCache.data;
 
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Categories?$select=CategoryID,CategoryName,Description,Picture`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
+    const categories = await db.getTable("Categories", "CategoryID");
 
-    const categories = await response.json();
-    const result = categories.value.map(category => ({
+    const result = categories.data.map(category => ({
         categoryId: category.CategoryID,
         displayName: category.CategoryName,
         description: category.Description,
         picture: category.Picture.substring(104), // Remove Northwind-specific junk
     }));
-    categoriesCache.value = result;
+    categoriesCache.data = result;
     return result;
 }
 
@@ -140,45 +131,33 @@ export async function getCategory(categoryId) {
 
     const result = {};
 
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Categories(${categoryId})?$select=CategoryID,CategoryName,Description,Picture`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const category = await response.json();
+    const categories = await db.getTable("Categories", "CategoryID");
+    const category = categories.item(categoryId);
 
     result.categoryId = category.CategoryID;
     result.displayName = category.CategoryName;
     result.description = category.Description;
     result.picture = category.Picture.substring(104); // Remove Northwind-specific junk
 
-    const response2 = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Products?$filter=CategoryID eq ${categoryId}&$expand=Supplier`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const details = await response2.json();
+    const products = await db.getTable("Products", "ProductID");
+    const suppliers = await db.getTable("Suppliers", "SupplierID");
+    const productsInCategory = products.data.filter(product => product.CategoryID == categoryId);
 
-    result.products = details.value.map(product => ({
-        productId: product.ProductID,
-        productName: product.ProductName,
-        quantityPerUnit: product.QuantityPerUnit,
-        unitPrice: product.UnitPrice,
-        unitsInStock: product.UnitsInStock,
-        unitsOnOrder: product.UnitsOnOrder,
-        reorderLevel: product.ReorderLevel,
-        supplierName: product.Supplier.CompanyName,
-        supplierCountry: product.Supplier.Country,
-        discontinued: product.Discontinued
-    })).sort((a, b) => a.productName.localeCompare(b.productName));
+    result.products = productsInCategory.map((product) => {
+        const supplier = suppliers.item([product.SupplierID]);
+        return ({
+            productId: product.ProductID,
+            productName: product.ProductName,
+            quantityPerUnit: product.QuantityPerUnit,
+            unitPrice: product.UnitPrice,
+            unitsInStock: product.UnitsInStock,
+            unitsOnOrder: product.UnitsOnOrder,
+            reorderLevel: product.ReorderLevel,
+            supplierName: supplier.CompanyName,
+            supplierCountry: supplier.Country,
+            discontinued: product.Discontinued
+        })
+    }).sort((a, b) => a.productName.localeCompare(b.productName));
 
     categoryCache[categoryId] = result;
     return result;
