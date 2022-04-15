@@ -16,9 +16,10 @@ const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url)))
 // to be written out when data changes. They are stored in memory here:
 const tables = {};  // Store each lowDB object
 
-async function getTable(tableName) {
+async function getTable(tableName, primaryKey) {
 
-    if (!tables[tableName]) {
+    const tablesKey = tableName + "::" + primaryKey;
+    if (!tables[tablesKey]) {
 
         // If here, there is no table in memory, so read it in now
         const file = join(northwindDirectory, `${tableName}.json`);
@@ -29,23 +30,28 @@ async function getTable(tableName) {
         db.data = db.data ?? {};
 
         // Store the lowdb and accessors for data and saving changes
-        tables[tableName] = {
+        tables[tablesKey] = {
+            tableName,
             db,
+            primaryKey,
             get data() { return this.db.data[tableName]; },
-            save() { this.write(); }
+            item: (value) => {
+                const index = getIndex(tables[tablesKey], primaryKey);
+                return index.lookup(value);
+            },
+            save: () => { this.write(); }
         }
     }
 
-    return tables[tableName];
+    return tables[tablesKey];
 }
 
 const indexes = {}; // Allow indexes for fast lookup, built on demand
-async function getIndex(tableName, columnName) {
+function getIndex(table, columnName) {
 
-    const indexName = `${tableName}::${columnName}`;
+    const indexName = `${table.tableName}::${columnName}`;
 
     if (!indexes[indexName]) {
-        const table = await getTable(tableName);
         const index = {};
         for (let i in table.data) {
             index[table.data[i][columnName]] = i;
@@ -61,9 +67,10 @@ async function getIndex(tableName, columnName) {
 
 export async function getEmployee(employeeId) {
 
-    const employees = await getTable("Employees");
+    const employees = await getTable("Employees", "EmployeeID");
     const result = {};
-    const employeeProfile = employees.data.find((row) => row.EmployeeID == employeeId);
+    // const employeeProfile = employees.data.find((row) => row.EmployeeID == employeeId);
+    const employeeProfile = employees.item(employeeId);
 
     result.id = employeeProfile.EmployeeID;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
@@ -72,8 +79,9 @@ export async function getEmployee(employeeId) {
     result.jobTitle = employeeProfile.Title;
     result.city = `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`;
 
-    const orders = await getTable("Orders");
-    const customerById = await getIndex("Customers", "CustomerID");
+    const orders = await getTable("Orders", "OrderID");
+    const customers = await getTable("Customers", "CustomerID");
+    // const customerById = await getIndex("Customers", "CustomerID");
     
     const employeeOrders = orders.data.filter((order) => order.EmployeeID === result.id);
 
@@ -81,9 +89,9 @@ export async function getEmployee(employeeId) {
         orderId: order.OrderID,
         orderDate: order.OrderDate,
         customerId: order.CustomerID,
-        customerName: customerById.lookup(order.CustomerID).CompanyName,
-        customerContact: customerById.lookup(order.CustomerID).ContactName,
-        customerPhone: customerById.lookup(order.CustomerID).Phone,
+        customerName: customers.item(order.CustomerID).CompanyName, // customerById.lookup(order.CustomerID).CompanyName,
+        customerContact: customers.item(order.CustomerID).ContactName,
+        customerPhone: customers.item(order.CustomerID).Phone,
         shipName: order.ShipName,
         shipAddress: order.ShipAddress,
         shipCity: order.shipCity,
