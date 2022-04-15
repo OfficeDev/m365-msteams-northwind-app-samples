@@ -10,36 +10,39 @@ export async function getEmployee(employeeId) {
     if (employeeCache[employeeId]) return employeeCache[employeeId];
 
     const employees = await db.getTable("Employees", "EmployeeID");
-    const result = {};
-
-    const employeeProfile = employees.item(employeeId);
-
-    result.id = employeeProfile.EmployeeID;
-    result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
-    result.mail = `${employeeProfile.FirstName}@${EMAIL_DOMAIN}`;
-    result.photo = employeeProfile.Photo.substring(104); // Trim Northwind-specific junk
-    result.jobTitle = employeeProfile.Title;
-    result.city = `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`;
-
     const orders = await db.getTable("Orders", "OrderID");
     const customers = await db.getTable("Customers", "CustomerID");
-    
+
+    const result = {};
+
+    const employee = employees.item(employeeId);
+
+    result.id = employee.EmployeeID;
+    result.displayName = `${employee.FirstName} ${employee.LastName}`;
+    result.mail = `${employee.FirstName}@${EMAIL_DOMAIN}`;
+    result.photo = employee.Photo.substring(104); // Trim Northwind-specific junk
+    result.jobTitle = employee.Title;
+    result.city = `${employee.City}, ${employee.Region || ''} ${employee.Country}`;
+
     const employeeOrders = orders.data.filter((order) => order.EmployeeID === result.id);
 
-    result.orders = employeeOrders.map(order => ({
-        orderId: order.OrderID,
-        orderDate: order.OrderDate,
-        customerId: order.CustomerID,
-        customerName: customers.item(order.CustomerID).CompanyName,
-        customerContact: customers.item(order.CustomerID).ContactName,
-        customerPhone: customers.item(order.CustomerID).Phone,
-        shipName: order.ShipName,
-        shipAddress: order.ShipAddress,
-        shipCity: order.shipCity,
-        shipRegion: order.ShipRegion,
-        shipPostalCode: order.shipPostalCode,
-        shipCountry: order.shipCountry
-    }));
+    result.orders = employeeOrders.map((order) => {
+        const customer = customers.item(order.CustomerID);
+        return {
+            orderId: order.OrderID,
+            orderDate: order.OrderDate,
+            customerId: order.CustomerID,
+            customerName: customer.CompanyName,
+            customerContact: customer.ContactName,
+            customerPhone: customer.Phone,
+            shipName: order.ShipName,
+            shipAddress: order.ShipAddress,
+            shipCity: order.shipCity,
+            shipRegion: order.ShipRegion,
+            shipPostalCode: order.shipPostalCode,
+            shipCountry: order.shipCountry
+        };
+    });
 
     employeeCache[employeeId] = result;
     return result;
@@ -52,33 +55,30 @@ export async function getOrder(orderId) {
 
     const result = {};
 
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Orders(${orderId})?$expand=Customer,Employee`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const order = await response.json();
+    const orders = await db.getTable("Orders", "OrderID");
+    const customers = await db.getTable("Customers", "CustomerID");
+    const employees = await db.getTable("Employees", "EmployeeID");
 
-    result.orderId = order.OrderID;
+    const order = orders.item(orderId);
+    const customer = customers.item(order.CustomerID);
+    const employee = employees.item(order.EmployeeID);
+
+    result.orderId = orderId;
     result.orderDate = order.OrderDate;
     result.requiredDate = order.RequiredDate;
-    result.customerName = order.Customer.CompanyName;
-    result.contactName = order.Customer.ContactName;
-    result.contactTitle = order.Customer.ContactTitle;
-    result.customerAddress = order.Customer.Address;
-    result.customerCity = order.Customer.City;
-    result.customerRegion = order.Customer.Region || "";
-    result.customerPostalCode = order.Customer.PostalCode;
-    result.customerPhone = order.Customer.Phone;
-    result.customerCountry = order.Customer.Country;
-    result.employeeId = order.Employee.EmployeeID;
-    result.employeeName = `${order.Employee.FirstName} ${order.Employee.LastName}`;
-    result.employeeEmail = `${order.Employee.LastName.toLowerCase()}@northwindtraders.com`;
-    result.employeeTitle = `${order.Employee.Title}`;
+    result.customerName = customer.CompanyName;
+    result.contactName = customer.ContactName;
+    result.contactTitle = customer.ContactTitle;
+    result.customerAddress = customer.Address;
+    result.customerCity = customer.City;
+    result.customerRegion = customer.Region || "";
+    result.customerPostalCode = customer.PostalCode;
+    result.customerPhone = customer.Phone;
+    result.customerCountry = customer.Country;
+    result.employeeId = employee.EmployeeID;
+    result.employeeName = `${employee.FirstName} ${employee.LastName}`;
+    result.employeeEmail = `${employee.LastName.toLowerCase()}@northwindtraders.com`;
+    result.employeeTitle = `${employee.Title}`;
 
     const response2 = await fetch(
         `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=OrderID eq ${orderId}&$top=10&$expand=Product,Product/Category,Product/Supplier`,

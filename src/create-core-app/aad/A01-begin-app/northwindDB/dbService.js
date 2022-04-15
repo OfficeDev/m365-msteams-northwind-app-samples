@@ -18,8 +18,8 @@ export class dbService {
 
     async getTable(tableName, primaryKey) {
 
-        const tablesKey = tableName + "::" + primaryKey;
-        if (!tables[tablesKey]) {
+        const tableKey = tableName + "::" + primaryKey;
+        if (!tables[tableKey]) {
     
             // If here, there is no table in memory, so read it in now
             const file = join(northwindDirectory, `${tableName}.json`);
@@ -30,34 +30,37 @@ export class dbService {
             db.data = db.data ?? {};
     
             // Store the lowdb and accessors for data and saving changes
-            tables[tablesKey] = {
+            tables[tableKey] = {
                 tableName,
                 db,
                 primaryKey,
                 get data() { return this.db.data[tableName]; },
                 item: (value) => {
-                    const index = this.getIndex(tables[tablesKey], primaryKey);
+                    const index = this.#getIndex(tables[tableKey], primaryKey);
                     return index.lookup(value);
                 },
                 save: () => { this.write(); }
             }
         }
     
-        return tables[tablesKey];
+        return tables[tableKey];
     }
     
-    getIndex(table, columnName) {
+    #getIndex(table, columnName) {
     
         const indexName = `${table.tableName}::${columnName}`;
     
         if (!indexes[indexName]) {
             const index = {};
             for (let i in table.data) {
+                if (index[table.data[i][columnName]]) {
+                    throw `ERROR: Primary key values are not unique in ${table.tableName}::${columnName}`;
+                }
                 index[table.data[i][columnName]] = i;
             }
             indexes[indexName] = {
                 index,
-                lookup: (key) => table.data[index[key]]
+                lookup: key => table.data[index[key]]
             }
         }
     
