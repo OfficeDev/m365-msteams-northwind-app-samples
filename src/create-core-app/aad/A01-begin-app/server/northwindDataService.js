@@ -2,7 +2,9 @@ import fetch from 'node-fetch';
 import { join, dirname } from 'path';
 import { Low, JSONFile } from 'lowdb';
 import { fileURLToPath } from 'url';
-import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN, NORTHWIND_DB_DIRECTORY } from './constants.js';
+import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
+
+const NORTHWIND_DB_DIRECTORY = "northwindDB"; // Directory where LowDB files are stored
 const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url))), NORTHWIND_DB_DIRECTORY);
 
 // NOTE: The Northwind database is stored in JSON files using a very simple database
