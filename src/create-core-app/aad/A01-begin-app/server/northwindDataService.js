@@ -1,73 +1,11 @@
 import fetch from 'node-fetch';
-import { join, dirname } from 'path';
-import { Low, JSONFile } from 'lowdb';
-import { fileURLToPath } from 'url';
 import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
+import { dbService } from '../northwindDB/dbService.js';
 
-const NORTHWIND_DB_DIRECTORY = "northwindDB"; // Directory where LowDB files are stored
-const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url))), NORTHWIND_DB_DIRECTORY);
-
-// NOTE: The Northwind database is stored in JSON files using a very simple database
-// called lowdb. It does not handle multiple servers, locking, or any guarantee
-// of integrity; it's just for development purposes!
-// To download a fresh copy, type "npm run db-download" from the root of the project.
-//
-// Each Northwind database table is stored in its own JSON db so it doesn't all need
-// to be written out when data changes. They are stored in memory here:
-const tables = {};  // Store each lowDB object
-
-async function getTable(tableName, primaryKey) {
-
-    const tablesKey = tableName + "::" + primaryKey;
-    if (!tables[tablesKey]) {
-
-        // If here, there is no table in memory, so read it in now
-        const file = join(northwindDirectory, `${tableName}.json`);
-        const adapter = new JSONFile(file);
-        const db = new Low(adapter);
-
-        await db.read();
-        db.data = db.data ?? {};
-
-        // Store the lowdb and accessors for data and saving changes
-        tables[tablesKey] = {
-            tableName,
-            db,
-            primaryKey,
-            get data() { return this.db.data[tableName]; },
-            item: (value) => {
-                const index = getIndex(tables[tablesKey], primaryKey);
-                return index.lookup(value);
-            },
-            save: () => { this.write(); }
-        }
-    }
-
-    return tables[tablesKey];
-}
-
-const indexes = {}; // Allow indexes for fast lookup, built on demand
-function getIndex(table, columnName) {
-
-    const indexName = `${table.tableName}::${columnName}`;
-
-    if (!indexes[indexName]) {
-        const index = {};
-        for (let i in table.data) {
-            index[table.data[i][columnName]] = i;
-        }
-        indexes[indexName] = {
-            index,
-            lookup: (key) => table.data[index[key]]
-        }
-    }
-
-    return indexes[indexName];
-}
-
+const db = new dbService();
 export async function getEmployee(employeeId) {
 
-    const employees = await getTable("Employees", "EmployeeID");
+    const employees = await db.getTable("Employees", "EmployeeID");
     const result = {};
     // const employeeProfile = employees.data.find((row) => row.EmployeeID == employeeId);
     const employeeProfile = employees.item(employeeId);
@@ -79,9 +17,8 @@ export async function getEmployee(employeeId) {
     result.jobTitle = employeeProfile.Title;
     result.city = `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`;
 
-    const orders = await getTable("Orders", "OrderID");
-    const customers = await getTable("Customers", "CustomerID");
-    // const customerById = await getIndex("Customers", "CustomerID");
+    const orders = await db.getTable("Orders", "OrderID");
+    const customers = await db.getTable("Customers", "CustomerID");
     
     const employeeOrders = orders.data.filter((order) => order.EmployeeID === result.id);
 
