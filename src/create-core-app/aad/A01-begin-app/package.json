@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server/server.js",
-    "debug": "nodemon --inspect server/server.js"
+    "debug": "nodemon --inspect server/server.js",
+    "db-download": "node northwindDB/db-download.js"
   },
   "keywords": [],
   "author": "M365 cloud advocates",

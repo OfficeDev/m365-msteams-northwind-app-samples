@@ -10,7 +10,7 @@ import { join, dirname } from 'path';
 import { Low, JSONFile } from 'lowdb';
 import { fileURLToPath } from 'url';
 
-const northwindDirectory = join(dirname(fileURLToPath(import.meta.url)), NORTHWIND_DB_DIRECTORY);
+const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url))), NORTHWIND_DB_DIRECTORY);
 const tables = {};  // This object will hold a lowdb for each table, filled in on demand
 
 async function getTable(tableName) {
