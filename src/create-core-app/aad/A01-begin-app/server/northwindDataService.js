@@ -12,7 +12,7 @@ const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url)))
 //
 // Each Northwind database table is stored in its own JSON db so it doesn't all need
 // to be written out when data changes. They are stored in memory here:
-const tables = {};
+const tables = {};  // Store each lowDB object
 
 async function getTable(tableName) {
 
@@ -37,11 +37,31 @@ async function getTable(tableName) {
     return tables[tableName];
 }
 
+const indexes = {}; // Allow indexes for fast lookup, built on demand
+async function getIndex(tableName, columnName) {
+
+    const indexName = `${tableName}::${columnName}`;
+
+    if (!indexes[indexName]) {
+        const table = await getTable(tableName);
+        const index = {};
+        for (let i in table.data) {
+            index[table.data[i][columnName]] = i;
+        }
+        indexes[indexName] = {
+            index,
+            lookup: (key) => table.data[index[key]]
+        }
+    }
+
+    return indexes[indexName];
+}
+
 export async function getEmployee(employeeId) {
 
-    const table = await getTable("Employees");
+    const employees = await getTable("Employees");
     const result = {};
-    const employeeProfile = table.data.find((row) => row.EmployeeID == employeeId);
+    const employeeProfile = employees.data.find((row) => row.EmployeeID == employeeId);
 
     result.id = employeeProfile.EmployeeID;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
@@ -50,23 +70,18 @@ export async function getEmployee(employeeId) {
     result.jobTitle = employeeProfile.Title;
     result.city = `${employeeProfile.City}, ${employeeProfile.Region || ''} ${employeeProfile.Country}`;
 
-    const response2 = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Orders?$filter=EmployeeID eq ${employeeId}&$expand=Customer&$top=10`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const orders = await response2.json();
-    result.orders = orders.value.map(order => ({
+    const orders = await getTable("Orders");
+    const customerById = await getIndex("Customers", "CustomerID");
+    
+    const employeeOrders = orders.data.filter((order) => order.EmployeeID === result.id);
+
+    result.orders = employeeOrders.map(order => ({
         orderId: order.OrderID,
         orderDate: order.OrderDate,
-        customerId: order.Customer.CustomerID,
-        customerName: order.Customer.CompanyName,
-        customerContact: order.Customer.ContactName,
-        customerPhone: order.Customer.Phone,
+        customerId: order.CustomerID,
+        customerName: customerById.lookup(order.CustomerID).CompanyName,
+        customerContact: customerById.lookup(order.CustomerID).ContactName,
+        customerPhone: customerById.lookup(order.CustomerID).Phone,
         shipName: order.ShipName,
         shipAddress: order.ShipAddress,
         shipCity: order.shipCity,
