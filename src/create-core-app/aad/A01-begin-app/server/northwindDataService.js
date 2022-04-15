@@ -1,21 +1,23 @@
 import fetch from 'node-fetch';
-import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN, NORTHWIND_DB_DIRECTORY } from './constants.js';
-
-// NOTE: The Northwind database is stored in JSON files using a very simple database
-// called lowdb. It does not handle multiple servers, locking, or any guarantee
-// of integrity; it's just for development purposes.
-// Each Northwind database table is stored in its own JSON db so it doesn't all need
-// to be written out when data changes.
 import { join, dirname } from 'path';
 import { Low, JSONFile } from 'lowdb';
 import { fileURLToPath } from 'url';
-
+import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN, NORTHWIND_DB_DIRECTORY } from './constants.js';
 const northwindDirectory = join(dirname(dirname(fileURLToPath(import.meta.url))), NORTHWIND_DB_DIRECTORY);
-const tables = {};  // This object will hold a lowdb for each table, filled in on demand
+
+// NOTE: The Northwind database is stored in JSON files using a very simple database
+// called lowdb. It does not handle multiple servers, locking, or any guarantee
+// of integrity; it's just for development purposes!
+// To download a fresh copy, type "npm run db-download" from the root of the project.
+//
+// Each Northwind database table is stored in its own JSON db so it doesn't all need
+// to be written out when data changes. They are stored in memory here:
+const tables = {};
 
 async function getTable(tableName) {
 
     if (!tables[tableName]) {
+
         // If here, there is no table in memory, so read it in now
         const file = join(northwindDirectory, `${tableName}.json`);
         const adapter = new JSONFile(file);
@@ -24,19 +26,22 @@ async function getTable(tableName) {
         await db.read();
         db.data = db.data ?? {};
 
-        // Each table has its own lowdb
-        tables[tableName] = db;
+        // Store the lowdb and accessors for data and saving changes
+        tables[tableName] = {
+            db,
+            get data() { return this.db.data[tableName]; },
+            save() { this.write(); }
+        }
     }
 
     return tables[tableName];
-
 }
 
 export async function getEmployee(employeeId) {
 
     const table = await getTable("Employees");
     const result = {};
-    const employeeProfile = table.data.Employees.find((row) => row.EmployeeID == employeeId);
+    const employeeProfile = table.data.find((row) => row.EmployeeID == employeeId);
 
     result.id = employeeProfile.EmployeeID;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
