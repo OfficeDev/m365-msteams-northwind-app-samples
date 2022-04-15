@@ -1,22 +1,42 @@
 import fetch from 'node-fetch';
-import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
+import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN, NORTHWIND_DB_DIRECTORY } from './constants.js';
 
-const employeeCache = {};
+// NOTE: The Northwind database is stored in JSON files using a very simple database
+// called lowdb. It does not handle multiple servers, locking, or any guarantee
+// of integrity; it's just for development purposes.
+// Each Northwind database table is stored in its own JSON db so it doesn't all need
+// to be written out when data changes.
+import { join, dirname } from 'path';
+import { Low, JSONFile } from 'lowdb';
+import { fileURLToPath } from 'url';
+
+const northwindDirectory = join(dirname(fileURLToPath(import.meta.url)), NORTHWIND_DB_DIRECTORY);
+const tables = {};  // This object will hold a lowdb for each table, filled in on demand
+
+async function getTable(tableName) {
+
+    if (!tables[tableName]) {
+        // If here, there is no table in memory, so read it in now
+        const file = join(northwindDirectory, `${tableName}.json`);
+        const adapter = new JSONFile(file);
+        const db = new Low(adapter);
+
+        await db.read();
+        db.data = db.data ?? {};
+
+        // Each table has its own lowdb
+        tables[tableName] = db;
+    }
+
+    return tables[tableName];
+
+}
+
 export async function getEmployee(employeeId) {
 
-    if (employeeCache[employeeId]) return employeeCache[employeeId];
-
+    const table = await getTable("Employees");
     const result = {};
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Employees(${employeeId})`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const employeeProfile = await response.json();
+    const employeeProfile = table.data.Employees.find((row) => row.EmployeeID == employeeId);
 
     result.id = employeeProfile.EmployeeID;
     result.displayName = `${employeeProfile.FirstName} ${employeeProfile.LastName}`;
@@ -49,7 +69,6 @@ export async function getEmployee(employeeId) {
         shipPostalCode: order.shipPostalCode,
         shipCountry: order.shipCountry
     }));
-    employeeCache[employeeId] = result;
     return result;
 }
 
@@ -186,7 +205,7 @@ export async function getCategory(categoryId) {
         supplierName: product.Supplier.CompanyName,
         supplierCountry: product.Supplier.Country,
         discontinued: product.Discontinued
-    })).sort((a,b) => a.productName.localeCompare(b.productName));
+    })).sort((a, b) => a.productName.localeCompare(b.productName));
 
     categoryCache[categoryId] = result;
     return result;
@@ -194,9 +213,9 @@ export async function getCategory(categoryId) {
 
 const productCache = {};
 export async function getProduct(productId) {
-    
+
     if (productCache[productId]) return productCache[productId];
-    
+
     const result = {};
 
     const response = await fetch(
