@@ -4,11 +4,14 @@ import { dbService } from '../northwindDB/dbService.js';
 
 const db = new dbService();     // Singleton service for Northwind DB
 
+const employeeCache = {};
 export async function getEmployee(employeeId) {
+
+    if (employeeCache[employeeId]) return employeeCache[employeeId];
 
     const employees = await db.getTable("Employees", "EmployeeID");
     const result = {};
-    // const employeeProfile = employees.data.find((row) => row.EmployeeID == employeeId);
+
     const employeeProfile = employees.item(employeeId);
 
     result.id = employeeProfile.EmployeeID;
@@ -37,6 +40,8 @@ export async function getEmployee(employeeId) {
         shipPostalCode: order.shipPostalCode,
         shipCountry: order.shipCountry
     }));
+
+    employeeCache[employeeId] = result;
     return result;
 }
 
