@@ -45,7 +45,7 @@ async function displayUI() {
             adaptiveCard.parse(card);
             trackerArea.appendChild(adaptiveCard.render()); 
                
-             //taos- chat support
+             //chat support
             if(microsoftTeams.chat.isSupported()) {
                 const chatArea = document.getElementById("chatBox");
                 chatArea.style.display = "block";
@@ -64,7 +64,7 @@ async function displayUI() {
                 }
                 adaptiveCard.parse(card);
                 chatArea.appendChild(adaptiveCard.render());
-            }else if(microsoftTeams.mail.isSupported()) {  //taos- mail support
+            }else if(microsoftTeams.mail.isSupported()) {  //mail support
                 const mailArea = document.getElementById("mailBox");
                 mailArea.style.display = "block";
                 var template = new ACData.Template(mailCard);
