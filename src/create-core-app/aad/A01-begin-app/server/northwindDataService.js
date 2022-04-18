@@ -56,8 +56,12 @@ export async function getOrder(orderId) {
     const result = {};
 
     const orders = await db.getTable("Orders", "OrderID");
+    const orderDetails = await db.getTable("Order_Details", "OrderID");
     const customers = await db.getTable("Customers", "CustomerID");
     const employees = await db.getTable("Employees", "EmployeeID");
+    const products = await db.getTable("Products", "ProductID");
+    const categories = await db.getTable("Categories", "CategoryID");
+    const suppliers = await db.getTable("Suppliers", "SupplierID");
 
     const order = orders.item(orderId);
     const customer = customers.item(order.CustomerID);
@@ -80,28 +84,24 @@ export async function getOrder(orderId) {
     result.employeeEmail = `${employee.LastName.toLowerCase()}@northwindtraders.com`;
     result.employeeTitle = `${employee.Title}`;
 
-    const response2 = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=OrderID eq ${orderId}&$top=10&$expand=Product,Product/Category,Product/Supplier`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const details = await response2.json();
+    const details = orderDetails.data.filter((item) => item.OrderID == orderId);
 
-    result.details = details.value.map(lineItem => ({
-        productId: lineItem.ProductID,
-        productName: lineItem.Product.ProductName,
-        categoryName: lineItem.Product.Category.CategoryName,
-        categoryPicture: lineItem.Product.Category.Picture.substring(104), // Remove Northwind-specific junk
-        quantity: lineItem.Quantity,
-        unitPrice: lineItem.UnitPrice,
-        discount: lineItem.Discount,
-        supplierName: lineItem.Product.Supplier.CompanyName,
-        supplierCountry: lineItem.Product.Supplier.Country
-    }));
+    result.details = details.map((item) => {
+        const product = products.item(item.ProductID);
+        const category = categories.item(product.CategoryID);
+        const supplier = suppliers.item(product.SupplierID);
+        return {
+            productId: item.ProductID,
+            productName: product.ProductName,
+            categoryName: category.CategoryName,
+            categoryPicture: category.Picture.substring(104), // Remove Northwind-specific junk
+            quantity: item.Quantity,
+            unitPrice: item.UnitPrice,
+            discount: item.Discount,
+            supplierName: supplier.CompanyName,
+            supplierCountry: supplier.Country
+        };
+    });
 
     orderCache[orderId] = result;
     return result;
