@@ -238,3 +238,6 @@ div#content {
   background: #ddd3;
   padding: 10px;
 }
+div#trackerBox{
+  max-width: 500px;
+}

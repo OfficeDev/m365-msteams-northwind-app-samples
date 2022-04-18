@@ -113,3 +113,6 @@ td .categoryImage {
     padding: 10px;
   
   }
+  div#trackerBox{
+    max-width: 500px;
+  }
