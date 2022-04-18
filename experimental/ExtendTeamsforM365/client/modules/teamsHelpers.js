@@ -4,6 +4,7 @@ import 'https://res-sdf.cdn.office.net/teams-js/2.0.0-beta.4-dev.24/js/Microsoft
 export async function inM365() {     
   await microsoftTeams.app.initialize();
   const context= await microsoftTeams.app.getContext(); 
+  //check against the enum for hostnames
   return Object.values(microsoftTeams.HostName).includes(context.app.host.name);
 }
  const setTheme = (theme)=>{
@@ -11,9 +12,8 @@ export async function inM365() {
     el.setAttribute('data-theme', theme); // switching CSS
 };
 const displayTheme=async()=>{
-  if(microsoftTeams.app !== undefined) {
-    await microsoftTeams.app.initialize();
-    microsoftTeams.app.getContext().then(context=> { 
+  if(inM365()) {
+      const context= await microsoftTeams.app.getContext();  
       if(context) {
         setTheme(context.theme);     
         switch(context.app.host.name){
@@ -37,16 +37,14 @@ const displayTheme=async()=>{
             setHubTheme("/northwind.css");
           }
         }     
-      }
-  
+      }  
   function setHubTheme(fileName) {
       let element = document.createElement("link");
       element.setAttribute("rel", "stylesheet");
       element.setAttribute("type", "text/css");
       element.setAttribute("href", fileName);
       document.getElementsByTagName("head")[0].appendChild(element);
-    }
-  });
+    }  
   }
   
 
