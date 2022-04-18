@@ -3,7 +3,7 @@
 
 ## Summary
 
-This sample is a created  using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. The app demonstrates how to use the latest Microsoft Teams JS SDK V2 to extend teams application to other M365 host apps like Outlook/Office.com
+This sample is a created  using the core teams application built over the course of labs [A01](../../lab-instructions/aad/A01-begin-app.md)-[A03](../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. The app demonstrates how to use the latest Microsoft Teams JS SDK V2 to extend teams application to other M365 host apps like Outlook/Office.com
 
 
 
@@ -35,7 +35,7 @@ The Northwind Orders application expects each user's employee ID in Azure Active
 
  - In the left navigation, select "Show All" to reveal the full list of admin centers, and then select "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
 
-![Navigating to the M365 Admin site](../../assets/assets/01-009-RegisterAADApp-1.png)
+![Navigating to the M365 Admin site](../../assets/01-009-RegisterAADApp-1.png)
 
 - Select "Azure Active Directory" again in the left navigation bar.
 
@@ -249,8 +249,16 @@ CONTACTS=<Any user/users you'd like to chat/mail for orders. Comma separated if 
 ## Test the app
 
 - Launch application in Teams
+
+![app in teams](../../assets/experimental/working-teams.gif)
+
 - Launch application in Office.com
+
+![app in office.com](../../assets/experimental/working-office.gif)
+
 - Launch application in Outlook
+
+![app in outlook (windows)](../../assets/experimental/working-outlook.gif)
 
 ## Features
 - In Teams:
