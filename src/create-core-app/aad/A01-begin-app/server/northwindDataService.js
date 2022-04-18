@@ -132,15 +132,15 @@ export async function getCategory(categoryId) {
     const result = {};
 
     const categories = await db.getTable("Categories", "CategoryID");
-    const category = categories.item(categoryId);
+    const products = await db.getTable("Products", "ProductID");
+    const suppliers = await db.getTable("Suppliers", "SupplierID");
 
+    const category = categories.item(categoryId);
     result.categoryId = category.CategoryID;
     result.displayName = category.CategoryName;
     result.description = category.Description;
     result.picture = category.Picture.substring(104); // Remove Northwind-specific junk
 
-    const products = await db.getTable("Products", "ProductID");
-    const suppliers = await db.getTable("Suppliers", "SupplierID");
     const productsInCategory = products.data.filter(product => product.CategoryID == categoryId);
 
     result.products = productsInCategory.map((product) => {
@@ -170,52 +170,51 @@ export async function getProduct(productId) {
 
     const result = {};
 
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Products(${productId})?$expand=Category,Supplier`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const product = await response.json();
+    const products = await db.getTable("Products", "ProductID");
+    const categories = await db.getTable("Categories", "CategoryID");
+    const suppliers = await db.getTable("Suppliers", "SupplierID");
+    const orders = await db.getTable("Orders", "OrderID");
+    const orderDetails = await db.getTable("Order_Details", "OrderID");
+    const customers = await db.getTable("Customers", "CustomerID");
+    const employees = await db.getTable("Employees", "EmployeeID");
+
+    const product = products.item(productId);
+    const category = categories.item(product.CategoryID);
+    const supplier = suppliers.item(product.SupplierID);
+
     result.productId = product.ProductID;
     result.productName = product.ProductName;
     result.categoryId = product.CategoryID;
-    result.categoryName = product.Category.CategoryName;
+    result.categoryName = category.CategoryName;
     result.quantityPerUnit = product.QuantityPerUnit;
     result.unitPrice = product.UnitPrice;
     result.unitsInStock = product.UnitsInStock;
     result.unitsOnOrder = product.UnitsOnOrder;
     result.reorderLevel = product.ReorderLevel;
-    result.supplierName = product.Supplier.CompanyName;
-    result.supplierCountry = product.Supplier.Country;
+    result.supplierName = supplier.CompanyName;
+    result.supplierCountry = supplier.Country;
     result.discontinued = product.Discontinued;
 
-    const response2 = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Order_Details?$filter=ProductID eq ${productId}&$expand=Order,Order/Customer,Order/Employee`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const details = await response2.json();
+    const details = orderDetails.data.filter((item) => item.ProductID == productId);
 
-    result.orders = details.value.map(orderDetail => ({
-        orderId: orderDetail.OrderID,
-        orderDate: orderDetail.Order.OrderDate,
-        customerId: orderDetail.Order.Customer.CustomerID,
-        customerName: orderDetail.Order.Customer.CompanyName,
-        customerAddress: `${orderDetail.Order.Customer.Address}, ${orderDetail.Order.Customer.City} ${orderDetail.Order.Customer.Region || ""}, ${orderDetail.Order.Customer.Country}`,
-        employeeId: orderDetail.Order.EmployeeID,
-        employeeName: `${orderDetail.Order.Employee.FirstName} ${orderDetail.Order.Employee.LastName}`,
-        quantity: orderDetail.Quantity,
-        unitPrice: orderDetail.UnitPrice,
-        discount: orderDetail.Discount,
-    }));
+    result.orders = details.map((item) => {
+        const order = orders.item(item.OrderID);
+        const employee = employees.item(order.EmployeeID);
+        const customer = customers.item(order.CustomerID);
+    
+        return {
+            orderId: item.OrderID,
+            orderDate: order.OrderDate,
+            customerId: customer.CustomerID,
+            customerName: customer.CompanyName,
+            customerAddress: `${customer.Address}, ${customer.City} ${customer.Region || ""}, ${customer.Country}`,
+            employeeId: order.EmployeeID,
+            employeeName: `${employee.FirstName} ${employee.LastName}`,
+            quantity: item.Quantity,
+            unitPrice: item.UnitPrice,
+            discount: item.Discount
+        };
+    });
 
     productCache[productId] = result;
     return result;
