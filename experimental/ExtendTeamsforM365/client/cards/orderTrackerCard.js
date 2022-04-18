@@ -278,7 +278,7 @@ export default
                             "type": "Image",
                             "url": "https://messagecardplayground.azurewebsites.net/assets/SeaTacMap.png",
                             "size": "Stretch",
-                            "altText": "Map of the Seattle-Tacoma airport"
+                            "altText": "Map of the Brisbane warehouse"
                         }
                     ],
                     "width": 40

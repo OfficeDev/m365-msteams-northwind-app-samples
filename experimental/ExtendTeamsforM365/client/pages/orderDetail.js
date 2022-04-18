@@ -36,28 +36,15 @@ async function displayUI() {
                 detailsElement.append(orderRow);
 
             });
-            //taos- dialog/task module support
-            if(microsoftTeams.dialog.isSupported()) {
-                const btnTaskModuleElement = document.getElementById('btnTaskModule');
-                btnTaskModuleElement.style.display = "block";
-                btnTaskModuleElement.addEventListener('click', ev => {
-                    let submitHandler = (err, result) => {
-                        //empty for demo purpose. But this is where you get form results from the callback.
-                    };
-                    var template = new ACData.Template(orderTrackerCard);
-                    var cardPayload = template.expand({ $root: orderDetails });
-                    const taskInfo = {
-                        card: cardPayload,
-                        title: "chat",
-                        height: 310,
-                        width: 500,
-                        url: null,
-                        fallbackUrl: null,
-                        completionBotId: null,
-                    };
-                    microsoftTeams.dialog.open(taskInfo, submitHandler);
-                });
-            }
+            //show tracker element for each order
+            const trackerArea = document.getElementById('trackerBox');
+            trackerArea.style.display = "block";
+            var template = new ACData.Template(orderTrackerCard);
+            var card = template.expand({ $root: orderDetails });
+            var adaptiveCard = new AdaptiveCards.AdaptiveCard();           
+            adaptiveCard.parse(card);
+            trackerArea.appendChild(adaptiveCard.render()); 
+               
              //taos- chat support
             if(microsoftTeams.chat.isSupported()) {
                 const chatArea = document.getElementById("chatBox");

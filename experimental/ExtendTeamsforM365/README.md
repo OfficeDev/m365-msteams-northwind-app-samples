@@ -5,16 +5,15 @@
 
 This sample is a created  using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. The app demonstrates how to use the latest Microsoft Teams JS SDK V2 to extend teams application to other M365 host apps like Outlook/Office.com
 
-## Frameworks
 
-![drop](https://img.shields.io/badge/Bot&nbsp;Framework-4.7-green.svg)
 
 
 ## Version history
 
 Version|Date|Author|Comments
 -------|----|----|--------
-1.0|April 2022|Rabia Williams|Initial release
+1.0|April 2022|Bob German, Tomomi Imura, Rabia Williams|Initial release
+1.1|April 2022|Rabia Williams|Use Teams JS SDK v2
 
 ## Disclaimer
 
@@ -36,19 +35,19 @@ The Northwind Orders application expects each user's employee ID in Azure Active
 
  - In the left navigation, select "Show All" to reveal the full list of admin centers, and then select "Azure Active Directory". This will bring you to the [Azure AD admin center](https://aad.portal.azure.com/).
 
-![Navigating to the M365 Admin site](../../../assets/01-009-RegisterAADApp-1.png)
+![Navigating to the M365 Admin site](../../assets/assets/01-009-RegisterAADApp-1.png)
 
 - Select "Azure Active Directory" again in the left navigation bar.
 
-![Navigating to the M365 Admin site](../../../assets/01-010-RegisterAADApp-2.png)
+![Navigating to the M365 Admin site](../../assets/01-010-RegisterAADApp-2.png)
 
 - This will bring you to the overview of your Azure AD tenant. Note that a "tenant" is a single instance of Azure Active Directory, with its own users, groups, and app registrations. Verify that you're in the developer tenant you just created, and select "Users" in the navigation bar.
 
-![Edit users](../../../assets/01-030-EditUsers-1.png)
+![Edit users](../../assets/01-030-EditUsers-1.png)
 
 You can use existing users to run the Northwind Orders application (the names may not match the Northwind database unless you change them, but you'll know what's going on), or create new ones. It's easiest if one of the users is the administrator account you're logged into right now, so you can test the application without logging on and off, but that's up to you. Select on the user to view their user profile, and then select the "Edit" button.
 
-![Edit user's employee ID](../../../assets/01-031-EditUser-2.png)
+![Edit user's employee ID](../../assets/01-031-EditUser-2.png)
 
 Change the Employee ID to the ID of one of the users in the Northwind datbase, which are:
 
@@ -77,11 +76,11 @@ Go to the [Azure AD admin portal](https://aad.portal.azure.com/) and make sure y
 
 - You will be shown a list of applications (if any) registered in the tenant. Select "+ New Registration" at the top to register a new application.
 
-![Adding a registration](../../../assets/01-012-RegisterAADApp-4.png)
+![Adding a registration](../../assets/01-012-RegisterAADApp-4.png)
 
 You will be presented with the "Register an application" form.
 
-![Register an application form](../../../assets/01-013-RegisterAADApp-5.png)
+![Register an application form](../../assets/01-013-RegisterAADApp-5.png)
 
 - Enter a name for your application 1️⃣.
 - Under "Supported account types" select "Accounts in any organizational directory" 2️⃣. This will allow your application to be used in your customer's tenants.
@@ -90,11 +89,11 @@ You will be presented with the "Register an application" form.
 
 You will be presented with the application overview. There are two values on this screen you need to copy for use later on; those are the Application (client) ID 1️⃣ and the Directory (tenant) ID 2️⃣.
 
-![Application overview screen](../../../assets/01-014-RegisterAADApp-6.png)
+![Application overview screen](../../assets/01-014-RegisterAADApp-6.png)
 
 When you've recorded these values, navigate to "Certificates & secrets" 3️⃣.
 
-![Adding a secret](../../../assets/01-015-RegisterAADApp-7.png)
+![Adding a secret](../../assets/01-015-RegisterAADApp-7.png)
 
 Now you will create a client secret, which is like a password for your application to use when it needs to authenticate with Azure AD.
 
@@ -104,7 +103,7 @@ Now you will create a client secret, which is like a password for your applicati
 
 The secret will be displayed just this once on the "Certificates and secrets" screen. Copy it now and store it in a safe place.
 
-![Copy the app secret](../../../assets/01-016-RegisterAADApp-8.png)
+![Copy the app secret](../../assets/01-016-RegisterAADApp-8.png)
 
 
 ---
@@ -121,11 +120,11 @@ The app registration created an identity for your application; now we need to gi
 
 - While still in the app registration, navigate to "API Permissions" 1️⃣ and select "+ Add a permission" 2️⃣.
 
-![Adding a permission](../../../assets/01-017-RegisterAADApp-9.png)
+![Adding a permission](../../assets/01-017-RegisterAADApp-9.png)
 
 On the "Request API permissions" flyout, select "Microsoft Graph". It's hard to miss!
 
-![Adding a permission](../../../assets/01-018-RegisterAADApp-10.png)
+![Adding a permission](../../assets/01-018-RegisterAADApp-10.png)
 
 Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
 
@@ -135,17 +134,17 @@ So the application needs to read the user's employee ID from Azure AD. It could 
 
 Select "Application permissions" to add the required permission.
 
-![Adding an app permission](../../../assets/01-019-RegisterAADApp-10.png)
+![Adding an app permission](../../assets/01-019-RegisterAADApp-10.png)
 
 You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Select the "Add Permission" button 3️⃣.
 
-![Adding User.Read.App permission](../../../assets/01-020-RegisterAADApp-11.png)
+![Adding User.Read.App permission](../../assets/01-020-RegisterAADApp-11.png)
 
 - Consent to the permission
 
 You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, select the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
 
-![Grant consent](../../../assets/01-024-RegisterAADApp-15.png)
+![Grant consent](../../assets/01-024-RegisterAADApp-15.png)
 
 - Expose an API
 
@@ -153,11 +152,11 @@ The Northwind Orders app is a full stack application, with code running in the w
 
 Select "Expose an API" 1️⃣ and then "Add a scope"2️⃣. Scopes expose an application's permissions; what you're doing here is adding a permission that your application's browser code can use it when calling the server. 
 
-![Expose an API](../../../assets/01-021-RegisterAADApp-12.png)
+![Expose an API](../../assets/01-021-RegisterAADApp-12.png)
 
 On the "Add a scope" flyout, edit the Application ID URI to include your ngrok URL between the "api://" and the client ID. Select the "Save and continue" button to proceed.
 
-![Set the App URI](../../../assets/01-022-RegisterAADApp-13.png)
+![Set the App URI](../../assets/01-022-RegisterAADApp-13.png)
 
 Now that you've defined the application URI, the "Add a scope" flyout will allow you to set up the new permission scope. Fill in the form as follows:
 - Scope name: access_as_user
@@ -168,14 +167,14 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 - Ensure the State is set to "Enabled"
 - Select "Add scope"
 
-![Add the scope](../../../assets/01-023-RegisterAADApp-14.png)
+![Add the scope](../../assets/01-023-RegisterAADApp-14.png)
 
 
 - Add the Teams client applications
 
 Click "Expose an API" 1️⃣ and then "+ Add a client application" 2️⃣.
 
-![Open the Expose an API screen](../../../assets/03-002-AppRegistrationUpdate-2.png)
+![Open the Expose an API screen](../../assets/03-002-AppRegistrationUpdate-2.png)
 
 Paste the ID for the Teams mobile or desktop app, `1fec8e78-bce4-4aaf-ab1b-5451cc387264` into the flyout 1️⃣ and check the scope you created earlier 2️⃣ to allow Teams to issue tokens for that scope. Then click "Add application" 3️⃣ to save your work.
 
@@ -193,7 +192,7 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 |Outlook Web Access|	00000002-0000-0ff1-ce00-000000000000|
 |Outlook Web Access	|bc59ab01-8403-45c6-8796-ac3ef710b3e3|
 
-![Add a client application](../../../assets/03-003-AppRegistrationUpdate-3.png)
+![Add a client application](../../assets/03-003-AppRegistrationUpdate-3.png)
 
 ### Project set up
 - Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
@@ -249,8 +248,25 @@ CONTACTS=<Any user/users you'd like to chat/mail for orders. Comma separated if 
 
 ## Test the app
 
+- Launch application in Teams
+- Launch application in Office.com
+- Launch application in Outlook
+
 ## Features
-
-## Debug and test locally
-
-TBD
+- In Teams:
+    - My Orders
+    - My Orders Report
+    - Order details
+    - Open chat with sales representatives from **Order details page**
+    
+- In Office.com:
+    - My Recent Order
+    - My Recent Files
+    - Order details
+- In Outlook (Windows):
+    - My Orders
+    - Order details
+    - Compose mail to sales representatives from **Order details page**
+- In Outlook (Web):
+    - My Orders
+    - Order details

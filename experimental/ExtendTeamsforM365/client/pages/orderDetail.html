@@ -26,7 +26,7 @@
             <div class="teams-share-button" data-href="" data-button-type="medium" data-icon-px-size="160" data-preview="true"></div>
  
             <script async defer src="https://teams.microsoft.com/share/launcher.js"></script>
-                    <table id="orderDetails">
+            <table id="orderDetails">
                 <tr>
                     <th>Quantity</th>
                     <th>Product</th>
@@ -34,13 +34,15 @@
                     <th>Discount</th>
                 </tr>
             </table>
-            <div id="message" class="errorMessage"></div>
-            <div><button id="btnTaskModule" style="display: none;">Track order</button>  
+            <div id="trackerBox" style="display: none;"></div>
+            <div id="message" class="errorMessage"></div>        
             </div>
             <!-- <div><button id="btnMail" style="display: none;">Chat</button></div> -->
+            <div class="element" id="chatBox" style="display: none;"></div>
+            <div class="element" id="mailBox" style="display: none;"></div>
+          
         </div>
-        <div class="element" id="chatBox" style="display: none;"></div>
-        <div class="element" id="mailBox" style="display: none;"></div>
+   
     </div>
     <script type="module" src="/components/navigation.js"></script>
     <script type="module" src="orderDetail.js"></script>
