@@ -1,4 +1,4 @@
-import 'https://res-sdf.cdn.office.net/teams-js/2.0.0-beta.4/js/MicrosoftTeams.min.js';
+import 'https://res.cdn.office.net/teams-js/2.0.0-beta.4/js/MicrosoftTeams.min.js';
 
 // async function returns true if we're running in Teams, Outlook, Office
 export async function inM365() {     
