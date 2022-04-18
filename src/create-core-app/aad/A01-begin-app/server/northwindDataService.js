@@ -1,6 +1,5 @@
-import fetch from 'node-fetch';
-import { NORTHWIND_ODATA_SERVICE, EMAIL_DOMAIN } from './constants.js';
 import { dbService } from '../northwindDB/dbService.js';
+const EMAIL_DOMAIN = "northwindtraders.com"; // For making fake email addresses for employees
 
 const db = new dbService();     // Singleton service for Northwind DB
 
