@@ -346,7 +346,7 @@ export default
 - Copy the following content into **bot.js** file.
 ```javascript
 import { TeamsActivityHandler, CardFactory } from 'botbuilder';
-import { getProductByName,updateProductUnitStock} from './northwindDataService.js';
+import { getProductByName, updateProductUnitStock } from './northwindDataService.js';
 import * as ACData from "adaptivecards-templating";
 import * as AdaptiveCards from "adaptivecards";
 import pdtCardPayload from './cards/productCard.js'
@@ -357,12 +357,12 @@ export class StockManagerBot extends TeamsActivityHandler {
         super();
         // Registers an activity event handler for the message event, emitted for every incoming message activity.
         this.onMessage(async (context, next) => {
-            console.log('Running on Message Activity.');          
-            await next();
+            console.log('Running on Message Activity.');
+            await next(); //go to the next handler 
         });
     }
-    //on search on ME
-    async handleTeamsMessagingExtensionQuery(context, query){
+    //When you perform a search from the messaging extension app
+    async handleTeamsMessagingExtensionQuery(context, query) {
         const { name, value } = query.parameters[0];
         if (name !== 'productName') {
             return;
@@ -370,12 +370,16 @@ export class StockManagerBot extends TeamsActivityHandler {
 
         const products = await getProductByName(value);
         const attachments = [];
-        
+
         for (const pdt of products) {
             const heroCard = CardFactory.heroCard(pdt.productName);
             const preview = CardFactory.heroCard(pdt.productName);
-            preview.content.tap = { type: 'invoke', value: { productName: pdt.productName,
-                productId:pdt.productId, unitsInStock:pdt.unitsInStock ,categoryId:pdt.categoryId} };
+            preview.content.tap = {
+                type: 'invoke', value: {
+                    productName: pdt.productName,
+                    productId: pdt.productId, unitsInStock: pdt.unitsInStock, categoryId: pdt.categoryId
+                }
+            };
             const attachment = { ...heroCard, preview };
             attachments.push(attachment);
         }
@@ -391,36 +395,38 @@ export class StockManagerBot extends TeamsActivityHandler {
         return result;
 
     }
-    //on preview tap of search items list
-    async handleTeamsMessagingExtensionSelectItem(context, pdt) {        
-       const preview = CardFactory.thumbnailCard(pdt.productName); 
+    //on preview tap of an item from the list of search result items
+    async handleTeamsMessagingExtensionSelectItem(context, pdt) {
+        const preview = CardFactory.thumbnailCard(pdt.productName);
         var template = new ACData.Template(pdtCardPayload);
-        const imageGenerator = Math.floor((pdt.productId / 1) % 10);           
-        const imgUrl=`https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
+        const imageGenerator = Math.floor((pdt.productId / 1) % 10);
+        const imgUrl = `https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
         var card = template.expand({
-            $root: { productName:pdt.productName, unitsInStock: pdt.unitsInStock ,
-                productId:pdt.productId,categoryId:pdt.categoryId,imageUrl:imgUrl}
+            $root: {
+                productName: pdt.productName, unitsInStock: pdt.unitsInStock,
+                productId: pdt.productId, categoryId: pdt.categoryId, imageUrl: imgUrl
+            }
         });
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
         adaptiveCard.parse(card);
         const adaptive = CardFactory.adaptiveCard(card);
-        const attachment = { ...adaptive,preview};
-              return {
+        const attachment = { ...adaptive, preview };
+        return {
             composeExtension: {
                 type: 'result',
                 attachmentLayout: 'grid',
                 attachments: [attachment]
             },
         };
-    } 
-    //on every activity on ME when invoked  
-     async onInvokeActivity(context) {
+    }
+    //on every activity 
+    async onInvokeActivity(context) {
         let runEvents = true;
         try {
             if (!context.activity.name && context.activity.channelId === 'msteams') {
                 return await this.handleTeamsCardActionInvoke(context);
             } else {
-                switch (context.activity.name) {                   
+                switch (context.activity.name) {
                     case 'composeExtension/query':
                         return this.createInvokeResponse(
                             await this.handleTeamsMessagingExtensionQuery(context, context.activity.value)
@@ -431,38 +437,39 @@ export class StockManagerBot extends TeamsActivityHandler {
                             await this.handleTeamsMessagingExtensionSelectItem(context, context.activity.value)
                         );
                     case 'adaptiveCard/action':
-                        const request = context.activity.value;   
-                         
+                        const request = context.activity.value;
+
                         if (request) {
-                            if(request.action.verb==='ok') {
-                              
-                                    const data=request.action.data;
-                                    updateProductUnitStock(data.categoryId,data.pdtId,data.txtStock);
-                                    var template = new ACData.Template(successCard);
-                                    const imageGenerator = Math.floor((data.pdtId / 1) % 10);           
-                                    const imgUrl=`https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
-                                    var card = template.expand({
-                                        $root: { productName:data.pdtName, unitsInStock: data.txtStock ,
-                                            imageUrl:imgUrl
-                                            }
-                                    });
-                                    var responseBody= { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: card }
-                                    return this.createInvokeResponse(responseBody);                                 
-                                                                      
-                               
-                        }else if(request.action.verb==='refresh'){
-                            //refresh card
-                        }else{
-                            var responseBody= { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: errorCard }
-                            return this.createInvokeResponse(responseBody); 
-                            
+                            if (request.action.verb === 'ok') {
+
+                                const data = request.action.data;
+                                await updateProductUnitStock(data.pdtId, data.txtStock);
+                                var template = new ACData.Template(successCard);
+                                const imageGenerator = Math.floor((data.pdtId / 1) % 10);
+                                const imgUrl = `https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
+                                var card = template.expand({
+                                    $root: {
+                                        productName: data.pdtName, unitsInStock: data.txtStock,
+                                        imageUrl: imgUrl
+                                    }
+                                });
+                                var responseBody = { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: card }
+                                return this.createInvokeResponse(responseBody);
+
+
+                            } else if (request.action.verb === 'refresh') {
+                                //refresh card
+                            } else {
+                                var responseBody = { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: errorCard }
+                                return this.createInvokeResponse(responseBody);
+
+                            }
+
                         }
-                    
-                    }
                     default:
                         runEvents = false;
                         return super.onInvokeActivity(context);
-                        
+
                 }
             }
         } catch (err) {
@@ -479,8 +486,8 @@ export class StockManagerBot extends TeamsActivityHandler {
         }
     }
 
- 
-    defaultNextEvent=(context)  => {
+
+    defaultNextEvent = (context) => {
         const runDialogs = async () => {
             await this.handle(context, 'Dialog', async () => {
                 // noop
@@ -492,9 +499,8 @@ export class StockManagerBot extends TeamsActivityHandler {
     createInvokeResponse(body) {
         return { status: 200, body };
     }
-   
-}
-    
+
+}    
 ```
 
 #### Step 2: Update existing files
@@ -680,44 +686,34 @@ Add two new functions as below
 - <b>updateProductUnitStock()</b> - This will update the value of unit stock based on the input action of a user on the product result card.
 
 Add the two new function definitions by appending below code block into the file:
+
 ```javascript
-export async function getProductByName(productName) {
+export async function getProductByName(productNameStartsWith) {
     let result = {};
-    let url = productName === "" ? `${NORTHWIND_ODATA_SERVICE}/Products?$top=5`
-        : `${NORTHWIND_ODATA_SERVICE}/Products?$top=5&$filter=startswith(ProductName, '${productName}')`;
-    const response = await fetch(url, {
-        "method": "GET",
-        "headers": {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        }
-    });
-    if (response.ok) {
-        const product = await response.json();
-        result = product.value.map(pdt => ({
-            productId: pdt.ProductID,
-            productName: pdt.ProductName,
-            unitsInStock: pdt.UnitsInStock,
-            categoryId: pdt.CategoryID
-            //todo: add more             
-        }));
-    }
+
+    const products = await db.getTable("Products", "ProductID");
+    const match = productNameStartsWith.toLowerCase();
+    const matchingProducts =
+        products.data.filter((item) => item.ProductName.toLowerCase().startsWith(match));
+
+    result = matchingProducts.map(product => ({
+        productId: product.ProductID,
+        productName: product.ProductName,
+        unitsInStock: product.UnitsInStock,
+        categoryId: product.CategoryID
+    }));
+
     return result;
 }
-export async function updateProductUnitStock(categoryId, productId, unitsInStock) {
-    //get cache
-    if (!productCache[productId])  await getProduct(productId);
-    if (!categoryCache[categoryId])  await getCategory(categoryId);
 
-    // update stock in product cache    
-        productCache[productId].unitsInStock = unitsInStock;   
-    //update stock in  category cache   
-        let pdts = categoryCache[categoryId].products;
-        for (var i = 0; i < pdts.length; ++i) {
-            if (pdts[i]['productId'] === productId) {
-                pdts[i]['unitsInStock'] = unitsInStock;
-            }
-        }  
+export async function updateProductUnitStock(productId, unitsInStock) {
+
+    const products = await db.getTable("Products", "ProductID");
+    const product = products.item(productId);
+    product.UnitsInStock = unitsInStock;
+    productCache[productId] = null;         // Clear the product cache
+    await products.save();                  // Write the products "table"
+
 }
 ```
 
