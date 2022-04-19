@@ -26,5 +26,8 @@
     "@types/request": "^2.48.3",
     "nodemon": "^2.0.13",
     "adm-zip": "^0.4.16"
+  },
+  "nodemonConfig": {
+    "ignore": ["northwindDB/*.json"]
   }
 }
