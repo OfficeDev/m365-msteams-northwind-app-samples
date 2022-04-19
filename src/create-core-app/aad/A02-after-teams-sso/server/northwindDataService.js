@@ -47,6 +47,29 @@ export async function getEmployee(employeeId) {
     return result;
 }
 
+const employeeNameCache = {};
+export async function getEmployeeByLastName(lastName) {
+
+    if (employeeNameCache[lastName]) return employeeNameCache[lastName];
+
+    // This works only because lastname is unique in the Northwind sample
+    // data. Remember this is only a lab!
+    const employees = await db.getTable("Employees", "LastName");
+    const employee = employees.item(lastName);
+
+    const result = {
+        id: employee.EmployeeID,
+        displayName: `${employee.FirstName} ${employee.LastName}`,
+        mail: `${employee.FirstName}@${EMAIL_DOMAIN}`,
+        photo: employee.Photo.substring(104), // Trim Northwind-specific junk
+        jobTitle: employee.Title,
+        city: `${employee.City}, ${employee.Region || ''} ${employee.Country}`
+    };
+
+    employeeNameCache[lastName] = result;
+    return result;
+}
+
 const orderCache = {}
 export async function getOrder(orderId) {
 
