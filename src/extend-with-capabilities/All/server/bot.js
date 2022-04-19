@@ -96,7 +96,7 @@ export class StockManagerBot extends TeamsActivityHandler {
                             if (request.action.verb === 'ok') {
 
                                 const data = request.action.data;
-                                updateProductUnitStock(data.categoryId, data.pdtId, data.txtStock);
+                                await updateProductUnitStock(data.pdtId, data.txtStock);
                                 var template = new ACData.Template(successCard);
                                 const imageGenerator = Math.floor((data.pdtId / 1) % 10);
                                 const imgUrl = `https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
