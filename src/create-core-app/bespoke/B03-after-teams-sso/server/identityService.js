@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { getEmployeeByLastName } from './northwindDataService.js';
+import fetch from 'node-fetch';
 import aad from 'azure-ad-jwt';
 import * as msal from '@azure/msal-node';
 
