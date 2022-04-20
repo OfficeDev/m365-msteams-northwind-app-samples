@@ -2,8 +2,7 @@ import {
     getLoggedInEmployee,
     logoff
 } from './identityClient.js';
-import { inTeams } from '../modules/teamsHelpers.js';
-import { hasValidLicense } from '../modules/northwindLicensing.js';
+
 class northwindUserPanel extends HTMLElement {
 
     async connectedCallback() {
@@ -12,15 +11,10 @@ class northwindUserPanel extends HTMLElement {
 
         if (!employee) {
 
+            alert("Employee not found; are you in the right tenant?");
             logoff();
 
         } else {
-            if (await inTeams()) {
-                const validLicense = await hasValidLicense();  
-                if (validLicense.status && validLicense.status.toString().toLowerCase()==="failure") {
-                        window.location.href =`/pages/needLicense.html?error=${validLicense.reason}`;
-                }    
-            }
 
             this.innerHTML = `<div class="userPanel">
                 <img src="data:image/bmp;base64,${employee.photo}"></img>
