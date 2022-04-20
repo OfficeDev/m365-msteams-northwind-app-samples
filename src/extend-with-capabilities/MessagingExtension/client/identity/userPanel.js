@@ -11,6 +11,7 @@ class northwindUserPanel extends HTMLElement {
 
         if (!employee) {
 
+            alert("Employee not found; are you in the right tenant?");
             logoff();
 
         } else {

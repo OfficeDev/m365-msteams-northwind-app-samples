@@ -18,13 +18,10 @@ import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.j
 const msalConfig = {
     auth: {
         clientId: env.CLIENT_ID,
-        authority: `https://login.microsoftonline.com/${env.TENANT_ID}`,
-        redirectUri: `https://${env.HOSTNAME}`,
-        postLogoutRedirectUri: `https://${env.HOSTNAME}`
     },
     cache: {
-        cacheLocation: "sessionStorage", // This configures where your cache will be stored
-        storeAuthStateInCookie: false    // Set this to "true" if you are having issues on IE11 or Edge
+        cacheLocation: "localStorage", // This configures where your cache will be stored
+        storeAuthStateInCookie: false  // Set this to "true" if you are having issues on IE11 or pre-Chromium Edge
     }
 };
 
@@ -33,7 +30,7 @@ const msalRequest = {
     scopes: [`api://${env.HOSTNAME}/${env.CLIENT_ID}/access_as_user`]
 }
 
-const msalClient = new msal.PublicClientApplication(msalConfig);
+const msalClient = new msal.PublicClientApplication (msalConfig);
 
 let getLoggedInEmployeeIdPromise;        // Cache the promise so we only do the work once on this page
 export function getLoggedinEmployeeId() {
