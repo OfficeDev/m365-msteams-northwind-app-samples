@@ -1,6 +1,32 @@
 ![Teams App Camp](../../assets/code-lab-banner.png)
 
-## Lab A02: Create a Teams app with Azure AD Single Sign-On
+# Lab A02: Create a Teams app with Azure AD Single Sign-On
+
+<!-- no toc -->
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Project structure](#project-structure)
+  - [Exercise 1: Authorize Microsoft Teams to log users into your application](#exercise-1-authorize-microsoft-teams-to-log-users-into-your-application)
+    - [Step 1: Return to your app registration](#step-1-return-to-your-app-registration)
+    - [Step 2: Add the Teams client applications](#step-2-add-the-teams-client-applications)
+  - [Exercise 2: Create the Teams application package](#exercise-2-create-the-teams-application-package)
+    - [Step 1: Copy the *manifest* folder to your working directory](#step-1-copy-the-manifest-folder-to-your-working-directory)
+    - [Step 2: Examine the manifest template](#step-2-examine-the-manifest-template)
+    - [Step 3: Add the Teams App ID to the .env file](#step-3-add-the-teams-app-id-to-the-env-file)
+    - [Step 4: Add npm package to create .zip files](#step-4-add-npm-package-to-create-zip-files)
+    - [Step 5: Build the package](#step-5-build-the-package)
+  - [Exercise 3: Modify the application source code](#exercise-3-modify-the-application-source-code)
+    - [Step 1: Add a module with Teams helper functions](#step-1-add-a-module-with-teams-helper-functions)
+    - [Step 2: Update the login code for Teams SSO](#step-2-update-the-login-code-for-teams-sso)
+    - [Step 3: Hide the navigation within Teams](#step-3-hide-the-navigation-within-teams)
+    - [Exercise 4: Test your application in Microsoft Teams](#exercise-4-test-your-application-in-microsoft-teams)
+    - [Step 1: Start the application](#step-1-start-the-application)
+    - [Step 2: Upload the app package](#step-2-upload-the-app-package)
+  - [Known issues](#known-issues)
+  - [References](#references)
+  - [Next Steps](#next-steps)
+
+## Overview
 
 This lab is part of Path A, which begins with a Northwind Orders application that already uses Azure AD.
 
@@ -24,13 +50,13 @@ In this lab you will learn to:
 - Use the Microsoft Teams JavaScript SDK to request an Azure AD access token
 - Install and test your application in Microsoft Teams
 
-### Features
+## Features
 
 - Microsoft Teams personal tab application displays the Northwind Orders web application
 - Users sign into the Teams application transparently using Azure AD SSO
 - Application alters its appearance (hides the top navigation) when running in Teams, allowing Teams tab navigation instead
 
-### Project structure
+## Project structure
 
 The project structure when you start of this lab and end of this lab is as follows.
 Use this depiction for comparison.
@@ -133,11 +159,11 @@ A02-after-teams-sso
 </table>
 
 
-### Exercise 1: Authorize Microsoft Teams to log users into your application
+## Exercise 1: Authorize Microsoft Teams to log users into your application
 
 Microsoft Teams provides a Single Sign-On (SSO) capability so users are silently logged into your application using the same credentials they used to log into Microsoft Teams. This requires giving Microsoft Teams permission to issue Azure AD tokens on behalf of your application. In this exercise, you'll provide that permission.
 
-#### Step 1: Return to your app registration
+### Step 1: Return to your app registration
 
 Return to the [Azure AD admin portal](https://aad.portal.azure.com/) and make sure you're logged in as the administrator of your development tenant. Click "Azure Active Directory" 1️⃣ and then "App Registrations" 2️⃣.
 
@@ -145,7 +171,7 @@ Return to the [Azure AD admin portal](https://aad.portal.azure.com/) and make su
 
 Select the app you registered earlier to view the application overview.
 
-#### Step 2: Add the Teams client applications
+### Step 2: Add the Teams client applications
 
 Click "Expose an API" 1️⃣ and then "+ Add a client application" 2️⃣.
 
@@ -157,7 +183,7 @@ Repeat the process for the Teams web application, `5e3ce6c0-2b1f-4285-8d4b-75ee7
 
 ![Add a client application](../../assets/03-003-AppRegistrationUpdate-3.png)
 
-### Exercise 2: Create the Teams application package
+## Exercise 2: Create the Teams application package
 
 Microsoft Teams applications don't run "inside" of Microsoft Teams, they just appear in the Teams user interface. A tab in Teams is just a web page, which could be hosted anywhere as long as the Teams client can reach it. 
 
@@ -166,7 +192,7 @@ To create a Teams application, you need to create a file called *manifest.json* 
 
 In this exercise you'll create a manifest.json file and application package for the Northwind Orders app and upload it into Microsoft Teams.
 
-#### Step 1: Copy the *manifest* folder to your working directory
+### Step 1: Copy the *manifest* folder to your working directory
 
 Many developers use the [Teams Developer Portal](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/build-and-test/teams-developer-portal?WT.mc_id=m365-58890-cxa) to create an app package; this is preferred by many enterprise developer and systems integrators. However ISV's may want to keep the app package settings in their source control system, and that's the approach used in the lab. It's just a zip file; you can create it any way you want!
 
@@ -177,7 +203,7 @@ Many developers use the [Teams Developer Portal](https://docs.microsoft.com/en-u
 
 Go to your local copy of the `A02-TeamsSSO` folder on your computer and copy the *manifest* folder into the working folder you used in the previous lab. This folder contains a template for building the manifest.json file.
 
-#### Step 2: Examine the manifest template
+### Step 2: Examine the manifest template
 
 In the manifest folder you just copied, open [manifest.template.json](../../src/create-core-app/aad/A02-after-teams-sso/manifest/manifest.template.json) in your code editor. This is the JSON that Teams needs to display your application.
 
@@ -216,7 +242,7 @@ Now examine the `webApplicationInfo` property. It contains the information Teams
   }
 ~~~
 
-#### Step 3: Add the Teams App ID to the .env file
+### Step 3: Add the Teams App ID to the .env file
 
 Open the .env file in your working directory and add this line:
 
@@ -226,7 +252,7 @@ TEAMS_APP_ID=1331dbd6-08eb-4123-9713-017d9e0fc04a
 
 You should generate a different GUID for each application you register; this one is just here for your convenience. We could have hard-coded the app ID in the manifest.json template, but there are times when you need it in your code, so this will make that possible in the future.
 
-#### Step 4: Add npm package to create .zip files
+### Step 4: Add npm package to create .zip files
 
 Run this command in your working application folder:
 
@@ -234,7 +260,7 @@ Run this command in your working application folder:
 npm install adm-zip --save-dev
 ~~~
 
-#### Step 5: Build the package
+### Step 5: Build the package
 
 Open the **package.json** file in your working directory and add a script that will generate the app package. The [script code](../../src/create-core-app/aad/A02-after-teams-sso/manifest/makePackage.js) is in the manifest folder you just copied, so we just need to declare it in package.json. This is what `scripts` property should look like when you're done.
 
@@ -254,9 +280,9 @@ npm run package
 
 Go ahead and run it, and two new files, manifest.json and northwind.zip (the app package) should appear in your manifest folder.
 
-### Exercise 3: Modify the application source code
+## Exercise 3: Modify the application source code
 
-#### Step 1: Add a module with Teams helper functions
+### Step 1: Add a module with Teams helper functions
 
 Create a file called teamsHelpers.js in the client/modules folder, and paste in this code:
 
@@ -272,11 +298,10 @@ export async function inTeams() {
 
 This function will allow your code to determine if it's running in Microsoft Teams, and is used in this and future labs.
 
----
 > NOTE: There is no official way to do this with the Teams JavaScript SDK v1. The official guidance is to pass some indication that the app is running in Teams via the app's URL path or query string. This is not a single-page app, however, so we're using a workaround to avoid updating every page to generate hyperlinks that support Teams-specific URLs. This workaround is used by the [yo teams generator](https://github.com/wictorwilen/msteams-react-base-component/blob/master/src/useTeams.ts#L10), so it's well tested and in wide use, though not officially supported.
 ---
 
-#### Step 2: Update the login code for Teams SSO
+### Step 2: Update the login code for Teams SSO
 
 Open the client/identity/identityClient.js file and add these import statements near the top.
 
@@ -374,7 +399,7 @@ export async function logoff() {
 }
 ~~~
 
-#### Step 3: Hide the navigation within Teams
+### Step 3: Hide the navigation within Teams
 
 Microsoft Teams already has multiple levels of navigation, including multiple tabs as configured in the previous exercise. So the applications' built-in navigation is redundant in Teams.
 
@@ -406,13 +431,12 @@ Now modify the `connectedCallback()` function, which displays the navigation web
     }
 ~~~
 
----
+
 > NOTE: Web components are encapsulated custom HTML elements. They're not a Teams thing, nor do they use React or another UI library; they're built right into modern web browsers. You can learn more [in this article](https://developer.mozilla.org/en-US/docs/Web/Web_Components.)
----
 
-### Exercise 4: Test your application in Microsoft Teams
+## Exercise 4: Test your application in Microsoft Teams
 
-#### Step 1: Start the application
+### Step 1: Start the application
 
 Now it's time to run your updated application and run it in Microsoft Teams. Start the application with this command:
 
@@ -420,7 +444,7 @@ Now it's time to run your updated application and run it in Microsoft Teams. Sta
 npm start
 ~~~
 
-#### Step 2: Upload the app package
+### Step 2: Upload the app package
 
 In the Teams web or desktop UI, click "Apps" in the sidebar 1️⃣, then "Manage your apps" 2️⃣. At this point you have three choices:
 
@@ -436,25 +460,23 @@ Navigate to the Northwind.zip file in your manifest directory and upload it. Tea
 
 ![Upload the app](../../assets/03-006-InstallApp-2.png)
 
-#### Step 3: Run the application
+### Step 3: Run the application
 
 The application should appear without any login prompt. The app's navigation should not be displayed; instead users can navigate to "My Orders" or "Products" using the tabs in the Teams app.
 
 ![Run the app](../../assets/03-007-RunApp-1.png)
 
----
 > CHALLENGE: You might have noticed the logout button doesn't do anything in Teams! If you wish, hide the logout button just as you hid the navigation bar. The code is in client/identity/userPanel.js.
----
 
-### Known issues
+## Known issues
 
 For the latest issues, or to file a bug report, see the [github issues list](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/issues) for this repository.
 
-### References
+## References
 
 [Single sign-on (SSO) support for Tabs](https://docs.microsoft.com/microsoftteams/platform/tabs/how-to/authentication/auth-aad-sso?WT.mc_id=m365-58890-cxa)
 
 
-### Next Steps
+## Next Steps
 
 After completing this lab, you may continue to the next lab in this learning path, [A03-after-apply-styling: Teams styling and themes](./A03-after-apply-styling.md).
