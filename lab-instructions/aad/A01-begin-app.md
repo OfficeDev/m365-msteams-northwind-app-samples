@@ -316,7 +316,7 @@ The starting code for the "A" path is in the `src\create-core-app\aad\A01-begin-
 #### Step 2: Install the app's dependencies
 
 
-Using a command line tool of your choice, navigate to the `A01-begin-app\` directory and type the command:
+Using a command line tool of your choice, navigate to your working copy of the `A01-begin-app\` directory and type the command:
 
 ~~~shell
 npm install
@@ -324,7 +324,19 @@ npm install
 
 This will install the libraries required to run the server side of your solution.
 
-#### Step 3: Configure the app settings
+#### Step 3: Download the sample data
+
+The Northwind Orders application uses the venerable Northwind database for sample data. The Northwind Database originally shipped with Microsoft Access, then SQL Server, and now is [available as a test OData service](https://services.odata.org/V4/Northwind/) from the [OData organization](https://www.odata.org/). In this step, you'll download the entire Northwind database from this test service to local JSON files, which are used by the Northwind Orders application.
+
+Using a command line tool in your working directory, type:
+
+~~~shell
+npm run db-download
+~~~
+
+This will create a JSON file in the **northwindDB** folder for each table in the Northwind database. The appliction reads and writes these JSON files. It's generous to call these files a "database", but it works well for a single-user lab environment.
+
+#### Step 4: Configure the app settings
 
 In a code editor, open the working folder you created in Step 2. Copy the *.env_sample* file to a new file called *.env* and open the new file. It will look like this:
 
@@ -340,7 +352,7 @@ CLIENT_SECRET=xxxxx
 
 Fill in the information you've gathered so far, including your ngrok hostname and the information from the app registration.
 
-#### Step 4: Run the application
+#### Step 5: Run the application
 
 To run the application, open a command line in your working folder and type:
 

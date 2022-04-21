@@ -91,7 +91,19 @@ npm install
 
 This will install the libraries required to run the server side of your solution.
 
-#### Step 3: Configure the app settings
+#### Step 3: Download the sample data
+
+The Northwind Orders application uses the venerable Northwind database for sample data. The Northwind Database originally shipped with Microsoft Access, then SQL Server, and now is [available as a test OData service](https://services.odata.org/V4/Northwind/) from the [OData organization](https://www.odata.org/). In this step, you'll download the entire Northwind database from this test service to local JSON files, which are used by the Northwind Orders application.
+
+Using a command line tool in your working directory, type:
+
+~~~shell
+npm run db-download
+~~~
+
+This will create a JSON file in the **northwindDB** folder for each table in the Northwind database. The appliction reads and writes these JSON files. It's generous to call these files a "database", but it works well for a single-user lab environment.
+
+#### Step 4: Configure the app settings
 
 In a code editor, open the working folder you created in Step 2. Copy the *.env_sample* file to a new file called *.env* and open the new file. It will look like this:
 
@@ -102,7 +114,7 @@ PORT=3978
 
 No changes are required to this file until future labs in the series, but you do need to create the *.env* file for the app to run.
 
-#### Step 4: Run the application
+#### Step 5: Run the application
 
 To run the application, open a command line in your working folder and type:
 
