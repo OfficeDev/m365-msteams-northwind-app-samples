@@ -18,10 +18,12 @@ import 'https://statics.teams.cdn.office.net/sdk/v1.11.0/js/MicrosoftTeams.min.j
 const msalConfig = {
     auth: {
         clientId: env.CLIENT_ID,
+        redirectUri: `https://${env.HOSTNAME}`,
+        postLogoutRedirectUri: `https://${env.HOSTNAME}`
     },
     cache: {
-        cacheLocation: "localStorage", // This configures where your cache will be stored
-        storeAuthStateInCookie: false  // Set this to "true" if you are having issues on IE11 or pre-Chromium Edge
+        cacheLocation: "sessionStorage", // This configures where your cache will be stored
+        storeAuthStateInCookie: false    // Set this to "true" if you are having issues on IE11 or Edge
     }
 };
 
