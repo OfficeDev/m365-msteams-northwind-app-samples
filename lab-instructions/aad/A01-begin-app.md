@@ -276,32 +276,19 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 
 ---
 
-### Step 3: Grant your application permission to call the Microsoft Graph API
+### Step 3: Verify permission to call the Microsoft Graph API
 
 The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is a RESTful API that allows you to access data in Azure AD and Microsoft 365, including Microsoft Teams.
 
-- While still in the app registration, navigate to "API Permissions" 1️⃣ and select "+ Add a permission" 2️⃣.
+- While still in the app registration, navigate to "API Permissions" 1️⃣ and notice there is already a permission there, "User.Read" 2️⃣.
 
-![Adding a permission](../../assets/01-017-RegisterAADApp-9.png)
+![Adding a permission](../../assets/01-017-RegisterAADApp-9a.png)
 
-On the "Request API permissions" flyout, select "Microsoft Graph". It's hard to miss!
+This permission is "delegated" (it acts on behalf of the logged-in user). For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types?WT.mc_id=m365-58890-cxa) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc).
 
-![Adding a permission](../../assets/01-018-RegisterAADApp-10.png)
-
-Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
+The permission is for calling the Microsoft Graph, and it allows reading the logged-in user's profile, which includes the user's Employee ID.
 
 The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
-
-So the application needs to read the user's employee ID from Azure AD. It could use the delegated User.Read permission that's already there, but to allow elevation of privileges for other calls it will use application permission to read the user's employee ID. For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#permission-types?WT.mc_id=m365-58890-cxa) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
-
-Select "Application permissions" to add the required permission.
-
-![Adding an app permission](../../assets/01-019-RegisterAADApp-10.png)
-
-You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Select the "Add Permission" button 3️⃣.
-
-![Adding User.Read.App permission](../../assets/01-020-RegisterAADApp-11.png)
-
 ### Step 4: Consent to the permission
 
 You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, select the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
