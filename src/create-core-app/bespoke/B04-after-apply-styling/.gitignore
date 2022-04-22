@@ -3,4 +3,4 @@ package-lock.json
 .env
 */manifest.json
 manifest/*.zip
-
+northwindDB/*.json

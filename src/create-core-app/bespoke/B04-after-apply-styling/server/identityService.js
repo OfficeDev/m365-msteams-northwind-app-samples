@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
+import { getEmployeeByLastName } from './northwindDataService.js';
 import fetch from 'node-fetch';
-import { NORTHWIND_ODATA_SERVICE } from './constants.js';
 import aad from 'azure-ad-jwt';
 import * as msal from '@azure/msal-node';
 
@@ -67,20 +67,16 @@ async function validateApiRequest(req, res, next) {
 
 async function validateEmployeeLogin(username, password) {
 
-    // For simplicity, the username is the employee's surname,
-    // and the password is ignored
-    const response = await fetch(
-        `${NORTHWIND_ODATA_SERVICE}/Employees?$filter=LastName eq '${username}'&$select=EmployeeID`,
-        {
-            "method": "GET",
-            "headers": {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        });
-    const employees = await response.json();
-    if (employees?.value?.length === 1) {
-        return employees.value[0].EmployeeID;
+    // Trim the username and capitalize the first letter only
+    let lastName = username.trim();
+    lastName = lastName.substring(0, 1).toUpperCase() +
+        lastName.substring(1).toLowerCase();
+
+    // This is so insecure! We just throw away the password and the username
+    // is the last name of any employee. The "token" will be the employee ID.
+    const employee = await getEmployeeByLastName(lastName);
+    if (employee) {
+        return employee.id;
     } else {
         return null;
     }

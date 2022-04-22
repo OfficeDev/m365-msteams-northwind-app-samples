@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server/server.js",
-    "debug": "nodemon --inspect server/server.js"
+    "debug": "nodemon --inspect server/server.js",
+    "db-download": "node northwindDB/dbDownload.js"
   },
   "keywords": [],
   "author": "M365 cloud advocates",
@@ -15,6 +16,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "lowdb": "^3.0.0",
     "node-fetch": "^3.1.1",
     "request": "^2.88.0"
   },
@@ -22,5 +24,8 @@
     "@types/express": "^4.17.2",
     "@types/request": "^2.48.3",
     "nodemon": "^2.0.13"
+  },
+  "nodemonConfig": {
+    "ignore": ["northwindDB/*.json"]
   }
 }
