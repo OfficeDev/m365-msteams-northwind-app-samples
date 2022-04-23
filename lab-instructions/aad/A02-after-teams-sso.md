@@ -268,6 +268,7 @@ Open the **package.json** file in your working directory and add a script that w
 "scripts": {
   "start": "nodemon server/server.js",
   "debug": "nodemon --inspect server/server.js",
+  "db-download": "node northwindDB/dbDownload.js",
   "package": "node manifest/makePackage.js"
 },
 ~~~
