@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 import { getEmployeeByLastName } from './northwindDataService.js';
-import fetch from 'node-fetch';
 import aad from 'azure-ad-jwt';
-import * as msal from '@azure/msal-node';
+
+import { dbService } from '../northwindDB/dbService.js';
+const db = new dbService();
 
 dotenv.config();
 
@@ -133,82 +134,31 @@ async function validateAndMapAadLogin(req, res) {
     }
 }
 
-const config = {
-    auth: {
-        authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET
-    }
-};
-const msalClientApp = new msal.ConfidentialClientApplication(config);
-const msalRequest = {
-    scopes: ["https://graph.microsoft.com/.default"]
-}
-
-const idCache = {};     // The employee mapping shouldn't change over time, so cache it here
 async function getEmployeeIdForUser(aadUserId) {
 
-    let employeeId;
-    if (idCache[aadUserId]) {
-        employeeId = idCache[aadUserId];
-    } else {
-        try {
-            const msalResponse =
-                await msalClientApp.acquireTokenByClientCredential(msalRequest);
-
-            const graphResponse = await fetch(
-                `https://graph.microsoft.com/v1.0/users/${aadUserId}?$select=employeeId`,
-                {
-                    "method": "GET",
-                    "headers": {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${msalResponse.accessToken}`
-                    }
-                });
-            if (graphResponse.ok) {
-                const employeeProfile = await graphResponse.json();
-                employeeId = employeeProfile.employeeId;
-                idCache[aadUserId] = employeeId;
-            } else {
-                console.log(`Error ${graphResponse.status} calling Graph in getEmployeeIdForUser: ${graphResponse.statusText}`);
-            }
-        }
-        catch (error) {
-            console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
-        }
-    }
-    return employeeId;
+    const idMapDB = await db.getTable("IdentityMap", "aadUserId");
+    const identity = idMapDB.item(aadUserId);
+    return identity.employeeId;
 }
 
 async function setEmployeeIdForUser(aadUserId, employeeId) {
     try {
-        const msalResponse =
-            await msalClientApp.acquireTokenByClientCredential(msalRequest);
 
-        const graphResponse = await fetch(
-            `https://graph.microsoft.com/v1.0/users/${aadUserId}`,
-            {
-                "method": "PATCH",
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                },
-                "body": JSON.stringify({
-                    "employeeId": employeeId.toString()
-                })
-            });
-        if (graphResponse.ok) {
-            const employeeProfile = await graphResponse.json();
-            employeeId = employeeProfile.employeeId;
+        const identityMap = await db.getTable("IdentityMap", "aadUserId");
+        if (identityMap.item(aadUserId)) {
+            // User already mapped (shouldn't happen but handle it anyway)
+            const item = identityMap.item(aadUserId);
+            item.employeeId = employeeId;
         } else {
-            console.log(`Error ${graphResponse.status} calling Graph in setEmployeeIdForUser: ${graphResponse.statusText}`);
+            identityMap.addItem({
+                "aadUserId": aadUserId,
+                "employeeId": employeeId
+            });
         }
+        await identityMap.save();
 
     }
     catch (error) {
-        console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
+        console.log(`Error updating user mapping ${error}`);
     }
-    return employeeId;
 }

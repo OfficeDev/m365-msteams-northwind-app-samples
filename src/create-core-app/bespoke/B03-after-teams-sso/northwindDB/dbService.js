@@ -20,36 +20,44 @@ export class dbService {
 
         const tableKey = tableName + "::" + primaryKey;
         if (!tables[tableKey]) {
-    
+
             // If here, there is no table in memory, so read it in now
             const file = join(northwindDirectory, `${tableName}.json`);
             const adapter = new JSONFile(file);
             const db = new Low(adapter);
-    
+
             await db.read();
-            db.data = db.data ?? {};
-    
+            if (!db.data) {
+                // Initialize a new database
+                db.data = {};
+                db.data[tableName] = [];
+            }
+
             // Store the lowdb and accessors for data and saving changes
             tables[tableKey] = {
                 tableName,
                 db,
                 primaryKey,
                 get data() { return this.db.data[tableName]; },
-                item: (value) => {
+                item: (key) => {
                     const index = this.#getIndex(tables[tableKey], primaryKey);
-                    return index.lookup(value);
+                    return index.lookup(key);
                 },
-                save: () => { this.write(); }
+                addItem: (row) => {
+                    this.#clearIndex(tables[tableKey], primaryKey);
+                    db.data[tableName].push(row);
+                },
+                save: async () => { await db.write(); }
             }
         }
-    
+
         return tables[tableKey];
     }
-    
+
     #getIndex(table, columnName) {
-    
+
         const indexName = `${table.tableName}::${columnName}`;
-    
+
         if (!indexes[indexName]) {
             const index = {};
             for (let i in table.data) {
@@ -60,12 +68,17 @@ export class dbService {
             }
             indexes[indexName] = {
                 index,
-                lookup: key => table.data[index[key]]
+                lookup: key => index && index[key] ? table.data[index[key]] : null
             }
         }
-    
+
         return indexes[indexName];
     }
-    
+
+    #clearIndex(table, columnName) {
+        const indexName = `${table.tableName}::${columnName}`;
+        indexes[indexName] = null;
+    }
+
 }
 

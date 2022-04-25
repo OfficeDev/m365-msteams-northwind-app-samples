@@ -20,7 +20,7 @@ Note that as you complete the labs, the original app should still work outside o
 In this lab you will learn to:
 
 - [Register an application with the Microsoft identity platform](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app?WT.mc_id=m365-58890-cxa)
-- Update your Azure AD app registration to allow Teams to issue tokens on behalf of your application
+- Configure ans Azure AD app registration to allow Teams to issue tokens on behalf of your application
 - Use the Microsoft Teams JavaScript SDK to request an Azure AD access token
 - How to validate an [Azure AD access token](https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens?WT.mc_id=m365-58890-cxa) in a NodeJS application
 
@@ -210,35 +210,16 @@ The secret will be displayed just this once on the "Certificates and secrets" sc
 
 The app registration created an identity for your application; now we need to give it permission to call the Microsoft Graph API. The Microsoft Graph is a RESTful API that allows you to access data in Azure AD and Microsoft 365, including Microsoft Teams.
 
-- While still in the app registration, navigate to "API Permissions" 1️⃣ and click "+ Add a permission" 2️⃣.
+- While still in the app registration, navigate to "API Permissions" 1️⃣. Notice that User.Read delegated permission for the Microsoft Graph API has automatically been placed on the list 2️⃣; this is exactly the permission we need to read the user's profile.
 
-![Adding a permission](../../assets/01-017-RegisterAADApp-9.png)
+![Confirm the permission](../../assets/01-017-RegisterAADApp-9a.png)
 
-On the "Request API permissions" flyout, click "Microsoft Graph". It's hard to miss!
 
-![Adding a permission](../../assets/01-018-RegisterAADApp-10.png)
-
-Notice that the application has one permission already: delegated permission User.Read permission for the Microsoft Graph. This allows the logged in user to read his or her own profile. 
-
-The Northwind Orders application uses the Employee ID value in each users's Azure AD profile to locate the user in the Employees table in the Northwind database. The names probably won't match unless you rename them but in a real application the employees and Microsoft 365 users would be the same people.
-
-So the application needs to read and write the user's employee ID in Azure AD. Users aren't allowed to overwrite the employeeId field on their own, so the application needs to elevate privileges to save the Northwind employee ID. To do that, the application will use an application permission, "User.ReadWrite.All". For an explanation of application vs. delegated permissions, see [this documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent?WT.mc_id=m365-58890-cxa#permission-types) or watch [this video](https://www.youtube.com/watch?v=SaBbfVgqZHc)
-
-Click "Application permissions" to add the required permission.
-
-![Adding an app permission](../../assets/01-019-RegisterAADApp-10.png)
-
-You will be presented with a long list of objects that the Microsoft Graph can access. Scroll all the way down to the User object, open the twistie 1️⃣, and check the "User.Read.All" permission 2️⃣. Click the "Add Permission" button 3️⃣.
-
-![Adding User.Read.App permission](../../assets/01-020-RegisterAADApp-11.png)
-
-### Step 3: Consent to the permission
-
-You have added the permission but nobody has consented to it. If you return to the permission page for your app, you can see that the new permission has not been granted. 1️⃣ To fix this, click the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
+- The permission was added automatically, but nobody has consented to it 1️⃣. To fix this, click the "Grant admin consent for <tenant>" button and then agree to grant the consent 2️⃣. When this is complete, the message "Granted for <tenant>" should be displayed for each permission.
 
 ![Grant consent](../../assets/01-024-RegisterAADApp-15.png)
 
-#### Step 4: Expose an API
+#### Step 3: Expose an API
 
 The Northwind Orders app is a full stack application, with code running in the web browser and web server. The browser application accesses data by calling a web API on the server side. To allow this, we need to expose an API in our Azure AD application. This will allow the server to validate Azure AD access tokens from the web browser.
 
@@ -262,7 +243,7 @@ Now that you've defined the application URI, the "Add a scope" flyout will allow
 ![Add the scope](../../assets/01-023-RegisterAADApp-14.png)
 
 
-#### Step 5: Authorize Microsoft Teams to log users into your application
+#### Step 4: Authorize Microsoft Teams to log users into your application
 
 Microsoft Teams provides a Single Sign-On (SSO) capability so users are silently logged into your application using the same credentials they used to log into Microsoft Teams. This requires giving Microsoft Teams permission to issue Azure AD tokens on behalf of your application. In this step, you'll provide that permission.
 
@@ -517,13 +498,14 @@ Now that the client code has been updated, it's time to modify the server code t
 
 ~~~javascript
 import aad from 'azure-ad-jwt';
-import * as msal from '@azure/msal-node';
+import { dbService } from '../northwindDB/dbService.js';
+const db = new dbService();
 ~~~
 
 This will import two node packages:
 
 * azure-ad-jwt - this package validates an Azure AD access token
-* @azure/msal-node - this package provides the Microsoft Authentication Library (MSAL) so your code can call the [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/?WT.mc_id=m365-58890-cxa) to read and write the Azure AD user profile.
+* dbService - this is the module that handles the JSON database, so we can write the mapping between Azure AD user ID's and Northwind Employee ID's there.
 
 
 Then locate the function `initializeIdentityService()` and add these lines near the bottom of the function, just above the `app.use('/api/', validateApiRequest);` statement.
@@ -602,90 +584,39 @@ async function validateAndMapAadLogin(req, res) {
     }
 }
 
-const config = {
-    auth: {
-        authority: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET
-    }
-};
-const msalClientApp = new msal.ConfidentialClientApplication(config);
-const msalRequest = {
-    scopes: ["https://graph.microsoft.com/.default"]
-}
-
-const idCache = {};     // The employee mapping shouldn't change over time, so cache it here
 async function getEmployeeIdForUser(aadUserId) {
 
-    let employeeId;
-    if (idCache[aadUserId]) {
-        employeeId = idCache[aadUserId];
-    } else {
-        try {
-            const msalResponse =
-                await msalClientApp.acquireTokenByClientCredential(msalRequest);
-
-            const graphResponse = await fetch(
-                `https://graph.microsoft.com/v1.0/users/${aadUserId}?$select=employeeId`,
-                {
-                    "method": "GET",
-                    "headers": {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${msalResponse.accessToken}`
-                    }
-                });
-            if (graphResponse.ok) {
-                const employeeProfile = await graphResponse.json();
-                employeeId = employeeProfile.employeeId;
-                idCache[aadUserId] = employeeId;
-            } else {
-                console.log(`Error ${graphResponse.status} calling Graph in getEmployeeIdForUser: ${graphResponse.statusText}`);
-            }
-        }
-        catch (error) {
-            console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
-        }
-    }
-    return employeeId;
+    const idMapDB = await db.getTable("IdentityMap", "aadUserId");
+    const identity = idMapDB.item(aadUserId);
+    return identity.employeeId;
 }
 
 async function setEmployeeIdForUser(aadUserId, employeeId) {
     try {
-        const msalResponse =
-            await msalClientApp.acquireTokenByClientCredential(msalRequest);
 
-        const graphResponse = await fetch(
-            `https://graph.microsoft.com/v1.0/users/${aadUserId}`,
-            {
-                "method": "PATCH",
-                "headers": {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${msalResponse.accessToken}`
-                },
-                "body": JSON.stringify({
-                    "employeeId": employeeId.toString()
-                })
-            });
-        if (graphResponse.ok) {
-            const employeeProfile = await graphResponse.json();
-            employeeId = employeeProfile.employeeId;
+        const identityMap = await db.getTable("IdentityMap", "aadUserId");
+        if (identityMap.item(aadUserId)) {
+            // User already mapped (shouldn't happen but handle it anyway)
+            const item = identityMap.item(aadUserId);
+            item.employeeId = employeeId;
         } else {
-            console.log(`Error ${graphResponse.status} calling Graph in setEmployeeIdForUser: ${graphResponse.statusText}`);
+            identityMap.addItem({
+                "aadUserId": aadUserId,
+                "employeeId": employeeId
+            });
         }
+        await identityMap.save();
 
     }
     catch (error) {
-        console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
+        console.log(`Error updating user mapping ${error}`);
     }
-    return employeeId;
 }
 ~~~
 
 `validateAndMapAadLogin()` validates the Azure AD access token sent by the client and obtains the Azure AD user ID. It then calls `getEmployeeIdForUser()` to get the employee ID for that user. `getEmployeeIdForUser()` uses MSAL to obtain an Azure AD access token for the application and then it calls the Microsoft Graph with that token.
 
-If `validateAndMapAadLogin()` fails to get an employee ID, and a username and password were provided, it looks up the employee ID and uses `setEmployeeIdForUser()` to write it to the user's Azure AD profile.
+If `validateAndMapAadLogin()` fails to get an employee ID, and a username and password were provided, it looks up the employee ID and uses `setEmployeeIdForUser()` to write it to the JSON database.
 
 The finished [server/identityService.js file is here](../../src/create-core-app/bespoke/B03-after-teams-sso/server/identityService.js).
 
