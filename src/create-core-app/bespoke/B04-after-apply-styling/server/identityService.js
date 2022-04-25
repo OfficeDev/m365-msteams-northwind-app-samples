@@ -3,9 +3,9 @@ import { getEmployeeByLastName } from './northwindDataService.js';
 import aad from 'azure-ad-jwt';
 
 import { dbService } from '../northwindDB/dbService.js';
+const db = new dbService();
 
 dotenv.config();
-const db = new dbService();     
 
 // Mock identity service based on Northwind employees
 
