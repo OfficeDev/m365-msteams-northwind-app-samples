@@ -17,7 +17,7 @@ It will also enable them to extend their application with capabilities currently
 
 ![app-camp](./assets/appcamp-readme.png)
 
-In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in JavaScript, using Express, the most popular web server platform for NodeJS.
+In this series of labs, you will port a simple "Northwind Orders" web application to become a full-fledged Microsoft Teams application. To make the app understandable by a wide audience, it is written in vanilla JavaScript with no UI framework, however it does use modern browser capabilities such as web components, CSS variables, and ECMAScript modules. The server side is also in plain JavaScript, using Express, the most popular web server platform for NodeJS.
 
 **Document outline**
 <!-- no toc -->
@@ -31,11 +31,11 @@ In this series of labs, you will port a simple "Northwind Orders" web applicatio
 
 ## Paths 🛣️
 
-There are two paths for doing the core application development labs.
+There are two paths for doing the core application development labs. (NOTE that the labs are "Core"; the "Core Teams Application" is just a simple Teams application that we can build on in the labs that follow.)
 
 - **The "A" path** is for developers with apps that are already based on Azure Active Directory. The starting app uses Azure Active Directory and the Microsoft Authentication Library (MSAL). Path A includes optional modules for extending the core application. There is a set of optional modules for extending the core application.
 
-- **The "B" path** is for developers with apps that use some other identity system. It includes a simple (and not secure!) cookie-based auth system based on the Employees table in the Northwind database. You will use an identity mapping scheme to allow your existing users to log in directly or via Azure AD Single Sign-On.
+- **The "B" path** is for developers with apps that use some other identity system. It includes a simple cookie-based auth system based on the Employees table in the Northwind database. This cookie-based system is not secure and should never be used in production! But it does serve to show how to map identities from an existing login system to Azure AD identities using Teams Single Sign-on.
 
 Links to resources referenced throughout App Camp can be found [here, on the Resources page](./docs/Resources.md).
 
