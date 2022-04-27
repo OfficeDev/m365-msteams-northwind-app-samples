@@ -404,7 +404,7 @@ export async function logoff() {
 
 Microsoft Teams already has multiple levels of navigation, including multiple tabs as configured in the previous exercise. So the applications' built-in navigation is redundant in Teams.
 
-To hide the built-in navigation in Teams, open the client/components/navigation.js file and add this import statement at the top.
+To hide the built-in navigation in Teams, open the `client/components/navigation.js` file and add this import statement at the top.
 
 ~~~javascript
 import { inTeams } from '../modules/teamsHelpers.js';
