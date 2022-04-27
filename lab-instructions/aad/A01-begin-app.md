@@ -214,7 +214,9 @@ Before you can register your application, you will need to start ngrok to obtain
 ngrok http 3978 --host-header=localhost
 ~~~
 
-The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+The terminal will display a screen like this; note the https forwarding URL for use in this lab. 
+
+Save this URL for use throughout the labs. Do not stop ngrok for the duration of these labs.
 
 ![ngrok output](../../assets/01-002-ngrok.png)
 
