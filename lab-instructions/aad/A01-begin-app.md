@@ -214,11 +214,14 @@ Before you can register your application, you will need to start ngrok to obtain
 ngrok http 3978 --host-header=localhost
 ~~~
 
-The terminal will display a screen like this; note the https forwarding URL for use in this lab. Save this URL for use throughout the labs.
+The terminal will display a screen like this; note the https forwarding URL for use in this lab. 
+
+Save this URL for use throughout the labs.
 
 ![ngrok output](../../assets/01-002-ngrok.png)
 
-> **NOTE:** [This page](../../docs/ngrokReferences.md) lists all the exercises which involve the ngrok URL so you can easily update it if it changes.
+> **NOTE:** Do not stop ngrok for the duration of these labs.
+> If you do stop ngrok, [this page](../../docs/ngrokReferences.md) lists all the exercises which involve the ngrok URL so you can easily update it if it changes.
 
 ### Step 2: Register your application in Azure Active Directory
 

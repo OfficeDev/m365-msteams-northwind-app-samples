@@ -285,7 +285,7 @@ Go ahead and run it, and two new files, manifest.json and northwind.zip (the app
 
 ### Step 1: Add a module with Teams helper functions
 
-Create a file called teamsHelpers.js in the client/modules folder, and paste in this code:
+Create a file called `teamsHelpers.js` in the `client/modules folder`, and paste in this code:
 
 ~~~javascript
 // async function returns true if we're running in Teams
@@ -304,7 +304,7 @@ This function will allow your code to determine if it's running in Microsoft Tea
 
 ### Step 2: Update the login code for Teams SSO
 
-Open the client/identity/identityClient.js file and add these import statements near the top.
+Open the `client/identity/identityClient.js` file and add these import statements near the top.
 
 ~~~javascript
 import { inTeams } from '/modules/teamsHelpers.js';
@@ -404,7 +404,7 @@ export async function logoff() {
 
 Microsoft Teams already has multiple levels of navigation, including multiple tabs as configured in the previous exercise. So the applications' built-in navigation is redundant in Teams.
 
-To hide the built-in navigation in Teams, open the client/components/navigation.js file and add this import statement at the top.
+To hide the built-in navigation in Teams, open the `client/components/navigation.js` file and add this import statement at the top.
 
 ~~~javascript
 import { inTeams } from '../modules/teamsHelpers.js';
