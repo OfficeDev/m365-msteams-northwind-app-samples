@@ -1,155 +1,166 @@
-// User profiles are stored in the Northwind database
-import { getEmployee } from '../modules/northwindDataService.js';
-import 'https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js';
-import { env } from '/modules/env.js';
-import { inM365 } from '/modules/teamsHelpers.js';
-import 'https://res.cdn.office.net/teams-js/2.0.0-beta/js/MicrosoftTeams.min.js';
+import dotenv from 'dotenv';
+import fetch from 'node-fetch';
+import aad from 'azure-ad-jwt';
+import * as msal from '@azure/msal-node';
 
-// interface IIdentityClient {
-//     async getLoggedinEmployeeId(): number;
-//     async setLoggedinEmployeeId(employeeId: number): void;
-//     async validateEmployeeLogin(surname: string, password: string): Number;
-//     async getLoggedInEmployee(): IEmployee;
-//     async Logoff(): void                    // Redirects and does not return
-//     async getFetchHeadersAnon(): string;    // headers for calling Fetch anonymously
-//     async getFetchHeadersAuth(): string;    // headers for calling Fetch with authentication
-// }
+dotenv.config();
 
-const msalConfig = {
-    auth: {
-        clientId: env.CLIENT_ID,
-        redirectUri: `https://${env.HOSTNAME}`,
-        postLogoutRedirectUri: `https://${env.HOSTNAME}`
-    },
-    cache: {
-        cacheLocation: "sessionStorage", // This configures where your cache will be stored
-        storeAuthStateInCookie: false    // Set this to "true" if you are having issues on IE11 or Edge
-    }
-};
+// Wire up middleware
+export async function initializeIdentityService(app) {
 
-// MSAL request object to use over and over
-const msalRequest = {
-    scopes: [`api://${env.HOSTNAME}/${env.CLIENT_ID}/access_as_user`]
-}
-
-const msalClient = new msal.PublicClientApplication (msalConfig);
-
-let getLoggedInEmployeeIdPromise;        // Cache the promise so we only do the work once on this page
-export function getLoggedinEmployeeId() {
-    if (!getLoggedInEmployeeIdPromise) {
-        getLoggedInEmployeeIdPromise = getLoggedinEmployeeId2();
-    }
-    return getLoggedInEmployeeIdPromise;
-}
-
-// Here we do the work to log the user in and get the employee ID
-async function getLoggedinEmployeeId2() {
-
-    const accessToken = await getAccessToken();
-    const response = await fetch(`/api/validateAadLogin`, {
-        "method": "post",
-        "headers": {
-            "content-type": "application/json",
-            "authorization": `Bearer ${accessToken}`
-        },
-        "body": JSON.stringify({
-            "employeeId": 0
-        }),
-        "cache": "no-cache"
-    });
-    if (response.ok) {
-        const data = await response.json();
-        if (data.employeeId) {
-            console.log(`Signed into account with employee ID ${data.employeeId}`);
-            return data.employeeId;
-        }
-    }
-}
-
-let getAccessTokenPromise;        // Cache the promise so we only do the work once on this page
-export function getAccessToken() {
-    if (!getAccessTokenPromise) {
-        getAccessTokenPromise = getAccessToken2();
-    }
-    return getAccessTokenPromise;
-}
-
-async function getAccessToken2() {
-
-    if (await inM365()) {       
-        return await microsoftTeams.app.initialize();  
-    } else {
-
-        // If we were waiting for a redirect with an auth code, handle it here
-        await msalClient.handleRedirectPromise();
+    // Web service validates an Azure AD login
+    app.post('/api/validateAadLogin', async (req, res) => {
 
         try {
-            await msalClient.ssoSilent(msalRequest);
-        } catch (error) {
-            await msalClient.loginRedirect(msalRequest);
-        }
-
-        const accounts = msalClient.getAllAccounts();
-        if (accounts.length === 1) {
-            msalRequest.account = accounts[0];
-        } else {
-            throw ("Error: Too many or no accounts logged in");
-        }
-
-        let accessToken;
-        try {
-            const tokenResponse = await msalClient.acquireTokenSilent(msalRequest);
-            accessToken = tokenResponse.accessToken;
-            return accessToken;
-        } catch (error) {
-            if (error instanceof msal.InteractionRequiredAuthError) {
-                console.warn("Silent token acquisition failed; acquiring token using redirect");
-                this.msalClient.acquireTokenRedirect(this.request);
+            const employeeId = await validateAadLogin(req, res);
+            if (employeeId) {
+                res.send(JSON.stringify({ "employeeId": employeeId }));
             } else {
-                throw (error);
+                res.status(401).send('Unknown authentication failure');
             }
         }
-    }
-}
+        catch (error) {
+            console.log(`Error in /api/validateAadLogin handling: ${error.statusMessage}`);
+            res.status(error.status).json({ status: error.status, statusText: error.statusMessage });
+        }
 
-// export async function setLoggedinEmployeeId(employeeId) {
-//     document.cookie = `employeeId=${employeeId};SameSite=None;Secure;path=/`;
-// }
+    });
 
-// Get the employee profile from our web service
-export async function getLoggedInEmployee() {
-
-    const employeeId = await getLoggedinEmployeeId();
-
-    return await getEmployee(employeeId);
+    // Middleware to validate all other API requests
+    app.use('/api/', validateApiRequest);
 
 }
 
-export async function logoff() {
-    getLoggedInEmployeeIdPromise = null;
-    getAccessTokenPromise = null;
+async function validateApiRequest(req, res, next) {
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
 
-    if (!(await inTeams())) {
-        msalClient.logoutRedirect(msalRequest);
-    }
-}
-
-// Headers for use in Fetch (HTTP) requests when calling anonymous web services
-// in the server side of this app.
-export async function getFetchHeadersAnon() {
-    return ({
-        "content-type": "application/json"
+    aad.verify(token, { audience: audience }, async (err, result) => {
+        if (result) {
+            console.log(`Validated authentication on /api${req.path}`);
+            next();
+        } else {
+            console.error(`Invalid authentication on /api${req.path}: ${err.message}`);
+            res.status(401).json({ status: 401, statusText: "Access denied" });
+        }
     });
 }
 
-// Headers for use in Fetch (HTTP) requests when calling authenticated web services
-// in the server side of this app. Authentication is sent in a cookie, so no
-// additional headers are required.
-// Other implementations of this module may insert an Authorization header here
-export async function getFetchHeadersAuth() {
-    const accessToken = await getAccessToken();
-    return ({
-        "content-type": "application/json",
-        "authorization": `Bearer ${accessToken}`
+// validateAadLogin() - Returns an employee ID of the logged in user
+// Placing an employee ID in each user's M365 profile is a manual step, please
+// see the lab instructions
+async function validateAadLogin(req, res) {
+
+    const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
+    const token = req.headers['authorization'].split(' ')[1];
+
+    const aadUserId = await new Promise((resolve, reject) => {
+        aad.verify(token, { audience: audience }, async (err, result) => {
+            if (result) {
+                resolve(result.oid);
+            } else {
+                console.error(`Error validating access token: ${err.message}`);
+                reject(err);
+            }
+        });
     });
+
+    if (aadUserId) {
+        // If here, user is logged into Azure AD
+        let employeeId = await getEmployeeIdForUser(token, aadUserId);
+        if (employeeId) {
+            // We found the employee ID for the AAD user
+            return employeeId;
+        } else {
+            throw ({ status: 404, statusMessage: "Employee ID not found for this user" });
+        }
+    } else {
+        res.status(401).send('Invalid AAD token');
+    }
+}
+
+const GRAPH_SCOPE = "https://graph.microsoft.com/.default";
+const employeeIdCache = {};     // The employee mapping shouldn't change over time, so cache it here
+async function getEmployeeIdForUser(incomingToken, aadUserId) {
+
+    let employeeId;
+    if (employeeIdCache[aadUserId]) {
+        employeeId = employeeIdCache[aadUserId];
+    } else {
+        try {
+            const graphToken = await getOboAccessToken(incomingToken, GRAPH_SCOPE);
+
+            const graphResponse = await fetch(
+                `https://graph.microsoft.com/v1.0/users/${aadUserId}?$select=employeeId`,
+                {
+                    "method": "GET",
+                    "headers": {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${graphToken}`
+                    }
+                });
+            if (graphResponse.ok) {
+                const employeeProfile = await graphResponse.json();
+                employeeId = employeeProfile.employeeId;
+                employeeIdCache[aadUserId] = employeeId;
+            } else {
+                console.log(`Error ${graphResponse.status} calling Graph in getEmployeeIdForUser: ${graphResponse.statusText}`);
+            }
+        }
+        catch (error) {
+            console.log(`Error calling MSAL in getEmployeeIdForUser: ${error}`);
+        }
+    }
+    return employeeId;
+}
+
+// TODO: Securely cache the results of this function for the lifetime of the resulting token
+export async function getOboAccessToken(clientSideToken, scopes) {
+
+    const tenantId = process.env.TENANT_ID;
+    const clientId = process.env.CLIENT_ID;
+    const clientSecret = process.env.CLIENT_SECRET;
+
+    // Use On Behalf Of flow to exchange the client-side token for an
+    // access token with the needed permissions
+    
+    const INTERACTION_REQUIRED_STATUS_TEXT = "interaction_required";
+    const url = "https://login.microsoftonline.com/" + tenantId + "/oauth2/v2.0/token";
+    const params = {
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        assertion: clientSideToken,
+        requested_token_use: "on_behalf_of",
+        scope: scopes
+    };
+
+    const accessTokenQueryParams = new URLSearchParams(params).toString();
+    try {
+        const oboResponse = await fetch(url, {
+            method: "POST",
+            body: accessTokenQueryParams,
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+
+        const oboData = await oboResponse.json();
+        if (oboResponse.status !== 200) {
+            // We got an error on the OBO request. Check if it is consent required.
+            if (oboData.error.toLowerCase() === 'invalid_grant' ||
+                oboData.error.toLowerCase() === 'interaction_required') {
+                throw (INTERACTION_REQUIRED_STATUS_TEXT);
+            } else {
+                console.log(`Error returned in OBO: ${JSON.stringify(oboData)}`);
+                throw (`Error in OBO exchange ${oboResponse.status}: ${oboResponse.statusText}`);
+            }
+        }
+        return oboData.access_token;
+    } catch (error) {
+        return error;
+    }
+
 }
