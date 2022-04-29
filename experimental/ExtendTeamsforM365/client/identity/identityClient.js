@@ -18,7 +18,6 @@ import 'https://res.cdn.office.net/teams-js/2.0.0-beta.5/js/MicrosoftTeams.min.j
 const msalConfig = {
     auth: {
         clientId: env.CLIENT_ID,
-        authority: `https://login.microsoftonline.com/${env.TENANT_ID}`,
         redirectUri: `https://${env.HOSTNAME}`,
         postLogoutRedirectUri: `https://${env.HOSTNAME}`
     },
@@ -33,7 +32,7 @@ const msalRequest = {
     scopes: [`api://${env.HOSTNAME}/${env.CLIENT_ID}/access_as_user`]
 }
 
-const msalClient = new msal.PublicClientApplication(msalConfig);
+const msalClient = new msal.PublicClientApplication (msalConfig);
 
 let getLoggedInEmployeeIdPromise;        // Cache the promise so we only do the work once on this page
 export function getLoggedinEmployeeId() {
@@ -76,9 +75,12 @@ export function getAccessToken() {
 }
 
 async function getAccessToken2() {
+
     if (await inM365()) {
+        //get token
         return await microsoftTeams.authentication.getAuthToken({});
     } else {
+
         // If we were waiting for a redirect with an auth code, handle it here
         await msalClient.handleRedirectPromise();
 
@@ -128,7 +130,7 @@ export async function logoff() {
     getLoggedInEmployeeIdPromise = null;
     getAccessTokenPromise = null;
 
-    if (!(await inM365())) {
+    if (!(await inTeams())) {
         msalClient.logoutRedirect(msalRequest);
     }
 }

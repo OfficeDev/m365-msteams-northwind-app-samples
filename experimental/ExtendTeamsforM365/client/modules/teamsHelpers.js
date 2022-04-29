@@ -1,16 +1,17 @@
 import 'https://res.cdn.office.net/teams-js/2.0.0-beta.5/js/MicrosoftTeams.min.js';
-
 // async function returns true if we're running in Teams, Outlook, Office
-export async function inM365() {     
+export async function inM365() {  
+
+  //initialize SDK
   await microsoftTeams.app.initialize();
   const context= await microsoftTeams.app.getContext(); 
+
   //check against the enum for hostnames
-  return Object.values(microsoftTeams.HostName).includes(context.app.host.name);
+  return Object.values(microsoftTeams.HostName)
+    .includes(context.app.host.name);
+
 }
- const setTheme = (theme)=>{
-    const el = document.documentElement;
-    el.setAttribute('data-theme', theme); // switching CSS
-};
+
 const displayTheme=async()=>{
   if(inM365()) {
       const context= await microsoftTeams.app.getContext();  
@@ -18,7 +19,7 @@ const displayTheme=async()=>{
         setTheme(context.theme);     
         switch(context.app.host.name){
           case microsoftTeams.HostName.teams:{
-            setHubTheme("/northwind.css");
+            setHostAppTheme("../styles/northwind-teams.css");
             // When the theme changes, update the CSS again: Only for teams
             microsoftTeams.app.registerOnThemeChangeHandler((theme) => {
             setTheme(theme);
@@ -26,19 +27,19 @@ const displayTheme=async()=>{
           };        
           break;
           case microsoftTeams.HostName.outlook:{
-            setHubTheme("/northwind-outlook.css");
+            setHostAppTheme("../styles/northwind-outlook.css");
           };
             break;
           case microsoftTeams.HostName.office:{
-            setHubTheme("/northwind-office.css");
+            setHostAppTheme("../styles/northwind-office.css");
           }
           break;
           default:{
-            setHubTheme("/northwind.css");
+            setHostAppTheme("../styles/northwind.css");
           }
         }     
       }  
-  function setHubTheme(fileName) {
+  function setHostAppTheme(fileName) {
       let element = document.createElement("link");
       element.setAttribute("rel", "stylesheet");
       element.setAttribute("type", "text/css");
@@ -49,5 +50,13 @@ const displayTheme=async()=>{
   
 
 }
+
+const setTheme = (theme)=>{
+  const el = document.documentElement;
+  el.setAttribute('data-theme', theme); // switching CSS
+};
+
 displayTheme();
+
+
 

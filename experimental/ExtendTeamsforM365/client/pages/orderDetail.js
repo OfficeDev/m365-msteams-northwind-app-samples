@@ -46,30 +46,53 @@ async function displayUI() {
             trackerArea.appendChild(adaptiveCard.render()); 
                
              //chat support
-            if(microsoftTeams.chat.isSupported()) {
+            if(microsoftTeams.chat.isSupported()) { 
+
+                //show chat view
                 const chatArea = document.getElementById("chatBox");
                 chatArea.style.display = "block";
+
+                //adaptive card templating
                 var template = new ACData.Template(chatCard);
                 var card = template.expand({ $root: orderDetails });
                 var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+
+                //button action for chat
                 adaptiveCard.onExecuteAction = async action => {                  
-                    if (orderDetails.salesRepEmail.length > 1) {                                      
-                        await microsoftTeams.chat.openGroupChat({users:orderDetails.salesRepEmail,
-                            topic:`Enquiry about order ${orderDetails.orderId}`,
-                            message:`Hi, to discuss about ${orderDetails.orderId}`})
-                    }else{
-                       await  microsoftTeams.chat.openChat({user:orderDetails.salesRepEmail[0],                            
-                            message:`Enquiry about order ${orderDetails.orderId}`})
+                    if (orderDetails.salesRepEmail.length > 1) { 
+
+                        //group chat                                    
+                        await microsoftTeams.chat
+                            .openGroupChat({
+                                users:orderDetails.salesRepEmail,
+                                topic:`Enquiry about order ${orderDetails.orderId}`,
+                                message:`Hi, to discuss about ${orderDetails.orderId}`
+                            });
+                    } else {
+
+                        //1:1 chat
+                       await microsoftTeams.chat
+                            .openChat({
+                                user:orderDetails.salesRepEmail[0],                            
+                                message:`Enquiry about order ${orderDetails.orderId}`
+                            });
                     }
                 }
                 adaptiveCard.parse(card);
                 chatArea.appendChild(adaptiveCard.render());
-            }else if(microsoftTeams.mail.isSupported()) {  //mail support
+
+            } else if (microsoftTeams.mail.isSupported()) {
+                 
+                //show mail view
                 const mailArea = document.getElementById("mailBox");
                 mailArea.style.display = "block";
+
+                //adaptive card templating
                 var template = new ACData.Template(mailCard);
                 var card = template.expand({ $root: orderDetails });
                 var adaptiveCard = new AdaptiveCards.AdaptiveCard();
+
+                //button action for new mail
                 adaptiveCard.onExecuteAction = action => {
                     microsoftTeams.mail.composeMail({
                         type: microsoftTeams.mail.ComposeMailType.New,
@@ -78,6 +101,7 @@ async function displayUI() {
                         message: "Hello",
                     });
                 }
+
                 adaptiveCard.parse(card);
                 mailArea.appendChild(adaptiveCard.render());
             }else{
