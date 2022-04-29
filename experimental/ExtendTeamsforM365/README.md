@@ -66,7 +66,6 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
 |Outlook Web Access|	00000002-0000-0ff1-ce00-000000000000|
 |Outlook Web Access	|bc59ab01-8403-45c6-8796-ac3ef710b3e3|
 
-![Add a client application](../../assets/03-003-AppRegistrationUpdate-3.png)
 
 ### Project set up
 - Clone or download the sample from [https://github.com/OfficeDev/m365-msteams-northwind-app-samples](https://github.com/OfficeDev/m365-msteams-northwind-app-samples)
