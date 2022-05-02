@@ -58,14 +58,13 @@ Version|Date|Author|Comments
     ngrok http -host-header=rewrite 3978
     ```
 
-- Since messaging extensions utilize the Azure Bot Framework, you will need to register a new bot. 
-[Follow these instructions](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-1-register-your-web-service-as-an-azure-bot-in-the-bot-framework-in-azure-portal).
-  - Be sure to enable the Microsoft Teams bot channel so your solution can communicate with Microsoft Teams
-  - For local testing, update the bot configuration as per [these instructions](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-3-update-the-bot-registration-configuration)
+- Since messaging extensions utilize the  Bot Framework, you will need to register a new bot. 
+[Follow these instructions](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#exercise-1-bot-registration).
 
-- Update the `.env` configuration for the bot to use the Microsoft App Id and Client secret from the [previous steps](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/main/lab-instructions/aad/MessagingExtension.md#step-1-register-your-web-service-as-an-azure-bot-in-the-bot-framework-in-azure-portal)
 
-BOT_REG_AAD_APP_ID=&lt;Microsoft App Id&gt;
+- Update the `.env` configuration for the bot to use the Bot id and Client secret.
+
+BOT_REG_AAD_APP_ID=&lt;Bot id&gt;
 BOT_REG_AAD_APP_PASSWORD=&lt;Client Secret&gt;
 
 
