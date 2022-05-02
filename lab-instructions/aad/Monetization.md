@@ -270,10 +270,11 @@ In this step, you'll add client side code that checks the user's license on ever
 
 1. Open the file `client/identity/userPanel.js` in your code editor. 
     This is a web component that displays the user's picture and name on every page, so it's an easy place to check the license.
-2. Add this line at the top of the file.
+2. Add these imports at the top of the file.
 
 ~~~javascript
 import { hasValidLicense } from '../modules/northwindLicensing.js';
+import { inTeams } from '../modules/teamsHelpers.js';
 ~~~
 
 3. Add the following code at the top of the `else` clause within the `connectedCallback()` function.
@@ -360,9 +361,9 @@ The form this URL will take is as follows, where `tenant-id` is your tenant and 
    
    > `https://login.microsoftonline.com/1661a74b-21d8-4cc9-9e09-e258e0a18291/adminconsent?client_id=dd82efdc-c77f-49c1-9b18-ca3d76a36264`
 
-5. Now make your tenant aware of the licensing API by going to this URL in a browser.Paste the URL into a browser and hit **enter**.
+5. Now make your tenant aware of the licensing API by going to this URL in a browser. Paste the URL into a browser and hit **enter**.
    
-   You will be redirected to a page that looks for localhost and throws an error. DOn't worry, this is expected behavior. 
+   You will be redirected to a page that looks for localhost and throws an error. Don't worry, this is expected behavior. 
 
    You can close this browser window.
 
@@ -381,9 +382,10 @@ The form this URL will take is as follows, where `tenant-id` is your tenant and 
 12. Type **Contoso Monetization Code Sample Web API**.
 13. Select the API.
 14. Ensure the **user_impersonation** permission is selected.
-15. Click **Add permission**.
+15. Click **Add a permission**.
+16. Click **Grant admin consent** for (tenant name)" to the right of the **Add a Permission** button, and click the **Yes** button to confirm.
     
-    Now the Northwind Orders app registration allows the application to call the licensing service API.
+    Now the Northwind Orders app registration allows the Northwind Orders application to call the licensing service API.
 
 ## Exercise 4: Run the application
 
@@ -434,9 +436,11 @@ Microsoft Teams currently supports only the per-user pricing model
 
 The simulated purchase is now complete, so you will be redirected to the app's landing page. 
 
+The landing page gives the app a chance to interact with the user and capture any configuration information it needs. Users who purchase the app in the Teams store would be brought to this same page. 
+
 You will need to supply a page like this as part of your application; it interprets a token sent by **AppSource** and logs the user in with AAD SSO. This token is then sent to the **SaaS Fulfillment API v2**, which provides the details of the customer's subscription. 
 
-The landing page gives the app a chance to interact with the user and capture any configuration information it needs. Users who purchase the app in the Teams store would be brought to this same page. The sample app's landing page allows the user to select a region; the app stores this information in its own database.
+The sample app's landing page allows the user to select a region; the app stores this information in its own database. Notice the background color of these pages is blue; the blue pages are for your application to implement and are only a sample we've hosted based on [this sample](https://github.com/OfficeDev/office-add-in-saas-monetization-sample).
 
 ![Run application](../../assets/08-204-RunApp-4.png)
 
