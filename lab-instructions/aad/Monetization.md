@@ -8,10 +8,20 @@ This lab extends capabilities of your teams app. It begins with with a complete 
 
 ## Overview
 
-Here you will set up your Northwind Orders application as a transactable offer in a **mock** AppSource marketplace. This allows you to do this lab without a Partner Center account, which is required to create offers in the real AppSource. Additionally, you will integrate the Northwind Orders application with a simple licensing service that allows you to purchase licenses for your SaaS application.
+Here you will allow users to purchase subscriptions for your Northwind Orders application as a transactable offer in a **mock** AppSource marketplace. This allows you to do this lab without a Partner Center account, which is required to create offers in the real AppSource. Additionally, you will integrate the Northwind Orders application with a simple licensing service that allows you to purchase licenses for your SaaS application. When you're done the Northwind Orders application will require a license to run in Teams, but will not require a license when accessing it directly. 
 
-When you are done the Northwind Orders application will require a license to run in Teams, but will not require a license when accessing it directly.
+The App Source simulator, as well as a sample license service, can be found [in this github repository](https://github.com/OfficeDev/office-add-in-saas-monetization-sample). The repo includes:
 
+ * An [App Source simulator (web site)](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/tree/master/MonetizationCodeSample/AppSourceMockWebApp)
+ * A [sample license service](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/tree/master/MonetizationCodeSample/SaaSSampleWebApi) similar to one you need to provide for your app
+ * A [web site with a landing page](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/tree/master/MonetizationCodeSample/SaaSSampleWebApp) similar to the one you need to provide for your app
+
+If you'd like to install these services for yourself, the instructions are [here](../../docs/MonetizationLabSetup.md), but we've also hosted these services for you. These instructions assume you're just going to use the hosted services. In any case, be aware that the [license service]() and [web site with landing page]() are only samples and that your app would need to implement something similar!
+
+---
+⚠️ THE HOSTED SERVICES ARE TEMPORARY AND LIKELY TO MOVE. Please be aware and check back here for updates.
+
+---
 ## Exercise 1: Update .env
 
 Your `.env` file on the Northwind Orders application needs to be updated to include values that will allow it to interact with the licensing service. This service is centrally located and you share it with the other lab participants. 
@@ -20,15 +30,11 @@ Your `.env` file on the Northwind Orders application needs to be updated to incl
 2. Add below entries into `.env` file.
 
 ```text
-SAAS_API=https://(webApiSiteName).azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
-SAAS_SCOPES=api://(webApiClientId)/user_impersonation
+# These values are TEMPORARY and may change without notice!
+SAAS_API=https://BGmonetizationwebapi.azurewebsites.net/api/Subscriptions/CheckOrActivateLicense
+SAAS_SCOPES=api://dd82efdc-c77f-49c1-9b18-ca3d76a36264/user_impersonation
 OFFER_ID=contoso_o365_addin
 ```
-
-You must replace the values `webApiSiteName` and `webApiClientId` with values that point at the shared systems. These values are not included here as the repository is public to the Internet. 
-
-3. Please ask your lab proctor for these values.
-4. Replace the values in your `.env` file.
 
 ## Exercise 2: Northwind Orders calls the licensing service
 
@@ -136,7 +142,7 @@ async function getOboAccessToken(clientSideToken) {
 ### Step 2: Add a server side API to validate the user's license
 
 Now that you have server-side code that checks the user has a license, you need to add code that validates the that license. You'll add a POST request to the the Northwind Orders application that calls the licensing service API.
-
+ 
 1. In your working folder, locate the file `server/server.js` and open it in your code editor.
 2. Add these lines to the top of the file.
 
@@ -410,13 +416,16 @@ In a real-world situation, your SaaS offer is listed in the **Teams Store** and 
 
 For this lab you will use an **AppSource** simulator to mock your interactions with the actual marketplace. Just know that Teams users can purchase apps directly from the user interface when they're listed in the Teams app store.
 
-1. Get the mock AppSource website URL from your lab proctor.
+---
+⚠️ For your convenience, app service simulator is temporarily hosted at https://bgmonetizationappsource.azurewebsites.net/. If you'd prefer to host it yourself, the instructions are [here](../../docs/MonetizationLabSetup.md).
 
-2. Browse to mock AppSource URL. This should display the **AppSource** simulator. 
+---
+
+1. Browse to mock AppSource URL. This should display the **AppSource** simulator. 
 
 > 📃**NOTE:** The **AppSource** simulator's background color is green to make it easy to distinguish from your app's landing page, which has a blue background.
 
-3. Click the **Purchase** button to purchase a subscription to the Northwind Orders application.
+2. Click the **Purchase** button to purchase a subscription to the Northwind Orders application.
 
 ![Run application](../../assets/08-202-RunApp-2.png)
 
@@ -430,11 +439,16 @@ The real **AppSource** would show the plans you had defined in Partner Center, t
 
 Microsoft Teams currently supports only the per-user pricing model
 
-4. Select the "SeatBasedPlan" and click the **Purchase** button. Because this is a simulator, your credit card will not be charged.
+3. Select the "SeatBasedPlan" and click the **Purchase** button. Because this is a simulator, your credit card will not be charged.
 
 ![Run application](../../assets/08-203-RunApp-3.png)
 
 The simulated purchase is now complete, so you will be redirected to the app's landing page. 
+
+---
+⚠️ For your convenience, the web site containing the landing page is temporarily hosted at https://bgmonetizationwebapp.azurewebsites.net/. If you'd prefer to host it yourself, the instructions are [here](../../docs/MonetizationLabSetup.md).
+
+---
 
 The landing page gives the app a chance to interact with the user and capture any configuration information it needs. Users who purchase the app in the Teams store would be brought to this same page. 
 
@@ -446,7 +460,7 @@ The sample app's landing page allows the user to select a region; the app stores
 
 Once the region is selected, the sample app shows a welcome page with the user's name, which is obtained by [reading the user's profile with the Microsoft Graph API](https://docs.microsoft.com/en-us/graph/api/user-get?view=graph-rest-1.0&WT.mc_id=m365-58890-cxa). 
 
-5. Click **License Settings** to view the license assignment screen.
+4. Click **License Settings** to view the license assignment screen.
 
 ![Run application](../../assets/08-205-RunApp-5.png)
 
@@ -472,6 +486,76 @@ Now that you've purchased a subscription, you can see the Northwind Orders appli
 ![Run application](../../assets/08-209-RunApp-9.png)
 
 Notice that your username has been assigned a license. The sample app stored this in a SQL Server database. When the Teams application called the licensing service, the access token contained the tenant ID and user ID, enabling the licensing service to determine that the user has a license.
+
+## Exercise 5: Inspect the licensing code
+
+In this exercise, you'll inspect key areas of the sample licensing service used in this lab. In an actual application, you would write your own licensing service or extend your existing licensing service to integrate it with App Source.
+
+### Step 1: Resolving the Marketplace Token
+
+When a user completes the process of purchasing your application in App Source or the Microsoft Teams app store, they are directed to the app's [landing page](https://docs.microsoft.com/en-us/azure/marketplace/azure-ad-transactable-saas-landing-page). This URL is for a web page provided by the software vendor and registered in Partner Center. In this lab, the landing page is part of the [SaaSSampleWebApp](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/tree/master/MonetizationCodeSample/SaaSSampleWebApp) sample.
+
+Microsoft sends a marketplace token to the landing page; eventually this is resolved in the sample app's [Subscription service](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/blob/7673db6c8e6c809ae7aa0ba894460183aed964fc/MonetizationCodeSample/SaaSSampleWebApi/Controllers/SubscriptionsController.cs#L134).
+
+~~~csharp
+[Route("resolve")]
+[HttpPost]
+public async Task<IActionResult> ResolveAsync([FromForm] string AuthCode)
+{
+    using var requestMessage = new HttpRequestMessage(HttpMethod.Post,
+        $"{_configuration["SaaSfulfillmentAPIs:ApiEndPoint"]}/api/saas/subscriptions/resolve?api-version={_configuration["SaaSfulfillmentAPIs:ApiVersion"]}");
+
+    // the token is not required for Mock APIs 
+    // requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", your_token);
+
+    requestMessage.Headers.Add("x-ms-marketplace-token", AuthCode);
+
+    var httpClient = _httpClientFactory.CreateClient();
+
+    using (var response = await httpClient.SendAsync(requestMessage).ConfigureAwait(false))
+    {
+        if (response.StatusCode == HttpStatusCode.OK)
+        {
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var resolvedSubscription = JsonConvert.DeserializeObject<ResolvedSubscription>(content);
+
+            var subscription = new Subscription
+            {
+                Id = resolvedSubscription.Id,
+                OfferId = resolvedSubscription.OfferId,
+                PlanId = resolvedSubscription.PlanId,
+                SubscriptionName = resolvedSubscription.SubscriptionName,
+                Purchaser = HttpContext.User.Identity.Name,
+                PurchaserId = Guid.Parse(HttpContext.User.GetObjectId()),
+                TenantId = Guid.Parse(HttpContext.User.GetTenantId()),
+                PurchaseSeatsCount = resolvedSubscription.Quantity,
+                AllowOverAssignment = false,
+                FirstComeFirstServedAssignment = false
+            };
+            return Ok(subscription);
+        }
+        return BadRequest(response.ReasonPhrase);
+    }
+}
+~~~
+
+The sample calls the App Source simulator to get information about the subscription that was purchased. In your service, you would call [this Marketplace API](https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-fulfillment-subscription-api#resolve-a-purchased-subscription) to do this exchange.
+
+### Step 2: Examine web hooks
+
+In addition to a landing page, your application will need to provide a set of [web hooks](https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-fulfillment-webhook) that Microsoft can call to let you know about subscription changes. The sample app doesn't implement all the webhooks, but does implement a subset that are supported by the App Source simulator. The [WebHookController](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/blob/7673db6c8e6c809ae7aa0ba894460183aed964fc/MonetizationCodeSample/SaaSSampleWebApi/Controllers/WebhookController.cs#L54) implements these calls:
+
+* ChangePlan - called when a user changes their offer plan, such as moving from a Silver to a Gold plan. Plans are defined by the software using Partner Center.
+* ChangeQuantity - called when a user changes the quantity of seats in a per-seat SaaS offer
+* Unsubscribe - called when a user cancels their subscription
+
+The full list of required webhooks is [documented here](https://docs.microsoft.com/en-us/azure/marketplace/partner-center-portal/pc-saas-fulfillment-webhook).
+
+### Step 3: Examine the license check
+
+In Exercise 2 you added [code to check if the user has a license](https://github.com/OfficeDev/m365-msteams-northwind-app-samples/blob/f6c90ed39adadc9950a5cdec8af8b917ff67a9b4/src/extend-with-capabilities/Monetization/server/validateLicenseService.js#L8). This call is handled here, in the [CheckOrAdtivateLicense](https://github.com/OfficeDev/office-add-in-saas-monetization-sample/blob/7673db6c8e6c809ae7aa0ba894460183aed964fc/MonetizationCodeSample/SaaSSampleWebApi/Controllers/SubscriptionsController.cs#L213) method in the Subscriptions controller. Notice that this code includes some business logic and accesses a license database in Azure SQL using Entity Framework. 
+
+The point of this is that the application is managing licenses in its own way and keeping track of them in its own database. Microsoft Commercial Marketplace manages subscriptions which grant licenses, but each application can manage those licences however it wants to. This allows applications flexibility in how they implement licensing.
 
 ## Lab feedback
 
