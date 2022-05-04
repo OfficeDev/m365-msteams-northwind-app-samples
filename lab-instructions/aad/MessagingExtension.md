@@ -695,6 +695,7 @@ export async function updateProductUnitStock(productId, unitsInStock) {
     const product = products.item(productId);
     product.UnitsInStock = unitsInStock;
     productCache[productId] = null;         // Clear the product cache
+    categoryCache[product.categoryId]=null;// Clear the category cache for this product  
     await products.save();                  // Write the products "table"
 
 }
