@@ -2,7 +2,7 @@
 
 ## Summary
 
-This sample is an enhancement of the personal tab created from using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md).
+This sample is an enhancement of the personal tab created from using the core teams application built over the course of labs [A01](../../../lab-instructions/lab-instructions/aad/A01-begin-app.md)-[A03](../../../lab-instructions/aad/A03-after-apply-styling.md).
 
 In this sample, the student gets to explore deep linking in Microsoft Teams.
 
@@ -11,7 +11,7 @@ Copy the url to a particular order in `My orders` tab of the user.
 This link can then be shared via chat or email.
 Another user can open this url to view the order details in their own personal tab.
 
-![open deep link](../../../../assets/deeplink-working.gif)
+![open deep link](../../../assets/deeplink-working.gif)
 
 ## Version history
 
@@ -51,6 +51,11 @@ Version|Date|Author|Comments
 
     ```bash
     npm run package
+    ```
+- Download your local DB copy (Do this only once)
+
+    ```bash
+    npm run db-download
     ```
 
 - Run the bot locally

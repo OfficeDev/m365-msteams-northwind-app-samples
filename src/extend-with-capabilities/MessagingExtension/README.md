@@ -2,7 +2,7 @@
 
 ## Summary
 
-This sample is a Search messaging extension created from using the core teams application built over the course of labs [A01](../../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. It inserts information about Northwind products into the compose box where team members can update stock value.
+This sample is a Search messaging extension created from using the core teams application built over the course of labs [A01](../../../lab-instructions/aad/A01-begin-app.md)-[A03](../../../lab-instructions/aad/A03-after-apply-styling.md) to get to the Northwind Orders core application. It inserts information about Northwind products into the compose box where team members can update stock value.
 
 Users can search the Northwind database when composing a message and find the product.
 
@@ -10,14 +10,14 @@ Users can search the Northwind database when composing a message and find the pr
 
 Select a product and insert an adaptive card which is a form with product details and stock input, into the conversation.
 
-<img src="../../../../assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
+<img src="../../../assets/06-005-previewproduct.png?raw=true" alt="Select product"/>
 
 The members in the team can then update stock information in the same conversation, by adding stock unit value in the input field and select **Update stock**.
 
-<img src="../../../../assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
+<img src="../../../assets/06-007-updatepdt.png?raw=true" alt="Product update form"/>
 
 Once it's successfully updated, the card refreshes to show the new stock value.
-<img src="../../../../assets/06-008-updated.png?raw=true" alt="Product updated"/>
+<img src="../../../assets/06-008-updated.png?raw=true" alt="Product updated"/>
 
 ## Frameworks
 
@@ -50,6 +50,11 @@ Version|Date|Author|Comments
 
     ```bash
     npm install
+    ```
+- Download your local DB copy (Do this only once)
+
+    ```bash
+    npm run db-download
     ```
 
 - Run ngrok - point to port 3978
