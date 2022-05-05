@@ -463,7 +463,7 @@
       "CategoryID": 1,
       "QuantityPerUnit": "750 cc per bottle",
       "UnitPrice": 18,
-      "UnitsInStock": 69,
+      "UnitsInStock": "100",
       "UnitsOnOrder": 0,
       "ReorderLevel": 5,
       "Discontinued": false
@@ -619,7 +619,7 @@
       "CategoryID": 5,
       "QuantityPerUnit": "16 - 2 kg boxes",
       "UnitPrice": 7,
-      "UnitsInStock": 38,
+      "UnitsInStock": "90",
       "UnitsOnOrder": 0,
       "ReorderLevel": 25,
       "Discontinued": false

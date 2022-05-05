@@ -32,6 +32,10 @@ export async function initializeIdentityService(app) {
 }
 
 async function validateApiRequest(req, res, next) {
+    if (req.path==="/messages") {
+        console.log('Request for bot, validation will be performed by Bot Framework Adapter');
+        next();
+    } else {
     const audience = `api://${process.env.HOSTNAME}/${process.env.CLIENT_ID}`;
     const token = req.headers['authorization'].split(' ')[1];
 
@@ -44,6 +48,7 @@ async function validateApiRequest(req, res, next) {
             res.status(401).json({ status: 401, statusText: "Access denied" });
         }
     });
+}
 }
 
 // validateAadLogin() - Returns an employee ID of the logged in user
