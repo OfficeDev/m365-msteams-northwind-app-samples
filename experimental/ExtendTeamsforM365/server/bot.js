@@ -56,8 +56,9 @@ export class StockManagerBot extends TeamsActivityHandler {
         const imgUrl = `https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
         var card = template.expand({
             $root: {
+                originator:process.env.ORIGINATOR,
                 productName: pdt.productName, unitsInStock: pdt.unitsInStock,
-                productId: pdt.productId, categoryId: pdt.categoryId, imageUrl: imgUrl
+                productId: pdt.productId, categoryId: pdt.categoryId, imageUrl: imgUrl,
             }
         });
         var adaptiveCard = new AdaptiveCards.AdaptiveCard();
@@ -102,16 +103,13 @@ export class StockManagerBot extends TeamsActivityHandler {
                                 const imgUrl = `https://${process.env.HOSTNAME}/images/${imageGenerator}.PNG`
                                 var card = template.expand({
                                     $root: {
+                                        originator:process.env.ORIGINATOR,
                                         productName: data.pdtName, unitsInStock: data.txtStock,
                                         imageUrl: imgUrl
                                     }
                                 });
                                 var responseBody = { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: card }
                                 return this.createInvokeResponse(responseBody);
-
-
-                            } else if (request.action.verb === 'refresh') {
-                                //refresh card
                             } else {
                                 var responseBody = { statusCode: 200, type: "application/vnd.microsoft.card.adaptive", value: errorCard }
                                 return this.createInvokeResponse(responseBody);

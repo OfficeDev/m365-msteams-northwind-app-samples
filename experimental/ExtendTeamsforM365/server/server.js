@@ -105,7 +105,8 @@ app.get('/modules/env.js', (req, res) => {
       HOSTNAME: "${process.env.HOSTNAME}",
       TENANT_ID: "${process.env.TENANT_ID}",
       CLIENT_ID: "${process.env.CLIENT_ID}",
-      CONTACTS:"${process.env.CONTACTS}"
+      CONTACTS:"${process.env.CONTACTS}",
+      ORIGINATOR:"${process.env.ORIGINATOR}"
     };
   `);
 });

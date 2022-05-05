@@ -1,21 +1,9 @@
 export default
 {
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "originator":"${originator}",
     "type": "AdaptiveCard",
     "version": "1.4",
-    "refresh": {
-        "userIds": [],
-        "action": {
-            "type": "Action.Execute",
-            "verb": "refresh",
-            "title": "Refresh",
-            "data": {
-                "pdtId": "${productId}",
-                "pdtName": "${productName}",
-                "categoryId": "${categoryId}"
-            }
-        }
-    },
     "body": [
         {
             "type": "ColumnSet",
