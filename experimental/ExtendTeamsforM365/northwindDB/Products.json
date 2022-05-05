@@ -7,7 +7,7 @@
       "CategoryID": 1,
       "QuantityPerUnit": "10 boxes x 20 bags",
       "UnitPrice": 18,
-      "UnitsInStock": 39,
+      "UnitsInStock": "67",
       "UnitsOnOrder": 0,
       "ReorderLevel": 10,
       "Discontinued": false
@@ -31,7 +31,7 @@
       "CategoryID": 2,
       "QuantityPerUnit": "12 - 550 ml bottles",
       "UnitPrice": 10,
-      "UnitsInStock": 13,
+      "UnitsInStock": "989",
       "UnitsOnOrder": 70,
       "ReorderLevel": 25,
       "Discontinued": false
