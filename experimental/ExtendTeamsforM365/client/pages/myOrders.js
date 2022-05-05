@@ -10,17 +10,17 @@ const messageDiv = document.getElementById('message');
             await microsoftTeams.app.initialize();
             microsoftTeams.app.getContext().then(context=> {   
                 //main section content             
-                if (employee && context.app.host.name!==microsoftTeams.HostName.office ){   
+                // if (employee && context.app.host.name!==microsoftTeams.HostName.office ){   
                     document.getElementById("allOrders").style.display="block";     
                     displayAllMyOrders(employee);
-                }
+                // }
                 //secondary section content
-                if(context.app.host.name===microsoftTeams.HostName.office ){
-                displayMyRecentOrders(employee.orders);
-                }else if(context.app.host.name===microsoftTeams.HostName.teams){
+                // if(context.app.host.name===microsoftTeams.HostName.office ){
+                // displayMyRecentOrders(employee.orders);
+                // }else if(context.app.host.name===microsoftTeams.HostName.teams){
                 const displayElement = document.getElementById('rOchart');
                 displayElement.style.display="block";
-                }           
+                // }           
             });   
         }
     }
