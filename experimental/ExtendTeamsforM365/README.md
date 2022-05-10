@@ -81,6 +81,18 @@ Repeat the process for other M365 client applications [see here](https://docs.mi
     ```bash
     npm install
     ```
+- Bot registration
+Messaging extensions allow users to bring the application into a conversation in Teams. You can search data in your application, perform actions on them and send back results of your interaction to your application as well as Teams to display all results in a rich card in the conversation.
+
+Since it is a conversation between your application's web service and teams, you'll need a secure communication protocol to send and receive messages like the **Bot Framework**'s messaging schema.
+
+You'll need to [register your web service as a bot in the Bot Framework](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration?view=azure-bot-service-4.0&tabs=userassigned) and update the app manifest file to define your web service so Teams client can know about it.
+
+You will also need the Bot id and secret for env file.
+
+You'll need to add Outlook and Teams channel in the bot configuration.
+You'll also need to specify the Originator in the env file, which can be done using this [document](https://docs.microsoft.com/en-us/outlook/actionable-messages/security-requirements).
+
 
 - Run ngrok - point to port 3978
 
@@ -102,6 +114,9 @@ TENANT_ID=<Your tenant id>
 CLIENT_ID=<client id from AAD app registration>
 CLIENT_SECRET=<client secret from AAD app registration>
 CONTACTS=<Any user/users you'd like to chat/mail for orders. Comma separated if more than one user>
+BOT_REG_AAD_APP_ID=88888888-0d02-43af-85d7-72ba1d66ae1d
+BOT_REG_AAD_APP_PASSWORD=111111vk
+ORIGINATOR=00000000-0000-0000-0000-000000000000
 ```
 ### Create Northwind DB local files
 
@@ -140,12 +155,17 @@ Run below script to download local DB files
 
 ![app in outlook (windows)](../../assets/experimental/working-outlook.gif)
 
+- Search based messaging extension in both Teams and Outlook
+
+![ME in teams and outlook](../../assets/experimental/ME.gif)
+
 ## Features
 - In Teams:
     - My Orders
     - My Orders Report
     - Order details
     - Open chat with sales representatives from **Order details page**
+    - Search based messaging extension to search and update product stock
     
 - In Office.com:
     - My Recent Order
@@ -155,6 +175,8 @@ Run below script to download local DB files
     - My Orders
     - Order details
     - Compose mail to sales representatives from **Order details page**
+    - Search based messaging extension to search and update product stock
 - In Outlook (Web):
     - My Orders
     - Order details
+    - Search based messaging extension to search and update product stock
