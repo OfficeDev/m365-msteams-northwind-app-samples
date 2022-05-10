@@ -14,6 +14,7 @@ Version|Date|Author|Comments
 -------|----|----|--------
 1.0|April 2022|Bob German, Tomomi Imura, Rabia Williams|Initial release
 1.1|April 2022|Rabia Williams|Use Teams JS SDK v2
+1.2|May 2022|Rabia Williams|Add Messaging extension to app
 
 ## Disclaimer
 
