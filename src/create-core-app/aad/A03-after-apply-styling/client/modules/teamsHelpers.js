@@ -8,7 +8,8 @@ export async function inTeams() {
         return (context.app.host.name === microsoftTeams.HostName.teams);
     }
     catch (e) {
-        console.error(`ERROR in inTeams: ${e}`);
+        console.log(`${e} from Teams SDK, may be running outside of Teams`);    
+        return false;
     }
 }
 
@@ -19,11 +20,13 @@ function setTheme(theme) {
 };
 
 // Inline code to set theme on any page using teamsHelpers
-await microsoftTeams.app.initialize();
-const context = await microsoftTeams.app.getContext();
-setTheme(context.app.theme);
-
-// When the theme changes, update the CSS again
-microsoftTeams.registerOnThemeChangeHandler((theme) => {
-    setTheme(theme);
-});
+(async () => {
+    await microsoftTeams.app.initialize();
+    const context = await microsoftTeams.app.getContext();
+    setTheme(context.app.theme);
+    
+    // When the theme changes, update the CSS again
+    microsoftTeams.registerOnThemeChangeHandler((theme) => {
+        setTheme(theme);
+    });    
+})();

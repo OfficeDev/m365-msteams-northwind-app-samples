@@ -8,6 +8,7 @@ export async function inTeams() {
         return (context.app.host.name === microsoftTeams.HostName.teams);
     }
     catch (e) {
-        console.error(`ERROR in inTeams: ${e}`);
+        console.log(`${e} from Teams SDK, may be running outside of Teams`);    
+        return false;
     }
 }
