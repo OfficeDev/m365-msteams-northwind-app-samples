@@ -1,6 +1,9 @@
 ![Teams App Camp](./assets/code-lab-banner.png)
 
-# Microsoft Teams App Camp V2
+# THIS REPOSITORY HAS MOVED
+You can find the released version of App camp at [https://aka.ms/app-camp](https://aka.ms/app-camp). Thanks!
+
+## Microsoft Teams App Camp
 
 _Migrate applications into Microsoft Teams_
 
